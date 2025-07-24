@@ -1,10 +1,25 @@
-#include <Geode/Geode.hpp>
 #include "HorriblePopupSelect.hpp"
 
+#include "toggle/ModOption.hpp"
+
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
+
 bool HorriblePopupSelect::setup() {
+    setID("options"_spr);
     setTitle("Horrible Options");
 
-    log::debug("do stuff!");
+    // just a test!
+    if (auto test = ModOption::create(
+        "test-option",
+        "Test Option",
+        "This is a test option.",
+        true
+    )) {
+        test->setPosition(12.5f, 200.f);
+        m_mainLayer->addChild(test);
+    };
 
     return true;
 };
@@ -17,6 +32,6 @@ HorriblePopupSelect* HorriblePopupSelect::create() {
         return ret;
     };
 
-    delete ret;
+    CC_SAFE_DELETE(ret);
     return nullptr;
 };

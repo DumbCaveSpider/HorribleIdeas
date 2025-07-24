@@ -1,11 +1,13 @@
 #pragma once
+
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
-class HorriblePopupSelect : public Popup<>
-{
+class HorriblePopupSelect : public Popup<> {
+protected:
+    bool setup() override;
+
 public:
-    bool setup();
-    static HorriblePopupSelect *create();
+    static HorriblePopupSelect* create();
 };
