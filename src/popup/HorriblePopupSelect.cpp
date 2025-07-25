@@ -29,30 +29,29 @@ bool HorriblePopupSelect::setup()
     OptionsScrollLayer->setPosition({13.f, 13.f});
     m_mainLayer->addChild(OptionsScrollLayer);
 
-    // Create a ColumnLayout for the mod options
-    auto optionsColumn = ColumnLayout::create()
-        ->setAxisAlignment(AxisAlignment::End)
-        ->setCrossAxisAlignment(AxisAlignment::Center)
-        ->setAutoGrowAxis(0.95f)
-        ->setGap(10.f);
-
     auto optionsContent = OptionsScrollLayer->m_contentLayer;
 
+    // for simple minded: [modID, modName, modDescription, restartRequired]
     std::vector<std::tuple<std::string, std::string, std::string, bool>> modOptions = {
         {"mod1", "Mod One", "Description for Mod One.", false},
         {"mod2", "Mod Two", "Description for Mod Two.", true},
         {"mod3", "Mod Three", "Description for Mod Three.", false}};
 
+    float y = optionsContent->getContentSize().height - 25.f;
     for (const auto &option : modOptions)
     {
         const auto &[id, name, desc, enabled] = option;
         auto modOption = ModOption::create(id, name, desc, enabled);
         if (modOption != nullptr)
         {
+            modOption->setAnchorPoint({0, 1});
+            modOption->setPosition({0, y});
             optionsContent->addChild(modOption);
+            y -= modOption->getContentSize().height + 5.f;
         }
     }
 
+    // NOTE: please use ColumnLayout since it can dynamically adjust the position of the options but u can figure that out xd
 
     return true;
 };

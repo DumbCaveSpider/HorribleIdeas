@@ -20,10 +20,12 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
     setID(m_modID);
     // Use scroll layer width if available, otherwise fallback to 125.f
     float optionWidth = 125.f;
-    if (auto parent = getParent()) {
+    if (auto parent = getParent())
+    {
         // Try to get parent scroll layer's content size
-        auto scrollLayer = dynamic_cast<CCLayer*>(parent);
-        if (scrollLayer) {
+        auto scrollLayer = dynamic_cast<CCLayer *>(parent);
+        if (scrollLayer)
+        {
             optionWidth = scrollLayer->getContentSize().width;
         }
     }
@@ -32,7 +34,8 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
     setAnchorPoint({0, 1});
 
     // Horizontal layout: [checkbox] [mod name] [info button]
-    float y = getScaledContentHeight() / 2.f;
+    float y = getContentSize().height / 2.f;
+    float x = 0.f;
 
     auto togglerOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
     togglerOff->setScale(0.875f);
@@ -45,26 +48,28 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
         menu_selector(ModOption::onToggle));
     m_toggler->setID("toggle");
     m_toggler->setAnchorPoint({0.5f, 0.5f});
-    m_toggler->setPosition({0.f, y});
-    m_toggler->setScale(0.625f);
+    m_toggler->setPosition({x + 12.f, y});
+    m_toggler->setScale(0.875f);
     addChild(m_toggler);
+
+    x += 30.f;
 
     auto nameLabel = CCLabelBMFont::create(
         m_modName.c_str(),
         "bigFont.fnt",
-        getScaledContentWidth() - 45.f,
+        getContentSize().width,
         kCCTextAlignmentLeft);
     nameLabel->setID("name");
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({0.f, 0.5f});
-    nameLabel->setPosition({0.f + 20.f, y});
-    nameLabel->setScale(0.4f);
+    nameLabel->setPosition({x, y});
+    nameLabel->setScale(0.5f);
     addChild(nameLabel);
 
     // Place info button right after the mod name
-    float infoX = 20.f + nameLabel->getScaledContentSize().width + 15.f;
+    float infoX = x + nameLabel->getScaledContentSize().width + 15.f;
     auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
-    descBtnSprite->setScale(0.375f);
+    descBtnSprite->setScale(0.45f);
     auto descBtn = CCMenuItemSpriteExtra::create(
         descBtnSprite,
         this,
