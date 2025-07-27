@@ -11,7 +11,7 @@ class $modify(MyMenuLayer, MenuLayer) {
         if (auto bottomMenu = this->getChildByID("bottom-menu")) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
                 "GJ_moonsIcon_001.png",
-                1.0f,
+                0.875f,
                 CircleBaseColor::Green,
                 CircleBaseSize::MediumAlt
             );

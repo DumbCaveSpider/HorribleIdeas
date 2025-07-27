@@ -6,32 +6,27 @@
 
 using namespace geode::prelude;
 
-bool ModOption::init(std::string id, std::string name, std::string description, bool restart)
-{
+bool ModOption::init(std::string id, std::string name, std::string description, bool restart) {
     m_modID = id;
     m_modName = name;
     m_modDescription = description;
 
     m_restartRequired = restart;
 
-    if (!CCMenu::init())
-        return false;
+    if (!CCMenu::init()) return false;
 
     setID(m_modID);
+
     // Use scroll layer width if available, otherwise fallback to 125.f
     float optionWidth = 125.f;
-    if (auto parent = getParent())
-    {
-        // Try to get parent scroll layer's content size
-        auto scrollLayer = dynamic_cast<CCLayer *>(parent);
-        if (scrollLayer)
-        {
-            optionWidth = scrollLayer->getContentSize().width;
-        }
-    }
 
-    setContentSize({optionWidth, 25.f});
-    setAnchorPoint({0, 1});
+    if (auto parent = getParent()) {
+        // Try to get parent scroll layer's content size
+        if (auto scrollLayer = dynamic_cast<CCLayer*>(parent)) optionWidth = scrollLayer->getContentSize().width;
+    };
+
+    setContentSize({ optionWidth, 25.f });
+    setAnchorPoint({ 0, 1 });
 
     // Horizontal layout: [checkbox] [mod name] [info button]
     float y = getContentSize().height / 2.f;
@@ -39,72 +34,81 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
 
     auto togglerOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
     togglerOff->setScale(0.875f);
+
     auto togglerOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     togglerOn->setScale(0.875f);
+
+    // set the joke option toggler button
     m_toggler = CCMenuItemToggler::create(
         togglerOff,
         togglerOn,
         this,
-        menu_selector(ModOption::onToggle));
+        menu_selector(ModOption::onToggle)
+    );
     m_toggler->setID("toggle");
-    m_toggler->setAnchorPoint({0.5f, 0.5f});
-    m_toggler->setPosition({x + 12.f, y});
+    m_toggler->setAnchorPoint({ 0.5f, 0.5f });
+    m_toggler->setPosition({ x + 12.f, y });
     m_toggler->setScale(0.875f);
+
     addChild(m_toggler);
 
     x += 30.f;
 
+    // create joke option name label
     auto nameLabel = CCLabelBMFont::create(
         m_modName.c_str(),
         "bigFont.fnt",
         getContentSize().width,
-        kCCTextAlignmentLeft);
+        kCCTextAlignmentLeft
+    );
     nameLabel->setID("name");
     nameLabel->setLineBreakWithoutSpace(true);
-    nameLabel->setAnchorPoint({0.f, 0.5f});
-    nameLabel->setPosition({x, y});
+    nameLabel->setAnchorPoint({ 0.f, 0.5f });
+    nameLabel->setPosition({ x, y });
     nameLabel->setScale(0.5f);
+
     addChild(nameLabel);
 
     // Place info button right after the mod name
     float infoX = x + nameLabel->getScaledContentSize().width + 15.f;
+
     auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
     descBtnSprite->setScale(0.45f);
+
+    // create joke option description button
     auto descBtn = CCMenuItemSpriteExtra::create(
         descBtnSprite,
         this,
-        menu_selector(ModOption::onDescription));
+        menu_selector(ModOption::onDescription)
+    );
     descBtn->setID("info");
-    descBtn->setAnchorPoint({0.5f, 0.5f});
-    descBtn->setPosition({infoX, y});
+    descBtn->setAnchorPoint({ 0.5f, 0.5f });
+    descBtn->setPosition({ infoX, y });
+
     addChild(descBtn);
 
     return true;
 };
 
-void ModOption::onToggle(CCObject *)
-{
+void ModOption::onToggle(CCObject*) {
     if (m_toggler)
         getMod()->setSavedValue(m_modID, m_toggler->isToggled());
     if (m_restartRequired)
         Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 };
 
-void ModOption::onDescription(CCObject *)
-{
+void ModOption::onDescription(CCObject*) {
     if (auto popup = FLAlertLayer::create(
-            m_modName.c_str(),
-            m_modDescription.c_str(),
-            "OK"))
+        m_modName.c_str(),
+        m_modDescription.c_str(),
+        "OK"))
         popup->show();
 };
 
-ModOption *ModOption::create(std::string id, std::string name, std::string description, bool restart)
-{
+ModOption* ModOption::create(std::string id, std::string name, std::string description, bool restart) {
     auto ret = new ModOption();
 
-    if (ret && ret->init(id, name, description, restart))
-    {
+    if (ret && ret->init(id, name, description, restart)) {
         ret->autorelease();
         return ret;
     };

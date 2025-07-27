@@ -1,5 +1,5 @@
 {
-	"geode": "4.6.3",
+	"geode": "4.7.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -10,5 +10,10 @@
 	"name": "Horrible Ideas",
 	"version": "v1.0.0",
 	"developer": "ArcticWoof",
-	"description": "Horrible Geode Mod Ideas"
+	"description": "Horrible Geode Mod Ideas",
+	"tags": [
+		"joke",
+		"offline",
+		"universal"
+	]
 }
