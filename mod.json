@@ -15,5 +15,29 @@
 		"joke",
 		"offline",
 		"universal"
-	]
+	],
+	"dependencies": {
+		"geode.node-ids": {
+			"importance": "required",
+			"version": ">=1.21.0"
+		},
+		"geode.custom-keybinds": {
+			"importance": "required",
+			"version": ">=1.10.0",
+			"platforms": [
+				"win",
+				"mac",
+				"android"
+			]
+		}
+	},
+	"links": {
+		"source": "https://github.com/DumbCaveSpider/HorribleIdeas",
+		"community": "https://discord.gg/gXcppxTNxC",
+		"homepage": "https://arcticwoof.com.au"
+	},
+	"issues": {
+		"info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
+		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
+	}
 }
