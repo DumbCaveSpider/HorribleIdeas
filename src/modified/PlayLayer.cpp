@@ -16,6 +16,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
         } else {
@@ -44,6 +45,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
         } else {

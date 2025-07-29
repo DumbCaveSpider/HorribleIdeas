@@ -39,10 +39,5 @@
 	"issues": {
 		"info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
 		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
-	},
-	"api": {
-		"include": [
-			"incl/*.hpp"
-		]
 	}
 }

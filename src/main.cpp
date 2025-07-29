@@ -43,6 +43,7 @@ class $modify(MyMenuLayer, MenuLayer) {
     void onPlay(CCObject * sender) {
         if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
         } else {
@@ -55,6 +56,7 @@ class $modify(MyMenuLayer, MenuLayer) {
     void onOptions(CCObject * sender) {
         if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
         } else {
@@ -67,6 +69,7 @@ class $modify(MyMenuLayer, MenuLayer) {
     void onStats(CCObject * sender) {
         if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
         } else {
