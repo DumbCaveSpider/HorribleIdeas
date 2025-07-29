@@ -8,18 +8,20 @@ using namespace geode::prelude;
 
 static float s_optionWidth = 125.f;
 
-// Static method to provide all mod options
+// add yo mods here :D
 std::vector<std::tuple<std::string, std::string, std::string, bool>> ModOption::getAllOptions()
 {
     // for simple minded: [modID, modName, modDescription, restartRequired]
     return {
-        {"mod1", "Mod One", "Description for Mod One.", false},
-        {"mod2", "Mod Two", "Description for Mod Two.", true},
-        {"mod3", "Mod Three", "Description for Mod Three.", false}};
+        {"oxygen", "Oxygen Level", "Add an oxygen level if the level has 'Water' in the level name.\n<cy>Credit: ArcticWoof</c>", false},
+        {"mock", "Mock your 90% Fail", "Shows a screenshot of your 90% fail everywhere.\n<cy>Credit: Wuffin</c>", true},
+        {"freeze", "Random 90% Freeze", "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>", false},
+        {"grief", "Get Back on Grief", "A random chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>", false}};
 }
 
 bool ModOption::init(std::string id, std::string name, std::string description, bool restart)
 {
+
     m_modID = id;
     m_modName = name;
     m_modDescription = description;
@@ -31,70 +33,68 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
 
     setID(m_modID);
 
-    setContentSize({s_optionWidth, 25.f});
+    // Set the content size and background
+    float bgHeight = 32.f;
+    setContentSize({s_optionWidth, bgHeight});
     setAnchorPoint({0, 1});
 
-    // Horizontal layout: [checkbox] [mod name] [info button]
-    
-    float y = getContentSize().height / 2.f;
-    float x = 0.f;
+    auto bg = CCScale9Sprite::create("square02_001.png");
+    bg->setContentSize(getContentSize());
+    bg->setAnchorPoint({0, 1});
+    bg->setOpacity(40);
+    bg->setPosition({0, getContentSize().height});
+    this->addChild(bg, -1);
+
+    // Horizontal layout: [toggle] [name] [info]
+    float padding = 10.f;
+    float yCenter = getContentSize().height / 2.f;
+    float x = padding;
 
     auto togglerOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
     togglerOff->setScale(0.875f);
-
     auto togglerOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     togglerOn->setScale(0.875f);
-
-    // set the joke option toggler button
     m_toggler = CCMenuItemToggler::create(
         togglerOff,
         togglerOn,
         this,
-        menu_selector(ModOption::onToggle)
-    );
+        menu_selector(ModOption::onToggle));
     m_toggler->setID("toggle");
     m_toggler->setAnchorPoint({0.5f, 0.5f});
-    m_toggler->setPosition({x + 12.f, y});
+    m_toggler->setPosition({x + 12.f, yCenter});
     m_toggler->setScale(0.875f);
-
     addChild(m_toggler);
     x += 30.f;
 
-    // create joke option name label
     auto nameLabel = CCLabelBMFont::create(
         m_modName.c_str(),
         "bigFont.fnt",
-        getContentSize().width,
+        getContentSize().width - 80.f,
         kCCTextAlignmentLeft);
     nameLabel->setID("name");
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({0.f, 0.5f});
-    nameLabel->setPosition({x, y});
+    nameLabel->setPosition({x, yCenter});
     nameLabel->setScale(0.5f);
-
     addChild(nameLabel);
-
-    // Place info button right after the mod name
-    float infoX = x + nameLabel->getScaledContentSize().width + 15.f;
+    x += nameLabel->getScaledContentSize().width + 15.f;
 
     auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
     descBtnSprite->setScale(0.45f);
-
-    // create joke option description button
     auto descBtn = CCMenuItemSpriteExtra::create(
         descBtnSprite,
         this,
         menu_selector(ModOption::onDescription));
     descBtn->setID("info");
     descBtn->setAnchorPoint({0.5f, 0.5f});
-    descBtn->setPosition({infoX, y});
-
+    descBtn->setPosition({getContentSize().width - padding - 10.f, yCenter});
     addChild(descBtn);
 
     return true;
 };
 
-void ModOption::setOptionWidth(float width) {
+void ModOption::setOptionWidth(float width)
+{
     s_optionWidth = width;
 }
 

@@ -33,14 +33,19 @@ bool HorriblePopupSelect::setup()
 
     auto modOptions = ModOption::getAllOptions();
 
+    // Sort mod options alphabetically by name
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
+              { return std::get<1>(a) < std::get<1>(b); });
+
     // Set the width for all ModOption backgrounds
     ModOption::setOptionWidth(optionsContent->getContentSize().width - 10.f);
 
     // Use ColumnLayout for dynamic positioning
     auto columnLayout = ColumnLayout::create();
-    columnLayout->setGap(5.f);
+    columnLayout->setGap(10.f);
     columnLayout->setAxisReverse(true); // Top to bottom
     columnLayout->setAxisAlignment(AxisAlignment::End);
+
     optionsContent->setLayout(columnLayout);
 
     for (const auto &option : modOptions)
@@ -55,6 +60,7 @@ bool HorriblePopupSelect::setup()
     }
 
     optionsContent->updateLayout();
+    optionsContent->setContentSize(OptionsScrollLayer->getContentSize());
 
     return true;
 };
