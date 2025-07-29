@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../SillyTier.hpp"
+
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
@@ -10,4 +12,6 @@ protected:
 
 public:
     static HorriblePopupSelect* create();
+
+    static std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> getAllOptions();
 };

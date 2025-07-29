@@ -1,76 +1,99 @@
 #include "HorriblePopupSelect.hpp"
 
+#include "../SillyTier.hpp"
 #include "toggle/ModOption.hpp"
 
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
-bool HorriblePopupSelect::setup()
-{
+// add yo mods here :D
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorriblePopupSelect::getAllOptions() {
+    // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
+    return {
+        {
+            "oxygen",
+            "Oxygen Level",
+            "Add an oxygen level if the level has 'Water' in the level name.\n<cy>Credit: ArcticWoof</c>",
+            SillyTier::High,
+            false
+        },
+        {
+            "grief",
+            "Get Back on Grief",
+            "A random chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+            SillyTier::High,
+            false
+        },
+        {
+            "mock",
+            "Mock your 90% Fail",
+            "Shows a screenshot of your 90% fail everywhere.\n<cy>Credit: Wuffin</c>",
+            SillyTier::Medium,
+            true
+        },
+        {
+            "freeze",
+            "Random 90% Freeze",
+            "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
+            SillyTier::Low,
+            false
+        }
+    };
+};
+
+bool HorriblePopupSelect::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
 
     auto mainLayerSize = m_mainLayer->getContentSize();
 
     // Add a background sprite to the popup
-    auto OptionScollBg = CCScale9Sprite::create("square02_001.png");
-    OptionScollBg->setAnchorPoint({0.5f, 0.5f});
-    OptionScollBg->setPosition(mainLayerSize.width / 2, mainLayerSize.height / 2 - 10.f);
-    OptionScollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
-    OptionScollBg->setOpacity(50);
-    m_mainLayer->addChild(OptionScollBg);
+    auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
+    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
+    optionScrollBg->setPosition({ mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f });
+    optionScrollBg->setContentSize({ mainLayerSize.width - 25.f, mainLayerSize.height - 45.f });
+    optionScrollBg->setOpacity(50);
 
-    // scroll layer
-    auto OptionsScrollLayer = ScrollLayer::create(CCSize(OptionScollBg->getContentSize().width, OptionScollBg->getContentSize().height));
-    OptionsScrollLayer->setID("scrollLayer");
-    OptionsScrollLayer->setScale(0.95f);
-    OptionsScrollLayer->setAnchorPoint({0.5f, 0.5f});
-    OptionsScrollLayer->setPosition({13.f, 13.f});
-    m_mainLayer->addChild(OptionsScrollLayer);
+    m_mainLayer->addChild(optionScrollBg);
 
-    auto optionsContent = OptionsScrollLayer->m_contentLayer;
-
-    auto modOptions = ModOption::getAllOptions();
-
-    // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
-              { return std::get<1>(a) < std::get<1>(b); });
-
-    // Set the width for all ModOption backgrounds
-    ModOption::setOptionWidth(optionsContent->getContentSize().width - 10.f);
-
-    // Use ColumnLayout for dynamic positioning
     auto columnLayout = ColumnLayout::create();
     columnLayout->setGap(5.f);
     columnLayout->setAxisReverse(true); // Top to bottom
     columnLayout->setAxisAlignment(AxisAlignment::End);
 
-    optionsContent->setLayout(columnLayout);
+    // scroll layer
+    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
+    optionsScrollLayer->setID("scrollLayer");
+    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
+    optionsScrollLayer->ignoreAnchorPointForPosition(false);
+    optionsScrollLayer->setPosition(optionScrollBg->getPosition());
 
-    for (const auto &option : modOptions)
-    {
-        const auto &[id, name, desc, restart] = option;
-        if (auto modOption = ModOption::create(id, name, desc, restart))
-        {
-            modOption->setAnchorPoint({0, 1});
-            modOption->setPosition({0, 0});
-            optionsContent->addChild(modOption);
-        }
-    }
+    optionsScrollLayer->m_contentLayer->setLayout(columnLayout);
 
-    optionsContent->updateLayout();
-    optionsContent->setContentSize(OptionsScrollLayer->getContentSize());
+    // get the options data
+    auto modOptions = getAllOptions();
+
+    // Sort mod options alphabetically by name
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto& a, const auto& b) { return std::get<4>(a) < std::get<4>(b); });
+
+    for (const auto& option : modOptions) {
+        const auto& [id, name, desc, silly, restart] = option;
+
+        if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart)) optionsScrollLayer->m_contentLayer->addChild(modOption);
+    };
+
+    optionsScrollLayer->m_contentLayer->updateLayout();
+
+    m_mainLayer->addChild(optionsScrollLayer);
 
     return true;
 };
 
-HorriblePopupSelect *HorriblePopupSelect::create()
-{
+HorriblePopupSelect* HorriblePopupSelect::create() {
     auto ret = new HorriblePopupSelect();
 
-    if (ret && ret->initAnchored(300.f, 280.f))
-    {
+    if (ret && ret->initAnchored(300.f, 280.f)) {
         ret->autorelease();
         return ret;
     };
