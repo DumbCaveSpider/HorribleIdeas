@@ -42,7 +42,7 @@ bool HorriblePopupSelect::setup()
 
     // Use ColumnLayout for dynamic positioning
     auto columnLayout = ColumnLayout::create();
-    columnLayout->setGap(10.f);
+    columnLayout->setGap(5.f);
     columnLayout->setAxisReverse(true); // Top to bottom
     columnLayout->setAxisAlignment(AxisAlignment::End);
 

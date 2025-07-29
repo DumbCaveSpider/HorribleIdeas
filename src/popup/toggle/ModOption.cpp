@@ -33,16 +33,21 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
 
     setID(m_modID);
 
-    // Set the content size and background
+    // Set the content size and background to match the parent content layer width if available
     float bgHeight = 32.f;
-    setContentSize({s_optionWidth, bgHeight});
+    float bgWidth = s_optionWidth;
+    if (auto parent = getParent())
+    {
+        bgWidth = parent->getContentSize().width;
+    }
+    setContentSize({bgWidth, bgHeight});
     setAnchorPoint({0, 1});
 
     auto bg = CCScale9Sprite::create("square02_001.png");
-    bg->setContentSize(getContentSize());
+    bg->setContentSize({bgWidth, bgHeight});
     bg->setAnchorPoint({0, 1});
     bg->setOpacity(40);
-    bg->setPosition({0, getContentSize().height});
+    bg->setPosition({0, bgHeight});
     this->addChild(bg, -1);
 
     // Horizontal layout: [toggle] [name] [info]
@@ -80,7 +85,7 @@ bool ModOption::init(std::string id, std::string name, std::string description, 
     x += nameLabel->getScaledContentSize().width + 15.f;
 
     auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
-    descBtnSprite->setScale(0.45f);
+    descBtnSprite->setScale(0.75f);
     auto descBtn = CCMenuItemSpriteExtra::create(
         descBtnSprite,
         this,
