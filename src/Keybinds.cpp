@@ -1,3 +1,5 @@
+#include "popup/HorribleMenuPopup.hpp"
+
 #include <Geode/Geode.hpp>
 
 #include <Geode/utils/cocos.hpp>
@@ -19,6 +21,16 @@ $execute
             { Keybind::create(KEY_Tab, Modifier::None) },
             "Horrible Ideas"
                              });
+
+        // optional api version
+        new EventListener([=](InvokeBindEvent* event) {
+            if (event->isDown()) {
+                if (auto popup = HorribleMenuPopup::create()) popup->show();
+            };
+
+            return ListenerResult::Propagate;
+                          },
+                          InvokeBindFilter(nullptr, "popup"_spr));
     } else {
         log::error("Failed to get keybind manager");
     };
