@@ -38,6 +38,13 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
             "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
             SillyTier::Low,
             false
+        },
+        {
+            "achieve",
+            "Random Achievements",
+            "Play the achievement sound when doing random things.",
+            SillyTier::Low,
+            false
         }
     };
 };

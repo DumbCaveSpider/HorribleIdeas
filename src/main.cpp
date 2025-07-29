@@ -1,8 +1,12 @@
-#include <Geode/Geode.hpp>
-#include <Geode/modify/MenuLayer.hpp>
 #include "popup/HorribleMenuPopup.hpp"
 
+#include <Geode/Geode.hpp>
+
+#include <Geode/modify/MenuLayer.hpp>
+
 using namespace geode::prelude;
+
+auto horribleMod = getMod();
 
 class $modify(MyMenuLayer, MenuLayer) {
     bool init() {
@@ -34,5 +38,41 @@ class $modify(MyMenuLayer, MenuLayer) {
 
     void onHorribleButton(CCObject*) {
         if (auto popup = HorribleMenuPopup::create()) popup->show();
+    };
+
+    void onPlay(CCObject * sender) {
+        if (horribleMod->getSavedValue<bool>("achieve", false)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                fmod->playEffectAsync("achievement_01.ogg");
+            };
+        } else {
+            log::warn("Random achievements is disabled");
+        };
+
+        MenuLayer::onPlay(sender);
+    };
+
+    void onOptions(CCObject * sender) {
+        if (horribleMod->getSavedValue<bool>("achieve", false)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                fmod->playEffectAsync("achievement_01.ogg");
+            };
+        } else {
+            log::warn("Random achievements is disabled");
+        };
+
+        MenuLayer::onOptions(sender);
+    };
+
+    void onStats(CCObject * sender) {
+        if (horribleMod->getSavedValue<bool>("achieve", false)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                fmod->playEffectAsync("achievement_01.ogg");
+            };
+        } else {
+            log::warn("Random achievements is disabled");
+        };
+
+        MenuLayer::onStats(sender);
     };
 };
