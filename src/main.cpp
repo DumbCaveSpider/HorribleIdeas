@@ -1,6 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include "popup/HorriblePopupSelect.hpp"
+#include "popup/HorribleMenuPopup.hpp"
 
 using namespace geode::prelude;
 
@@ -33,6 +33,6 @@ class $modify(MyMenuLayer, MenuLayer) {
     };
 
     void onHorribleButton(CCObject*) {
-        if (auto popup = HorriblePopupSelect::create()) popup->show();
+        if (auto popup = HorribleMenuPopup::create()) popup->show();
     };
 };

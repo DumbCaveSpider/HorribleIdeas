@@ -1,4 +1,4 @@
-#include "HorriblePopupSelect.hpp"
+#include "HorribleMenuPopup.hpp"
 
 #include "../SillyTier.hpp"
 #include "toggle/ModOption.hpp"
@@ -8,7 +8,7 @@
 using namespace geode::prelude;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorriblePopupSelect::getAllOptions() {
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
         {
@@ -42,7 +42,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
     };
 };
 
-bool HorriblePopupSelect::setup() {
+bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -90,8 +90,8 @@ bool HorriblePopupSelect::setup() {
     return true;
 };
 
-HorriblePopupSelect* HorriblePopupSelect::create() {
-    auto ret = new HorriblePopupSelect();
+HorribleMenuPopup* HorribleMenuPopup::create() {
+    auto ret = new HorribleMenuPopup();
 
     if (ret && ret->initAnchored(300.f, 280.f)) {
         ret->autorelease();
