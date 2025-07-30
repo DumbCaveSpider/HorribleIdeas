@@ -70,23 +70,6 @@ class $modify(HorriblePlayLayer, PlayLayer)
             log::warn("Random freezing at 90% is disabled");
         };
 
-        if (horribleMod->getSavedValue<bool>("mock", true))
-        {
-            if (auto gm = GameManager::sharedState())
-            {
-                // use something like ccrendertexture to take screenshot
-                auto renderTexture = CCRenderTexture::create(getContentSize().width, getContentSize().height);
-                renderTexture->begin();
-                visit();
-                renderTexture->end();
-                log::info("90% fail screenshot enabled");
-            };
-        }
-        else
-        {
-            log::warn("Mocking 90% fail is disabled");
-        };
-
         return true;
     }
 
@@ -234,6 +217,51 @@ class $modify(HorriblePlayLayer, PlayLayer)
             else
             {
                 log::info("Congregation jumpscare not triggered {}", CongregChance);
+            }
+        }
+    }
+
+    void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle)
+    {
+        auto horribleMod = getMod();
+        int id = m_level->m_levelID;
+
+        log::info("Showing new best for level ID: {}", id);
+
+        if (horribleMod->getSavedValue<bool>("mock", true))
+        {
+            CCDirector *director = CCDirector::sharedDirector();
+            CCScene *scene = CCScene::get();
+
+            // Get the window size in points and scale to pixels
+            auto winSize = director->getWinSize();
+            int width = as<int>(winSize.width);
+            int height = as<int>(winSize.height);
+
+            CCRenderTexture *renderTexture = CCRenderTexture::create(width, height);
+
+            renderTexture->begin();
+            scene->visit();
+            renderTexture->end();
+            PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
+            auto image = renderTexture->newCCImage();
+
+            if (image)
+            {
+                std::string path = fmt::format("{}\\{}.png", Mod::get()->getSaveDir(), id);
+                if (image->saveToFile(path.c_str(), false))
+                {
+                    log::info("Saved screenshot to {}", path);
+                }
+                else
+                {
+                    log::error("Failed to save screenshot to {}", path);
+                }
+                delete image;
+            }
+            else
+            {
+                log::error("Failed to create image from render texture");
             }
         }
     }
