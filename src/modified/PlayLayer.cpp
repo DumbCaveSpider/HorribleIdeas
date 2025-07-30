@@ -9,6 +9,10 @@
 using namespace geode::prelude;
 
 class $modify(HorriblePlayLayer, PlayLayer) {
+    struct Fields {
+        GameObject* m_destroyingObject;
+    };
+
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
@@ -53,5 +57,40 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         };
 
         PlayLayer::onExit();
+    };
+
+    void destroyPlayer(PlayerObject * player, GameObject * game) {
+        auto horribleMod = getMod();
+
+        if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
+
+        if (horribleMod->getSavedValue("grief", false)) {
+            if (game == m_fields->m_destroyingObject) { // fake spike at beginning
+                PlayLayer::destroyPlayer(player, game);
+            } else if (auto glm = GameLevelManager::sharedState()) {
+                auto lvlId = 105001928;
+                if (m_level->m_levelID.value() == lvlId) return PlayLayer::destroyPlayer(player, game);
+
+                glm->downloadLevel(lvlId, true);
+
+                if (auto level = glm->getSavedLevel(lvlId)) {
+                    glm->saveLevel(level);
+
+                    if (level->m_levelNotDownloaded) {
+                        log::error("good grief!");
+                    } else if (auto ccdir = CCDirector::sharedDirector()) { // find a way to optimize level switch
+                        ccdir->replaceScene(PlayLayer::scene(level, false, false));
+                    };
+                } else {
+                    log::error("good grief!!!");
+                    PlayLayer::destroyPlayer(player, game);
+                };
+            } else {
+                PlayLayer::destroyPlayer(player, game);
+            };
+        } else {
+            log::warn("Go back on Grief is disabled");
+            PlayLayer::destroyPlayer(player, game);
+        };
     };
 };

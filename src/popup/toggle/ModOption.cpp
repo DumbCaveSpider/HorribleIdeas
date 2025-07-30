@@ -2,8 +2,6 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/utils/terminate.hpp>
-
 using namespace geode::prelude;
 
 bool ModOption::init(CCSize const& size, std::string id, std::string name, std::string description, SillyTier silly, bool restart) {
@@ -51,7 +49,7 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
     m_toggler->setPosition({ x + 12.f, yCenter });
     m_toggler->setScale(0.875f);
 
-    m_toggler->toggle(getMod()->getSavedValue<bool>(m_modID, true));
+    m_toggler->toggle(m_mod->getSavedValue<bool>(m_modID, true));
 
     addChild(m_toggler);
 
@@ -93,10 +91,10 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
 };
 
 void ModOption::onToggle(CCObject*) {
-    if (m_toggler) getMod()->setSavedValue(m_modID, m_toggler->isToggled());
+    if (m_toggler) m_mod->setSavedValue(m_modID, m_toggler->isToggled());
     if (m_restartRequired) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
-    log::info("Option {} now set to {}", m_modName, getMod()->getSavedValue<bool>(m_modID, false));
+    log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID, false));
 };
 
 void ModOption::onDescription(CCObject*) {
