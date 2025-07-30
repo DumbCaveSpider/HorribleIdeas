@@ -206,6 +206,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
             if (griefLevel && !griefLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 105001928))
             {
+                PlayLayer::destroyPlayer(player, game);
                 this->onExit();
                 auto scene = PlayLayer::scene(griefLevel, false, false);
                 CCDirector::get()->replaceScene(scene);
