@@ -6,4 +6,4 @@ using namespace geode::prelude;
 namespace LevelManager {
     void DownloadGriefLevel();
     void DownloadCongregLevel();
-}
+};

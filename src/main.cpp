@@ -4,6 +4,7 @@
 
 #include <Geode/modify/CCMenuItem.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+
 #include <Geode/binding/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
@@ -11,32 +12,25 @@ using namespace geode::prelude;
 auto horribleMod = getMod();
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
-class $modify(HorribleMenuItem, CCMenuItem)
-{
-    void activate() override
-    {
-        auto mod = getMod();
-        if (mod && mod->getSavedValue<bool>("achieve", true))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
+class $modify(HorribleMenuItem, CCMenuItem) {
+    void activate() override {
+        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
                 // @geode-ignore(unknown-resource)
-                fmod->playEffect("achievement_01.ogg");
-            }
-        }
+                if ((rand() % 50) == 0) fmod->playEffect("achievement_01.ogg"); // 50/50 chance of playing
+            };
+        };
+
         CCMenuItem::activate();
-    }
+    };
 };
 
-class $modify(MyMenuLayer, MenuLayer)
-{
-    bool init()
-    {
+class $modify(MyMenuLayer, MenuLayer) {
+    bool init() {
         if (!MenuLayer::init())
             return false;
 
-        if (auto bottomMenu = this->getChildByID("bottom-menu"))
-        {
+        if (auto bottomMenu = this->getChildByID("bottom-menu")) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
                 "GJ_moonsIcon_001.png",
                 0.875f,
@@ -49,8 +43,7 @@ class $modify(MyMenuLayer, MenuLayer)
                 menu_selector(MyMenuLayer::onHorribleButton));
             btn->setID("horribleBtn");
 
-            if (auto menu = typeinfo_cast<CCMenu *>(bottomMenu))
-            {
+            if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };
@@ -59,9 +52,7 @@ class $modify(MyMenuLayer, MenuLayer)
         return true;
     };
 
-    void onHorribleButton(CCObject *)
-    {
-        if (auto popup = HorribleMenuPopup::create())
-            popup->show();
+    void onHorribleButton(CCObject*) {
+        if (auto popup = HorribleMenuPopup::create()) popup->show();
     };
 };

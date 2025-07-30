@@ -12,36 +12,48 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
 {
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
-        {"oxygen",
+        {
+            "oxygen",
          "Oxygen Level",
          "Add an oxygen level. You gain oxygen whenever you are a flying gamemode.\n<cy>Credit: ArcticWoof</c>",
          SillyTier::High,
-         false},
-        {"grief",
+         false
+        },
+        {
+            "grief",
          "Get Back on Grief",
          "A 10% chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
          SillyTier::High,
-         false},
-         {"congregation",
+         false
+        },
+         {
+            "congregation",
          "Congregation Jumpscare",
          "A 10% chance of forcing you to play the Congregation Jumpscare.\n<cy>Credit: StaticGD</c>",
          SillyTier::High,
-         false},
-        {"mock",
+         false
+        },
+        {
+            "mock",
          "Mock your 90%+ Fail",
          "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>",
          SillyTier::Medium,
-         false},
-        {"freeze",
+         false
+        },
+        {
+            "freeze",
          "Random 90%+ Freeze",
          "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
          SillyTier::Low,
-         false},
-        {"achieve",
+         false
+        },
+        {
+            "achieve",
          "Random Achievements",
          "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
-         false}};
+         false
+        } };
 };
 
 bool HorribleMenuPopup::setup()
