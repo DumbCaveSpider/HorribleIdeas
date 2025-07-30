@@ -2,11 +2,31 @@
 
 #include <Geode/Geode.hpp>
 
+#include <Geode/modify/CCMenuItem.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/binding/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
 
 auto horribleMod = getMod();
+
+// modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
+class $modify(HorribleMenuItem, CCMenuItem)
+{
+    void activate() override
+    {
+        auto mod = getMod();
+        if (mod && mod->getSavedValue<bool>("achieve", true))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
+                // @geode-ignore(unknown-resource)
+                fmod->playEffect("achievement_01.ogg");
+            }
+        }
+        CCMenuItem::activate();
+    }
+};
 
 class $modify(MyMenuLayer, MenuLayer)
 {
@@ -43,59 +63,5 @@ class $modify(MyMenuLayer, MenuLayer)
     {
         if (auto popup = HorribleMenuPopup::create())
             popup->show();
-    };
-
-    void onPlay(CCObject *sender)
-    {
-        if (horribleMod->getSavedValue<bool>("achieve", false))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
-                // @geode-ignore(unknown-resource)
-                fmod->playEffectAsync("achievement_01.ogg");
-            };
-        }
-        else
-        {
-            log::warn("Random achievements is disabled");
-        };
-
-        MenuLayer::onPlay(sender);
-    };
-
-    void onOptions(CCObject *sender)
-    {
-        if (horribleMod->getSavedValue<bool>("achieve", false))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
-                // @geode-ignore(unknown-resource)
-                fmod->playEffectAsync("achievement_01.ogg");
-            };
-        }
-        else
-        {
-            log::warn("Random achievements is disabled");
-        };
-
-        MenuLayer::onOptions(sender);
-    };
-
-    void onStats(CCObject *sender)
-    {
-        if (horribleMod->getSavedValue<bool>("achieve", false))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
-                // @geode-ignore(unknown-resource)
-                fmod->playEffectAsync("achievement_01.ogg");
-            };
-        }
-        else
-        {
-            log::warn("Random achievements is disabled");
-        };
-
-        MenuLayer::onStats(sender);
     };
 };

@@ -95,7 +95,7 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({0.f, 0.5f});
     nameLabel->setPosition({x, yCenter});
-    nameLabel->setScale(0.5f);
+    nameLabel->setScale(0.4f);
 
     // Set color based on m_modTier
     switch (m_modTier)
