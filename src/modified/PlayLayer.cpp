@@ -1,3 +1,5 @@
+#include "../utils/LevelManager.hpp"
+
 #include <fmt/core.h>
 
 #include <Geode/Geode.hpp>
@@ -7,7 +9,6 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 #include <Geode/binding/FMODAudioEngine.hpp>
-#include "LevelManager.hpp"
 
 using namespace geode::prelude;
 using namespace geode::utils;
@@ -62,7 +63,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                     addChild(m_fields->m_oxygenBar);
                 };
 
-                std::string buf = fmt::format("o2: {}%", as<int>(m_fields->m_oxygenLevel));
+                std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
 
                 if (!m_fields->m_oxygenLabel) {
                     m_fields->m_oxygenLabel = CCLabelBMFont::create(buf.c_str(), "bigFont.fnt");
@@ -127,7 +128,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         if (m_fields->m_oxygenLevel < 0.f) m_fields->m_oxygenLevel = 0.f;
 
 
-        std::string buf = fmt::format("o2: {}%", as<int>(m_fields->m_oxygenLevel));
+        std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
         m_fields->m_oxygenLabel->setString(buf.c_str());
 
         float maxWidth = m_fields->m_oxygenBar->getContentWidth() - 4.f;
@@ -143,7 +144,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         m_fields->m_oxygenLevel = 100.f;
 
         if (m_fields->m_oxygenLabel) {
-            std::string buf = fmt::format("o2: {}%", as<int>(m_fields->m_oxygenLevel));
+            std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
             m_fields->m_oxygenLabel->setString(buf.c_str());
         };
     };
@@ -243,8 +244,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             // Get the window size in points and scale to pixels
             auto winSize = director->getWinSize();
 
-            int width = as<int>(winSize.width);
-            int height = as<int>(winSize.height);
+            int width = static_cast<int>(winSize.width);
+            int height = static_cast<int>(winSize.height);
 
             CCRenderTexture* renderTexture = CCRenderTexture::create(width, height);
 

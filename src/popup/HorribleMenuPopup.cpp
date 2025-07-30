@@ -13,45 +13,80 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
     return {
         {
             "oxygen",
-         "Oxygen Level",
-         "Add an oxygen level. You gain oxygen whenever you are a flying gamemode.\n<cy>Credit: ArcticWoof</c>",
-         SillyTier::High,
-         false
+            "Oxygen Level",
+            "Add an oxygen level. You gain oxygen whenever you are a flying gamemode.\n<cy>Credit: ArcticWoof</c>",
+            SillyTier::High,
+            false
         },
         {
             "grief",
-         "Get Back on Grief",
-         "A 10% chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
-         SillyTier::High,
-         false
+            "Get Back on Grief",
+            "A 10% chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+            SillyTier::High,
+            false
         },
          {
             "congregation",
-         "Congregation Jumpscare",
-         "A 10% chance of forcing you to play the Congregation Jumpscare.\n<cy>Credit: StaticGD</c>",
-         SillyTier::High,
-         false
+            "Congregation Jumpscare",
+            "A 10% chance of forcing you to play the Congregation Jumpscare.\n<cy>Credit: StaticGD</c>",
+            SillyTier::High,
+            false
         },
         {
             "mock",
-         "Mock your 90%+ Fail",
-         "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>",
-         SillyTier::Medium,
-         false
+            "Mock your 90%+ Fail",
+            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>",
+            SillyTier::Medium,
+            false
         },
         {
             "freeze",
-         "Random 90%+ Freeze",
-         "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
-         SillyTier::Low,
-         false
+            "Random 90%+ Freeze",
+            "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
+            SillyTier::Low,
+            false
         },
         {
             "achieve",
-         "Random Achievements",
-         "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
-         SillyTier::Low,
-         false
+            "Random Achievements",
+            "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
+            SillyTier::Low,
+            false
+        },
+        {
+            "crash-death",
+            "Crash Chance on Death",
+            "When your character dies in a level, there's a small chance your game will die too.",
+            SillyTier::High,
+            false
+        },
+        {
+            "no-jump",
+            "Randomly Don't Jump",
+            "When making an input in a level, there will be a chance your character does not jump.",
+            SillyTier::Low,
+            false
+        },
+        {
+            "gravity",
+            "Randomize Gravity",
+            "Every time you jump in the level, the gravity will change to a random value.",
+            SillyTier::Low,
+            false
+        },
+        {
+            "death",
+            "Fake Death",
+            "The player's death effect will play but will not die.",
+            SillyTier::Medium,
+            false
+        },
+        {
+            "upside-down",
+            "Upside-Down Layer Chance",
+            "When switching layers, there's a small chance it'll be upside-down.\n<cy>Credit: Cheeseworks</c>",
+            SillyTier::Low,
+            false
         }
     };
 };
@@ -75,6 +110,7 @@ bool HorribleMenuPopup::setup() {
     columnLayout->setGap(5.f);
     columnLayout->setAxisReverse(true); // Top to bottom
     columnLayout->setAxisAlignment(AxisAlignment::End);
+    columnLayout->setAutoGrowAxis(0.f);
 
     // scroll layer
     auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });

@@ -33,7 +33,7 @@ class $modify(HorribleCCLayer, CCLayer) {
                     std::srand(static_cast<unsigned int>(std::time(nullptr)));
                     int randInd = std::rand() % mockConfigUnwr.size(); // random index of the matjson
 
-                    auto lvl = mockConfigUnwr.get(as<size_t>(randInd));
+                    auto lvl = mockConfigUnwr.get(static_cast<size_t>(randInd));
 
                     if (lvl.isOk()) {
                         auto lvlUnwr = lvl.unwrap();
@@ -55,8 +55,8 @@ class $modify(HorribleCCLayer, CCLayer) {
                                     // Success: scale and position the sprite
                                     log::info("Sprite loaded successfully");
 
-                                    float yA = as<float>(std::rand()) / RAND_MAX; // first y pos %
-                                    float yB = as<float>(std::rand()) / RAND_MAX; // last y pos %
+                                    float yA = static_cast<float>(std::rand()) / RAND_MAX; // first y pos %
+                                    float yB = static_cast<float>(std::rand()) / RAND_MAX; // last y pos %
 
                                     auto percLabelText = fmt::format("{}%", std::to_string(percent));
 
@@ -105,10 +105,9 @@ class $modify(HorribleCCMenuItem, CCMenuItem) {
     };
 };
 
-class $modify(MyMenuLayer, MenuLayer) {
+class $modify(HorribleMenuLayer, MenuLayer) {
     bool init() {
-        if (!MenuLayer::init())
-            return false;
+        if (!MenuLayer::init()) return false;
 
         if (auto bottomMenu = this->getChildByID("bottom-menu")) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
@@ -121,7 +120,7 @@ class $modify(MyMenuLayer, MenuLayer) {
             auto btn = CCMenuItemSpriteExtra::create(
                 btnSprite,
                 this,
-                menu_selector(MyMenuLayer::onHorribleButton)
+                menu_selector(HorribleMenuLayer::onHorribleButton)
             );
             btn->setID("horribleBtn");
 
@@ -141,8 +140,8 @@ class $modify(MyMenuLayer, MenuLayer) {
 
         addChild(ss);
 
-        float yA = as<float>(std::rand()) / RAND_MAX; // first y pos %
-        float yB = as<float>(std::rand()) / RAND_MAX; // last y pos %
+        float yA = static_cast<float>(std::rand()) / RAND_MAX; // first y pos %
+        float yB = static_cast<float>(std::rand()) / RAND_MAX; // last y pos %
 
         ss->setPositionY(getScaledContentHeight() * yA);
         ss->setRotation(360.f * (yA * yB));
