@@ -8,48 +8,39 @@
 using namespace geode::prelude;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions()
+{
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
-        {
-            "oxygen",
-            "Oxygen Level",
-            "Add an oxygen level if the level has 'Water' in the level name.\n<cy>Credit: ArcticWoof</c>",
-            SillyTier::High,
-            false
-        },
-        {
-            "grief",
-            "Get Back on Grief",
-            "A random chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
-            SillyTier::High,
-            false
-        },
-        {
-            "mock",
-            "Mock your 90% Fail",
-            "Shows a screenshot of your 90% fail everywhere.\n<cy>Credit: Wuffin</c>",
-            SillyTier::Medium,
-            true
-        },
-        {
-            "freeze",
-            "Random 90% Freeze",
-            "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
-            SillyTier::Low,
-            false
-        },
-        {
-            "achieve",
-            "Random Achievements",
-            "Play the achievement sound when doing random things.",
-            SillyTier::Low,
-            false
-        }
-    };
+        {"oxygen",
+         "Oxygen Level",
+         "Add an oxygen level if the level has 'Water' in the level name.\n<cy>Credit: ArcticWoof</c>",
+         SillyTier::High,
+         false},
+        {"grief",
+         "Get Back on Grief",
+         "A random chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+         SillyTier::High,
+         false},
+        {"mock",
+         "Mock your 90% Fail",
+         "Shows a screenshot of your 90% fail everywhere.\n<cy>Credit: Wuffin</c>",
+         SillyTier::Medium,
+         true},
+        {"freeze",
+         "Random 90% Freeze",
+         "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
+         SillyTier::Low,
+         false},
+        {"achieve",
+         "Random Achievements",
+         "Play the achievement sound when doing random things.",
+         SillyTier::Low,
+         false}};
 };
 
-bool HorribleMenuPopup::setup() {
+bool HorribleMenuPopup::setup()
+{
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -57,9 +48,9 @@ bool HorribleMenuPopup::setup() {
 
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
-    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
-    optionScrollBg->setPosition({ mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f });
-    optionScrollBg->setContentSize({ mainLayerSize.width - 25.f, mainLayerSize.height - 45.f });
+    optionScrollBg->setAnchorPoint({0.5, 0.5});
+    optionScrollBg->setPosition({mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f});
+    optionScrollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
     optionScrollBg->setOpacity(50);
 
     m_mainLayer->addChild(optionScrollBg);
@@ -70,9 +61,9 @@ bool HorribleMenuPopup::setup() {
     columnLayout->setAxisAlignment(AxisAlignment::End);
 
     // scroll layer
-    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
+    auto optionsScrollLayer = ScrollLayer::create({optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f});
     optionsScrollLayer->setID("scrollLayer");
-    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
+    optionsScrollLayer->setAnchorPoint({0.5, 0.5});
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
 
@@ -82,12 +73,15 @@ bool HorribleMenuPopup::setup() {
     auto modOptions = getAllOptions();
 
     // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto& a, const auto& b) { return std::get<4>(a) < std::get<4>(b); });
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
+              { return std::get<4>(a) < std::get<4>(b); });
 
-    for (const auto& option : modOptions) {
-        const auto& [id, name, desc, silly, restart] = option;
+    for (const auto &option : modOptions)
+    {
+        const auto &[id, name, desc, silly, restart] = option;
 
-        if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart)) optionsScrollLayer->m_contentLayer->addChild(modOption);
+        if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
+            optionsScrollLayer->m_contentLayer->addChild(modOption);
     };
 
     optionsScrollLayer->m_contentLayer->updateLayout();
@@ -97,10 +91,12 @@ bool HorribleMenuPopup::setup() {
     return true;
 };
 
-HorribleMenuPopup* HorribleMenuPopup::create() {
+HorribleMenuPopup *HorribleMenuPopup::create()
+{
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(300.f, 280.f)) {
+    if (ret && ret->initAnchored(300.f, 280.f))
+    {
         ret->autorelease();
         return ret;
     };

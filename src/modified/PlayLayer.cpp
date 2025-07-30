@@ -8,87 +8,136 @@
 
 using namespace geode::prelude;
 
-class $modify(HorriblePlayLayer, PlayLayer) {
-    struct Fields {
-        GameObject* m_destroyingObject;
+class $modify(HorriblePlayLayer, PlayLayer)
+{
+    struct Fields
+    {
+        GameObject *m_destroyingObject;
     };
 
-    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+    bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
+    {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
+            return false;
 
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("achieve", false)) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+        if (horribleMod->getSavedValue<bool>("achieve", false))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random achievements is disabled");
         };
 
-        if (horribleMod->getSavedValue<bool>("oxygen", false)) {
+        if (horribleMod->getSavedValue<bool>("oxygen", false))
+        {
             log::info("oxygen level time!");
-        } else {
+        }
+        else
+        {
             log::warn("Oxygen in water levels is disabled");
         };
 
-        if (horribleMod->getSavedValue<bool>("freeze", false)) {
-            if (auto gm = GameManager::sharedState()) {
+        if (horribleMod->getSavedValue<bool>("freeze", false))
+        {
+            if (auto gm = GameManager::sharedState())
+            {
                 // gm or ccdir dont have native set max fps methods
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random freezing at 90% is disabled");
+        };
+
+        if (horribleMod->getSavedValue<bool>("mock", false))
+        {
+            if (auto gm = GameManager::sharedState())
+            {
+                log::info("90% fail screenshot enabled");
+            };
+        }
+        else
+        {
+            log::warn("Mocking 90% fail is disabled");
         };
 
         return true;
     };
 
-    void onExit() {
+    void onExit()
+    {
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("achieve", false)) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+        if (horribleMod->getSavedValue<bool>("achieve", false))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random achievements is disabled");
         };
 
         PlayLayer::onExit();
     };
 
-    void destroyPlayer(PlayerObject * player, GameObject * game) {
+    void destroyPlayer(PlayerObject *player, GameObject *game)
+    {
         auto horribleMod = getMod();
 
-        if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
+        if (!m_fields->m_destroyingObject)
+            m_fields->m_destroyingObject = game;
 
-        if (horribleMod->getSavedValue("grief", false)) {
-            if (game == m_fields->m_destroyingObject) { // fake spike at beginning
+        if (horribleMod->getSavedValue("grief", false))
+        {
+            if (game == m_fields->m_destroyingObject)
+            { // fake spike at beginning
                 PlayLayer::destroyPlayer(player, game);
-            } else if (auto glm = GameLevelManager::sharedState()) {
+            }
+            else if (auto glm = GameLevelManager::sharedState())
+            {
                 auto lvlId = 105001928;
-                if (m_level->m_levelID.value() == lvlId) return PlayLayer::destroyPlayer(player, game);
+                if (m_level->m_levelID.value() == lvlId)
+                    return PlayLayer::destroyPlayer(player, game);
 
                 glm->downloadLevel(lvlId, true);
 
-                if (auto level = glm->getSavedLevel(lvlId)) {
+                if (auto level = glm->getSavedLevel(lvlId))
+                {
                     glm->saveLevel(level);
 
-                    if (level->m_levelNotDownloaded) {
+                    if (level->m_levelNotDownloaded)
+                    {
                         log::error("good grief!");
-                    } else if (auto ccdir = CCDirector::sharedDirector()) { // find a way to optimize level switch
+                    }
+                    else if (auto ccdir = CCDirector::sharedDirector())
+                    { // find a way to optimize level switch
                         ccdir->replaceScene(PlayLayer::scene(level, false, false));
                     };
-                } else {
+                }
+                else
+                {
                     log::error("good grief!!!");
                     PlayLayer::destroyPlayer(player, game);
                 };
-            } else {
+            }
+            else
+            {
                 PlayLayer::destroyPlayer(player, game);
             };
-        } else {
+        }
+        else
+        {
             log::warn("Go back on Grief is disabled");
             PlayLayer::destroyPlayer(player, game);
         };

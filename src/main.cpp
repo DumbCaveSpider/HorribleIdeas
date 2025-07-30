@@ -8,26 +8,29 @@ using namespace geode::prelude;
 
 auto horribleMod = getMod();
 
-class $modify(MyMenuLayer, MenuLayer) {
-    bool init() {
-        if (!MenuLayer::init()) return false;
+class $modify(MyMenuLayer, MenuLayer)
+{
+    bool init()
+    {
+        if (!MenuLayer::init())
+            return false;
 
-        if (auto bottomMenu = this->getChildByID("bottom-menu")) {
+        if (auto bottomMenu = this->getChildByID("bottom-menu"))
+        {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
                 "GJ_moonsIcon_001.png",
                 0.875f,
                 CircleBaseColor::Green,
-                CircleBaseSize::MediumAlt
-            );
+                CircleBaseSize::MediumAlt);
 
             auto btn = CCMenuItemSpriteExtra::create(
                 btnSprite,
                 this,
-                menu_selector(MyMenuLayer::onHorribleButton)
-            );
+                menu_selector(MyMenuLayer::onHorribleButton));
             btn->setID("horribleBtn");
 
-            if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
+            if (auto menu = typeinfo_cast<CCMenu *>(bottomMenu))
+            {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };
@@ -36,43 +39,60 @@ class $modify(MyMenuLayer, MenuLayer) {
         return true;
     };
 
-    void onHorribleButton(CCObject*) {
-        if (auto popup = HorribleMenuPopup::create()) popup->show();
+    void onHorribleButton(CCObject *)
+    {
+        if (auto popup = HorribleMenuPopup::create())
+            popup->show();
     };
 
-    void onPlay(CCObject * sender) {
-        if (horribleMod->getSavedValue<bool>("achieve", false)) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+    void onPlay(CCObject *sender)
+    {
+        if (horribleMod->getSavedValue<bool>("achieve", false))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random achievements is disabled");
         };
 
         MenuLayer::onPlay(sender);
     };
 
-    void onOptions(CCObject * sender) {
-        if (horribleMod->getSavedValue<bool>("achieve", false)) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+    void onOptions(CCObject *sender)
+    {
+        if (horribleMod->getSavedValue<bool>("achieve", false))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random achievements is disabled");
         };
 
         MenuLayer::onOptions(sender);
     };
 
-    void onStats(CCObject * sender) {
-        if (horribleMod->getSavedValue<bool>("achieve", false)) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+    void onStats(CCObject *sender)
+    {
+        if (horribleMod->getSavedValue<bool>("achieve", false))
+        {
+            if (auto fmod = FMODAudioEngine::sharedEngine())
+            {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
             };
-        } else {
+        }
+        else
+        {
             log::warn("Random achievements is disabled");
         };
 
