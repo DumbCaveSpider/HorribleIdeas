@@ -221,14 +221,19 @@ class $modify(HorriblePlayLayer, PlayLayer)
         }
     }
 
+    // new best
     void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle)
     {
         auto horribleMod = getMod();
         int id = m_level->m_levelID;
+        int percentage = m_level->m_normalPercent;
 
         log::info("Showing new best for level ID: {}", id);
+        log::info("Level percentage: {}", percentage);
 
-        if (horribleMod->getSavedValue<bool>("mock", true))
+        PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
+
+        if (horribleMod->getSavedValue<bool>("mock", true) && percentage >= 90)
         {
             CCDirector *director = CCDirector::sharedDirector();
             CCScene *scene = CCScene::get();
@@ -243,7 +248,6 @@ class $modify(HorriblePlayLayer, PlayLayer)
             renderTexture->begin();
             scene->visit();
             renderTexture->end();
-            PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
             auto image = renderTexture->newCCImage();
 
             if (image)

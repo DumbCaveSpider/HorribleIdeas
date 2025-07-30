@@ -31,7 +31,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Mock your 90%+ Fail",
          "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>",
          SillyTier::Medium,
-         true},
+         false},
         {"freeze",
          "Random 90%+ Freeze",
          "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
