@@ -5,6 +5,7 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 #include <Geode/binding/FMODAudioEngine.hpp>
+#include "LevelManager.hpp"
 
 using namespace geode::prelude;
 
@@ -99,10 +100,18 @@ class $modify(HorriblePlayLayer, PlayLayer)
             log::warn("Mocking 90% fail is disabled");
         };
 
+        if (horribleMod->getSavedValue<bool>("grief", true))
+        {
+            log::info("Griefing is enabled");
+            LevelManager::checkAndDownloadGriefLevel();
+        }
+        else
+        {
+            log::warn("Griefing is disabled");
+        };
+
         return true;
     }
-
-    // No need for update override, handled by decreaseOxygen
 
     void onExit()
     {
@@ -135,12 +144,12 @@ class $modify(HorriblePlayLayer, PlayLayer)
         if (regen)
         {
             m_fields->m_oxygenLevel += 5.f * dt;
-            log::debug("Oxygen level increased: {}", m_fields->m_oxygenLevel);
+            // log::debug("Oxygen level increased: {}", m_fields->m_oxygenLevel);
         }
         else
         {
             m_fields->m_oxygenLevel -= 2.f * dt;
-            log::debug("Oxygen level decreased: {}", m_fields->m_oxygenLevel);
+            // log::debug("Oxygen level decreased: {}", m_fields->m_oxygenLevel);
         }
         if (m_fields->m_oxygenLevel > 100.f)
             m_fields->m_oxygenLevel = 100.f;
@@ -181,52 +190,32 @@ class $modify(HorriblePlayLayer, PlayLayer)
     void destroyPlayer(PlayerObject *player, GameObject *game)
     {
         auto horribleMod = getMod();
-
         if (!m_fields->m_destroyingObject)
             m_fields->m_destroyingObject = game;
 
-        if (horribleMod->getSavedValue("grief", true))
+        bool griefEnabled = horribleMod->getSavedValue("grief", true);
+        bool wasDead = player ? player->m_isDead : true;
+
+        PlayLayer::destroyPlayer(player, game);
+
+        if (griefEnabled && player && !wasDead && player->m_isDead)
         {
-            if (game == m_fields->m_destroyingObject)
-            { // fake spike at beginning
-                PlayLayer::destroyPlayer(player, game);
-            }
-            else if (auto glm = GameLevelManager::sharedState())
+            auto glm = GameLevelManager::get();
+            auto griefLevel = glm->getSavedLevel(105001928);
+            LevelManager::checkAndDownloadGriefLevel();
+
+            if (griefLevel && !griefLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 105001928))
             {
-                auto lvlId = 105001928;
-                if (m_level->m_levelID.value() == lvlId)
-                    return PlayLayer::destroyPlayer(player, game);
-
-                glm->downloadLevel(lvlId, true);
-
-                if (auto level = glm->getSavedLevel(lvlId))
-                {
-                    glm->saveLevel(level);
-
-                    if (level->m_levelNotDownloaded)
-                    {
-                        log::error("good grief!");
-                    }
-                    else if (auto ccdir = CCDirector::sharedDirector())
-                    { // find a way to optimize level switch
-                        ccdir->replaceScene(PlayLayer::scene(level, false, false));
-                    };
-                }
-                else
-                {
-                    log::error("good grief!!!");
-                    PlayLayer::destroyPlayer(player, game);
-                };
+                this->onExit();
+                auto scene = PlayLayer::scene(griefLevel, false, false);
+                CCDirector::get()->replaceScene(scene);
+                log::info("Switching to Grief level (105001928)");
+                return;
             }
-            else
+            else if (griefLevel && !griefLevel->m_levelNotDownloaded)
             {
-                PlayLayer::destroyPlayer(player, game);
-            };
+                // Already in grief level, do nothing
+            }
         }
-        else
-        {
-            log::warn("Go back on Grief is disabled");
-            PlayLayer::destroyPlayer(player, game);
-        };
-    };
+    }
 };

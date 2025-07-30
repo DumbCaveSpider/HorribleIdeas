@@ -1,4 +1,6 @@
 #include "ModOption.hpp"
+#include "../../modified/LevelManager.hpp"
+#include "../../modified/LevelManager.hpp"
 #include "../../SillyTier.hpp"
 
 #include <Geode/Geode.hpp>
@@ -13,22 +15,23 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
     m_modDescription = description;
 
     // Set m_modTier based on SillyTier
-    switch (silly) {
-        case SillyTier::None:
-            m_modTier = 0; // No silliness
-            break;
-        case SillyTier::Low:
-            m_modTier = 1;
-            break;
-        case SillyTier::Medium:
-            m_modTier = 2;
-            break;
-        case SillyTier::High:
-            m_modTier = 3;
-            break;
-        default:
-            m_modTier = 0;
-            break;
+    switch (silly)
+    {
+    case SillyTier::None:
+        m_modTier = 0; // No silliness
+        break;
+    case SillyTier::Low:
+        m_modTier = 1;
+        break;
+    case SillyTier::Medium:
+        m_modTier = 2;
+        break;
+    case SillyTier::High:
+        m_modTier = 3;
+        break;
+    default:
+        m_modTier = 0;
+        break;
     }
 
     m_restartRequired = restart;
@@ -72,7 +75,8 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
     m_toggler->setScale(0.875f);
 
     // Set toggler state based on saved mod option value
-    if (m_mod) {
+    if (m_mod)
+    {
         bool saved = m_mod->getSavedValue<bool>(m_modID);
         m_toggler->toggle(saved);
     }
@@ -94,20 +98,21 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
     nameLabel->setScale(0.5f);
 
     // Set color based on m_modTier
-    switch (m_modTier) {
-        case 1: // green
-            nameLabel->setColor({0, 255, 0});
-            break;
-        case 2: // yellow
-            nameLabel->setColor({255, 255, 0});
-            break;
-        case 3: // red
-            nameLabel->setColor({255, 0, 0});
-            break;
-        case 0:
-        default: // white
-            nameLabel->setColor({255, 255, 255});
-            break;
+    switch (m_modTier)
+    {
+    case 1: // green
+        nameLabel->setColor({0, 255, 0});
+        break;
+    case 2: // yellow
+        nameLabel->setColor({255, 255, 0});
+        break;
+    case 3: // red
+        nameLabel->setColor({255, 0, 0});
+        break;
+    case 0:
+    default: // white
+        nameLabel->setColor({255, 255, 255});
+        break;
     }
 
     addChild(nameLabel);
@@ -145,6 +150,12 @@ void ModOption::onToggle(CCObject *)
         m_mod->setSavedValue(m_modID, m_toggler->isToggled());
     if (m_restartRequired)
         Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+
+    // If grief option is toggled on, call LevelManager::checkAndDownloadGriefLevel
+    if (m_modID == "grief" && m_toggler->isToggled())
+    {
+        LevelManager::checkAndDownloadGriefLevel();
+    }
 
     log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
