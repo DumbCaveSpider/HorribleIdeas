@@ -140,7 +140,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
         auto player = this->m_player1;
         if (!player)
             return;
-        bool regen = player->m_isBird || player->m_isShip || player->m_isSwing;
+        bool regen = player->m_isBird || player->m_isShip || player->m_isSwing || player->m_isDart;
         if (regen)
         {
             m_fields->m_oxygenLevel += 5.f * dt;
