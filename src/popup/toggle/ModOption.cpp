@@ -1,6 +1,6 @@
 #include "ModOption.hpp"
-#include "../../modified/LevelManager.hpp"
-#include "../../modified/LevelManager.hpp"
+
+#include "../../utils/LevelManager.hpp"
 #include "../../SillyTier.hpp"
 
 #include <Geode/Geode.hpp>
