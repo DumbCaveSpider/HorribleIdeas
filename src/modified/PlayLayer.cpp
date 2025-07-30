@@ -26,19 +26,6 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("achieve", true))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
-                // @geode-ignore(unknown-resource)
-                fmod->playEffectAsync("achievement_01.ogg");
-            };
-        }
-        else
-        {
-            log::warn("Random achievements is disabled");
-        };
-
         if (horribleMod->getSavedValue<bool>("oxygen", true))
         {
             if (level)
@@ -98,16 +85,6 @@ class $modify(HorriblePlayLayer, PlayLayer)
         else
         {
             log::warn("Mocking 90% fail is disabled");
-        };
-
-        if (horribleMod->getSavedValue<bool>("grief", true))
-        {
-            log::info("Griefing is enabled");
-            LevelManager::checkAndDownloadGriefLevel();
-        }
-        else
-        {
-            log::warn("Griefing is disabled");
         };
 
         return true;
@@ -187,6 +164,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
         resetOxygenLevel();
     }
 
+    // do crap when player died
     void destroyPlayer(PlayerObject *player, GameObject *game)
     {
         auto horribleMod = getMod();
@@ -194,28 +172,68 @@ class $modify(HorriblePlayLayer, PlayLayer)
             m_fields->m_destroyingObject = game;
 
         bool griefEnabled = horribleMod->getSavedValue("grief", true);
+        bool congregEnabled = horribleMod->getSavedValue("congregation", true);
         bool wasDead = player ? player->m_isDead : true;
 
         PlayLayer::destroyPlayer(player, game);
 
+        // get back to grief
         if (griefEnabled && player && !wasDead && player->m_isDead)
         {
-            auto glm = GameLevelManager::get();
-            auto griefLevel = glm->getSavedLevel(105001928);
-            LevelManager::checkAndDownloadGriefLevel();
+            LevelManager::DownloadGriefLevel();
+            // 10% chance to play grief level
+            if (float griefChance = (rand() % 10) == 0)
+            {
+                auto glm = GameLevelManager::get();
+                auto griefLevel = glm->getSavedLevel(105001928);
 
-            if (griefLevel && !griefLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 105001928))
-            {
-                PlayLayer::destroyPlayer(player, game);
-                this->onExit();
-                auto scene = PlayLayer::scene(griefLevel, false, false);
-                CCDirector::get()->replaceScene(scene);
-                log::info("Switching to Grief level (105001928)");
-                return;
+                if (griefLevel && !griefLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 105001928))
+                {
+                    PlayLayer::destroyPlayer(player, game);
+                    this->onExit();
+                    auto scene = PlayLayer::scene(griefLevel, false, false);
+                    CCDirector::get()->replaceScene(scene);
+                    log::info("Switching to Grief level (105001928) by 10% chance");
+                    return;
+                }
+                else if (griefLevel && !griefLevel->m_levelNotDownloaded)
+                {
+                    // Already in grief level, do nothing
+                }
             }
-            else if (griefLevel && !griefLevel->m_levelNotDownloaded)
+            else
             {
-                // Already in grief level, do nothing
+                log::info("Grief jumpscare not triggered {}", griefChance);
+            }
+        }
+
+        // congregation jumpscare
+        if (congregEnabled && player && !wasDead && player->m_isDead)
+        {
+            LevelManager::DownloadCongregLevel();
+            // 10% chance to play congregation level
+            if (float CongregChance = (rand() % 10) == 0)
+            {
+                auto glm = GameLevelManager::get();
+                auto congregLevel = glm->getSavedLevel(93437568);
+
+                if (congregLevel && !congregLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 93437568))
+                {
+                    PlayLayer::destroyPlayer(player, game);
+                    this->onExit();
+                    auto scene = PlayLayer::scene(congregLevel, false, false);
+                    CCDirector::get()->replaceScene(scene);
+                    log::info("Switching to Congregation level (93437568) by 10% chance");
+                    return;
+                }
+                else if (congregLevel && !congregLevel->m_levelNotDownloaded)
+                {
+                    // Already in congregation level, do nothing
+                }
+            }
+            else
+            {
+                log::info("Congregation jumpscare not triggered {}", CongregChance);
             }
         }
     }

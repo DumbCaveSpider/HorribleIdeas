@@ -154,7 +154,7 @@ void ModOption::onToggle(CCObject *)
     // If grief option is toggled on, call LevelManager::checkAndDownloadGriefLevel
     if (m_modID == "grief" && m_toggler->isToggled())
     {
-        LevelManager::checkAndDownloadGriefLevel();
+        LevelManager::DownloadGriefLevel();
     }
 
     log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao

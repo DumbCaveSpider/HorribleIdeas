@@ -19,7 +19,12 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"grief",
          "Get Back on Grief",
-         "A random chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+         "A 10% chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+         SillyTier::High,
+         false},
+         {"congregation",
+         "Congregation Jumpscare",
+         "A 10% chance of forcing you to play the Congregation Jumpscare.\n<cy>Credit: StaticGD</c>",
          SillyTier::High,
          false},
         {"mock",
@@ -34,7 +39,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"achieve",
          "Random Achievements",
-         "Play the achievement sound when doing random things.",
+         "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
          false}};
 };
