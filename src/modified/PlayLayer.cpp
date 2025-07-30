@@ -235,6 +235,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
 
+#ifndef GEODE_IS_MACOS && GEODE_IS_IOS // not available for these platforms
         if (horribleMod->getSavedValue<bool>("mock", true) && percentage >= 90) {
             CCDirector* director = CCDirector::sharedDirector();
             CCScene* scene = CCScene::get();
@@ -294,6 +295,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                 log::error("Failed to create image from render texture");
             };
         };
+#endif
     };
 
     void levelComplete() {
