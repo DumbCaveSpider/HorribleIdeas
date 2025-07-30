@@ -6,6 +6,7 @@ using namespace geode::prelude;
 namespace LevelManager {
     void DownloadGriefLevel() {
         auto horribleMod = getMod();
+
         if (horribleMod->getSavedValue<bool>("grief", false)) {
             auto glm = GameLevelManager::get();
             auto mdm = MusicDownloadManager::sharedState();
@@ -25,9 +26,11 @@ namespace LevelManager {
 
     void DownloadCongregLevel() {
         auto horribleMod = getMod();
+
         if (horribleMod->getSavedValue<bool>("congregation", false)) {
             auto glm = GameLevelManager::get();
             auto mdm = MusicDownloadManager::sharedState();
+
             auto level = glm->getSavedLevel(93437568);
 
             if (glm->hasDownloadedLevel(93437568)) {

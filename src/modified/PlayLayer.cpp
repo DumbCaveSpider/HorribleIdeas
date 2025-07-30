@@ -1,3 +1,5 @@
+#include <fmt/core.h>
+
 #include <Geode/Geode.hpp>
 
 #include <Geode/utils/terminate.hpp>
@@ -8,6 +10,8 @@
 #include "LevelManager.hpp"
 
 using namespace geode::prelude;
+using namespace geode::utils;
+using namespace matjson;
 
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
@@ -175,9 +179,12 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
                 if (congregLevel && !congregLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 93437568)) {
                     PlayLayer::destroyPlayer(player, game);
+
                     onExit();
+
                     auto scene = PlayLayer::scene(congregLevel, false, false);
                     CCDirector::get()->replaceScene(scene);
+
                     log::info("Switching to Congregation level (93437568) by 10% chance");
                     return;
                 } else if (congregLevel && !congregLevel->m_levelNotDownloaded) {
@@ -216,11 +223,40 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             renderTexture->begin();
             scene->visit();
             renderTexture->end();
-            auto image = renderTexture->newCCImage();
 
-            if (image) {
-                std::string path = fmt::format("{}\\{}.png", Mod::get()->getSaveDir(), id);
+            if (auto image = renderTexture->newCCImage()) {
+                std::string path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
+
                 if (image->saveToFile(path.c_str(), false)) {
+                    auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+                    auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved fails to mock the player with :)
+
+                    auto toWrite = Value(); // what we're gonna write in the mock.json file
+
+                    if (mockConfig.isOk()) {
+                        // unwrap the whole thing
+                        auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+
+                        // overwrite this field (or add it) with the percent
+                        mockConfigUnwr[std::to_string(id)] = percentage;
+
+                        toWrite = mockConfigUnwr;
+                    } else {
+                        toWrite = makeObject({
+                            { std::to_string(id), percentage }
+                                             });
+                    };
+
+                    if (!toWrite.isNull()) {
+                        auto mockJson = file::writeToJson(mockConfigPath, toWrite);
+
+                        if (mockJson.isOk()) {
+                            log::info("Saved highly mockable percentage of {} to data", percentage);
+                        } else {
+                            log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
+                        };
+                    };
+
                     log::info("Saved screenshot to {}", path);
                 } else {
                     log::error("Failed to save screenshot to {}", path);
@@ -231,5 +267,34 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                 log::error("Failed to create image from render texture");
             };
         };
+    };
+
+    void levelComplete() {
+        auto horribleMod = getMod();
+
+        if (horribleMod->getSavedValue<bool>("mock", false)) {
+            int id = m_level->m_levelID;
+            int percentage = m_level->m_normalPercent;
+
+            auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+            auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved levels to mock the player :)
+
+            if (mockConfig.isOk()) {
+                log::debug("Clearing mock record for {}", id);
+                auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+
+                mockConfigUnwr[std::to_string(id)].clear();
+
+                auto mockJson = file::writeToJson(mockConfigPath, mockConfigUnwr);
+
+                if (mockJson.isOk()) {
+                    log::info("Saved highly mockable percentage of {} to data", percentage);
+                } else {
+                    log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
+                };
+            };
+        };
+
+        PlayLayer::levelComplete();
     };
 };

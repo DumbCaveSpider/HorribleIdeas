@@ -8,8 +8,7 @@
 using namespace geode::prelude;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions()
-{
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
         {
@@ -53,11 +52,11 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
          false
-        } };
+        }
+    };
 };
 
-bool HorribleMenuPopup::setup()
-{
+bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -65,9 +64,9 @@ bool HorribleMenuPopup::setup()
 
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
-    optionScrollBg->setAnchorPoint({0.5, 0.5});
-    optionScrollBg->setPosition({mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f});
-    optionScrollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
+    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
+    optionScrollBg->setPosition({ mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f });
+    optionScrollBg->setContentSize({ mainLayerSize.width - 25.f, mainLayerSize.height - 45.f });
     optionScrollBg->setOpacity(50);
 
     m_mainLayer->addChild(optionScrollBg);
@@ -78,9 +77,9 @@ bool HorribleMenuPopup::setup()
     columnLayout->setAxisAlignment(AxisAlignment::End);
 
     // scroll layer
-    auto optionsScrollLayer = ScrollLayer::create({optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f});
+    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
     optionsScrollLayer->setID("scrollLayer");
-    optionsScrollLayer->setAnchorPoint({0.5, 0.5});
+    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
 
@@ -90,14 +89,12 @@ bool HorribleMenuPopup::setup()
     auto modOptions = getAllOptions();
 
     // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
-              { return std::get<4>(a) < std::get<4>(b); });
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto& a, const auto& b) { return std::get<4>(a) < std::get<4>(b); });
 
-    for (const auto &option : modOptions)
-    {
-        const auto &[id, name, desc, silly, restart] = option;
+    for (const auto& option : modOptions) {
+        const auto& [id, name, desc, silly, restart] = option;
 
-        if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
+        if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart))
             optionsScrollLayer->m_contentLayer->addChild(modOption);
     };
 
@@ -108,12 +105,10 @@ bool HorribleMenuPopup::setup()
     return true;
 };
 
-HorribleMenuPopup *HorribleMenuPopup::create()
-{
+HorribleMenuPopup* HorribleMenuPopup::create() {
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(300.f, 280.f))
-    {
+    if (ret && ret->initAnchored(300.f, 280.f)) {
         ret->autorelease();
         return ret;
     };
