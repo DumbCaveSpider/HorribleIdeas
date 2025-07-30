@@ -14,7 +14,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
     return {
         {"oxygen",
          "Oxygen Level",
-         "Add an oxygen level if the level has 'Water' in the level name.\n<cy>Credit: ArcticWoof</c>",
+         "Add an oxygen level if the level. You gain oxygen whenever you are a flying gamemode.\n<cy>Credit: ArcticWoof</c>",
          SillyTier::High,
          false},
         {"grief",

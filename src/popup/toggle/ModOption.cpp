@@ -62,8 +62,8 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
 
     // toggler for the joke
     m_toggler = CCMenuItemToggler::create(
-        togglerOn,
         togglerOff,
+        togglerOn,
         this,
         menu_selector(ModOption::onToggle));
     m_toggler->setID("toggle");
@@ -73,7 +73,7 @@ bool ModOption::init(CCSize const &size, std::string id, std::string name, std::
 
     // Set toggler state based on saved mod option value
     if (m_mod) {
-        bool saved = m_mod->getSavedValue<bool>(m_modID, false);
+        bool saved = m_mod->getSavedValue<bool>(m_modID);
         m_toggler->toggle(saved);
     }
 
@@ -146,7 +146,7 @@ void ModOption::onToggle(CCObject *)
     if (m_restartRequired)
         Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
-    log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID, false));
+    log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
 
 void ModOption::onDescription(CCObject *)
