@@ -95,8 +95,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         auto horribleMod = getMod();
 
         if (horribleMod->getSavedValue<bool>("math-quiz", false)) {
-            if ((rand() % 1) == 0) {
+            if ((rand() % 10) == 0) {
                 log::warn("richard was here");
+            };
+        };
+
+        if (horribleMod->getSavedValue<bool>("ads", false)) {
+            if ((rand() % 5) == 0) {
+                log::warn("ad time!");
             };
         };
 

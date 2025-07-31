@@ -35,7 +35,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "mock",
             "Mock your 90%+ Fail",
-            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n<cr>Note: This will not work on macOS and iOS</c>",
+            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
             SillyTier::Medium,
             false
         },
@@ -63,7 +63,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "math-quiz",
             "Richard's Math Quiz!",
-            "When dying in a level, there's a chance Richard will pop out and give you a quick math quiz.\n<cy>Credit: DragonixGD</c>",
+            "When dying in a level, there's a chance Richard will pop out and give you a quick math quiz.\n<cy>Credit: CyanBoi</c>",
             SillyTier::High,
             false
         },
@@ -91,7 +91,21 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "upside-down",
             "Upside-Down Layer Chance",
-            "When switching layers, there's a 50/50 chance it'll be upside-down.\n<cy>Credit: Cheeseworks</c>",
+            "When switching layers, there's a 50/50 chance it'll be upside-down and probably break everything.\n<cy>Credit: Cheeseworks</c>",
+            SillyTier::Medium,
+            false
+        },
+        {
+            "ads",
+            "Level Ads",
+            "While playing a level, an ad for a random will pop up on the screen from time to time.\n<cy>Credit: staticGD</c>",
+            SillyTier::Medium,
+            false
+        },
+        {
+            "black-screen",
+            "Black Screen Blink",
+            "The screen can suddenly turn black for a moment while playing a level.\n<cy>Credit: elite_smiler_ispro</c>",
             SillyTier::Low,
             false
         }
