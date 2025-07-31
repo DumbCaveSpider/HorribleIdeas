@@ -77,7 +77,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "death",
             "Fake Death",
-            "The player's death effect will play but will not die.<cy>Credit: DragonixGD</c>",
+            "The player's death effect will play but will not die.\n<cy>Credit: DragonixGD</c>",
             SillyTier::Medium,
             false
         },
