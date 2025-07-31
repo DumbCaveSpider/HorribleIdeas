@@ -1,4 +1,5 @@
 #include "../utils/LevelManager.hpp"
+#include "../popups/RandomAdPopup.hpp"
 
 #include <fmt/core.h>
 
@@ -17,6 +18,8 @@ using namespace matjson;
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
         GameObject* m_destroyingObject;
+
+        RandomAdPopup* m_currentAd = nullptr;
 
         CCLabelBMFont* m_oxygenLabel = nullptr;
 
@@ -96,13 +99,20 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         if (horribleMod->getSavedValue<bool>("math-quiz", false)) {
             if ((rand() % 10) == 0) {
-                log::warn("richard was here");
+                if (m_isPracticeMode) log::warn("richard was here");
             };
         };
 
         if (horribleMod->getSavedValue<bool>("ads", false)) {
             if ((rand() % 5) == 0) {
                 log::warn("ad time!");
+
+                if (!m_fields->m_currentAd) {
+                    if (auto popup = RandomAdPopup::create()) {
+                        m_fields->m_currentAd = popup;
+                        m_fields->m_currentAd->show();
+                    };
+                };
             };
         };
 
