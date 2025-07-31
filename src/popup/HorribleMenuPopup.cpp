@@ -35,7 +35,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "mock",
             "Mock your 90%+ Fail",
-            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>",
+            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n<cr>Note: This will not work on macOS and iOS</c>",
             SillyTier::Medium,
             false
         },
@@ -56,28 +56,28 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "crash-death",
             "Crash Chance on Death",
-            "When your character dies in a level, there's a small chance your game will die too.",
+            "When your character dies in a level, there's a small chance your game will die too.\n<cy>Credit: DragonixGD</c>",
             SillyTier::High,
             false
         },
         {
             "no-jump",
             "Randomly Don't Jump",
-            "When making an input in a level, there will be a chance your character does not jump.",
+            "When making an input in a level, there will be a chance your character does not jump.\n<cy>Credit: GilanyKing12</c>",
             SillyTier::Low,
             false
         },
         {
             "gravity",
             "Randomize Gravity",
-            "Every time you jump in the level, the gravity will change to a random value.",
+            "Every time you jump in the level, the gravity will change to a random value.\n<cy>Credit: NJAgain</c>",
             SillyTier::Low,
             false
         },
         {
             "death",
             "Fake Death",
-            "The player's death effect will play but will not die.",
+            "The player's death effect will play but will not die.<cy>Credit: DragonixGD</c>",
             SillyTier::Medium,
             false
         },
