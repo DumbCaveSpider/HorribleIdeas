@@ -61,6 +61,13 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
             false
         },
         {
+            "math-quiz",
+            "Richard's Math Quiz!",
+            "When dying in a level, there's a chance Richard will pop out and give you a quick math quiz.\n<cy>Credit: DragonixGD</c>",
+            SillyTier::High,
+            false
+        },
+        {
             "no-jump",
             "Randomly Don't Jump",
             "When making an input in a level, there will be a chance your character does not jump.\n<cy>Credit: GilanyKing12</c>",
@@ -135,6 +142,7 @@ bool HorribleMenuPopup::setup() {
     };
 
     optionsScrollLayer->m_contentLayer->updateLayout();
+    optionsScrollLayer->scrollToTop();
 
     m_mainLayer->addChild(optionsScrollLayer);
 

@@ -33,54 +33,51 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         auto horribleMod = getMod();
 
         if (horribleMod->getSavedValue<bool>("oxygen", false)) {
-            if (level) {
-                m_fields->m_oxygenActive = true;
-                m_fields->m_oxygenLevel = 100.f;
+            m_fields->m_oxygenActive = true;
+            m_fields->m_oxygenLevel = 100.f;
 
-                CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                    schedule_selector(HorriblePlayLayer::decreaseOxygen),
-                    this, 0.0f, false);
+            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
+                schedule_selector(HorriblePlayLayer::decreaseOxygen),
+                this, 0.0f, false
+            );
 
-                if (!m_fields->m_oxygenBar) {
-                    m_fields->m_oxygenBar = CCSprite::create("slidergroove2.png");
-                    m_fields->m_oxygenBar->setID("oxygen"_spr);
-                    m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
-                    m_fields->m_oxygenBar->setRotation(90.f);
-                    m_fields->m_oxygenBar->setZOrder(101);
+            if (!m_fields->m_oxygenBar) {
+                m_fields->m_oxygenBar = CCSprite::create("slidergroove2.png");
+                m_fields->m_oxygenBar->setID("oxygen"_spr);
+                m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
+                m_fields->m_oxygenBar->setRotation(90.f);
+                m_fields->m_oxygenBar->setZOrder(101);
 
-                    m_fields->m_oxygenBarFill = CCSprite::create("sliderBar2.png");
-                    m_fields->m_oxygenBarFill->setID("oxygen-fill"_spr);
-                    m_fields->m_oxygenBarFill->setZOrder(-1);
-                    m_fields->m_oxygenBarFill->setRotation(-180.f);
-                    m_fields->m_oxygenBarFill->setColor({ 0, 175, 255 });
-                    m_fields->m_oxygenBarFill->setPosition({ m_fields->m_oxygenBar->getScaledContentWidth() - 2.f, 4.f });
-                    m_fields->m_oxygenBarFill->setAnchorPoint({ 0, 1 });
+                m_fields->m_oxygenBarFill = CCSprite::create("sliderBar2.png");
+                m_fields->m_oxygenBarFill->setID("oxygen-fill"_spr);
+                m_fields->m_oxygenBarFill->setZOrder(-1);
+                m_fields->m_oxygenBarFill->setRotation(-180.f);
+                m_fields->m_oxygenBarFill->setColor({ 0, 175, 255 });
+                m_fields->m_oxygenBarFill->setPosition({ m_fields->m_oxygenBar->getScaledContentWidth() - 2.f, 4.f });
+                m_fields->m_oxygenBarFill->setAnchorPoint({ 0, 1 });
 
-                    m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, 0, 8 });
+                m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, 0, 8 });
 
-                    m_fields->m_oxygenBar->addChild(m_fields->m_oxygenBarFill);
+                m_fields->m_oxygenBar->addChild(m_fields->m_oxygenBarFill);
 
-                    addChild(m_fields->m_oxygenBar);
-                };
-
-                std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
-
-                if (!m_fields->m_oxygenLabel) {
-                    m_fields->m_oxygenLabel = CCLabelBMFont::create(buf.c_str(), "bigFont.fnt");
-                    m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
-                    m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.0f });
-                    m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
-                    m_fields->m_oxygenLabel->setScale(0.375f);
-
-                    addChild(m_fields->m_oxygenLabel, 100);
-                } else {
-                    m_fields->m_oxygenLabel->setString(buf.c_str());
-                };
-
-                log::info("Oxygen level enabled for {}", level->m_levelName);
-            } else {
-                log::warn("Oxygen level disabled for {}", level->m_levelName);
+                addChild(m_fields->m_oxygenBar);
             };
+
+            std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
+
+            if (!m_fields->m_oxygenLabel) {
+                m_fields->m_oxygenLabel = CCLabelBMFont::create(buf.c_str(), "bigFont.fnt");
+                m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
+                m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.0f });
+                m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
+                m_fields->m_oxygenLabel->setScale(0.375f);
+
+                addChild(m_fields->m_oxygenLabel, 100);
+            } else {
+                m_fields->m_oxygenLabel->setString(buf.c_str());
+            };
+        } else {
+            log::warn("Oxygen meter is disabled");
         };
 
         if (horribleMod->getSavedValue<bool>("freeze", false)) {
@@ -92,6 +89,18 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         };
 
         return true;
+    };
+
+    void update(float p0) {
+        auto horribleMod = getMod();
+
+        if (horribleMod->getSavedValue<bool>("math-quiz", false)) {
+            if ((rand() % 1) == 0) {
+                log::warn("richard was here");
+            };
+        };
+
+        PlayLayer::update(p0);
     };
 
     void onExit() {
