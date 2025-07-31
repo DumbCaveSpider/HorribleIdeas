@@ -32,7 +32,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("oxygen", true)) {
+        if (horribleMod->getSavedValue<bool>("oxygen", false)) {
             if (level) {
                 m_fields->m_oxygenActive = true;
                 m_fields->m_oxygenLevel = 100.f;
@@ -83,7 +83,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             };
         };
 
-        if (horribleMod->getSavedValue<bool>("freeze", true)) {
+        if (horribleMod->getSavedValue<bool>("freeze", false)) {
             if (auto gm = GameManager::sharedState()) {
                 // gm or ccdir dont have native set max fps methods
             };
@@ -97,7 +97,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     void onExit() {
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("achieve", true)) {
+        if (horribleMod->getSavedValue<bool>("achieve", false)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
                 // @geode-ignore(unknown-resource)
                 fmod->playEffectAsync("achievement_01.ogg");
@@ -154,21 +154,27 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         PlayLayer::resetLevel();
     };
 
-    void onRestart() {
-        resetOxygenLevel();
-    };
-
     // do crap when player died
     void destroyPlayer(PlayerObject * player, GameObject * game) {
         auto horribleMod = getMod();
         if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
-        bool griefEnabled = horribleMod->getSavedValue("grief", true);
-        bool congregEnabled = horribleMod->getSavedValue("congregation", true);
+        bool crashEnabled = horribleMod->getSavedValue("crash-death", false);
+        bool griefEnabled = horribleMod->getSavedValue("grief", false);
+        bool congregEnabled = horribleMod->getSavedValue("congregation", false);
 
         bool wasDead = player ? player->m_isDead : true;
 
         PlayLayer::destroyPlayer(player, game);
+
+        if (crashEnabled && player && !wasDead && player->m_isDead) {
+            if ((rand() % 1) == 0) {
+                log::warn("ur game crash hehehehehehehe");
+                game::exit(true); // saves data
+            } else {
+                log::debug("ur safe from crash... for now");
+            };
+        };
 
         // get back to grief
         if (griefEnabled && player && !wasDead && player->m_isDead) {
@@ -237,7 +243,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
 
 #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
-        if (horribleMod->getSavedValue<bool>("mock", true) && percentage >= 90) {
+        if (horribleMod->getSavedValue<bool>("mock", false) && percentage >= 90) {
             CCDirector* director = CCDirector::sharedDirector();
             CCScene* scene = CCScene::get();
 

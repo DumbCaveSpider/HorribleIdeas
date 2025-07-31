@@ -23,7 +23,7 @@ class $modify(HorribleCCLayer, CCLayer) {
         log::debug("Hooked Cocos layer {}", getID());
 
         if (horribleMod && horribleMod->getSavedValue<bool>("mock", false)) {
-            if (auto b = true) { // change to random chance
+            if ((rand() % 75) == 0) {
                 auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                 auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath));
 
@@ -86,6 +86,14 @@ class $modify(HorribleCCLayer, CCLayer) {
                 };
             };
         };
+
+        queueInMainThread([this]() {
+            auto del = CCDelayTime::create(0.25f); // use another cc class 
+
+            if (horribleMod && horribleMod->getSavedValue<bool>("upside-down", false)) {
+                if ((rand() % 50) == 0) setRotation(-180.f);
+            };
+                          });
 
         return true;
     };
