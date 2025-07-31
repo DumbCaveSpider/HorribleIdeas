@@ -8,7 +8,7 @@ class MathQuiz : public CCLayer {
 protected:
     TextInput* m_answerInput = nullptr; // Answer gets typed out here
 
-    bool init();
+    bool init() override;
 
     void keyBackClicked() override;
     void onGoBack(CCObject*);

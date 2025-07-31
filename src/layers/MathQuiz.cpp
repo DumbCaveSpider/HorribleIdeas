@@ -74,7 +74,7 @@ bool MathQuiz::init() {
     CCScale9Sprite* topScaleSprite = CCScale9Sprite::create("square02b_001.png");
     topScaleSprite->ignoreAnchorPointForPosition(true);
     topScaleSprite->setScaledContentSize(topMenuLayer->getScaledContentSize());
-    topScaleSprite->setColor(ccColor3B(6, 2, 32));
+    topScaleSprite->setColor({ 6, 2, 32 });
     topScaleSprite->setOpacity(155);
 
     topMenuLayer->addChild(topScaleSprite);
