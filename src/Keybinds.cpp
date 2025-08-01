@@ -29,8 +29,7 @@ $execute
         new EventListener([=](InvokeBindEvent* event) {
             if (event->isDown()) {
                 if (menuPopup && menuPopup->getParent()) {
-                    menuPopup->removeFromParent();
-                    menuPopup = nullptr;
+                    log::warn("Menu popup already open");
                 } else {
                     menuPopup = HorribleMenuPopup::create();
                     if (menuPopup) menuPopup->show();
