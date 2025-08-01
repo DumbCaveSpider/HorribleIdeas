@@ -108,6 +108,13 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
             "The screen can suddenly turn black for a moment while playing a level.\n<cy>Credit: elite_smiler_ispro</c>",
             SillyTier::Low,
             false
+        },
+        {
+            "parry",
+            "Parry Obstacles",
+            "Whenever your hitbox is inside of an obstacle hitbox, if you time your click right, you don't die.\n<cy>Credit: Wuffin</c>",
+            SillyTier::Low,
+            false
         }
     };
 };
