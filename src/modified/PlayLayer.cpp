@@ -232,45 +232,54 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
     void showBlackScreen(float)
     {
-        log::debug("Showing black screen after delay");
-        auto blackScreen = CCScale9Sprite::create("square02_001.png");
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto horribleMod = getMod();
+        if (horribleMod->getSavedValue<bool>("black-screen", false))
+        {
+            log::debug("Showing black screen after delay");
+            auto blackScreen = CCScale9Sprite::create("square02_001.png");
+            auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-        blackScreen->setContentSize({winSize.width + 10.f, winSize.height + 10.f});
-        blackScreen->setPosition({winSize.width / 2.f, winSize.height / 2.f});
-        blackScreen->setID("black-screen"_spr);
-        blackScreen->setZOrder(100);
+            blackScreen->setContentSize({winSize.width + 10.f, winSize.height + 10.f});
+            blackScreen->setPosition({winSize.width / 2.f, winSize.height / 2.f});
+            blackScreen->setID("black-screen"_spr);
+            blackScreen->setZOrder(100);
 
-        addChild(blackScreen);
+            addChild(blackScreen);
 
-        // Schedule removal after 0.5 seconds, then schedule to show again after a random delay
-        blackScreen->runAction(
-            CCSequence::create(
-                CCDelayTime::create(0.5f),
-                CCCallFunc::create(this, callfunc_selector(HorriblePlayLayer::removeBlackScreen)),
-                nullptr));
-    }
+            // Schedule removal after 0.5 seconds, then schedule to show again after a random delay
+            blackScreen->runAction(
+                CCSequence::create(
+                    CCDelayTime::create(0.25f),
+                    CCCallFunc::create(this, callfunc_selector(HorriblePlayLayer::removeBlackScreen)),
+                    nullptr));
+        }
+    };
 
     void removeBlackScreen()
     {
         auto blackScreen = this->getChildByID("black-screen"_spr);
+        auto horribleMod = getMod();
         if (blackScreen)
         {
             blackScreen->removeFromParent();
             log::debug("Black screen removed");
 
-            float delay = static_cast<float>(rand() % 10001) / 1000.0f; // random delay between 0 and 10 seconds
-            log::debug("Black screen will appear again after {} seconds", delay);
+            if (horribleMod->getSavedValue<bool>("black-screen", false))
+            {
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(HorriblePlayLayer::showBlackScreen),
-                this, delay, false);
+                float delay = static_cast<float>(rand() % 10001) / 1000.0f; // random delay between 0 and 10 seconds
+                log::debug("Black screen will appear again after {} seconds", delay);
+
+                CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
+                    schedule_selector(HorriblePlayLayer::showBlackScreen),
+                    this, delay, false);
+            }
+            else
+            {
+                log::warn("No black screen found to remove");
+            }
         }
-        else
-        {
-            log::warn("No black screen found to remove");
-        }
-    }
+    };
 
     void decreaseOxygen(float dt)
     {
