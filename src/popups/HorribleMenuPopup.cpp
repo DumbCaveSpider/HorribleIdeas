@@ -90,8 +90,8 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         },
         {
             "upside-down",
-            "Upside-Down Layer Chance",
-            "When switching layers, there's a 50/50 chance it'll be upside-down and probably break everything.\n<cy>Credit: Cheeseworks</c>",
+            "Upside-Down Chance",
+            "When playing a level, there's a 50/50 chance it'll be upside-down and probably break everything.\n<cy>Credit: Cheeseworks</c>",
             SillyTier::Medium,
             false
         },
