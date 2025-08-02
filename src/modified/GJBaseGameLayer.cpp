@@ -10,7 +10,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     void handleButton(bool down, int button, bool isPlayer1) {
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("no-jump", false)) {
+        if (horribleMod->getSavedValue<bool>("no-jump", false) && !m_isPlatformer) {
             if (button == 1) {
                 if ((rand() % 11) == 0) {
                     log::error("skipped dat jump");

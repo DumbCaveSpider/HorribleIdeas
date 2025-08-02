@@ -43,7 +43,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
             "freeze",
             "Random 90%+ FPS Drop",
             "Your game FPS starts dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
-            SillyTier::Low,
+            SillyTier::Medium,
             false
         },
         {
@@ -70,14 +70,14 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "no-jump",
             "Randomly Don't Jump",
-            "When making an input in a level, there will be a chance your character does not jump.\n<cy>Credit: GilanyKing12</c>",
+            "When making an input in a level, there will be a chance your character does not jump.\n<cy>Credit: GilanyKing12</c>\n<cr>Note: This will not work in platformer mode</c>",
             SillyTier::Low,
             false
         },
         {
             "gravity",
             "Randomize Gravity",
-            "Every time you jump in the level, the gravity will change to a random value.\n<cy>Credit: NJAgain</c>",
+            "Every time you jump in the level, the gravity will change to a random value.\n<cy>Credit: NJAgain</c>\n<cr>Note: This will not work in platformer mode</c>",
             SillyTier::Low,
             false
         },

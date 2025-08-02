@@ -43,13 +43,15 @@ class $modify(HorriblePlayerObject, PlayerObject)
         auto playLayer = PlayLayer::get();
         auto horribleMod = getMod();
 
+        auto healthEnabled = horribleMod->getSavedValue<bool>("health", false);
+
         if (playLayer && playLayer->m_percentageLabel)
         {
             // lil hack on getting the percentage lmao
             std::string percentage = playLayer->m_percentageLabel->getString();
             percentage.erase(std::remove(percentage.begin(), percentage.end(), '%'), percentage.end());
             int currentPercentage = std::stoi(percentage);
-            //log::debug("percentage {}", currentPercentage);
+            // log::debug("percentage {}", currentPercentage);
 
             if (horribleMod->getSavedValue<bool>("freeze", false))
             {
@@ -67,7 +69,7 @@ class $modify(HorriblePlayerObject, PlayerObject)
                     if (interval <= 0.0f || interval > 1.0f)
                         interval = 1.f / 60.f; // fallback to 60 FPS if invalid
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
-                    //log::debug("cap fps to {} (interval {})", randomFPS, interval);
+                    // log::debug("cap fps to {} (interval {})", randomFPS, interval);
                 }
                 else
                 {
@@ -81,11 +83,10 @@ class $modify(HorriblePlayerObject, PlayerObject)
                     if (interval <= 0.0f || interval > 1.0f)
                         interval = 1.f / 60.f; // fallback to 60 FPS if invalid
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
-                    //log::debug("reset fps to {} (interval {})", oldFPS, interval);
+                    // log::debug("reset fps to {} (interval {})", oldFPS, interval);
                 }
             }
         }
-
         PlayerObject::update(p0);
     }
 };

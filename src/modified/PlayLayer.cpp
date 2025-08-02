@@ -31,13 +31,18 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
         RandomAdPopup *m_currentAd = nullptr;
 
+        CCLabelBMFont *m_healthLabel = nullptr;
         CCLabelBMFont *m_oxygenLabel = nullptr;
 
+        float m_health = 100.f;
         float m_oxygenLevel = 100.f;
         bool m_oxygenActive = false;
 
         Ref<CCSprite> m_oxygenBar;
         CCSprite *m_oxygenBarFill;
+
+        Ref<CCSprite> m_healthBar;
+        CCSprite *m_healthBarFill;
     };
 
     bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
@@ -45,6 +50,8 @@ class $modify(HorriblePlayLayer, PlayLayer)
         srand(time(0));
         int rnd = rand() % 101;
         log::info("playlayer init called {}", rnd);
+
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
 
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;
@@ -71,6 +78,51 @@ class $modify(HorriblePlayLayer, PlayLayer)
                 this->setRotation(-180.f);
             }
         }
+
+        if (horribleMod->getSavedValue<bool>("health", false))
+        {
+            m_fields->m_health = 100.f;
+            std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+
+            if (!m_fields->m_healthBar) {
+                m_fields->m_healthBar = CCSprite::create("slidergroove2.png");
+                m_fields->m_healthBar->setID("health"_spr);
+                m_fields->m_healthBar->setPosition({10.f, getScaledContentHeight() / 2.f});
+                m_fields->m_healthBar->setRotation(90.f);
+                m_fields->m_healthBar->setZOrder(101);
+
+                m_fields->m_healthBarFill = CCSprite::create("sliderBar2.png");
+                m_fields->m_healthBarFill->setID("health-fill"_spr);
+                m_fields->m_healthBarFill->setZOrder(-1);
+                m_fields->m_healthBarFill->setRotation(-180.f);
+                m_fields->m_healthBarFill->setColor({255, 0, 0});
+                m_fields->m_healthBarFill->setPosition({m_fields->m_healthBar->getScaledContentWidth() - 2.f, 4.f});
+                m_fields->m_healthBarFill->setAnchorPoint({0, 1});
+
+                auto fullHealth = m_fields->m_healthBar->getScaledContentWidth() - 4.f;
+
+                m_fields->m_healthBarFill->setTextureRect({0, 0, fullHealth, 8});
+
+                m_fields->m_healthBar->addChild(m_fields->m_healthBarFill);
+
+                addChild(m_fields->m_healthBar);
+            }
+
+            if (!m_fields->m_healthLabel)
+            {
+                m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
+                m_fields->m_healthLabel->setColor({255, 0, 0});
+                m_fields->m_healthLabel->setAnchorPoint({0.f, 1.0f});
+                m_fields->m_healthLabel->setPosition({2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f});
+                m_fields->m_healthLabel->setScale(0.25f);
+
+                addChild(m_fields->m_healthLabel, 100);
+            }
+            else
+            {
+                m_fields->m_healthLabel->setString(hp.c_str());
+            };
+        };
 
         if (horribleMod->getSavedValue<bool>("oxygen", false))
         {
@@ -104,7 +156,16 @@ class $modify(HorriblePlayLayer, PlayLayer)
                 addChild(m_fields->m_oxygenBar);
             };
 
-            std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
+            if (m_fields->m_healthBar)
+            {
+                m_fields->m_oxygenBar->setPosition({m_fields->m_healthBar->getPositionX() + 20.f, m_fields->m_healthBar->getPositionY()});
+            }
+            else
+            {
+                m_fields->m_oxygenBar->setPosition({10.f, getScaledContentHeight() / 2.f});
+            };
+
+            std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
 
             if (!m_fields->m_oxygenLabel)
             {
@@ -112,7 +173,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
                 m_fields->m_oxygenLabel->setColor({0, 175, 255});
                 m_fields->m_oxygenLabel->setAnchorPoint({0.f, 1.0f});
                 m_fields->m_oxygenLabel->setPosition({2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f});
-                m_fields->m_oxygenLabel->setScale(0.375f);
+                m_fields->m_oxygenLabel->setScale(0.25f);
 
                 addChild(m_fields->m_oxygenLabel, 100);
             }
@@ -120,6 +181,14 @@ class $modify(HorriblePlayLayer, PlayLayer)
             {
                 m_fields->m_oxygenLabel->setString(buf.c_str());
             };
+
+            if (m_fields->m_healthLabel) {
+                m_fields->m_oxygenLabel->setPosition({m_fields->m_oxygenLabel->getPositionX() + 20.f, m_fields->m_oxygenLabel->getPositionY()});
+            }
+            else
+            {
+                m_fields->m_oxygenLabel->setPosition({2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f});
+            }
         }
         else
         {
@@ -343,7 +412,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
         if (m_fields->m_oxygenLevel < 0.f)
             m_fields->m_oxygenLevel = 0.f;
 
-        std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
+        std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
         m_fields->m_oxygenLabel->setString(buf.c_str());
 
         float maxWidth = m_fields->m_oxygenBar->getContentWidth() - 4.f;
@@ -362,14 +431,32 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
         if (m_fields->m_oxygenLabel)
         {
-            std::string buf = fmt::format("o2: {}%", static_cast<int>(m_fields->m_oxygenLevel));
+            std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             m_fields->m_oxygenLabel->setString(buf.c_str());
         };
     };
 
+    void resetHealth()
+    {
+        m_fields->m_health = 100.f;
+
+        if (m_fields->m_healthLabel)
+        {
+            std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+            m_fields->m_healthLabel->setString(hp.c_str());
+        }
+
+        if (m_fields->m_healthBar)
+        {
+            float maxWidth = m_fields->m_healthBar->getContentWidth() - 4.f;
+            m_fields->m_healthBarFill->setTextureRect({0, 0, maxWidth, 8});
+        }
+    }
+
     void resetLevel()
     {
         resetOxygenLevel();
+        resetHealth();
         PlayLayer::resetLevel();
     };
 
@@ -393,6 +480,49 @@ class $modify(HorriblePlayLayer, PlayLayer)
         bool griefEnabled = horribleMod->getSavedValue("grief", false);
         bool congregEnabled = horribleMod->getSavedValue("congregation", false);
         bool fakeDeadEnabled = horribleMod->getSavedValue("death", false);
+        bool healthEnabled = horribleMod->getSavedValue("health", false);
+
+        // do stuff for health
+        if (healthEnabled)
+        {
+            log::debug("health enabled, checking player health");
+            if (m_fields->m_health > 0)
+            {
+                m_fields->m_health -= 0.1f;
+                log::debug("Player health is {}", m_fields->m_health);
+                m_player1->playSpawnEffect();
+                m_player2->playSpawnEffect();
+                GJBaseGameLayer::shakeCamera(1.f, 5.f, 1.f);
+
+                if (rand() % 2 == 0)
+                {
+                    FMODAudioEngine::sharedEngine()->playEffect("grunt01.ogg");
+                } else if (rand() % 2 == 1)
+                {
+                    FMODAudioEngine::sharedEngine()->playEffect("grunt02.ogg");
+                } else if (rand() % 2 == 2)
+                {
+                    FMODAudioEngine::sharedEngine()->playEffect("grunt03.ogg");
+                };
+
+                if (m_fields->m_healthLabel)
+                {
+                    std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+                    m_fields->m_healthLabel->setString(hp.c_str());
+
+                    // Update health bar
+                    float maxWidth = m_fields->m_healthBar->getContentWidth() - 4.f;
+                    float newWidth = maxWidth * (m_fields->m_health / 100.f);
+                    m_fields->m_healthBarFill->setTextureRect({0, 0, newWidth, 8});
+                }
+                return;
+            }
+            else
+            {
+                log::debug("Player health is 0, destroying player");
+                PlayLayer::destroyPlayer(player, game);
+            }
+        }
 
         // Show explosion visual effect but do not kill the player
         if (fakeDeadEnabled)
@@ -403,17 +533,12 @@ class $modify(HorriblePlayLayer, PlayLayer)
 
             if (m_player1)
             {
-                log::debug("p1 fake death");
+                log::debug("fake death");
                 m_player1->playDeathEffect();
-                m_player1->playSpawnEffect();
                 m_player1->resetPlayerIcon();
                 m_player1->m_isDead = false;
-            }
-            else if (m_player2)
-            {
-                log::debug("p2 fake death");
+
                 m_player2->playDeathEffect();
-                m_player2->playSpawnEffect();
                 m_player2->resetPlayerIcon();
                 m_player2->m_isDead = false;
             }
