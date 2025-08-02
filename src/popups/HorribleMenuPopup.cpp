@@ -35,7 +35,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         {
             "mock",
             "Mock your 90%+ Fail",
-            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
+            "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n<cr>Note: This will not work on macOS and iOS</c>",
             SillyTier::Medium,
             false
         },
@@ -115,7 +115,14 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
             "Whenever your hitbox is inside of an obstacle hitbox, if you time your click right, you don't die.\n<cy>Credit: Wuffin</c>",
             SillyTier::Low,
             false
-        }
+        },
+        {
+            "health",
+            "Player Health",
+            "Add a health bar and decreases everytime you taken damage. When your health reaches zero, you die.\n<cy>Credit: Cheeseworks</c>",
+            SillyTier::Low,
+            false
+        },
     };
 };
 
