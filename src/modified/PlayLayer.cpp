@@ -50,7 +50,6 @@ class $modify(HorriblePlayLayer, PlayLayer)
             return false;
 
         auto horribleMod = getMod();
-
         if (horribleMod && horribleMod->getSavedValue<bool>("black-screen", false))
         {
             log::debug("black screen enabled, init scheduling black screen");
@@ -210,11 +209,49 @@ class $modify(HorriblePlayLayer, PlayLayer)
         PlayLayer::update(p0);
     };
 
-    void onExit()
+    void pauseGame(bool p0)
     {
-        auto horribleMod = getMod();
+        revertFPS();
+        PlayLayer::pauseGame(p0);
+    }
 
-        if (horribleMod->getSavedValue<bool>("achieve", false))
+    void revertFPS()
+    {
+        // default to user old fps
+        auto gm = GameManager::get();
+        float oldFPS = Mod::get()->getSavedValue<float>("fps");
+        gm->setGameVariable("0116", true);
+
+        // Use seconds per frame, not raw FPS
+        float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
+        if (interval <= 0.0f || interval > 1.0f)
+            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        CCDirector::sharedDirector()->setAnimationInterval(interval);
+        log::debug("reset fps to {} (interval {})", oldFPS, interval);
+    }
+
+    void capFPS(float value)
+    {
+        auto gm = GameManager::get();
+        float oldFPS = Mod::get()->getSavedValue<float>("fps");
+
+        gm->setGameVariable("0116", true);
+
+        // cap fps to 60
+        float interval = 1.f / value;
+        if (interval <= 0.0f || interval > 1.0f)
+            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        CCDirector::sharedDirector()->setAnimationInterval(interval);
+        log::debug("cap fps to {} (interval {})", value, interval);
+    }
+
+    void onQuit()
+    {
+
+        revertFPS();
+
+        // achievement
+        if (Mod::get()->getSavedValue<bool>("achieve", false))
         {
             if (auto fmod = FMODAudioEngine::sharedEngine())
             {
@@ -227,7 +264,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
             log::warn("Random achievements is disabled");
         };
 
-        PlayLayer::onExit();
+        PlayLayer::onQuit();
     };
 
     void showBlackScreen(float)

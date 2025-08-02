@@ -34,13 +34,13 @@ class $modify(HorribleCCScene, CCScene)
         if (!CCScene::init())
             return false;
 
-            if (typeinfo_cast<CCTransitionFade *>(this))
-            {
-                log::debug("scene is a CCTransitionFade");
-                return true;
-            }
+        if (typeinfo_cast<CCTransitionFade *>(this))
+        {
+            log::debug("scene is a CCTransitionFade");
+            return true;
+        }
 
-            log::debug("scene init called");
+        log::debug("scene init called");
 
         return true;
     }
@@ -75,6 +75,13 @@ class $modify(HorribleMenuLayer, MenuLayer)
     {
         if (!MenuLayer::init())
             return false;
+
+        auto gm = GameManager::get();
+
+        // get and store user current fps
+        float currentFPS = gm->m_customFPSTarget;
+        float storedFPS = horribleMod->setSavedValue<float>("fps", currentFPS);
+        log::debug("Store Current FPS: {}", storedFPS);
 
         auto rnd = rand() % 101;
         log::debug("chance {}", rnd);

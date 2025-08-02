@@ -41,8 +41,8 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
         },
         {
             "freeze",
-            "Random 90%+ Freeze",
-            "A random chance your game freezes (or fps drops) between 90-99% of the level in normal mode.\n<cy>Credit: Hexfire</c>",
+            "Random 90%+ FPS Drop",
+            "Your game FPS starts dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
             SillyTier::Low,
             false
         },
