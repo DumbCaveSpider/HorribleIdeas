@@ -11,6 +11,14 @@
 	"version": "v1.0.0",
 	"developer": "ArcticWoof",
 	"description": "Horrible Geode Mod Ideas",
+	"settings": {
+		"safe_mode": {
+			"type": "bool",
+			"name": "Safe Mode",
+			"description": "Prevent any progression made in the level. <cr>Highly recommended that this is kept enabled!</cr>",
+			"default": true
+		}
+	},
 	"tags": [
 		"joke",
 		"offline",

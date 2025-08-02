@@ -10,6 +10,7 @@ class HorribleMenuPopup : public Popup<>
 {
 protected:
     bool setup() override;
+    void openModSettings(CCObject *sender);
 
 public:
     static HorribleMenuPopup *create();
