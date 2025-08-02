@@ -339,6 +339,12 @@ class $modify(HorriblePlayLayer, PlayLayer)
     // do crap when player died
     void destroyPlayer(PlayerObject *player, GameObject *game)
     {
+        if (game == m_anticheatSpike && player && !player->m_isDead)
+        {
+            // ignore the anticheat spike lmao
+            return;
+        }
+
         auto rnd = rand() % 101;
         log::debug("destroy chance {}", rnd);
 
@@ -349,26 +355,55 @@ class $modify(HorriblePlayLayer, PlayLayer)
         bool crashEnabled = horribleMod->getSavedValue("crash-death", false);
         bool griefEnabled = horribleMod->getSavedValue("grief", false);
         bool congregEnabled = horribleMod->getSavedValue("congregation", false);
+        bool fakeDeadEnabled = horribleMod->getSavedValue("death", false);
 
-        bool wasDead = player ? player->m_isDead : true;
+        // Show explosion visual effect but do not kill the player
+        if (fakeDeadEnabled)
+        {
+            // @geode-ignore(unknown-resource)
+            FMODAudioEngine::sharedEngine()->playEffect("explode_11.ogg");
+            GJBaseGameLayer::shakeCamera(1.f, 2.f, 1.f);
 
-        PlayLayer::destroyPlayer(player, game);
+            if (m_player1)
+            {
+                log::debug("p1 fake death");
+                m_player1->playDeathEffect();
+                m_player1->playSpawnEffect();
+                m_player1->resetPlayerIcon();
+                m_player1->m_isDead = false;
+            }
+            else if (m_player2)
+            {
+                log::debug("p2 fake death");
+                m_player2->playDeathEffect();
+                m_player2->playSpawnEffect();
+                m_player2->resetPlayerIcon();
+                m_player2->m_isDead = false;
+            }
+        }
+        else if (!fakeDeadEnabled)
+        {
+            log::debug("real death");
+            PlayLayer::destroyPlayer(player, game);
+        }
 
-        if (crashEnabled && player && !wasDead && player->m_isDead)
+        if (crashEnabled)
         {
             if (rnd <= 1)
             {
                 log::warn("ur game crash hehehehehehehe");
+                PlayLayer::destroyPlayer(player, game);
                 game::exit(true); // saves data
             }
             else
             {
                 log::debug("ur safe from crash... for now");
+                PlayLayer::destroyPlayer(player, game);
             };
         };
 
         // get back to grief
-        if (griefEnabled && player && !wasDead && player->m_isDead)
+        if (griefEnabled)
         {
             LevelManager::DownloadGriefLevel();
             // 10% chance to play grief level
@@ -393,16 +428,18 @@ class $modify(HorriblePlayLayer, PlayLayer)
                 else if (griefLevel && !griefLevel->m_levelNotDownloaded)
                 {
                     // Already in grief level, do nothing
+                    PlayLayer::destroyPlayer(player, game);
                 };
             }
             else
             {
                 log::info("Grief jumpscare not triggered {}", griefChance);
+                PlayLayer::destroyPlayer(player, game);
             };
         };
 
         // congregation jumpscare
-        if (congregEnabled && player && !wasDead && player->m_isDead)
+        if (congregEnabled)
         {
             LevelManager::DownloadCongregLevel();
             // 10% chance to play congregation level
@@ -426,11 +463,13 @@ class $modify(HorriblePlayLayer, PlayLayer)
                 else if (congregLevel && !congregLevel->m_levelNotDownloaded)
                 {
                     // Already in congregation level, do nothing
+                    PlayLayer::destroyPlayer(player, game);
                 };
             }
             else
             {
                 log::info("Congregation jumpscare not triggered {}", CongregChance);
+                PlayLayer::destroyPlayer(player, game);
             };
         };
     };
