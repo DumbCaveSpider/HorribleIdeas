@@ -415,7 +415,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                 return;
             } else {
                 log::debug("Player health is 0, destroying player");
-                PlayLayer::destroyPlayer(player, game);
             };
         };
 
@@ -439,17 +438,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             };
         } else if (!fakeDeadEnabled) {
             log::debug("real death");
-            PlayLayer::destroyPlayer(player, game);
         };
 
         if (crashEnabled) {
             if (rnd <= 1) {
                 log::warn("ur game crash hehehehehehehe");
-                PlayLayer::destroyPlayer(player, game);
                 game::exit(true); // saves data
             } else {
                 log::debug("ur safe from crash... for now");
-                PlayLayer::destroyPlayer(player, game);
             };
         };
 
@@ -474,12 +470,10 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
                     return;
                 } else if (griefLevel && !griefLevel->m_levelNotDownloaded) {
-                    // Already in grief level, do nothing
-                    PlayLayer::destroyPlayer(player, game);
+                    log::debug("Already in grief level");
                 };
             } else {
                 log::info("Grief jumpscare not triggered {}", griefChance);
-                PlayLayer::destroyPlayer(player, game);
             };
         };
 
@@ -503,14 +497,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                     log::info("Switching to Congregation level (93437568) by 10% chance");
                     return;
                 } else if (congregLevel && !congregLevel->m_levelNotDownloaded) {
-                    // Already in congregation level, do nothing
-                    PlayLayer::destroyPlayer(player, game);
+                    log::debug("Already in congregation level");
                 };
             } else {
                 log::info("Congregation jumpscare not triggered {}", CongregChance);
-                PlayLayer::destroyPlayer(player, game);
             };
         };
+
+        PlayLayer::destroyPlayer(player, game);
     };
 
     // new best

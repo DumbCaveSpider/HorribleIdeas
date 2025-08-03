@@ -31,7 +31,6 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                     GJBaseGameLayer::handleButton(false, button, isPlayer1);
                 } else {
                     log::debug("registered dat jump");
-                    GJBaseGameLayer::handleButton(down, button, isPlayer1);
                 };
             };
         } else {
