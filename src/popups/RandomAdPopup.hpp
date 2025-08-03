@@ -6,6 +6,7 @@ using namespace geode::prelude;
 
 class RandomAdPopup : public Popup<> {
 protected:
+    void onPlayBtn(CCObject*);
     bool setup() override;
 
 public:

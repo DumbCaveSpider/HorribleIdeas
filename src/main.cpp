@@ -1,21 +1,18 @@
-#include "popups/HorribleMenuPopup.hpp"
+#include "RandomSeeder.hpp"
 
-#include <ctime>
-#include <cstdlib>
+#include "popups/HorribleMenuPopup.hpp"
 
 #include <fmt/core.h>
 
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/modify/PauseLayer.hpp>
 #include <Geode/modify/CCScene.hpp>
 #include <Geode/modify/CCMenuItem.hpp>
 
 #include <Geode/binding/FMODAudioEngine.hpp>
 
-struct RandomSeeder {
-    RandomSeeder() { srand(time(0)); }
-};
 static RandomSeeder _randomSeeder;
 
 using namespace geode::prelude;
@@ -28,18 +25,17 @@ bool isFlipped = false;
 
 class $modify(HorribleCCScene, CCScene) {
     bool init() override {
-        if (!CCScene::init())
-            return false;
+        if (!CCScene::init()) return false;
 
-        if (typeinfo_cast<CCTransitionFade*>(this)) {
+        if (dynamic_cast<CCTransitionFade*>(this)) {
             log::debug("scene is a CCTransitionFade");
             return true;
-        }
+        };
 
         log::debug("scene init called");
 
         return true;
-    }
+    };
 };
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
@@ -81,13 +77,15 @@ class $modify(HorribleMenuLayer, MenuLayer) {
                 "GJ_moonsIcon_001.png",
                 0.875f,
                 CircleBaseColor::Green,
-                CircleBaseSize::MediumAlt);
+                CircleBaseSize::MediumAlt
+            );
 
             auto btn = CCMenuItemSpriteExtra::create(
                 btnSprite,
                 this,
-                menu_selector(HorribleMenuLayer::onHorribleButton));
-            btn->setID("horribleBtn");
+                menu_selector(HorribleMenuLayer::onHorribleButton)
+            );
+            btn->setID("menu-btn"_spr);
 
             if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
                 menu->addChild(btn);
@@ -183,5 +181,33 @@ class $modify(HorribleMenuLayer, MenuLayer) {
 
     void onHorribleButton(CCObject*) {
         if (auto popup = HorribleMenuPopup::create()) popup->show();
+    };
+};
+
+class $modify(HorriblePauseLayer, PauseLayer) {
+    void customSetup() {
+        PauseLayer::customSetup();
+
+        if (auto rightMenu = getChildByID("right-button-menu")) {
+            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
+                "GJ_moonsIcon_001.png",
+                0.875f,
+                CircleBaseColor::Green,
+                CircleBaseSize::MediumAlt
+            );
+            btnSprite->setScale(0.6f);
+
+            auto btn = CCMenuItemSpriteExtra::create(
+                btnSprite,
+                this,
+                menu_selector(HorribleMenuLayer::onHorribleButton)
+            );
+            btn->setID("menu-btn"_spr);
+
+            if (auto menu = typeinfo_cast<CCMenu*>(rightMenu)) {
+                menu->addChild(btn);
+                menu->updateLayout(true);
+            };
+        };
     };
 };

@@ -4,18 +4,19 @@
 
 using namespace geode::prelude;
 
-class MathQuiz : public CCLayer {
+class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
 protected:
+    int m_numFirst = 1; // First number in the equation
+    int m_numSecond = 1; // Second number in the equation
+
+    int m_answer = 1; // The calculated answer to the equation
+
     TextInput* m_answerInput = nullptr; // Answer gets typed out here
-
-    bool init() override;
-
-    void keyBackClicked() override;
-    void onGoBack(CCObject*);
 
     void infoPopup(CCObject*);
 
+    bool init() override;
+
 public:
     static MathQuiz* create();
-    static MathQuiz* scene();
 };

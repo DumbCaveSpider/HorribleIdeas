@@ -1,14 +1,21 @@
 #include "MathQuiz.hpp"
 
+#include "../RandomSeeder.hpp"
+
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
+static RandomSeeder _randomSeeder;
+
 bool MathQuiz::init() {
-    if (!CCLayer::init()) return false;
+    if (!CCBlockLayer::init()) return false;
 
     setID("math-quiz"_spr);
     setKeypadEnabled(true);
+
+    m_numFirst = rand() % 10;
+    m_numSecond = rand() % 10; // make a different seed somehow
 
     // blue gradient background layer
     auto background = createLayerBG();
@@ -93,16 +100,6 @@ void MathQuiz::infoPopup(CCObject*) {
         ->show();
 };
 
-// go back to the previous layer
-void MathQuiz::onGoBack(CCObject*) {
-    CCDirector::get()->replaceScene(CCTransitionFade::create(0.5, MenuLayer::scene(false)));
-};
-
-// same thing as onGoBack but when escape key is pressed
-void MathQuiz::keyBackClicked() {
-    onGoBack(nullptr);
-};
-
 // create a new instance of the Layer
 MathQuiz* MathQuiz::create() {
     auto ret = new MathQuiz();
@@ -114,11 +111,4 @@ MathQuiz* MathQuiz::create() {
 
     CC_SAFE_DELETE(ret);
     return nullptr;
-};
-
-// create a new scene with the Layer
-MathQuiz* MathQuiz::scene() {
-    auto layer = MathQuiz::create();
-    switchToScene(layer);
-    return layer;
 };

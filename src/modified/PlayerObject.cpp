@@ -37,8 +37,6 @@ class $modify(HorriblePlayerObject, PlayerObject) {
             // lil hack on getting the percentage lmao
             auto currentPercentage = playLayer->getCurrentPercentInt();
 
-            log::debug("percentage {}", currentPercentage);
-
             if (horribleMod->getSavedValue<bool>("freeze", false)) {
                 // check if current percentage is less than or equal to 90
                 if (currentPercentage >= 90) {

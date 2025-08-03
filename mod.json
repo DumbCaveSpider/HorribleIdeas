@@ -11,19 +11,15 @@
 	"version": "v1.0.0",
 	"developer": "ArcticWoof",
 	"description": "Horrible Geode Mod Ideas",
-	"settings": {
-		"safe-mode": {
-			"type": "bool",
-			"name": "Safe Mode",
-			"description": "Prevent any progression made in the level. <cr>Highly recommended that this is kept enabled!</cr>",
-			"default": true
-		}
+	"links": {
+		"source": "https://github.com/DumbCaveSpider/HorribleIdeas",
+		"community": "https://discord.gg/gXcppxTNxC",
+		"homepage": "https://arcticwoof.com.au"
 	},
-	"tags": [
-		"joke",
-		"offline",
-		"universal"
-	],
+	"issues": {
+		"info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
+		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
+	},
 	"dependencies": {
 		"geode.node-ids": {
 			"importance": "required",
@@ -39,13 +35,17 @@
 			]
 		}
 	},
-	"links": {
-		"source": "https://github.com/DumbCaveSpider/HorribleIdeas",
-		"community": "https://discord.gg/gXcppxTNxC",
-		"homepage": "https://arcticwoof.com.au"
-	},
-	"issues": {
-		"info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
-		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
+	"tags": [
+		"joke",
+		"offline",
+		"universal"
+	],
+	"settings": {
+		"safe-mode": {
+			"type": "bool",
+			"name": "Safe Mode",
+			"description": "Prevent any progression made in the level. <cr>Highly recommended that this is kept enabled!</cr>",
+			"default": true
+		}
 	}
 }

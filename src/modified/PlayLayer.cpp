@@ -1,7 +1,7 @@
+#include "../RandomSeeder.hpp"
+
 #include "../utils/LevelManager.hpp"
 #include "../popups/RandomAdPopup.hpp"
-
-#include "../RandomSeeder.hpp"
 
 #include <fmt/core.h>
 
@@ -40,16 +40,15 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        srand(time(0));
+        auto horribleMod = getMod();
+
         int rnd = rand() % 101;
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        auto horribleMod = getMod();
         if (horribleMod && horribleMod->getSavedValue<bool>("black-screen", false)) {
             log::debug("black screen enabled, init scheduling black screen");
 
@@ -59,15 +58,15 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                 schedule_selector(HorriblePlayLayer::showBlackScreen),
                 this, delay, false);
-        }
+        };
 
         if (horribleMod && horribleMod->getSavedValue<bool>("upside-down", false)) {
             log::debug("scene rng {} chance", rnd);
             if (rnd <= 50) {
                 log::debug("setting scene upside down");
                 setRotation(-180.f);
-            }
-        }
+            };
+        };
 
         if (horribleMod->getSavedValue<bool>("health", false)) {
             m_fields->m_health = 100.f;
@@ -95,7 +94,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                 m_fields->m_healthBar->addChild(m_fields->m_healthBarFill);
 
                 addChild(m_fields->m_healthBar);
-            }
+            };
 
             if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
@@ -164,7 +163,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                 m_fields->m_oxygenLabel->setPosition({ m_fields->m_oxygenLabel->getPositionX() + 20.f, m_fields->m_oxygenLabel->getPositionY() });
             } else {
                 m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
-            }
+            };
         } else {
             log::warn("Oxygen meter is disabled");
         };
@@ -181,54 +180,30 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void update(float p0) {
-        log::debug("update called");
+        auto horribleMod = getMod();
 
         auto rnd = rand() % 101;
         log::debug("playlayer update chance {}", rnd);
-
-        auto horribleMod = getMod();
-
-        if (horribleMod->getSavedValue<bool>("math-quiz", false)) {
-            if (rnd <= 1) {
-                if (m_isPracticeMode)
-                    log::warn("richard was here");
-            };
-        };
-
-        if (horribleMod->getSavedValue<bool>("ads", false)) {
-            if (rnd <= 5) {
-                log::warn("ad time!");
-
-                if (!m_fields->m_currentAd) {
-                    if (auto popup = RandomAdPopup::create()) {
-                        m_fields->m_currentAd = popup;
-                        m_fields->m_currentAd->show();
-                    };
-                };
-            };
-        };
 
         // Parry logic: constant check every frame
         if (horribleMod->getSavedValue<bool>("parry", false)) {
             log::debug("parry is real");
 
             auto playerRect = m_player1->getObjectRect();
+
             if (m_objects) {
                 for (int i = 0; i < m_objects->count(); ++i) {
                     auto obj = static_cast<GameObject*>(m_objects->objectAtIndex(i));
                     if (obj == m_anticheatSpike) {
                         log::debug("Skipping anticheat spike object");
-                        continue;
-                    }
-
-                    if (obj && playerRect.intersectsRect(obj->getObjectRect())) {
+                    } else if (obj && playerRect.intersectsRect(obj->getObjectRect())) {
                         log::debug("Player is inside an obstacle hitbox: {} (damage would be applied)", obj->getID());
                         destroyPlayer(nullptr, nullptr);
                     } else {
                         log::debug("Player is not inside an obstacle hitbox");
-                    }
-                }
-            }
+                    };
+                };
+            };
         };
 
         PlayLayer::update(p0);
@@ -237,7 +212,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     void pauseGame(bool p0) {
         revertFPS();
         PlayLayer::pauseGame(p0);
-    }
+    };
 
     void revertFPS() {
         // default to user old fps
@@ -247,11 +222,11 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // Use seconds per frame, not raw FPS
         float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("reset fps to {} (interval {})", oldFPS, interval);
-    }
+    };
 
     void capFPS(float value) {
         auto gm = GameManager::get();
@@ -261,14 +236,13 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // cap fps to 60
         float interval = 1.f / value;
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("cap fps to {} (interval {})", value, interval);
-    }
+    };
 
     void onQuit() {
-
         revertFPS();
 
         // achievement
@@ -288,6 +262,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         auto horribleMod = getMod();
         if (horribleMod->getSavedValue<bool>("black-screen", false)) {
             log::debug("Showing black screen after delay");
+
             auto blackScreen = CCScale9Sprite::create("square02_001.png");
             auto winSize = CCDirector::sharedDirector()->getWinSize();
 
@@ -304,7 +279,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
                     CCDelayTime::create(0.25f),
                     CCCallFunc::create(this, callfunc_selector(HorriblePlayLayer::removeBlackScreen)),
                     nullptr));
-        }
+        };
     };
 
     void removeBlackScreen() {
