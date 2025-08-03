@@ -36,7 +36,7 @@ bool RandomAdPopup::setup() {
         };
                                });
 
-    projThumb->loadFromUrl("https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail");
+    projThumb->loadFromUrl("https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail", CCImage::kFmtUnKnown, true);
     if (projThumb) m_mainLayer->addChild(projThumb);
 
     ButtonSprite* playBtnSprite = ButtonSprite::create("View");

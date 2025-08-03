@@ -27,10 +27,12 @@ class $modify(HorribleCCScene, CCScene) {
     bool init() override {
         if (!CCScene::init()) return false;
 
+#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
         if (dynamic_cast<CCTransitionFade*>(this)) {
             log::debug("scene is a CCTransitionFade");
             return true;
         };
+#endif
 
         log::debug("scene init called");
 
@@ -87,7 +89,7 @@ class $modify(HorribleMenuLayer, MenuLayer) {
             );
             btn->setID("menu-btn"_spr);
 
-            if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
+            if (auto menu = dynamic_cast<CCMenu*>(bottomMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };
@@ -204,7 +206,7 @@ class $modify(HorriblePauseLayer, PauseLayer) {
             );
             btn->setID("menu-btn"_spr);
 
-            if (auto menu = typeinfo_cast<CCMenu*>(rightMenu)) {
+            if (auto menu = dynamic_cast<CCMenu*>(rightMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };

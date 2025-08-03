@@ -14,8 +14,7 @@ using namespace keybinds;
 
 $execute
 {
-    if (auto bm = BindManager::get())
-    {
+    if (auto bm = BindManager::get()) {
         bm->registerBindable(
             {"popup"_spr,
              "Show Menu",
@@ -23,28 +22,22 @@ $execute
              {Keybind::create(KEY_Tab, Modifier::None)},
              "Horrible Ideas"});
 
-        static HorribleMenuPopup *menuPopup = nullptr;
-        new EventListener([=](InvokeBindEvent *event)
-                          {
+        static HorribleMenuPopup* menuPopup = nullptr;
+        new EventListener([=](InvokeBindEvent* event) {
             if (event->isDown()) {
                 if (menuPopup && menuPopup->getParent()) {
                     log::warn("Menu popup already open");
-                    if (menuPopup) {
-                        // Defensive: check parent before removing
-                        if (menuPopup->getParent()) {
-                            menuPopup->removeMeAndCleanup();
-                        }
+
+                        if (menuPopup->getParent()) menuPopup->removeMeAndCleanup();
                         menuPopup = nullptr;
-                    }
                 } else {
                     menuPopup = HorribleMenuPopup::create();
                     if (menuPopup) menuPopup->show();
-                }
-            }
+                };
+            };
+
             return ListenerResult::Propagate; }, InvokeBindFilter(nullptr, "popup"_spr));
-    }
-    else
-    {
+    } else {
         log::error("Failed to get keybind manager");
     };
 };
