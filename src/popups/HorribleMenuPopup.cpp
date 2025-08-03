@@ -4,13 +4,15 @@
 #include "toggle/ModOption.hpp"
 
 #include <Geode/Geode.hpp>
+
 #include <Geode/ui/GeodeUI.hpp>
+
+#include <Geode/utils/terminate.hpp>
 
 using namespace geode::prelude;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions()
-{
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
         {"oxygen",
@@ -96,8 +98,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
     };
 };
 
-bool HorribleMenuPopup::setup()
-{
+bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -105,9 +106,9 @@ bool HorribleMenuPopup::setup()
 
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
-    optionScrollBg->setAnchorPoint({0.5, 0.5});
-    optionScrollBg->setPosition({mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f});
-    optionScrollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
+    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
+    optionScrollBg->setPosition({ mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f });
+    optionScrollBg->setContentSize({ mainLayerSize.width - 25.f, mainLayerSize.height - 45.f });
     optionScrollBg->setOpacity(50);
 
     m_mainLayer->addChild(optionScrollBg);
@@ -119,9 +120,9 @@ bool HorribleMenuPopup::setup()
     columnLayout->setAutoGrowAxis(0.f);
 
     // scroll layer
-    auto optionsScrollLayer = ScrollLayer::create({optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f});
+    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
     optionsScrollLayer->setID("scrollLayer");
-    optionsScrollLayer->setAnchorPoint({0.5, 0.5});
+    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
 
@@ -131,14 +132,12 @@ bool HorribleMenuPopup::setup()
     auto modOptions = getAllOptions();
 
     // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
-              { return std::get<4>(a) < std::get<4>(b); });
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto& a, const auto& b) { return std::get<4>(a) < std::get<4>(b); });
 
-    for (const auto &option : modOptions)
-    {
-        const auto &[id, name, desc, silly, restart] = option;
+    for (const auto& option : modOptions) {
+        const auto& [id, name, desc, silly, restart] = option;
 
-        if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
+        if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart))
             optionsScrollLayer->m_contentLayer->addChild(modOption);
     };
 
@@ -147,61 +146,56 @@ bool HorribleMenuPopup::setup()
 
     m_mainLayer->addChild(optionsScrollLayer);
 
+    auto modSettingsMenu = CCMenu::create();
+
     // add a mod settings at the bottom left
     auto modSettingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
         // @geode-ignore(unknown-resource)
         "geode.loader/settings.png",
         1.f,
         CircleBaseColor::Green,
-        CircleBaseSize::Medium);
+        CircleBaseSize::Medium
+    );
     modSettingsBtnSprite->setScale(0.75f);
 
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openModSettings));
+        menu_selector(HorribleMenuPopup::openModSettings)
+    );
+    modSettingsMenu->setPosition({ 0.f, 0.f });
 
-    auto modSettingsMenu = CCMenu::create();
     modSettingsMenu->addChild(modSettingsBtn);
-    modSettingsMenu->setPosition({0.f, 0.f});
+
     m_mainLayer->addChild(modSettingsMenu);
 
-    // Add 'Save Mode Active' label to bottom middle
-    auto safeMode = Mod::get()->getSettingValue<bool>("safe_mode");
-    if (safeMode)
-    {
-        auto saveModeLabel = CCLabelBMFont::create("!! Safe Mode ACTIVE !!", "chatFont.fnt");
-        saveModeLabel->setColor({ 255, 255, 0 });
-        saveModeLabel->setAnchorPoint({0.5f, 0.0f});
-        saveModeLabel->setPosition({m_mainLayer->getContentSize().width / 2.f, 5.f});
-        saveModeLabel->setScale(0.5f);
-        m_mainLayer->addChild(saveModeLabel, 100);
-    }
-    
-    if (!safeMode)
-    {
-        auto saveModeLabel = CCLabelBMFont::create("!! Safe Mode INACTIVE !!", "chatFont.fnt");
-        saveModeLabel->setColor({ 255, 0, 0 });
-        saveModeLabel->setAnchorPoint({0.5f, 0.0f});
-        saveModeLabel->setPosition({m_mainLayer->getContentSize().width / 2.f, 5.f});
-        saveModeLabel->setScale(0.5f);
-        m_mainLayer->addChild(saveModeLabel, 100);
-    }
+    auto safeModeLabel = CCLabelBMFont::create("!! Safe Mode INACTIVE !!", "chatFont.fnt");
+    safeModeLabel->setColor({ 255, 0, 0 });
+    safeModeLabel->setAnchorPoint({ 0.5f, 0.0f });
+    safeModeLabel->setPosition({ m_mainLayer->getContentSize().width / 2.f, 5.f });
+    safeModeLabel->setScale(0.5f);
+
+    // Set safemode label if active
+    if (auto safeMode = getMod()->getSettingValue<bool>("safe-mode")) {
+        safeModeLabel->setCString("!! Safe Mode ACTIVE !!");
+        safeModeLabel->setColor({ 255, 255, 0 });
+    } else {
+        log::warn("Safe mode is inactive");
+    };
+
+    m_mainLayer->addChild(safeModeLabel, 100);
 
     return true;
 };
 
-void HorribleMenuPopup::openModSettings(CCObject *sender)
-{
-    openSettingsPopup(geode::getMod());
-}
+void HorribleMenuPopup::openModSettings(CCObject* sender) {
+    openSettingsPopup(getMod());
+};
 
-HorribleMenuPopup *HorribleMenuPopup::create()
-{
+HorribleMenuPopup* HorribleMenuPopup::create() {
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(300.f, 280.f))
-    {
+    if (ret && ret->initAnchored(300.f, 280.f)) {
         ret->autorelease();
         return ret;
     };

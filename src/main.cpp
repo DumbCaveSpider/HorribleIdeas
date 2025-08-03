@@ -13,8 +13,7 @@
 
 #include <Geode/binding/FMODAudioEngine.hpp>
 
-struct RandomSeeder
-{
+struct RandomSeeder {
     RandomSeeder() { srand(time(0)); }
 };
 static RandomSeeder _randomSeeder;
@@ -27,15 +26,12 @@ auto horribleMod = getMod();
 
 bool isFlipped = false;
 
-class $modify(HorribleCCScene, CCScene)
-{
-    bool init() override
-    {
+class $modify(HorribleCCScene, CCScene) {
+    bool init() override {
         if (!CCScene::init())
             return false;
 
-        if (typeinfo_cast<CCTransitionFade *>(this))
-        {
+        if (typeinfo_cast<CCTransitionFade*>(this)) {
             log::debug("scene is a CCTransitionFade");
             return true;
         }
@@ -47,17 +43,13 @@ class $modify(HorribleCCScene, CCScene)
 };
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
-class $modify(HorribleCCMenuItem, CCMenuItem)
-{
-    void activate() override
-    {
+class $modify(HorribleCCMenuItem, CCMenuItem) {
+    void activate() override {
         auto rnd = rand() % 101;
         log::debug("button menu chance {}", rnd);
 
-        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
+        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
 
                 if (rnd <= 75)
                     // @geode-ignore(unknown-resource)
@@ -69,10 +61,8 @@ class $modify(HorribleCCMenuItem, CCMenuItem)
     };
 };
 
-class $modify(HorribleMenuLayer, MenuLayer)
-{
-    bool init()
-    {
+class $modify(HorribleMenuLayer, MenuLayer) {
+    bool init() {
         if (!MenuLayer::init())
             return false;
 
@@ -86,8 +76,7 @@ class $modify(HorribleMenuLayer, MenuLayer)
         auto rnd = rand() % 101;
         log::debug("chance {}", rnd);
 
-        if (auto bottomMenu = this->getChildByID("bottom-menu"))
-        {
+        if (auto bottomMenu = getChildByID("bottom-menu")) {
             auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
                 "GJ_moonsIcon_001.png",
                 0.875f,
@@ -100,29 +89,25 @@ class $modify(HorribleMenuLayer, MenuLayer)
                 menu_selector(HorribleMenuLayer::onHorribleButton));
             btn->setID("horribleBtn");
 
-            if (auto menu = typeinfo_cast<CCMenu *>(bottomMenu))
-            {
+            if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };
         };
 
         // Show a LazySprite for the first PNG found in the save directory
-        if (horribleMod && horribleMod->getSavedValue<bool>("mock", false))
-        {
+        if (horribleMod && horribleMod->getSavedValue<bool>("mock", false)) {
             log::debug("mock feature enabled in MainMenu layer");
 
             namespace fs = std::filesystem;
 
-            if (rnd <= 75)
-            {
+            if (rnd <= 75) {
                 auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                 auto mockConfig = file::readJson(fs::path(mockConfigPath));
 
                 log::debug("Reading path {}...", mockConfigPath);
 
-                if (mockConfig.isOk())
-                {
+                if (mockConfig.isOk()) {
                     log::debug("Read mocking config file");
 
                     auto mockConfigUnwr = mockConfig.unwrapOr(Value());
@@ -133,8 +118,7 @@ class $modify(HorribleMenuLayer, MenuLayer)
                     auto id = lvlUnwr->getKey().value_or("");
                     auto percent = lvlUnwr->asInt().unwrapOr(99);
 
-                    if (!id.empty())
-                    {
+                    if (!id.empty()) {
                         log::debug("ID {} with percentage {} is valid", id, percent);
 
                         std::string pngPath = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
@@ -142,15 +126,14 @@ class $modify(HorribleMenuLayer, MenuLayer)
 
                         log::info("Displaying {}", pngPath);
 
-                        auto ss = LazySprite::create({192.f, 108.f});
+                        auto ss = LazySprite::create({ 192.f, 108.f });
                         ss->setID("mock"_spr);
                         ss->setScale(0.25);
-                        ss->setAnchorPoint({0.5, 0.5});
+                        ss->setAnchorPoint({ 0.5, 0.5 });
                         ss->setZOrder(1000);
-                        ss->setPosition({-192.f, -108.f});
+                        ss->setPosition({ -192.f, -108.f });
 
-                        ss->setLoadCallback([this, ss, percent, rnd](Result<> res)
-                                            {
+                        ss->setLoadCallback([this, ss, percent, rnd](Result<> res) {
                             if (res.isOk()) {
                                 log::info("Sprite loaded successfully from save dir PNG");
 
@@ -184,16 +167,12 @@ class $modify(HorribleMenuLayer, MenuLayer)
                                 ss->removeMeAndCleanup();
                             }; });
 
-                        ss->loadFromFile(fs::path(pngPath));
-                        addChild(ss);
-                    }
-                    else
-                    {
+                            ss->loadFromFile(fs::path(pngPath));
+                            addChild(ss);
+                    } else {
                         log::error("ID is invalid");
                     };
-                }
-                else
-                {
+                } else {
                     log::error("Mocking data file not found");
                 };
             };
@@ -202,9 +181,7 @@ class $modify(HorribleMenuLayer, MenuLayer)
         return true;
     };
 
-    void onHorribleButton(CCObject *)
-    {
-        if (auto popup = HorribleMenuPopup::create())
-            popup->show();
+    void onHorribleButton(CCObject*) {
+        if (auto popup = HorribleMenuPopup::create()) popup->show();
     };
 };
