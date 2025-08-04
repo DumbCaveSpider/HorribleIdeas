@@ -49,7 +49,14 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                 log::warn("richard was here");
 
                 if (m_isPracticeMode && !m_fields->m_currentQuiz) {
+                    // pause the game
+                    auto gm = GameManager::sharedState();
+                    if (auto playLayer = PlayLayer::get()) {
+                        playLayer->pauseGame(true);
+                        
+                    }
                     if (auto quiz = MathQuiz::create()) {
+                        CCEGLView::sharedOpenGLView()->showCursor(true);
                         m_fields->m_currentQuiz = quiz;
                         m_fields->m_currentQuiz->customSetup();
 
@@ -57,16 +64,26 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                     };
                 };
             };
+
+            // do something like if answer is right, just do PlayLayer::resumeGame()
+            // then do something like if answer is wrong, do PlayLayer::resetLevelFromStart()
+            // if the user do a keyBack, the absolutely do PlayLayer::resetLevelFromStart() :trol:
         };
 
         if (horribleMod->getSavedValue<bool>("ads", false)) {
-            m_fields->m_adCooldown += p0; // continue til it hits 10 sec cooldown
-            if (m_fields->m_adCooldown >= 10.f) m_fields->m_adCooldown = 0.f;
+            m_fields->m_adCooldown += p0;
+            static float nextAdTime = 0.f;
+            auto gm = GameManager::sharedState();
+            if (nextAdTime == 0.f || m_fields->m_adCooldown >= nextAdTime) {
+                // Randomize next ad time between 20 and 40 seconds
+                nextAdTime = 20.f + static_cast<float>(rand() % 21); // 20 to 40 inclusive
+                m_fields->m_adCooldown = 0.f;
 
-            if (rnd <= 1) {
                 log::warn("ad time!");
+                // Show cursor when ad appears
+                CCEGLView::sharedOpenGLView()->showCursor(true);
 
-                if (!m_isPracticeMode && !m_fields->m_currentAd && m_fields->m_adCooldown < 10.f) {
+                if (!m_isPracticeMode && !m_fields->m_currentAd) {
                     if (auto popup = RandomAdPopup::create()) {
                         m_fields->m_currentAd = popup;
                         m_fields->m_currentAd->show();
@@ -79,8 +96,12 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                 } else {
                     m_fields->m_currentAd = nullptr;
                 };
-            };
-        };
+            }
+            // Hide cursor if ad popup is closed
+            if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr)) {
+                CCEGLView::sharedOpenGLView()->showCursor(false);
+            }
+        }
 
         GJBaseGameLayer::update(p0);
     };

@@ -19,4 +19,5 @@ protected:
 
 public:
     static MathQuiz* create();
+    void keyBackClicked() override;
 };

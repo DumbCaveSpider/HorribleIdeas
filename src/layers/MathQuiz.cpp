@@ -8,8 +8,10 @@ using namespace geode::prelude;
 
 static RandomSeeder _randomSeeder;
 
-bool MathQuiz::init() {
-    if (!CCBlockLayer::init()) return false;
+bool MathQuiz::init()
+{
+    if (!CCBlockLayer::init())
+        return false;
 
     setID("math-quiz"_spr);
     setKeypadEnabled(true);
@@ -52,8 +54,7 @@ bool MathQuiz::init() {
     auto infoBtn = CCMenuItemSpriteExtra::create(
         infoBtnSprite,
         this,
-        menu_selector(MathQuiz::infoPopup)
-    );
+        menu_selector(MathQuiz::infoPopup));
     infoBtn->setID("info-button");
     infoBtn->setPosition((menu->getScaledContentWidth() / 2) - 22.5f, (menu->getScaledContentHeight() / 2) - 22.5f);
 
@@ -78,10 +79,10 @@ bool MathQuiz::init() {
     topMenuLayer->setScaledContentSize(topMenu->getScaledContentSize());
 
     // sprite
-    CCScale9Sprite* topScaleSprite = CCScale9Sprite::create("square02b_001.png");
+    CCScale9Sprite *topScaleSprite = CCScale9Sprite::create("square02b_001.png");
     topScaleSprite->ignoreAnchorPointForPosition(true);
     topScaleSprite->setScaledContentSize(topMenuLayer->getScaledContentSize());
-    topScaleSprite->setColor({ 6, 2, 32 });
+    topScaleSprite->setColor({6, 2, 32});
     topScaleSprite->setOpacity(155);
 
     topMenuLayer->addChild(topScaleSprite);
@@ -92,7 +93,8 @@ bool MathQuiz::init() {
     return true;
 };
 
-void MathQuiz::infoPopup(CCObject*) {
+void MathQuiz::infoPopup(CCObject *)
+{
     FLAlertLayer::create(
         "Richard's Math Quiz",
         "<cr>Developer.</c> This is an <cy>example layer</c> for the ease of <cp>Horrible Ideas</c> developement. This interface is here to serve as a template if more layers are to be created.",
@@ -100,11 +102,23 @@ void MathQuiz::infoPopup(CCObject*) {
         ->show();
 };
 
+void MathQuiz::keyBackClicked()
+{
+    if (auto playLayer = PlayLayer::get())
+    {
+        log::debug("bro backed off, nuh uh");
+        playLayer->resetLevelFromStart();
+    }
+    this->removeFromParentAndCleanup(true);
+}
+
 // create a new instance of the Layer
-MathQuiz* MathQuiz::create() {
+MathQuiz *MathQuiz::create()
+{
     auto ret = new MathQuiz();
 
-    if (ret->init()) {
+    if (ret->init())
+    {
         ret->autorelease();
         return ret;
     };
