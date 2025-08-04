@@ -56,7 +56,9 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                         
                     }
                     if (auto quiz = MathQuiz::create()) {
+#ifdef GEODE_IS_WINDOWS
                         CCEGLView::sharedOpenGLView()->showCursor(true);
+#endif
                         m_fields->m_currentQuiz = quiz;
                         m_fields->m_currentQuiz->customSetup();
 
@@ -80,9 +82,10 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                 m_fields->m_adCooldown = 0.f;
 
                 log::warn("ad time!");
+#ifdef GEODE_IS_WINDOWS
                 // Show cursor when ad appears
                 CCEGLView::sharedOpenGLView()->showCursor(true);
-
+#endif
                 if (!m_isPracticeMode && !m_fields->m_currentAd) {
                     if (auto popup = RandomAdPopup::create()) {
                         m_fields->m_currentAd = popup;
@@ -97,10 +100,12 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                     m_fields->m_currentAd = nullptr;
                 };
             }
+#ifdef GEODE_IS_WINDOWS
             // Hide cursor if ad popup is closed
             if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr)) {
                 CCEGLView::sharedOpenGLView()->showCursor(false);
             }
+#endif
         }
 
         GJBaseGameLayer::update(p0);
