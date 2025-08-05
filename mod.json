@@ -57,6 +57,8 @@
 			"name": "Grief Chance",
 			"description": "<cj>Get Back on Grief</c> - Chance of your level switching to Grief.",
 			"default": 10,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -72,6 +74,25 @@
 			"name": "Congregation Chance",
 			"description": "<cj>Congregation Jumpscare</c> - Chance of your level switching to Congregation.",
 			"default": 10,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"mock-chance": {
+			"type": "int",
+			"name": "Mock Chance",
+			"description": "<cj>Mock your 90%+ Fail</c> - Chance of your fail being shown on screen.",
+			"default": 75,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -87,6 +108,8 @@
 			"name": "Achievement Sound Chance",
 			"description": "<cj>Random Achievements</c> - Chance of the achievement sound playing.",
 			"default": 75,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -102,6 +125,8 @@
 			"name": "Crash Chance",
 			"description": "<cj>Crash Chance on Death</c> - Chance of your crashing when dying in a level.",
 			"default": 1,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -117,6 +142,8 @@
 			"name": "Math Quiz Chance",
 			"description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
 			"default": 1,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -132,6 +159,8 @@
 			"name": "No Jump Chance",
 			"description": "<cj>Randomly Don't Jump</c> - Chance of your jump input not registering.",
 			"default": 11,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,
@@ -147,6 +176,8 @@
 			"name": "Upside-Down Scene Chance",
 			"description": "<cj>Upside-Down Chance</c> - Chance of your game's UI turning upside_down.",
 			"default": 50,
+			"min": 0,
+			"max": 100,
 			"control": {
 				"input": true,
 				"slider": true,

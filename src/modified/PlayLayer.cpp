@@ -21,6 +21,8 @@ static RandomSeeder _randomSeeder;
 
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
+        bool m_dontCreateObjects = false;
+
         GameObject* m_destroyingObject;
 
         RandomAdPopup* m_currentAd = nullptr;
@@ -47,8 +49,12 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+
+        m_fields->m_dontCreateObjects = dontCreateObjects;
+
+        if (horribleMod->getSavedValue<bool>("grief", false)) LevelManager::DownloadGriefLevel();
+        if (horribleMod->getSavedValue<bool>("congregation", false)) LevelManager::DownloadCongregLevel();
 
         if (horribleMod && horribleMod->getSavedValue<bool>("black_screen", false)) {
             log::debug("black screen enabled, init scheduling black screen");
@@ -58,11 +64,13 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                 schedule_selector(HorriblePlayLayer::showBlackScreen),
-                this, delay, false);
+                this, delay, false
+            );
         };
 
         if (horribleMod && horribleMod->getSavedValue<bool>("upside_down", false)) {
             log::debug("scene rng {} chance", rnd);
+
             if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("upside_down-chance"))) {
                 log::debug("setting scene upside down");
                 setRotation(-180.f);
@@ -376,16 +384,16 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
+        auto horribleMod = getMod();
+
         auto rnd = rand() % 101;
         log::debug("destroy chance {}", rnd);
 
-        auto horribleMod = getMod();
-
-        bool crashEnabled = horribleMod->getSavedValue("crash_death", false);
-        bool griefEnabled = horribleMod->getSavedValue("grief", false);
-        bool congregEnabled = horribleMod->getSavedValue("congregation", false);
-        bool fakeDeadEnabled = horribleMod->getSavedValue("death", false);
-        bool healthEnabled = horribleMod->getSavedValue("health", false);
+        bool crashEnabled = horribleMod->getSavedValue<bool>("crash_death", false);
+        bool griefEnabled = horribleMod->getSavedValue<bool>("grief", false);
+        bool congregEnabled = horribleMod->getSavedValue<bool>("congregation", false);
+        bool fakeDeadEnabled = horribleMod->getSavedValue<bool>("death", false);
+        bool healthEnabled = horribleMod->getSavedValue<bool>("health", false);
 
         // do stuff for health
         if (healthEnabled) {
@@ -461,8 +469,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // get back to grief
         if (griefEnabled) {
-            LevelManager::DownloadGriefLevel();
-
             // 10% chance to play grief level
             if (float griefChance = rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("grief-chance"))) {
                 auto glm = GameLevelManager::get();
@@ -473,10 +479,11 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
                     onExit();
 
-                    auto scene = PlayLayer::scene(griefLevel, false, false);
+                    auto scene = PlayLayer::scene(griefLevel, m_useReplay, m_fields->m_dontCreateObjects);
+
                     CCDirector::get()->replaceScene(scene);
 
-                    log::info("Switching to Grief level (105001928) by 10% chance");
+                    log::info("Switching to Grief level (105001928)");
 
                     return;
                 } else if (griefLevel && !griefLevel->m_levelNotDownloaded) {
@@ -489,8 +496,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // congregation jumpscare
         if (congregEnabled) {
-            LevelManager::DownloadCongregLevel();
-
             // 10% chance to play congregation level
             if (float CongregChance = rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("congregation-chance"))) {
                 auto glm = GameLevelManager::get();
@@ -501,10 +506,11 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
                     onExit();
 
-                    auto scene = PlayLayer::scene(congregLevel, false, false);
+                    auto scene = PlayLayer::scene(congregLevel, m_useReplay, m_fields->m_dontCreateObjects);
+
                     CCDirector::get()->replaceScene(scene);
 
-                    log::info("Switching to Congregation level (93437568) by 10% chance");
+                    log::info("Switching to Congregation level (93437568)");
                     return;
                 } else if (congregLevel && !congregLevel->m_levelNotDownloaded) {
                     log::debug("Already in congregation level");

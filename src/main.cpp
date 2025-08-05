@@ -13,8 +13,6 @@
 
 #include <Geode/binding/FMODAudioEngine.hpp>
 
-static RandomSeeder _randomSeeder;
-
 using namespace geode::prelude;
 using namespace geode::utils;
 using namespace matjson;
@@ -22,6 +20,8 @@ using namespace matjson;
 auto horribleMod = getMod();
 
 bool isFlipped = false;
+
+static RandomSeeder _randomSeeder;
 
 class $modify(HorribleCCScene, CCScene) {
     bool init() {
@@ -60,14 +60,14 @@ class $modify(HorribleCCMenuItem, CCMenuItem) {
 
 class $modify(HorribleMenuLayer, MenuLayer) {
     bool init() {
-        if (!MenuLayer::init())
-            return false;
+        if (!MenuLayer::init()) return false;
 
         auto gm = GameManager::get();
 
         // get and store user current fps
         float currentFPS = gm->m_customFPSTarget;
         float storedFPS = horribleMod->setSavedValue<float>("fps", currentFPS);
+
         log::debug("Store Current FPS: {}", storedFPS);
 
         auto rnd = rand() % 101;
@@ -100,7 +100,7 @@ class $modify(HorribleMenuLayer, MenuLayer) {
 
             namespace fs = std::filesystem;
 
-            if (rnd <= 75) {
+            if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("mock-chance"))) {
                 auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                 auto mockConfig = file::readJson(fs::path(mockConfigPath));
 
@@ -121,7 +121,6 @@ class $modify(HorribleMenuLayer, MenuLayer) {
                         log::debug("ID {} with percentage {} is valid", id, percent);
 
                         std::string pngPath = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
-                        ;
 
                         log::info("Displaying {}", pngPath);
 
@@ -129,8 +128,8 @@ class $modify(HorribleMenuLayer, MenuLayer) {
                         ss->setID("mock"_spr);
                         ss->setScale(0.25);
                         ss->setAnchorPoint({ 0.5, 0.5 });
+                        ss->setPosition({ -192.f, getScaledContentHeight() / 2.f });
                         ss->setZOrder(1000);
-                        ss->setPosition({ -192.f, -108.f });
 
                         ss->setLoadCallback([this, ss, percent, rnd](Result<> res) {
                             if (res.isOk()) {

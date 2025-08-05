@@ -37,7 +37,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"mock",
          "Mock your 90%+ Fail",
-         "Shows a screenshot of your 90%-99% fail everywhere.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
+         "Shows a screenshot of one of your 90%-99% fails in the main menu.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
          SillyTier::Medium,
          false},
         {"freeze",
