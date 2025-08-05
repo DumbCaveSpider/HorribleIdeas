@@ -11,6 +11,10 @@ using namespace geode::prelude;
 static RandomSeeder _randomSeeder;
 
 class $modify(HorriblePlayerObject, PlayerObject) {
+    struct Fields {
+        int m_jumps = 0;
+    };
+
     void updateJump(float p0) {
         auto horribleMod = getMod();
         auto rnd = rand() % 101;
@@ -75,5 +79,20 @@ class $modify(HorriblePlayerObject, PlayerObject) {
         };
 
         PlayerObject::update(p0);
+    };
+
+    bool pushButton(PlayerButton p0) {
+        auto horribleMod = getMod();
+
+        if (horribleMod->getSavedValue<bool>("double-jump", false)) {
+            if (p0 == PlayerButton::Jump) {
+                if (m_isOnGround) m_fields->m_jumps = 0;
+                if (!m_isOnGround) m_fields->m_jumps++;
+            };
+
+            m_isOnGround = m_fields->m_jumps < 2;
+        };
+
+        return PlayerObject::pushButton(p0);
     };
 };

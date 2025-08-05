@@ -51,10 +51,8 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                 if (m_isPracticeMode && !m_fields->m_currentQuiz) {
                     // pause the game
                     auto gm = GameManager::sharedState();
-                    if (auto playLayer = PlayLayer::get()) {
-                        playLayer->pauseGame(true);
-                        
-                    }
+                    if (auto playLayer = PlayLayer::get()) playLayer->pauseGame(true);
+
                     if (auto quiz = MathQuiz::create()) {
 #ifdef GEODE_IS_WINDOWS
                         CCEGLView::sharedOpenGLView()->showCursor(true);
@@ -69,19 +67,22 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
 
             // do something like if answer is right, just do PlayLayer::resumeGame()
             // then do something like if answer is wrong, do PlayLayer::resetLevelFromStart()
-            // if the user do a keyBack, the absolutely do PlayLayer::resetLevelFromStart() :trol:
+            // if the user do a keyBack, then absolutely do PlayLayer::resetLevelFromStart() :trol:
         };
 
         if (horribleMod->getSavedValue<bool>("ads", false)) {
             m_fields->m_adCooldown += p0;
+
             static float nextAdTime = 0.f;
             auto gm = GameManager::sharedState();
+
             if (nextAdTime == 0.f || m_fields->m_adCooldown >= nextAdTime) {
                 // Randomize next ad time between 20 and 40 seconds
                 nextAdTime = 20.f + static_cast<float>(rand() % 21); // 20 to 40 inclusive
                 m_fields->m_adCooldown = 0.f;
 
                 log::warn("ad time!");
+
 #ifdef GEODE_IS_WINDOWS
                 // Show cursor when ad appears
                 CCEGLView::sharedOpenGLView()->showCursor(true);
@@ -99,14 +100,13 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
                 } else {
                     m_fields->m_currentAd = nullptr;
                 };
-            }
+            };
+
 #ifdef GEODE_IS_WINDOWS
             // Hide cursor if ad popup is closed
-            if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr)) {
-                CCEGLView::sharedOpenGLView()->showCursor(false);
-            }
+            if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr)) CCEGLView::sharedOpenGLView()->showCursor(false);
 #endif
-        }
+        };
 
         GJBaseGameLayer::update(p0);
     };

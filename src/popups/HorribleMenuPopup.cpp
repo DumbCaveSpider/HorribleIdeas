@@ -95,6 +95,11 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Whenever your hitbox is inside of an obstacle hitbox, if you time your click right, you don't die.\n<cy>Credit: Wuffin</c>",
          SillyTier::Low,
          false},
+        {"double-jump",
+         "Double-Jump",
+         "Allow your character to double-jump in a level.\n<cy>Credit: Cheeseworks</c>",
+         SillyTier::Low,
+         false}
     };
 };
 

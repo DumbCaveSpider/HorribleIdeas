@@ -46,6 +46,11 @@
 			"name": "Safe Mode",
 			"description": "Prevent any progression made in the level. <cr>Highly recommended that this is kept enabled!</cr>",
 			"default": true
+		},
+		"mods": {
+			"type": "title",
+			"name": "Mods",
+			"description": "Customize the horrible mods."
 		}
 	}
 }
