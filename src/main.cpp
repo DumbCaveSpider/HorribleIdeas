@@ -24,7 +24,7 @@ auto horribleMod = getMod();
 bool isFlipped = false;
 
 class $modify(HorribleCCScene, CCScene) {
-    bool init() override {
+    bool init() {
         if (!CCScene::init()) return false;
 
 #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
@@ -42,16 +42,15 @@ class $modify(HorribleCCScene, CCScene) {
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
 class $modify(HorribleCCMenuItem, CCMenuItem) {
-    void activate() override {
+    void activate() {
         auto rnd = rand() % 101;
         log::debug("button menu chance {}", rnd);
 
         if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
 
-                if (rnd <= 75)
-                    // @geode-ignore(unknown-resource)
-                    fmod->playEffect("achievement_01.ogg"); // 75% chance of playing
+                // @geode-ignore(unknown-resource)
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffect("achievement_01.ogg");
             };
         };
 

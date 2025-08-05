@@ -2,5 +2,5 @@
 #include <cstdlib>
 
 struct RandomSeeder {
-    RandomSeeder() { srand(time(0)); }
+    RandomSeeder() { srand(time(0)); };
 };

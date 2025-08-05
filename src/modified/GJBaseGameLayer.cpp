@@ -24,9 +24,12 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     void handleButton(bool down, int button, bool isPlayer1) {
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("no-jump", false) && !m_isPlatformer) {
+        auto rnd = rand() % 101;
+        log::debug("gjbasegamelayer handleButton chance {}", rnd);
+
+        if (horribleMod->getSavedValue<bool>("no_jump", false) && !m_isPlatformer) {
             if (button == 1) {
-                if ((rand() % 101) <= 11) {
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"))) {
                     log::error("skipped dat jump");
                     GJBaseGameLayer::handleButton(false, button, isPlayer1);
                 } else {
@@ -44,8 +47,8 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
         auto rnd = rand() % 101;
         log::debug("gjbasegamelayer update chance {}", rnd);
 
-        if (horribleMod->getSavedValue<bool>("math-quiz", false)) {
-            if (rnd <= 1) {
+        if (horribleMod->getSavedValue<bool>("math_quiz", false)) {
+            if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"))) {
                 log::warn("richard was here");
 
                 if (m_isPracticeMode && !m_fields->m_currentQuiz) {

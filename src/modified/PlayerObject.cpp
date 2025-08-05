@@ -84,7 +84,7 @@ class $modify(HorriblePlayerObject, PlayerObject) {
     bool pushButton(PlayerButton p0) {
         auto horribleMod = getMod();
 
-        if (horribleMod->getSavedValue<bool>("double-jump", false)) {
+        if (horribleMod->getSavedValue<bool>("double_jump", false)) {
             if (p0 == PlayerButton::Jump) {
                 if (m_isOnGround) m_fields->m_jumps = 0;
                 if (!m_isOnGround) m_fields->m_jumps++;

@@ -44,13 +44,118 @@
 		"safe-mode": {
 			"type": "bool",
 			"name": "Safe Mode",
-			"description": "Prevent any progression made in the level. <cr>Highly recommended that this is kept enabled!</cr>",
+			"description": "Prevent any progression made in levels. <cr>Highly recommended that this is kept enabled!</cr>",
 			"default": true
 		},
 		"mods": {
 			"type": "title",
 			"name": "Mods",
 			"description": "Customize the horrible mods."
+		},
+		"grief-chance": {
+			"type": "int",
+			"name": "Grief Chance",
+			"description": "<cj>Get Back on Grief</c> - Chance of your level switching to Grief.",
+			"default": 10,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"congregation-chance": {
+			"type": "int",
+			"name": "Congregation Chance",
+			"description": "<cj>Congregation Jumpscare</c> - Chance of your level switching to Congregation.",
+			"default": 10,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"achieve-chance": {
+			"type": "int",
+			"name": "Achievement Sound Chance",
+			"description": "<cj>Random Achievements</c> - Chance of the achievement sound playing.",
+			"default": 75,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"crash_death-chance": {
+			"type": "int",
+			"name": "Crash Chance",
+			"description": "<cj>Crash Chance on Death</c> - Chance of your crashing when dying in a level.",
+			"default": 1,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"math_quiz-chance": {
+			"type": "int",
+			"name": "Math Quiz Chance",
+			"description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
+			"default": 1,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"no_jump-chance": {
+			"type": "int",
+			"name": "No Jump Chance",
+			"description": "<cj>Randomly Don't Jump</c> - Chance of your jump input not registering.",
+			"default": 11,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"upside_down-chance": {
+			"type": "int",
+			"name": "Upside-Down Scene Chance",
+			"description": "<cj>Upside-Down Chance</c> - Chance of your game's UI turning upside_down.",
+			"default": 50,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
 		}
 	}
 }
