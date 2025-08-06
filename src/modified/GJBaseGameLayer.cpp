@@ -45,7 +45,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
         auto horribleMod = getMod();
 
         auto rnd = rand() % 101;
-        log::debug("gjbasegamelayer update chance {}", rnd);
+        //log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (horribleMod->getSavedValue<bool>("math_quiz", false)) {
             if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"))) {

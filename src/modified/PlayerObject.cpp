@@ -13,6 +13,8 @@ static RandomSeeder _randomSeeder;
 class $modify(HorriblePlayerObject, PlayerObject) {
     struct Fields {
         int m_jumps = 0;
+        bool m_isOnSlope = false;
+        bool m_wasOnSlope = false;
     };
 
     void updateJump(float p0) {
@@ -22,13 +24,13 @@ class $modify(HorriblePlayerObject, PlayerObject) {
 
         if (horribleMod->getSavedValue<bool>("gravity", false)) {
             float newGrav = std::round((static_cast<float>(rnd) / 100.f) * (2.5f - 0.01f) * 100.0f) / 100.0f;
-
-            // check if player touched any floor i think
             auto onGrnd = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
-
-            onGrnd ? (m_gravityMod = 1.f * newGrav) : (m_gravityMod = 1.f);
-            if (onGrnd && !m_isRotating) log::debug("set gravity to x{}", newGrav);
-        };
+            // Only set gravity if on flat ground (not on a slope) and not rotating
+            if (onGrnd && !m_isRotating && !m_fields->m_isOnSlope && !m_fields->m_wasOnSlope) {
+                m_gravityMod = newGrav;
+                log::debug("set gravity to x{} (flat ground)", newGrav);
+            }
+        }
 
         PlayerObject::updateJump(p0);
     };
