@@ -39,20 +39,20 @@ bool RandomAdPopup::setup() {
     projThumb->loadFromUrl("https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail", CCImage::kFmtUnKnown, true);
     if (projThumb) m_mainLayer->addChild(projThumb);
 
-    ButtonSprite* playBtnSprite = ButtonSprite::create("View");
+    // ButtonSprite* playBtnSprite = ButtonSprite::create("Play!");
 
-    // takes u to congreg lol
-    auto playBtn = CCMenuItemSpriteExtra::create(
-        playBtnSprite,
-        this,
-        menu_selector(RandomAdPopup::onPlayBtn)
-    );
-    playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
-    playBtn->ignoreAnchorPointForPosition(false);
-    playBtn->setVisible(true);
-    playBtn->setZOrder(3);
+    // // takes u to congreg lol
+    // auto playBtn = CCMenuItemSpriteExtra::create(
+    //     playBtnSprite,
+    //     this,
+    //     menu_selector(RandomAdPopup::onPlayBtn)
+    // );
+    // playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
+    // playBtn->ignoreAnchorPointForPosition(false);
+    // playBtn->setVisible(true);
+    // playBtn->setZOrder(3);
 
-    m_buttonMenu->addChild(playBtn);
+    // m_buttonMenu->addChild(playBtn);
 
     return true;
 };
