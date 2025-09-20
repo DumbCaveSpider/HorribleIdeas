@@ -99,6 +99,16 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Double-Jump",
          "Allow your character to double-jump in a level.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
+         false},
+        {"sleepy",
+         "Sleepy Player",
+         "Your character will occasionally fall asleep while playing.\n<cy>Credit: this_guy_yt</c>",
+         SillyTier::Low,
+         false},
+         {"pause",
+         "Random Pauses",
+         "While playing a level, the game will randomly pause the game.\n<cy>Credit: DragonixGD</c>",
+         SillyTier::Low,
          false}
     };
 };

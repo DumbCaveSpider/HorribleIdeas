@@ -225,34 +225,36 @@ class $modify(HorriblePlayLayer, PlayLayer)
         auto rnd = rand() % 101;
         log::debug("playlayer update chance {}", rnd);
 
-        // Parry logic: constant check every frame
-        if (horribleMod->getSavedValue<bool>("parry", false))
-        {
-            log::debug("parry is real");
 
-            auto playerRect = m_player1->getObjectRect();
 
-            if (m_objects)
-            {
-                for (int i = 0; i < m_objects->count(); ++i)
-                {
-                    auto obj = static_cast<GameObject *>(m_objects->objectAtIndex(i));
-                    if (obj == m_anticheatSpike)
-                    {
-                        log::debug("Skipping anticheat spike object");
-                    }
-                    else if (obj && playerRect.intersectsRect(obj->getObjectRect()))
-                    {
-                        log::debug("Player is inside an obstacle hitbox: {} (damage would be applied)", obj->getID());
-                        destroyPlayer(nullptr, nullptr);
-                    }
-                    else
-                    {
-                        log::debug("Player is not inside an obstacle hitbox");
-                    };
-                };
-            };
-        };
+        // // Parry logic: constant check every frame
+        // if (horribleMod->getSavedValue<bool>("parry", false))
+        // {
+        //     log::debug("parry is real");
+
+        //     auto playerRect = m_player1->getObjectRect();
+
+        //     if (m_objects)
+        //     {
+        //         for (int i = 0; i < m_objects->count(); ++i)
+        //         {
+        //             auto obj = static_cast<GameObject *>(m_objects->objectAtIndex(i));
+        //             if (obj == m_anticheatSpike)
+        //             {
+        //                 log::debug("Skipping anticheat spike object");
+        //             }
+        //             else if (obj && playerRect.intersectsRect(obj->getObjectRect()))
+        //             {
+        //                 log::debug("Player is inside an obstacle hitbox: {} (damage would be applied)", obj->getID());
+        //                 destroyPlayer(nullptr, nullptr);
+        //             }
+        //             else
+        //             {
+        //                 log::debug("Player is not inside an obstacle hitbox");
+        //             };
+        //         };
+        //     };
+        // };
 
         PlayLayer::update(p0);
     };
@@ -310,7 +312,7 @@ class $modify(HorriblePlayLayer, PlayLayer)
         {
             // @geode-ignore(unknown-resource)
             if (auto fmod = FMODAudioEngine::sharedEngine())
-                fmod->playEffectAsync("achievement_01.ogg");
+                fmod->playEffect("achievement_01.ogg");
         }
         else
         {

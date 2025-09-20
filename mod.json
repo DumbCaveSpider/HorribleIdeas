@@ -103,6 +103,23 @@
 				"big-arrow-step": 20
 			}
 		},
+		"sleep-chance": {
+			"type": "int",
+			"name": "Sleep Chance",
+			"description": "<cj>Sleepy Player</c> - Chance of your player falling asleep.",
+			"default": 75,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
 		"achieve-chance": {
 			"type": "int",
 			"name": "Achievement Sound Chance",
@@ -176,6 +193,23 @@
 			"name": "Upside-Down Scene Chance",
 			"description": "<cj>Upside-Down Chance</c> - Chance of your game's UI turning upside_down.",
 			"default": 50,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"pause_chance": {
+			"type": "int",
+			"name": "Pause Chance",
+			"description": "<cj>Random Pauses</c> - Chance of the game randomly pausing while playing.",
+			"default": 5,
 			"min": 0,
 			"max": 100,
 			"control": {
