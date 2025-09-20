@@ -1,15 +1,14 @@
-#include "../../SillyTier.hpp"
+#pragma once
+
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/utils/terminate.hpp>
-
 using namespace geode::prelude;
+using namespace horrible;
 
 class ModOption : public CCMenu {
 protected:
-    Mod* m_mod = getMod(); // Horrible Ideas
-
     std::string m_modID; // The ID of the horrible mod
     std::string m_modName; // The name of the horrible mod
     std::string m_modDescription; // The description of the horrible mod

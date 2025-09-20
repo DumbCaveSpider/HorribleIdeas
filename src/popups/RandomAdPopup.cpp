@@ -1,10 +1,11 @@
 #include "RandomAdPopup.hpp"
 
-#include "../utils/LevelManager.hpp"
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 bool RandomAdPopup::setup() {
     setID("ad"_spr);

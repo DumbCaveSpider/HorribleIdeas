@@ -1,11 +1,11 @@
 #include "ModOption.hpp"
 
-#include "../../utils/LevelManager.hpp"
-#include "../../SillyTier.hpp"
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 bool ModOption::init(CCSize const& size, std::string id, std::string name, std::string description, SillyTier silly, bool restart) {
     m_modID = id;
@@ -54,8 +54,7 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
     m_toggler->setScale(0.875f);
 
     // Set toggler state based on saved mod option value
-    if (m_mod)
-        m_toggler->toggle(m_mod->getSavedValue<bool>(m_modID));
+    if (horribleMod) m_toggler->toggle(horribleMod->getSavedValue<bool>(m_modID));
 
     addChild(m_toggler);
 
@@ -131,21 +130,17 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
 };
 
 void ModOption::saveTogglerState() {
-    if (m_toggler && m_mod) m_mod->setSavedValue(m_modID, m_toggler->isToggled());
+    if (m_toggler && horribleMod) horribleMod->setSavedValue(m_modID, m_toggler->isToggled());
 };
 
 void ModOption::onToggle(CCObject*) {
-    if (m_toggler)
-        m_mod->setSavedValue(m_modID, m_toggler->isToggled());
-    if (m_restartRequired)
-        Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+    if (m_toggler) horribleMod->setSavedValue(m_modID, m_toggler->isToggled());
+    if (m_restartRequired) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
     // If grief option is toggled on, call LevelManager::checkAndDownloadGriefLevel
-    if (m_modID == "grief" && m_toggler->isToggled()) {
-        LevelManager::DownloadGriefLevel();
-    }
+    if (m_modID == "grief" && m_toggler->isToggled()) LevelManager::DownloadGriefLevel();
 
-    log::info("Option {} now set to {}", m_modName, m_mod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
+    log::info("Option {} now set to {}", m_modName, horribleMod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
 
 void ModOption::onDescription(CCObject*) {
@@ -183,4 +178,4 @@ ModOption* ModOption::create(CCSize const& size, std::string id, std::string nam
 
     CC_SAFE_DELETE(ret);
     return nullptr;
-};
+}; 

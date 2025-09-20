@@ -1,10 +1,11 @@
 #include "MathQuiz.hpp"
 
-#include "../RandomSeeder.hpp"
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 static RandomSeeder _randomSeeder;
 

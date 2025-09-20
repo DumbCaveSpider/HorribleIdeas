@@ -1,7 +1,7 @@
 #include "HorribleMenuPopup.hpp"
-
-#include "../SillyTier.hpp"
 #include "toggle/ModOption.hpp"
+
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -10,6 +10,7 @@
 #include <Geode/utils/terminate.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 // add yo mods here :D
 std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {

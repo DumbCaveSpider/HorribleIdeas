@@ -1,13 +1,10 @@
-#include "../RandomSeeder.hpp"
-
-#include "../utils/LevelManager.hpp"
 #include "../popups/RandomAdPopup.hpp"
+
+#include <Horrible.hpp>
 
 #include <fmt/core.h>
 
 #include <Geode/Geode.hpp>
-
-#include <Geode/utils/terminate.hpp>
 
 #include <Geode/modify/PlayLayer.hpp>
 
@@ -16,6 +13,7 @@
 using namespace geode::prelude;
 using namespace geode::utils;
 using namespace matjson;
+using namespace horrible;
 
 static RandomSeeder _randomSeeder;
 
@@ -42,7 +40,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        auto horribleMod = getMod();
+
 
         int rnd = rand() % 101;
         log::info("playlayer init called {}", rnd);
@@ -191,7 +189,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void update(float p0) {
-        auto horribleMod = getMod();
+
 
         auto rnd = rand() % 101;
         log::debug("playlayer update chance {}", rnd);
@@ -236,7 +234,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void revertFPS() {
-        auto horribleMod = getMod();
+
 
         // default to user old fps
         auto gm = GameManager::get();
@@ -255,7 +253,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void capFPS(float value) {
-        auto horribleMod = getMod();
+
 
         auto gm = GameManager::get();
 
@@ -270,7 +268,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void onQuit() {
-        auto horribleMod = getMod();
+
 
         revertFPS();
 
@@ -286,7 +284,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void showBlackScreen(float) {
-        auto horribleMod = getMod();
+
 
         if (horribleMod->getSavedValue<bool>("black_screen", false)) {
             log::debug("Showing black screen after delay");
@@ -311,7 +309,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void removeBlackScreen() {
-        auto horribleMod = getMod();
+
 
         if (auto blackScreen = getChildByID("black_screen"_spr)) {
             blackScreen->removeFromParent();
@@ -402,7 +400,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         if (!m_fields->m_destroyingObject)
             m_fields->m_destroyingObject = game;
 
-        auto horribleMod = getMod();
+
 
         auto rnd = rand() % 101;
         log::debug("destroy chance {}", rnd);
@@ -542,7 +540,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
     // new best
     void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {
-        auto horribleMod = getMod();
+
 
         int id = m_level->m_levelID;
         int percentage = m_level->m_normalPercent;
@@ -618,7 +616,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void levelComplete() {
-        auto horribleMod = getMod();
+
         auto safeMode = horribleMod->getSettingValue<bool>("safe-mode");
 
         if (horribleMod->getSavedValue<bool>("mock", false)) {

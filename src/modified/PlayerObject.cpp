@@ -1,4 +1,4 @@
-#include "../RandomSeeder.hpp"
+#include <Horrible.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -7,6 +7,7 @@
 #include <Geode/modify/PlayerObject.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 static RandomSeeder _randomSeeder;
 
@@ -18,7 +19,7 @@ class $modify(HorriblePlayerObject, PlayerObject) {
     };
 
     void updateJump(float p0) {
-        auto horribleMod = getMod();
+
         auto rnd = rand() % 101;
         // log::debug("player object chance {}", rnd);
 
@@ -36,11 +37,10 @@ class $modify(HorriblePlayerObject, PlayerObject) {
     };
 
     void update(float p0) {
-        auto horribleMod = getMod();
+
         auto healthEnabled = horribleMod->getSavedValue<bool>("health", false);
 
         if (auto playLayer = PlayLayer::get()) {
-
             // pause logic
             if (horribleMod->getSavedValue<bool>("pause", false)) {
                 auto rnd = rand() % 101;
@@ -99,22 +99,5 @@ class $modify(HorriblePlayerObject, PlayerObject) {
         };
 
         PlayerObject::update(p0);
-    };
-
-    bool pushButton(PlayerButton p0) {
-        auto horribleMod = getMod();
-
-        if (horribleMod->getSavedValue<bool>("double_jump", false)) {
-            if (p0 == PlayerButton::Jump) {
-                if (m_isOnGround)
-                    m_fields->m_jumps = 0;
-                if (!m_isOnGround)
-                    m_fields->m_jumps++;
-            };
-
-            m_isOnGround = m_fields->m_jumps < 2;
-        };
-
-        return PlayerObject::pushButton(p0);
     };
 };

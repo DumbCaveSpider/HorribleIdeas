@@ -1,6 +1,6 @@
-#include "RandomSeeder.hpp"
-
 #include "popups/HorribleMenuPopup.hpp"
+
+#include <Horrible.hpp>
 
 #include <fmt/core.h>
 
@@ -16,8 +16,7 @@
 using namespace geode::prelude;
 using namespace geode::utils;
 using namespace matjson;
-
-auto horribleMod = getMod();
+using namespace horrible;
 
 bool isFlipped = false;
 

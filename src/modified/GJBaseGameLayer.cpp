@@ -1,4 +1,4 @@
-#include "../RandomSeeder.hpp"
+#include <Horrible.hpp>
 
 #include "../layers/MathQuiz.hpp"
 #include "../popups/RandomAdPopup.hpp"
@@ -10,6 +10,7 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
 using namespace geode::prelude;
+using namespace horrible;
 
 static RandomSeeder _randomSeeder;
 
@@ -22,7 +23,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void handleButton(bool down, int button, bool isPlayer1) {
-        auto horribleMod = getMod();
+
 
         auto rnd = rand() % 101;
         log::debug("gjbasegamelayer handleButton chance {}", rnd);
@@ -42,7 +43,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto horribleMod = getMod();
+
 
         auto rnd = rand() % 101;
         //log::debug("gjbasegamelayer update chance {}", rnd);
