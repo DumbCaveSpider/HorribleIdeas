@@ -114,3 +114,11 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
         GJBaseGameLayer::update(p0);
     };
 };
+
+class $modify(EvenWorseGJBaseGameLayer, GJBaseGameLayer) {
+    bool init() {
+        if (!GJBaseGameLayer::init()) return false;
+        log::info("LOL init");
+        return true;
+    };
+};
