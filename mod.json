@@ -205,7 +205,7 @@
 				"big-arrow-step": 20
 			}
 		},
-		"pause_chance": {
+		"pauses-chance": {
 			"type": "int",
 			"name": "Pause Chance",
 			"description": "<cj>Random Pauses</c> - Chance of the game randomly pausing while playing.",

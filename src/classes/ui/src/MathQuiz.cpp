@@ -1,4 +1,4 @@
-#include "MathQuiz.hpp"
+#include "../MathQuiz.hpp"
 
 #include <Horrible.hpp>
 

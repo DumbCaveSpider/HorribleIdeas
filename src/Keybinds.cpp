@@ -1,4 +1,4 @@
-#include "popups/HorribleMenuPopup.hpp"
+#include <menu/HorribleMenuPopup.hpp>
 
 #include <Geode/Geode.hpp>
 

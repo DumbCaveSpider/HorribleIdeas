@@ -52,10 +52,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         m_fields->m_dontCreateObjects = dontCreateObjects;
 
-        if (horribleMod->getSavedValue<bool>("grief", false))
-            LevelManager::DownloadGriefLevel();
-        if (horribleMod->getSavedValue<bool>("congregation", false))
-            LevelManager::DownloadCongregLevel();
+        if (horribleMod->getSavedValue<bool>("grief", false)) LevelManager::DownloadGriefLevel();
+        if (horribleMod->getSavedValue<bool>("congregation", false)) LevelManager::DownloadCongregLevel();
 
         if (horribleMod && horribleMod->getSavedValue<bool>("black_screen", false)) {
             log::debug("black screen enabled, init scheduling black screen");

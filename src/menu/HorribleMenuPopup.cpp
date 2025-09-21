@@ -106,7 +106,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Your character will occasionally fall asleep while playing.\n<cy>Credit: this_guy_yt</c>",
          SillyTier::Low,
          false},
-         {"pause",
+         {"pauses",
          "Random Pauses",
          "While playing a level, the game will randomly pause the game.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,

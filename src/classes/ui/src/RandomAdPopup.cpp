@@ -1,4 +1,4 @@
-#include "RandomAdPopup.hpp"
+#include "../RandomAdPopup.hpp"
 
 #include <Horrible.hpp>
 
@@ -37,7 +37,10 @@ bool RandomAdPopup::setup() {
         };
                                });
 
-    projThumb->loadFromUrl("https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail", CCImage::kFmtUnKnown, true);
+    std::string url = "https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail";
+    if (Loader::get()->isModLoaded("prevter.imageplus")) url += "?webp";
+
+    projThumb->loadFromUrl(url, CCImage::kFmtUnKnown, true);
     if (projThumb) m_mainLayer->addChild(projThumb);
 
     // ButtonSprite* playBtnSprite = ButtonSprite::create("Play!");

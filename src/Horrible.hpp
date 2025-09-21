@@ -6,6 +6,9 @@
 #include <classes/RandomSeeder.hpp>
 #include <classes/SillyTier.hpp>
 
+#include <classes/ui/MathQuiz.hpp>
+#include <classes/ui/RandomAdPopup.hpp>
+
 using namespace geode::prelude;
 
 // Namespace for utility methods for Horrible Ideas

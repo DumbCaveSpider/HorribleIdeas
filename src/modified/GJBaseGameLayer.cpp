@@ -1,11 +1,6 @@
 #include <Horrible.hpp>
 
-#include "../layers/MathQuiz.hpp"
-#include "../popups/RandomAdPopup.hpp"
-
 #include <Geode/Geode.hpp>
-
-#include <Geode/utils/terminate.hpp>
 
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
@@ -43,8 +38,6 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-
-
         auto rnd = rand() % 101;
         //log::debug("gjbasegamelayer update chance {}", rnd);
 
