@@ -20,7 +20,7 @@ class $modify(RandomPausePlayerObject, PlayerObject) {
 
                 // if the rng is lower than the chance, pause the game
                 if (rnd <= m_fields->chance) {
-                    log::debug("Pausing the game randomly ({}/2500 < {})", rnd, m_fields->chance);
+                    log::debug("Pausing the game randomly ({}/5000 < {})", rnd, m_fields->chance);
                     playLayer->pauseGame(true); // pause the game randomly
                 };
             };
