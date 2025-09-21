@@ -126,7 +126,13 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Random Speed Change",
          "Randomly changes your speed while playing a level.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Medium,
-         false}};
+         false},
+         {"random_icon",
+         "Random Icon Change",
+         "Randomly change your icon every time you jump.\n<cy>Credit: JompyDoJump</c>",
+         SillyTier::Low,
+         false}
+        };
 };
 
 bool HorribleMenuPopup::setup()
