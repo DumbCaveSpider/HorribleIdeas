@@ -20,7 +20,7 @@ class $modify(FreezePlayerObject, PlayerObject) {
                 if (currentPercentage >= 90) {
                     auto gm = GameManager::get();
 
-                    float oldFPS = Mod::get()->getSavedValue<float>("fps");
+                    float oldFPS = horribleMod->getSavedValue<float>("fps");
 
                     gm->setGameVariable("0116", true);
 
@@ -37,14 +37,13 @@ class $modify(FreezePlayerObject, PlayerObject) {
                     // default to user old fps
                     auto gm = GameManager::get();
 
-                    float oldFPS = Mod::get()->getSavedValue<float>("fps");
+                    float oldFPS = horribleMod->getSavedValue<float>("fps");
 
                     gm->setGameVariable("0116", true);
 
                     // Use seconds per frame, not raw FPS
                     float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-                    if (interval <= 0.0f || interval > 1.0f)
-                        interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+                    if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
 

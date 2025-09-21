@@ -15,28 +15,27 @@ using namespace geode::prelude;
 using namespace horrible;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions()
-{
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
         {"oxygen",
          "Oxygen Level",
-         "Add an oxygen level. You gain oxygen whenever you are a flying gamemode.\n<cy>Credit: ArcticWoof</c>",
+         "Limited oxygen level. You gain oxygen as a flying gamemode. If your oxygen runs out, your player dies.\n<cy>Credit: ArcticWoof</c>",
          SillyTier::High,
          false},
         {"health",
          "Player Health",
-         "Add a health bar and decreases everytime you taken damage. When your health reaches zero, you die.\n<cy>Credit: Cheeseworks</c>",
+         "Add a health bar and decreases everytime you collide with a hazard. If your health reaches zero, your player dies.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Medium,
          false},
         {"grief",
          "Get Back on Grief",
-         "A chance of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
+         "A chance at death of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
          SillyTier::High,
          false},
         {"congregation",
          "Congregation Jumpscare",
-         "A chance of forcing you to play the Congregation Jumpscare.\n<cy>Credit: StaticGD</c>",
+         "A chance at death of forcing you to play Congregation.\n<cy>Credit: StaticGD</c>",
          SillyTier::High,
          false},
         {"mock",
@@ -46,7 +45,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"freeze",
          "Random 90%+ FPS Drop",
-         "Your game FPS starts dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
+         "Your visual framerate starts randomly dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
          SillyTier::Medium,
          false},
         {"achieve",
@@ -61,7 +60,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"math_quiz",
          "Richard's Math Quiz!",
-         "When playing a level in practice mode, there's a chance Richard will pop out and give you a quick math quiz. Answer correctly to continue, or restart from the beginning.\n<cy>Credit: CyanBoi</c>",
+         "When playing a level in practice mode, there's a chance Richard will pop out and give you a quick math quiz. Answer correctly to continue, or restart the level from the beginning.\n<cy>Credit: CyanBoi</c>",
          SillyTier::High,
          false},
         {"no_jump",
@@ -71,7 +70,7 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"gravity",
          "Randomize Gravity",
-         "Every time you jump in the level, the gravity will change to a random value.\n<cy>Credit: NJAgain</c>\n<cr>Note: This will not work in platformer mode</c>",
+         "Every time you jump in the level, gravity force will increase or decrease randomly.\n<cy>Credit: NJAgain</c>\n<cr>Note: This will not work in platformer mode</c>",
          SillyTier::Low,
          false},
         {"death",
@@ -91,12 +90,12 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"black_screen",
          "Black Screen Blink",
-         "The screen can suddenly turn black for a moment while playing a level.\n<cy>Credit: elite_smiler_ispro</c>",
+         "The screen can suddenly turn black for a split second while playing a level.\n<cy>Credit: elite_smiler_ispro</c>",
          SillyTier::Low,
          false},
         {"parry",
          "Parry Obstacles",
-         "Whenever your hitbox is inside of an obstacle hitbox, if you time your click right, you don't die.\n<cy>Credit: Wuffin</c>",
+         "Whenever your hitbox is inside of a hazard hitbox, you will not die if you time your click right.\n<cy>Credit: Wuffin</c>",
          SillyTier::Low,
          false},
         {"double_jump",
@@ -111,17 +110,17 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"pauses",
          "Random Pauses",
-         "While playing a level, the game will randomly pause the game.\n<cy>Credit: DragonixGD</c>",
+         "While playing a level, the game will randomly pause itself.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
          false},
         {"ice_level",
          "Ice Level",
-         "Make everything icy. Slip and slide!\n<cy>Credit: TimeRed</c>",
+         "Make every surface icy. Slip and slide!\n<cy>Credit: TimeRed</c>",
          SillyTier::Medium,
          false},
         {"random_mirror",
          "Random Mirror Portal",
-         "Randomly flips the game.\n<cy>Credit: TimeRed</c>",
+         "Randomly activates a mirror portal in the level.\n<cy>Credit: TimeRed</c>",
          SillyTier::Low,
          false},
         {"random_speed",
@@ -136,23 +135,20 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          false},
         {"blinking_icon",
          "Blinking Icon",
-         "Player Icon randomly blinking.\n<cy>Credit: DragonixGD</c>",
+         "Your icon will start to randomly blink.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false}};
+         false} };
 };
 
 // silly tier filter
 static SillyTier s_selectedTier = SillyTier::None;
 
-void filterOptionsByTier(ScrollLayer *optionsScrollLayer, const std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> &allOptions, SillyTier tier)
-{
+void filterOptionsByTier(ScrollLayer* optionsScrollLayer, const std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>>& allOptions, SillyTier tier) {
     optionsScrollLayer->m_contentLayer->removeAllChildren();
-    for (const auto &option : allOptions)
-    {
-        const auto &[id, name, desc, silly, restart] = option;
-        if (tier == SillyTier::None || silly == tier)
-        {
-            if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
+    for (const auto& option : allOptions) {
+        const auto& [id, name, desc, silly, restart] = option;
+        if (tier == SillyTier::None || silly == tier) {
+            if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart))
                 optionsScrollLayer->m_contentLayer->addChild(modOption);
         }
     }
@@ -160,8 +156,7 @@ void filterOptionsByTier(ScrollLayer *optionsScrollLayer, const std::vector<std:
     optionsScrollLayer->scrollToTop();
 }
 
-bool HorribleMenuPopup::setup()
-{
+bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -169,44 +164,45 @@ bool HorribleMenuPopup::setup()
 
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
-    optionScrollBg->setAnchorPoint({0.5, 0.5});
-    optionScrollBg->setPosition({mainLayerSize.width / 2.f - 80.f, mainLayerSize.height / 2.f - 10.f});
-    optionScrollBg->setContentSize({mainLayerSize.width / 1.5f - 25.f, mainLayerSize.height - 45.f});
+    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
+    optionScrollBg->setPosition({ mainLayerSize.width / 2.f - 80.f, mainLayerSize.height / 2.f - 10.f });
+    optionScrollBg->setContentSize({ mainLayerSize.width / 1.5f - 25.f, mainLayerSize.height - 45.f });
     optionScrollBg->setOpacity(50);
     m_mainLayer->addChild(optionScrollBg);
 
     // filter buttons :o
     auto filterMenu = CCMenu::create();
-    filterMenu->setPosition({mainLayerSize.width - 85.f, mainLayerSize.height / 2.f + 80.f});
+    filterMenu->setPosition({ mainLayerSize.width - 85.f, mainLayerSize.height / 2.f + 80.f });
 
-    struct FilterBtnInfo
-    {
+    struct FilterBtnInfo {
         SillyTier tier;
-        const char *label;
+        const char* label;
         ccColor3B color;
     };
+
     std::vector<FilterBtnInfo> btns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
         {SillyTier::Medium, "Medium", {255, 255, 100}},
-        {SillyTier::High, "High", {255, 100, 100}}};
+        {SillyTier::High, "High", {255, 100, 100}} };
+
     float btnY = 0.f;
-    for (const auto &btn : btns)
-    {
+    for (const auto& btn : btns) {
         // Create a ButtonSprite using caption + font overload, then tint its internal label
-        auto bs = ButtonSprite::create(
-            btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 1.f);
-        if (bs && bs->m_label)
-        {
+        auto bs = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 1.f);
+        if (bs && bs->m_label) {
             bs->m_label->setColor(btn.color);
             bs->setScale(1.f);
-        }
+        };
 
         auto btnItem = CCMenuItemSpriteExtra::create(bs, this, menu_selector(HorribleMenuPopup::filterTierCallback));
         btnItem->setTag(static_cast<int>(btn.tier));
-        btnItem->setPosition({0.f, btnY});
+        btnItem->setPosition({ 0.f, btnY });
+
         filterMenu->addChild(btnItem);
+
         btnY -= 40.f;
-    }
+    };
+
     m_mainLayer->addChild(filterMenu);
 
     auto columnLayout = ColumnLayout::create();
@@ -216,9 +212,9 @@ bool HorribleMenuPopup::setup()
     columnLayout->setAutoGrowAxis(0.f);
 
     // scroll layer
-    auto optionsScrollLayer = ScrollLayer::create({optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f});
+    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
     optionsScrollLayer->setID("scrollLayer");
-    optionsScrollLayer->setAnchorPoint({0.5, 0.5});
+    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
     optionsScrollLayer->m_contentLayer->setLayout(columnLayout);
@@ -242,56 +238,54 @@ bool HorribleMenuPopup::setup()
         modSettingsBtnSprite,
         this,
         menu_selector(HorribleMenuPopup::openModSettings));
-    modSettingsMenu->setPosition({0.f, 0.f});
+    modSettingsMenu->setPosition({ 0.f, 0.f });
     modSettingsMenu->addChild(modSettingsBtn);
     m_mainLayer->addChild(modSettingsMenu);
 
     auto safeModeLabel = CCLabelBMFont::create("!! Safe Mode INACTIVE !!", "chatFont.fnt");
-    safeModeLabel->setColor({255, 0, 0});
-    safeModeLabel->setAnchorPoint({0.5f, 0.0f});
-    safeModeLabel->setPosition({m_mainLayer->getContentSize().width / 2.f, 5.f});
+    safeModeLabel->setColor({ 255, 0, 0 });
+    safeModeLabel->setAnchorPoint({ 0.5f, 0.0f });
+    safeModeLabel->setPosition({ m_mainLayer->getContentSize().width / 2.f, 5.f });
     safeModeLabel->setScale(0.5f);
+
     // Set safemode label if active
-    if (auto safeMode = getMod()->getSettingValue<bool>("safe-mode"))
-    {
+    if (horribleMod->getSettingValue<bool>("safe-mode")) {
         safeModeLabel->setCString("!! Safe Mode ACTIVE !!");
-        safeModeLabel->setColor({255, 255, 0});
-    }
-    else
-    {
+        safeModeLabel->setColor({ 255, 255, 0 });
+    } else {
         log::warn("Safe mode is inactive");
-    }
+    };
+
     m_mainLayer->addChild(safeModeLabel, 100);
     return true;
 }
 
-void HorribleMenuPopup::filterTierCallback(CCObject *sender)
-{
-    auto node = static_cast<CCNode *>(sender);
+void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
+    auto node = static_cast<CCNode*>(sender);
     SillyTier tier = static_cast<SillyTier>(node->getTag());
+
     // Toggle: clicking same button disables filter
-    if (s_selectedTier == tier)
+    if (s_selectedTier == tier) {
         s_selectedTier = SillyTier::None;
-    else
+    } else {
         s_selectedTier = tier;
+    };
 
     // Find scroll layer and options
-    auto optionsScrollLayer = static_cast<ScrollLayer *>(m_mainLayer->getChildByID("scrollLayer"));
+    auto optionsScrollLayer = static_cast<ScrollLayer*>(m_mainLayer->getChildByID("scrollLayer"));
     auto modOptions = getAllOptions();
-    filterOptionsByTier(optionsScrollLayer, modOptions, s_selectedTier);
-}
 
-void HorribleMenuPopup::openModSettings(CCObject *sender)
-{
-    openSettingsPopup(getMod());
+    filterOptionsByTier(optionsScrollLayer, modOptions, s_selectedTier);
 };
 
-HorribleMenuPopup *HorribleMenuPopup::create()
-{
+void HorribleMenuPopup::openModSettings(CCObject* sender) {
+    openSettingsPopup(horribleMod);
+};
+
+HorribleMenuPopup* HorribleMenuPopup::create() {
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(450.f, 280.f))
-    {
+    if (ret && ret->initAnchored(450.f, 280.f)) {
         ret->autorelease();
         return ret;
     };

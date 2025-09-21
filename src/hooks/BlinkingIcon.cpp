@@ -12,17 +12,20 @@ class $modify(BlinkingIconPlayerObject, PlayerObject) {
         if (auto playLayer = PlayLayer::get()) {
             if (horribleMod->getSavedValue<bool>("blinking_icon", false)) {
                 auto rnd = rand() % 101;
+
                 // randomly makes the player invisible and visible again
-                if (rnd <= horribleMod->getSettingValue<int>("blinking_icon-chance")) {
-                    if (this->isVisible()) {
-                        this->setVisible(false);
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("blinking_icon-chance"))) {
+                    if (isVisible()) {
+                        setVisible(false);
                     } else {
-                        this->setVisible(true);
-                    }
+                        setVisible(true);
+                    };
+
                     // log::debug("Toggled player visibility");
-                }
-            }
-        }
+                };
+            };
+        };
+
         PlayerObject::update(p0);
     };
 };

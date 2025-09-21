@@ -38,17 +38,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
+        m_fields->m_dontCreateObjects = dontCreateObjects;
 
         int rnd = rand() % 101;
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
-
-        m_fields->m_dontCreateObjects = dontCreateObjects;
 
         if (horribleMod->getSavedValue<bool>("grief", false)) LevelManager::DownloadGriefLevel();
         if (horribleMod->getSavedValue<bool>("congregation", false)) LevelManager::DownloadCongregLevel();
@@ -185,12 +182,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void update(float p0) {
-
-
         auto rnd = rand() % 101;
         log::debug("playlayer update chance {}", rnd);
-
-
 
         // // Parry logic: constant check every frame
         // if (horribleMod->getSavedValue<bool>("parry", false))
@@ -230,8 +223,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void revertFPS() {
-
-
         // default to user old fps
         auto gm = GameManager::get();
 
@@ -241,16 +232,13 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // Use seconds per frame, not raw FPS
         float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("reset fps to {} (interval {})", oldFPS, interval);
     };
 
     void capFPS(float value) {
-
-
         auto gm = GameManager::get();
 
         gm->setGameVariable("0116", true);
@@ -612,7 +600,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void levelComplete() {
-
         auto safeMode = horribleMod->getSettingValue<bool>("safe-mode");
 
         if (horribleMod->getSavedValue<bool>("mock", false)) {
@@ -640,11 +627,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         if (safeMode) {
             bool testMode = m_isTestMode;
+
             m_isTestMode = true;
             PlayLayer::levelComplete();
             m_isTestMode = testMode;
+
             return;
-        }
+        };
+
         PlayLayer::levelComplete();
     };
 };

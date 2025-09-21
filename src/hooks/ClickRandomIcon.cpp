@@ -32,11 +32,11 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
                 int r = rand() % 256;
                 int g = rand() % 256;
                 int b = rand() % 256;
-                this->setColor(cocos2d::ccc3(r, g, b));
-                this->updatePlayerGlow();
+                setColor(cocos2d::ccc3(r, g, b));
+                updatePlayerGlow();
 
 
-                this->updatePlayerFrame(newIcon);
+                updatePlayerFrame(newIcon);
                 log::debug("Changed player icon to {}", newIcon);
             }
         }
