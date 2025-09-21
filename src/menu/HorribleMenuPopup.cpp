@@ -131,6 +131,11 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Random Icon Change",
          "Randomly change your icon every time you jump.\n<cy>Credit: JompyDoJump</c>",
          SillyTier::Low,
+         false},
+         {"blinking_icon",
+         "Blinking Icon",
+         "Player Icon randomly blinking.\n<cy>Credit: DragonixGD</c>",
+         SillyTier::Low,
          false}
         };
 };
