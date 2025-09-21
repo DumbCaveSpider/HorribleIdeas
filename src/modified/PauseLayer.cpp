@@ -14,8 +14,8 @@ class $modify(HorriblePauseLayer, PauseLayer) {
         PauseLayer::customSetup();
 
         if (auto rightMenu = getChildByID("right-button-menu")) {
-            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
-                "GJ_moonsIcon_001.png",
+            auto btnSprite = CircleButtonSprite::createWithSprite(
+                "shocksprite.png"_spr,
                 0.875f,
                 CircleBaseColor::Green,
                 CircleBaseSize::MediumAlt

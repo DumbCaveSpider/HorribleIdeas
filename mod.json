@@ -40,6 +40,11 @@
 		"offline",
 		"universal"
 	],
+	"resources": {
+		"sprites": [
+			"resources/*"
+		]
+	},
 	"settings": {
 		"safe-mode": {
 			"type": "bool",

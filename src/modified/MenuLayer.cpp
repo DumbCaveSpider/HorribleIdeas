@@ -24,8 +24,8 @@ class $modify(HorribleMenuLayer, MenuLayer) {
         log::debug("Store Current FPS: {}", storedFPS);
 
         if (auto bottomMenu = getChildByID("bottom-menu")) {
-            auto btnSprite = CircleButtonSprite::createWithSpriteFrameName(
-                "GJ_moonsIcon_001.png",
+            auto btnSprite = CircleButtonSprite::createWithSprite(
+                "shocksprite.png"_spr,
                 0.875f,
                 CircleBaseColor::Green,
                 CircleBaseSize::MediumAlt
