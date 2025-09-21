@@ -11,6 +11,7 @@ using namespace horrible;
 
 class $modify(RandomPausePlayerObject, PlayerObject) {
     struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("pauses", false);
         int chance = 0;
     };
 
@@ -25,7 +26,7 @@ class $modify(RandomPausePlayerObject, PlayerObject) {
 
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            if (horribleMod->getSavedValue<bool>("pauses", false)) {
+            if (m_fields->enabled) {
                 auto rnd = Rand::fast();
 
                 // if the rng is lower than the chance, pause the game

@@ -10,9 +10,13 @@ using namespace horrible;
 
 
 class $modify(FreezePlayerObject, PlayerObject) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("freeze", false);
+    };
+
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            if (horribleMod->getSavedValue<bool>("freeze", false)) {
+            if (m_fields->enabled) {
                 // lil hack on getting the percentage lmao
                 auto currentPercentage = playLayer->getCurrentPercentInt();
 

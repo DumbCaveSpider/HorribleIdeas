@@ -3,28 +3,32 @@
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
 using namespace geode::utils;
 using namespace matjson;
 using namespace horrible;
 
-
-
 class $modify(MockMenuLayer, MenuLayer) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("mock", false);
+        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("mock-chance"));
+    };
+
     bool init() {
         if (!MenuLayer::init()) return false;
 
         auto rnd = Rand::fast();
-        log::debug("chance {}", rnd);
+        log::debug("mock chance {}", rnd);
 
         // Show a LazySprite for the first PNG found in the save directory
-        if (horribleMod && horribleMod->getSavedValue<bool>("mock", false)) {
+        if (m_fields->enabled) {
             log::debug("mock feature enabled in MainMenu layer");
 
             namespace fs = std::filesystem;
 
-            if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("mock-chance"))) {
+            if (rnd <= m_fields->chance) {
                 auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                 auto mockConfig = file::readJson(fs::path(mockConfigPath));
 
@@ -101,5 +105,112 @@ class $modify(MockMenuLayer, MenuLayer) {
         };
 
         return true;
+    };
+};
+
+class $modify(MockPlayLayer, PlayLayer) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("mock", false);
+    };
+
+    void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {
+        int id = m_level->m_levelID;
+        int percentage = m_level->m_normalPercent;
+
+        log::info("Showing new best for level ID: {}", id);
+        log::info("Level percentage: {}", percentage);
+
+#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
+        if (m_fields->enabled && percentage >= 90) {
+            CCDirector* director = CCDirector::sharedDirector();
+            CCScene* scene = CCScene::get();
+
+            // Get the window size in points and scale to pixels
+            auto winSize = director->getWinSize();
+
+            int width = static_cast<int>(winSize.width);
+            int height = static_cast<int>(winSize.height);
+
+            CCRenderTexture* renderTexture = CCRenderTexture::create(width, height);
+
+            renderTexture->begin();
+            scene->visit();
+            renderTexture->end();
+
+            if (auto image = renderTexture->newCCImage()) {
+                std::string path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
+
+                if (image->saveToFile(path.c_str(), false)) {
+                    auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+                    auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved fails to mock the player with :)
+
+                    auto toWrite = Value(); // what we're gonna write in the mock.json file
+
+                    if (mockConfig.isOk()) {
+                        // unwrap the whole thing
+                        auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+
+                        // overwrite this field (or add it) with the percent
+                        mockConfigUnwr[std::to_string(id)] = percentage;
+
+                        toWrite = mockConfigUnwr;
+                    } else {
+                        toWrite = makeObject({ {std::to_string(id), percentage} });
+                    };
+
+                    if (!toWrite.isNull()) {
+                        auto mockJson = file::writeToJson(mockConfigPath, toWrite);
+
+                        if (mockJson.isOk()) {
+                            log::info("Saved highly mockable percentage of {} to data", percentage);
+                        } else {
+                            log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
+                        };
+                    };
+
+                    log::info("Saved screenshot to {}", path);
+                } else {
+                    log::error("Failed to save screenshot to {}", path);
+                };
+
+                CC_SAFE_DELETE(image);
+            } else {
+                log::error("Failed to create image from render texture");
+            };
+        };
+#endif
+
+#if defined(GEODE_IS_MACOS) && defined(GEODE_IS_IOS)
+        Notification::create("Mock is not avaliable on this platform", NotificationIcon::Info, 1.f);
+#endif
+
+        PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
+    };
+
+    void levelComplete() {
+        if (m_fields->enabled) {
+            int id = m_level->m_levelID;
+            int percentage = m_level->m_normalPercent;
+
+            auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+            auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved levels to mock the player :)
+
+            if (mockConfig.isOk()) {
+                log::debug("Clearing mock record for {}", id);
+                auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+
+                mockConfigUnwr[std::to_string(id)].clear();
+
+                auto mockJson = file::writeToJson(mockConfigPath, mockConfigUnwr);
+
+                if (mockJson.isOk()) {
+                    log::info("Saved highly mockable percentage of {} to data", percentage);
+                } else {
+                    log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
+                };
+            };
+        };
+
+        PlayLayer::levelComplete();
     };
 };

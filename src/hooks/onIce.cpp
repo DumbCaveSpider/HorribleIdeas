@@ -8,9 +8,13 @@ using namespace geode::prelude;
 using namespace horrible;
 
 class $modify(OnIcePlayerObject, PlayerObject) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("ice_level", false);
+    };
+
     void update(float p0) {
         // make the player always on ice. yea this is it xD
-        if (horribleMod->getSavedValue<bool>("ice_level", false)) m_isOnIce = true;
+        m_isOnIce = m_fields->enabled;
 
         PlayerObject::update(p0);
     };

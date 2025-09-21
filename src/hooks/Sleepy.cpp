@@ -9,6 +9,7 @@ using namespace horrible;
 
 class $modify(SleepyPlayerObject, PlayerObject) {
     struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("sleepy", false);
         int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"));
 
         bool sleepy = false; // decelerating-to-zero stage
@@ -52,7 +53,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
 
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            if (horribleMod->getSavedValue<bool>("sleepy", false)) {
+            if (m_fields->enabled) {
                 // player sleepy if not already in any stage
                 if (!m_fields->sleepy && !m_fields->waking) {
                     auto rnd = Rand::fast();

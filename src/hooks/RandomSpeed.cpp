@@ -11,21 +11,13 @@ using namespace horrible;
 
 class $modify(RandomSpeedPlayerObject, PlayerObject) {
     struct Fields {
-        int chance = 0;
-    };
-
-    bool init(int player, int ship, GJBaseGameLayer * gameLayer, CCLayer * layer, bool playLayer) {
-        if (!PlayerObject::init(player, ship, gameLayer, layer, playLayer)) return false;
-
-        m_fields->chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("random_speed-chance"));
-        log::debug("Random speed chance set to {}", m_fields->chance);
-
-        return true;
+        bool enabled = horribleMod->getSavedValue<bool>("random_speed", false);
+        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("random_speed-chance"));
     };
 
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            if (horribleMod->getSavedValue<bool>("random_speed", false)) {
+            if (m_fields->enabled) {
                 auto rnd = Rand::fast();
 
                 // if the rng is lower than the chance, change the speed

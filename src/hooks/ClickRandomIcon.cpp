@@ -9,8 +9,12 @@ using namespace geode::prelude;
 using namespace horrible;
 
 class $modify(ClickRandomIconPlayerObject, PlayerObject) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("random_icon", false);
+    };
+
     bool pushButton(PlayerButton p0) {
-        if (horribleMod->getSavedValue<bool>("random_icon", false)) {
+        if (m_fields->enabled) {
             // jump pls
             if (auto playLayer = PlayLayer::get(); playLayer && p0 == PlayerButton::Jump) {
                 auto gm = GameManager::sharedState();
