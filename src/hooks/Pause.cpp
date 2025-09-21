@@ -18,9 +18,9 @@ class $modify(RandomPausePlayerObject, PlayerObject) {
                 if (rnd <= horribleMod->getSettingValue<int>("pauses-chance")) {
                     log::debug("Pausing the game randomly");
                     playLayer->pauseGame(true); // pause the game randomly
-                };
-            };
-        };
+                }
+            }
+        }
 
         PlayerObject::update(p0);
     };

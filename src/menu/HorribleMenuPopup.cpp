@@ -13,7 +13,8 @@ using namespace geode::prelude;
 using namespace horrible;
 
 // add yo mods here :D
-std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions() {
+std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> HorribleMenuPopup::getAllOptions()
+{
     // for simple minded: [modID, modName, modDescription, sillyTier, restartRequired]
     return {
         {"oxygen",
@@ -106,15 +107,30 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Your character will occasionally fall asleep while playing.\n<cy>Credit: this_guy_yt</c>",
          SillyTier::Low,
          false},
-         {"pauses",
+        {"pauses",
          "Random Pauses",
          "While playing a level, the game will randomly pause the game.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false}
-    };
+         false},
+        {"ice_level",
+         "Ice Level",
+         "Make everything icy. Slip and slide!\n<cy>Credit: TimeRed</c>",
+         SillyTier::Medium,
+         false},
+        {"random_mirror",
+         "Random Mirror Portal",
+         "Randomly flips the game.\n<cy>Credit: TimeRed</c>",
+         SillyTier::Low,
+         false},
+        {"random_speed",
+         "Random Speed Change",
+         "Randomly changes your speed while playing a level.\n<cy>Credit: imdissapearinghelp</c>",
+         SillyTier::Medium,
+         false}};
 };
 
-bool HorribleMenuPopup::setup() {
+bool HorribleMenuPopup::setup()
+{
     setID("options"_spr);
     setTitle("Horrible Options");
 
@@ -122,9 +138,9 @@ bool HorribleMenuPopup::setup() {
 
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
-    optionScrollBg->setAnchorPoint({ 0.5, 0.5 });
-    optionScrollBg->setPosition({ mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f });
-    optionScrollBg->setContentSize({ mainLayerSize.width - 25.f, mainLayerSize.height - 45.f });
+    optionScrollBg->setAnchorPoint({0.5, 0.5});
+    optionScrollBg->setPosition({mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f});
+    optionScrollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
     optionScrollBg->setOpacity(50);
 
     m_mainLayer->addChild(optionScrollBg);
@@ -136,9 +152,9 @@ bool HorribleMenuPopup::setup() {
     columnLayout->setAutoGrowAxis(0.f);
 
     // scroll layer
-    auto optionsScrollLayer = ScrollLayer::create({ optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f });
+    auto optionsScrollLayer = ScrollLayer::create({optionScrollBg->getContentSize().width - 10.f, optionScrollBg->getContentSize().height - 10.f});
     optionsScrollLayer->setID("scrollLayer");
-    optionsScrollLayer->setAnchorPoint({ 0.5, 0.5 });
+    optionsScrollLayer->setAnchorPoint({0.5, 0.5});
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
 
@@ -148,12 +164,14 @@ bool HorribleMenuPopup::setup() {
     auto modOptions = getAllOptions();
 
     // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto& a, const auto& b) { return std::get<4>(a) < std::get<4>(b); });
+    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
+              { return std::get<4>(a) < std::get<4>(b); });
 
-    for (const auto& option : modOptions) {
-        const auto& [id, name, desc, silly, restart] = option;
+    for (const auto &option : modOptions)
+    {
+        const auto &[id, name, desc, silly, restart] = option;
 
-        if (auto modOption = ModOption::create({ optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f }, id, name, desc, silly, restart))
+        if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
             optionsScrollLayer->m_contentLayer->addChild(modOption);
     };
 
@@ -170,32 +188,33 @@ bool HorribleMenuPopup::setup() {
         "geode.loader/settings.png",
         1.f,
         CircleBaseColor::Green,
-        CircleBaseSize::Medium
-    );
+        CircleBaseSize::Medium);
     modSettingsBtnSprite->setScale(0.75f);
 
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openModSettings)
-    );
-    modSettingsMenu->setPosition({ 0.f, 0.f });
+        menu_selector(HorribleMenuPopup::openModSettings));
+    modSettingsMenu->setPosition({0.f, 0.f});
 
     modSettingsMenu->addChild(modSettingsBtn);
 
     m_mainLayer->addChild(modSettingsMenu);
 
     auto safeModeLabel = CCLabelBMFont::create("!! Safe Mode INACTIVE !!", "chatFont.fnt");
-    safeModeLabel->setColor({ 255, 0, 0 });
-    safeModeLabel->setAnchorPoint({ 0.5f, 0.0f });
-    safeModeLabel->setPosition({ m_mainLayer->getContentSize().width / 2.f, 5.f });
+    safeModeLabel->setColor({255, 0, 0});
+    safeModeLabel->setAnchorPoint({0.5f, 0.0f});
+    safeModeLabel->setPosition({m_mainLayer->getContentSize().width / 2.f, 5.f});
     safeModeLabel->setScale(0.5f);
 
     // Set safemode label if active
-    if (auto safeMode = getMod()->getSettingValue<bool>("safe-mode")) {
+    if (auto safeMode = getMod()->getSettingValue<bool>("safe-mode"))
+    {
         safeModeLabel->setCString("!! Safe Mode ACTIVE !!");
-        safeModeLabel->setColor({ 255, 255, 0 });
-    } else {
+        safeModeLabel->setColor({255, 255, 0});
+    }
+    else
+    {
         log::warn("Safe mode is inactive");
     };
 
@@ -204,14 +223,17 @@ bool HorribleMenuPopup::setup() {
     return true;
 };
 
-void HorribleMenuPopup::openModSettings(CCObject* sender) {
+void HorribleMenuPopup::openModSettings(CCObject *sender)
+{
     openSettingsPopup(getMod());
 };
 
-HorribleMenuPopup* HorribleMenuPopup::create() {
+HorribleMenuPopup *HorribleMenuPopup::create()
+{
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(300.f, 280.f)) {
+    if (ret && ret->initAnchored(300.f, 280.f))
+    {
         ret->autorelease();
         return ret;
     };
