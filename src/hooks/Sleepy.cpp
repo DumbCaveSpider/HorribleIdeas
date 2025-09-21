@@ -10,14 +10,73 @@ using namespace horrible;
 static RandomSeeder _randomSeeder;
 
 class $modify(SleepyPlayerObject, PlayerObject) {
+public:
+    struct Fields {
+        bool sleepy = false; // decelerating-to-zero stage
+        bool waking = false; // 5s buffer stage (cannot be re-slept)
+        float savedDefaultSpeed = 0.f; // original speed captured at sleep start
+    };
+
+private:
+    void startSleepTimer() {
+        // begin waking stage
+        auto seq = CCSequence::create(
+            CCDelayTime::create(5.f),
+            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::wakeUp)),
+            nullptr
+        );
+        this->runAction(seq);
+    }
+
+    void wakeUp() {
+        log::debug("Waking the player up");
+        m_fields->sleepy = false;
+        m_fields->waking = true;
+        this->m_playerSpeed = m_fields->savedDefaultSpeed; // snap back to original speed
+
+        // 5 seconds buffer before fully awake
+        auto buffer = CCSequence::create(
+            CCDelayTime::create(5.f),
+            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp)),
+            nullptr
+        );
+        this->runAction(buffer);
+    }
+
+    void fullyWakeUp() {
+        m_fields->waking = false;
+    }
+
+public:
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            // sleepy player
             if (horribleMod->getSavedValue<bool>("sleepy", false)) {
-                log::debug("Player is sleepy!");
-            };
-        };
+                // player sleepy if not already in any stage
+                if (!m_fields->sleepy && !m_fields->waking) {
+                    auto rnd = rand() % 101;
+                    // if the rng is lower than the chance, make the player sleepy
+                    if (rnd <= horribleMod->getSettingValue<int64_t>("sleep-chance")) {
+                        log::debug("Making the player sleepy");
+                        m_fields->savedDefaultSpeed = this->m_playerSpeed; // capture original speed
+                        m_fields->sleepy = true;
+                        startSleepTimer();
+                    }
+                }
 
-        PlayerObject::update(p0);
-    };
+                // go to sleep, go to sleep, sweet little baby go to sleep
+                if (m_fields->sleepy) {
+                    this->m_playerSpeed *= 0.99f;
+                    if (this->m_playerSpeed < 0.1f) this->m_playerSpeed = 0.f;
+                }
+
+            } else {
+                // wake up
+                if (m_fields->sleepy || m_fields->waking) {
+                    fullyWakeUp();
+                }
+            }
+
+            PlayerObject::update(p0);
+        }
+    }
 };

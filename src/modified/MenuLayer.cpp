@@ -43,7 +43,7 @@ class $modify(HorribleMenuLayer, MenuLayer) {
             );
             btn->setID("menu-btn"_spr);
 
-            if (auto menu = dynamic_cast<CCMenu*>(bottomMenu)) {
+            if (auto menu = typeinfo_cast<CCMenu*>(bottomMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };

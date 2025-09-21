@@ -29,7 +29,7 @@ class $modify(HorriblePauseLayer, PauseLayer) {
             );
             btn->setID("menu-btn"_spr);
 
-            if (auto menu = dynamic_cast<CCMenu*>(rightMenu)) {
+            if (auto menu = typeinfo_cast<CCMenu*>(rightMenu)) {
                 menu->addChild(btn);
                 menu->updateLayout(true);
             };

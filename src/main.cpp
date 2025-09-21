@@ -20,7 +20,7 @@ class $modify(HorribleCCScene, CCScene) {
         if (!CCScene::init()) return false;
 
 #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
-        if (dynamic_cast<CCTransitionFade*>(this)) {
+        if (typeinfo_cast<CCTransitionFade*>(this)) {
             log::debug("scene is a CCTransitionFade");
             return true;
         };
