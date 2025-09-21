@@ -10,13 +10,26 @@ using namespace horrible;
 static RandomSeeder _randomSeeder;
 
 class $modify(RandomSpeedPlayerObject, PlayerObject) {
+    struct Fields {
+        int chance = 0;
+    };
+
+    bool init(int player, int ship, GJBaseGameLayer * gameLayer, CCLayer * layer, bool playLayer) {
+        if (!PlayerObject::init(player, ship, gameLayer, layer, playLayer)) return false;
+
+        m_fields->chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("random_speed-chance"));
+        log::debug("Random speed chance set to {}", m_fields->chance);
+
+        return true;
+    };
+
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (horribleMod->getSavedValue<bool>("random_speed", false)) {
                 auto rnd = rand() % 101;
 
                 // if the rng is lower than the chance, change the speed
-                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("random_speed-chance"))) {
+                if (rnd <= m_fields->chance) {
                     // randomly choose a new speed between 10% and 200%
                     auto newSpeed = (rand() % 191 + 10) / 100.0f;
                     m_playerSpeed = static_cast<float>(newSpeed);

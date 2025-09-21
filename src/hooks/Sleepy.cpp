@@ -11,8 +11,11 @@ static RandomSeeder _randomSeeder;
 
 class $modify(SleepyPlayerObject, PlayerObject) {
     struct Fields {
+        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"));
+
         bool sleepy = false; // decelerating-to-zero stage
         bool waking = false; // 5s buffer stage (cannot be re-slept)
+
         float savedDefaultSpeed = 0.f; // original speed captured at sleep start
     };
 
@@ -57,7 +60,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
                     auto rnd = rand() % 101;
 
                     // if the rng is lower than the chance, make the player sleepy
-                    if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"))) {
+                    if (rnd <= m_fields->chance) {
                         log::debug("Making the player sleepy");
 
                         m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed

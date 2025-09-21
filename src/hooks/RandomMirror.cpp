@@ -7,8 +7,12 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+static RandomSeeder _randomSeeder;
+
 class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
+        int chance = 0;
+
         bool isFlipped = false;
         bool inBuffer = false;
     };
@@ -18,12 +22,21 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
         // log::debug("flip buffer ended");
     };
 
+    bool init() {
+        if (!GJBaseGameLayer::init()) return false;
+
+        m_fields->chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("random_mirror-chance"));
+        log::debug("Random mirror chance set to {}", m_fields->chance);
+
+        return true;
+    };
+
     void update(float p0) {
         auto rnd = rand() % 101;
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (horribleMod->getSavedValue<bool>("random_mirror", false)) {
-            if (!m_fields->inBuffer && rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("random_mirror-chance"))) {
+            if (!m_fields->inBuffer && rnd <= m_fields->chance) {
                 if (auto playLayer = PlayLayer::get()) {
                     // flip state
                     if (!m_fields->isFlipped) {
