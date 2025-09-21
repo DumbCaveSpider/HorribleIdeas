@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
-
 class $modify(BlinkingIconPlayerObject, PlayerObject) {
     struct Fields {
         int chance = 0;
@@ -26,7 +24,7 @@ class $modify(BlinkingIconPlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (horribleMod->getSavedValue<bool>("blinking_icon", false)) {
-                auto rnd = rand() % 101;
+                auto rnd = Rand::fast();
 
                 // randomly makes the player invisible and visible again
                 if (rnd <= m_fields->chance) {

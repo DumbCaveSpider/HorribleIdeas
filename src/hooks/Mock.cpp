@@ -9,13 +9,13 @@ using namespace geode::utils;
 using namespace matjson;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(MockMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("chance {}", rnd);
 
         // Show a LazySprite for the first PNG found in the save directory

@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(RandomPausePlayerObject, PlayerObject) {
     struct Fields {
@@ -26,7 +26,7 @@ class $modify(RandomPausePlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (horribleMod->getSavedValue<bool>("pauses", false)) {
-                auto rnd = rand() % 101;
+                auto rnd = Rand::fast();
 
                 // if the rng is lower than the chance, pause the game
                 if (rnd <= m_fields->chance) {

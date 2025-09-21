@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
-
 class $modify(SleepyPlayerObject, PlayerObject) {
     struct Fields {
         int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"));
@@ -57,7 +55,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
             if (horribleMod->getSavedValue<bool>("sleepy", false)) {
                 // player sleepy if not already in any stage
                 if (!m_fields->sleepy && !m_fields->waking) {
-                    auto rnd = rand() % 101;
+                    auto rnd = Rand::fast();
 
                     // if the rng is lower than the chance, make the player sleepy
                     if (rnd <= m_fields->chance) {

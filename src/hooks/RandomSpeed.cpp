@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(RandomSpeedPlayerObject, PlayerObject) {
     struct Fields {
@@ -26,7 +26,7 @@ class $modify(RandomSpeedPlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (horribleMod->getSavedValue<bool>("random_speed", false)) {
-                auto rnd = rand() % 101;
+                auto rnd = Rand::fast();
 
                 // if the rng is lower than the chance, change the speed
                 if (rnd <= m_fields->chance) {

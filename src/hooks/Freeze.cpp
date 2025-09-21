@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(FreezePlayerObject, PlayerObject) {
     void update(float p0) {

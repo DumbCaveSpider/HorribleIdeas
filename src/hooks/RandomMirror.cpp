@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
@@ -32,7 +32,7 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (horribleMod->getSavedValue<bool>("random_mirror", false)) {

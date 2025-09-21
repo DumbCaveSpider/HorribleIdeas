@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(GravityPlayerObject, PlayerObject) {
     struct Fields {
@@ -16,7 +16,7 @@ class $modify(GravityPlayerObject, PlayerObject) {
     };
 
     void updateJump(float p0) {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
 
         if (horribleMod->getSavedValue<bool>("gravity", false)) {
             float newGrav = std::round((static_cast<float>(rnd) / 100.f) * (2.5f) * 100.0f) / 100.0f;

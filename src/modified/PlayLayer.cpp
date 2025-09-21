@@ -13,7 +13,7 @@ using namespace geode::utils;
 using namespace matjson;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
@@ -42,7 +42,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         m_fields->m_dontCreateObjects = dontCreateObjects;
 
-        int rnd = rand() % 101;
+        int rnd = Rand::fast();
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -182,7 +182,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void update(float p0) {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("playlayer update chance {}", rnd);
 
         // // Parry logic: constant check every frame
@@ -386,7 +386,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
 
 
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("destroy chance {}", rnd);
 
         bool crashEnabled = horribleMod->getSavedValue<bool>("crash_death", false);
