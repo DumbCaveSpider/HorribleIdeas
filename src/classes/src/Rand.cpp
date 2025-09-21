@@ -10,5 +10,9 @@ using namespace geode::prelude;
 using namespace horrible;
 
 int Rand::fast() {
-    return static_cast<int>(GameToolbox::fast_rand()) % 200;
+    return static_cast<int>(GameToolbox::fast_rand()) % 100;
+};
+
+int Rand::tiny() {
+    return static_cast<int>(GameToolbox::fast_rand()) % 2500;
 };

@@ -56,7 +56,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
             if (m_fields->enabled) {
                 // player sleepy if not already in any stage
                 if (!m_fields->sleepy && !m_fields->waking) {
-                    auto rnd = Rand::fast();
+                    auto rnd = Rand::tiny();
 
                     // if the rng is lower than the chance, make the player sleepy
                     if (rnd <= m_fields->chance) {
