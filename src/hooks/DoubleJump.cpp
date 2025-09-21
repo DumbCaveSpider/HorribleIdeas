@@ -9,11 +9,13 @@ using namespace horrible;
 
 class $modify(DoubleJumpPlayerObject, PlayerObject) {
     struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("double_jump", false);
+
         int m_jumps = 0;
     };
 
     bool pushButton(PlayerButton p0) {
-        if (horribleMod->getSavedValue<bool>("double_jump", false)) {
+        if (m_fields->enabled) {
             if (p0 == PlayerButton::Jump) {
                 if (m_isOnGround) m_fields->m_jumps = 0;
                 if (!m_isOnGround) m_fields->m_jumps++;

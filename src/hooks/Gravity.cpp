@@ -7,18 +7,20 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(GravityPlayerObject, PlayerObject) {
     struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("gravity", false);
+
         bool m_isOnSlope = false;
         bool m_wasOnSlope = false;
     };
 
     void updateJump(float p0) {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::tiny();
 
-        if (horribleMod->getSavedValue<bool>("gravity", false)) {
+        if (m_fields->enabled) {
             float newGrav = std::round((static_cast<float>(rnd) / 100.f) * (2.5f) * 100.0f) / 100.0f;
             auto onGrnd = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
 

@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 bool MathQuiz::init() {
     if (!CCBlockLayer::init()) return false;

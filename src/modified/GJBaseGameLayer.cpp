@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
@@ -20,7 +20,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     void handleButton(bool down, int button, bool isPlayer1) {
 
 
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("gjbasegamelayer handleButton chance {}", rnd);
 
         if (horribleMod->getSavedValue<bool>("no_jump", false) && !m_isPlatformer) {
@@ -38,7 +38,7 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         //log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (horribleMod->getSavedValue<bool>("math_quiz", false)) {

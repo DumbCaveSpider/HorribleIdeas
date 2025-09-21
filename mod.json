@@ -222,10 +222,27 @@
 				"big-arrow-step": 20
 			}
 		},
-		"random-mirror-chance": {
+		"random_mirror-chance": {
 			"type": "int",
 			"name": "Random Mirror Portal Chance",
-			"description": "<cj>Random Mirror Portal Activation</c> - Chance of a mirror portal activating randomly while playing.",
+			"description": "<cj>Random Mirror Portal</c> - Chance of a mirror portal activating randomly while playing.",
+			"default": 5,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"random_speed-chance": {
+			"type": "int",
+			"name": "Random Speed Chance",
+			"description": "<cj>Random Speed</c> - Chance of your player speed changing during the level.",
 			"default": 5,
 			"min": 0,
 			"max": 100,

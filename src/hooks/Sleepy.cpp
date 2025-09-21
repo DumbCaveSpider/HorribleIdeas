@@ -7,17 +7,17 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
-
 class $modify(SleepyPlayerObject, PlayerObject) {
-public:
     struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("sleepy", false);
+        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"));
+
         bool sleepy = false; // decelerating-to-zero stage
         bool waking = false; // 5s buffer stage (cannot be re-slept)
+
         float savedDefaultSpeed = 0.f; // original speed captured at sleep start
     };
 
-private:
     void startSleepTimer() {
         // begin waking stage
         auto seq = CCSequence::create(
@@ -25,14 +25,17 @@ private:
             CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::wakeUp)),
             nullptr
         );
-        this->runAction(seq);
-    }
+
+        runAction(seq);
+    };
 
     void wakeUp() {
         log::debug("Waking the player up");
+
         m_fields->sleepy = false;
         m_fields->waking = true;
-        this->m_playerSpeed = m_fields->savedDefaultSpeed; // snap back to original speed
+
+        m_playerSpeed = m_fields->savedDefaultSpeed; // snap back to original speed
 
         // 5 seconds buffer before fully awake
         auto buffer = CCSequence::create(
@@ -40,43 +43,44 @@ private:
             CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp)),
             nullptr
         );
-        this->runAction(buffer);
-    }
+
+        runAction(buffer);
+    };
 
     void fullyWakeUp() {
         m_fields->waking = false;
-    }
+    };
 
-public:
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
-            if (horribleMod->getSavedValue<bool>("sleepy", false)) {
+            if (m_fields->enabled) {
                 // player sleepy if not already in any stage
                 if (!m_fields->sleepy && !m_fields->waking) {
-                    auto rnd = rand() % 101;
+                    auto rnd = Rand::tiny();
+
                     // if the rng is lower than the chance, make the player sleepy
-                    if (rnd <= horribleMod->getSettingValue<int64_t>("sleep-chance")) {
+                    if (rnd <= m_fields->chance) {
                         log::debug("Making the player sleepy");
-                        m_fields->savedDefaultSpeed = this->m_playerSpeed; // capture original speed
+
+                        m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed
                         m_fields->sleepy = true;
+
                         startSleepTimer();
-                    }
-                }
+                    };
+                };
 
                 // go to sleep, go to sleep, sweet little baby go to sleep
                 if (m_fields->sleepy) {
-                    this->m_playerSpeed *= 0.99f;
-                    if (this->m_playerSpeed < 0.1f) this->m_playerSpeed = 0.f;
-                }
+                    m_playerSpeed *= 0.99f;
+                    if (m_playerSpeed < 0.1f) m_playerSpeed = 0.f;
+                };
 
             } else {
                 // wake up
-                if (m_fields->sleepy || m_fields->waking) {
-                    fullyWakeUp();
-                }
-            }
+                if (m_fields->sleepy || m_fields->waking) fullyWakeUp();
+            };
 
             PlayerObject::update(p0);
-        }
-    }
+        };
+    };
 };

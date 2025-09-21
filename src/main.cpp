@@ -13,7 +13,7 @@ using namespace horrible;
 
 bool isFlipped = false;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(HorribleCCScene, CCScene) {
     bool init() {
@@ -35,7 +35,7 @@ class $modify(HorribleCCScene, CCScene) {
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
 class $modify(HorribleCCMenuItem, CCMenuItem) {
     void activate() {
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("button menu chance {}", rnd);
 
         if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {

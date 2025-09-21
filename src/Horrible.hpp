@@ -3,7 +3,7 @@
 #include <Geode/Geode.hpp>
 
 #include <classes/LevelManager.hpp>
-#include <classes/RandomSeeder.hpp>
+#include <classes/Rand.hpp>
 #include <classes/SillyTier.hpp>
 
 #include <classes/ui/MathQuiz.hpp>

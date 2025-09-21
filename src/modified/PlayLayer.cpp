@@ -13,7 +13,7 @@ using namespace geode::utils;
 using namespace matjson;
 using namespace horrible;
 
-static RandomSeeder _randomSeeder;
+
 
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
@@ -38,17 +38,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
+        m_fields->m_dontCreateObjects = dontCreateObjects;
 
-        int rnd = rand() % 101;
+        int rnd = Rand::fast();
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
-
-        m_fields->m_dontCreateObjects = dontCreateObjects;
 
         if (horribleMod->getSavedValue<bool>("grief", false)) LevelManager::DownloadGriefLevel();
         if (horribleMod->getSavedValue<bool>("congregation", false)) LevelManager::DownloadCongregLevel();
@@ -185,12 +182,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void update(float p0) {
-
-
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("playlayer update chance {}", rnd);
-
-
 
         // // Parry logic: constant check every frame
         // if (horribleMod->getSavedValue<bool>("parry", false))
@@ -230,8 +223,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void revertFPS() {
-
-
         // default to user old fps
         auto gm = GameManager::get();
 
@@ -241,31 +232,25 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
         // Use seconds per frame, not raw FPS
         float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("reset fps to {} (interval {})", oldFPS, interval);
     };
 
     void capFPS(float value) {
-
-
         auto gm = GameManager::get();
 
         gm->setGameVariable("0116", true);
 
         float interval = 1.f / value; // cap fps to 60
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("cap fps to {} (interval {})", value, interval);
     };
 
     void onQuit() {
-
-
         revertFPS();
 
         // achievement
@@ -280,8 +265,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void showBlackScreen(float) {
-
-
         if (horribleMod->getSavedValue<bool>("black_screen", false)) {
             log::debug("Showing black screen after delay");
 
@@ -305,8 +288,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void removeBlackScreen() {
-
-
         if (auto blackScreen = getChildByID("black_screen"_spr)) {
             blackScreen->removeFromParent();
             log::debug("Black screen removed");
@@ -325,10 +306,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void decreaseOxygen(float dt) {
-        if (!m_fields->m_oxygenActive || !m_fields->m_oxygenLabel)
-            return;
-        if (!m_player1)
-            return;
+        if (!m_fields->m_oxygenActive || !m_fields->m_oxygenLabel) return;
+        if (!m_player1) return;
 
         // regen o2
         if (m_player1->m_isBird || m_player1->m_isShip || m_player1->m_isSwing || m_player1->m_isDart) {
@@ -339,10 +318,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             // log::debug("Oxygen level decreased: {}", m_fields->m_oxygenLevel);
         };
 
-        if (m_fields->m_oxygenLevel > 100.f)
-            m_fields->m_oxygenLevel = 100.f;
-        if (m_fields->m_oxygenLevel < 0.f)
-            m_fields->m_oxygenLevel = 0.f;
+        if (m_fields->m_oxygenLevel > 100.f) m_fields->m_oxygenLevel = 100.f;
+        if (m_fields->m_oxygenLevel < 0.f) m_fields->m_oxygenLevel = 0.f;
 
         std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
         m_fields->m_oxygenLabel->setString(buf.c_str());
@@ -353,8 +330,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, newWidth, 8 });
 
         // Destroy player if oxygen is 0
-        if (m_fields->m_oxygenLevel <= 0.f && m_player1 && !m_player1->m_isDead)
-            destroyPlayer(m_player1, nullptr);
+        if (m_fields->m_oxygenLevel <= 0.f && m_player1 && !m_player1->m_isDead) destroyPlayer(m_player1, nullptr);
     };
 
     void resetOxygenLevel() {
@@ -390,15 +366,10 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     // do crap when player died
     void destroyPlayer(PlayerObject * player, GameObject * game) {
         // ignore the anticheat spike lmao
-        if (game == m_anticheatSpike && player && !player->m_isDead)
-            return;
+        if (game == m_anticheatSpike && player && !player->m_isDead) return;
+        if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
-        if (!m_fields->m_destroyingObject)
-            m_fields->m_destroyingObject = game;
-
-
-
-        auto rnd = rand() % 101;
+        auto rnd = Rand::fast();
         log::debug("destroy chance {}", rnd);
 
         bool crashEnabled = horribleMod->getSavedValue<bool>("crash_death", false);
@@ -534,117 +505,19 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         PlayLayer::destroyPlayer(player, game);
     };
 
-    // new best
-    void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {
-
-
-        int id = m_level->m_levelID;
-        int percentage = m_level->m_normalPercent;
-
-        log::info("Showing new best for level ID: {}", id);
-        log::info("Level percentage: {}", percentage);
-
-        PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
-
-#if defined(GEODE_IS_MACOS) && defined(GEODE_IS_IOS)
-        Notification::create("Mock is not avaliable on this platform", NotificationIcon::Info, 1.f);
-#endif
-
-#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
-        if (horribleMod->getSavedValue<bool>("mock", false) && percentage >= 90) {
-            CCDirector* director = CCDirector::sharedDirector();
-            CCScene* scene = CCScene::get();
-
-            // Get the window size in points and scale to pixels
-            auto winSize = director->getWinSize();
-
-            int width = static_cast<int>(winSize.width);
-            int height = static_cast<int>(winSize.height);
-
-            CCRenderTexture* renderTexture = CCRenderTexture::create(width, height);
-
-            renderTexture->begin();
-            scene->visit();
-            renderTexture->end();
-
-            if (auto image = renderTexture->newCCImage()) {
-                std::string path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
-
-                if (image->saveToFile(path.c_str(), false)) {
-                    auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
-                    auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved fails to mock the player with :)
-
-                    auto toWrite = Value(); // what we're gonna write in the mock.json file
-
-                    if (mockConfig.isOk()) {
-                        // unwrap the whole thing
-                        auto mockConfigUnwr = mockConfig.unwrapOr(Value());
-
-                        // overwrite this field (or add it) with the percent
-                        mockConfigUnwr[std::to_string(id)] = percentage;
-
-                        toWrite = mockConfigUnwr;
-                    } else {
-                        toWrite = makeObject({ {std::to_string(id), percentage} });
-                    };
-
-                    if (!toWrite.isNull()) {
-                        auto mockJson = file::writeToJson(mockConfigPath, toWrite);
-
-                        if (mockJson.isOk()) {
-                            log::info("Saved highly mockable percentage of {} to data", percentage);
-                        } else {
-                            log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
-                        };
-                    };
-
-                    log::info("Saved screenshot to {}", path);
-                } else {
-                    log::error("Failed to save screenshot to {}", path);
-                };
-
-                CC_SAFE_DELETE(image);
-            } else {
-                log::error("Failed to create image from render texture");
-            };
-        };
-#endif
-    };
-
     void levelComplete() {
-
         auto safeMode = horribleMod->getSettingValue<bool>("safe-mode");
-
-        if (horribleMod->getSavedValue<bool>("mock", false)) {
-            int id = m_level->m_levelID;
-            int percentage = m_level->m_normalPercent;
-
-            auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
-            auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved levels to mock the player :)
-
-            if (mockConfig.isOk()) {
-                log::debug("Clearing mock record for {}", id);
-                auto mockConfigUnwr = mockConfig.unwrapOr(Value());
-
-                mockConfigUnwr[std::to_string(id)].clear();
-
-                auto mockJson = file::writeToJson(mockConfigPath, mockConfigUnwr);
-
-                if (mockJson.isOk()) {
-                    log::info("Saved highly mockable percentage of {} to data", percentage);
-                } else {
-                    log::error("Aw man, failed to save mockable percentage of {} to data", percentage);
-                };
-            };
-        };
 
         if (safeMode) {
             bool testMode = m_isTestMode;
+
             m_isTestMode = true;
             PlayLayer::levelComplete();
             m_isTestMode = testMode;
+
             return;
-        }
+        };
+
         PlayLayer::levelComplete();
     };
 };

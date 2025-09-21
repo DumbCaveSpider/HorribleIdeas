@@ -28,8 +28,6 @@ void LevelManager::DownloadGriefLevel() {
 };
 
 void LevelManager::DownloadCongregLevel() {
-
-
     if (horribleMod->getSavedValue<bool>("congregation", false)) {
         auto glm = GameLevelManager::get();
 
