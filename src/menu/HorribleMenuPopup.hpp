@@ -11,6 +11,7 @@ class HorribleMenuPopup : public Popup<> {
 protected:
     bool setup() override;
     void openModSettings(CCObject* sender);
+    void filterTierCallback(CCObject* sender);
 
 public:
     static HorribleMenuPopup* create();

@@ -8,6 +8,8 @@
 #include <Geode/ui/GeodeUI.hpp>
 
 #include <Geode/utils/terminate.hpp>
+#include <Geode/binding/ButtonSprite.hpp>
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
@@ -127,18 +129,36 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Randomly changes your speed while playing a level.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Medium,
          false},
-         {"random_icon",
+        {"random_icon",
          "Random Icon Change",
          "Randomly change your icon every time you jump.\n<cy>Credit: JompyDoJump</c>",
          SillyTier::Low,
          false},
-         {"blinking_icon",
+        {"blinking_icon",
          "Blinking Icon",
          "Player Icon randomly blinking.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false}
-        };
+         false}};
 };
+
+// silly tier filter
+static SillyTier s_selectedTier = SillyTier::None;
+
+void filterOptionsByTier(ScrollLayer *optionsScrollLayer, const std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> &allOptions, SillyTier tier)
+{
+    optionsScrollLayer->m_contentLayer->removeAllChildren();
+    for (const auto &option : allOptions)
+    {
+        const auto &[id, name, desc, silly, restart] = option;
+        if (tier == SillyTier::None || silly == tier)
+        {
+            if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
+                optionsScrollLayer->m_contentLayer->addChild(modOption);
+        }
+    }
+    optionsScrollLayer->m_contentLayer->updateLayout();
+    optionsScrollLayer->scrollToTop();
+}
 
 bool HorribleMenuPopup::setup()
 {
@@ -150,11 +170,44 @@ bool HorribleMenuPopup::setup()
     // Add a background sprite to the popup
     auto optionScrollBg = CCScale9Sprite::create("square02_001.png");
     optionScrollBg->setAnchorPoint({0.5, 0.5});
-    optionScrollBg->setPosition({mainLayerSize.width / 2.f, mainLayerSize.height / 2.f - 10.f});
-    optionScrollBg->setContentSize({mainLayerSize.width - 25.f, mainLayerSize.height - 45.f});
+    optionScrollBg->setPosition({mainLayerSize.width / 2.f - 80.f, mainLayerSize.height / 2.f - 10.f});
+    optionScrollBg->setContentSize({mainLayerSize.width / 1.5f - 25.f, mainLayerSize.height - 45.f});
     optionScrollBg->setOpacity(50);
-
     m_mainLayer->addChild(optionScrollBg);
+
+    // filter buttons :o
+    auto filterMenu = CCMenu::create();
+    filterMenu->setPosition({mainLayerSize.width - 85.f, mainLayerSize.height / 2.f + 80.f});
+
+    struct FilterBtnInfo
+    {
+        SillyTier tier;
+        const char *label;
+        ccColor3B color;
+    };
+    std::vector<FilterBtnInfo> btns = {
+        {SillyTier::Low, "Low", {100, 255, 100}},
+        {SillyTier::Medium, "Medium", {255, 255, 100}},
+        {SillyTier::High, "High", {255, 100, 100}}};
+    float btnY = 0.f;
+    for (const auto &btn : btns)
+    {
+        // Create a ButtonSprite using caption + font overload, then tint its internal label
+        auto bs = ButtonSprite::create(
+            btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 1.f);
+        if (bs && bs->m_label)
+        {
+            bs->m_label->setColor(btn.color);
+            bs->setScale(1.f);
+        }
+
+        auto btnItem = CCMenuItemSpriteExtra::create(bs, this, menu_selector(HorribleMenuPopup::filterTierCallback));
+        btnItem->setTag(static_cast<int>(btn.tier));
+        btnItem->setPosition({0.f, btnY});
+        filterMenu->addChild(btnItem);
+        btnY -= 40.f;
+    }
+    m_mainLayer->addChild(filterMenu);
 
     auto columnLayout = ColumnLayout::create();
     columnLayout->setGap(5.f);
@@ -168,31 +221,15 @@ bool HorribleMenuPopup::setup()
     optionsScrollLayer->setAnchorPoint({0.5, 0.5});
     optionsScrollLayer->ignoreAnchorPointForPosition(false);
     optionsScrollLayer->setPosition(optionScrollBg->getPosition());
-
     optionsScrollLayer->m_contentLayer->setLayout(columnLayout);
 
     // get the options data
     auto modOptions = getAllOptions();
-
-    // Sort mod options alphabetically by name
-    std::sort(modOptions.begin(), modOptions.end(), [](const auto &a, const auto &b)
-              { return std::get<4>(a) < std::get<4>(b); });
-
-    for (const auto &option : modOptions)
-    {
-        const auto &[id, name, desc, silly, restart] = option;
-
-        if (auto modOption = ModOption::create({optionsScrollLayer->m_contentLayer->getScaledContentWidth(), 32.f}, id, name, desc, silly, restart))
-            optionsScrollLayer->m_contentLayer->addChild(modOption);
-    };
-
-    optionsScrollLayer->m_contentLayer->updateLayout();
-    optionsScrollLayer->scrollToTop();
+    filterOptionsByTier(optionsScrollLayer, modOptions, SillyTier::None);
 
     m_mainLayer->addChild(optionsScrollLayer);
 
     auto modSettingsMenu = CCMenu::create();
-
     // add a mod settings at the bottom left
     auto modSettingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
         // @geode-ignore(unknown-resource)
@@ -201,15 +238,12 @@ bool HorribleMenuPopup::setup()
         CircleBaseColor::Green,
         CircleBaseSize::Medium);
     modSettingsBtnSprite->setScale(0.75f);
-
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
         menu_selector(HorribleMenuPopup::openModSettings));
     modSettingsMenu->setPosition({0.f, 0.f});
-
     modSettingsMenu->addChild(modSettingsBtn);
-
     m_mainLayer->addChild(modSettingsMenu);
 
     auto safeModeLabel = CCLabelBMFont::create("!! Safe Mode INACTIVE !!", "chatFont.fnt");
@@ -217,7 +251,6 @@ bool HorribleMenuPopup::setup()
     safeModeLabel->setAnchorPoint({0.5f, 0.0f});
     safeModeLabel->setPosition({m_mainLayer->getContentSize().width / 2.f, 5.f});
     safeModeLabel->setScale(0.5f);
-
     // Set safemode label if active
     if (auto safeMode = getMod()->getSettingValue<bool>("safe-mode"))
     {
@@ -227,12 +260,26 @@ bool HorribleMenuPopup::setup()
     else
     {
         log::warn("Safe mode is inactive");
-    };
-
+    }
     m_mainLayer->addChild(safeModeLabel, 100);
-
     return true;
-};
+}
+
+void HorribleMenuPopup::filterTierCallback(CCObject *sender)
+{
+    auto node = static_cast<CCNode *>(sender);
+    SillyTier tier = static_cast<SillyTier>(node->getTag());
+    // Toggle: clicking same button disables filter
+    if (s_selectedTier == tier)
+        s_selectedTier = SillyTier::None;
+    else
+        s_selectedTier = tier;
+
+    // Find scroll layer and options
+    auto optionsScrollLayer = static_cast<ScrollLayer *>(m_mainLayer->getChildByID("scrollLayer"));
+    auto modOptions = getAllOptions();
+    filterOptionsByTier(optionsScrollLayer, modOptions, s_selectedTier);
+}
 
 void HorribleMenuPopup::openModSettings(CCObject *sender)
 {
@@ -243,7 +290,7 @@ HorribleMenuPopup *HorribleMenuPopup::create()
 {
     auto ret = new HorribleMenuPopup();
 
-    if (ret && ret->initAnchored(300.f, 280.f))
+    if (ret && ret->initAnchored(450.f, 280.f))
     {
         ret->autorelease();
         return ret;
