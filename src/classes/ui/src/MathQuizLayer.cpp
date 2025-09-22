@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-
-
 bool MathQuiz::init() {
     if (!CCBlockLayer::init()) return false;
 

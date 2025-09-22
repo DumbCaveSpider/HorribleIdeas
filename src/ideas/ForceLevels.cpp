@@ -1,0 +1,114 @@
+#include <Horrible.hpp>
+
+#include <Geode/Geode.hpp>
+
+#include <Geode/modify/PlayLayer.hpp>
+
+using namespace geode::prelude;
+using namespace horrible;
+
+class $modify(ForceLevelsPlayLayer, PlayLayer)
+{
+    struct Fields
+    {
+        bool griefEnabled = horribleMod->getSavedValue<bool>("grief", false);
+        bool congregEnabled = horribleMod->getSavedValue<bool>("congregation", false);
+
+        int griefChance = static_cast<int>(horribleMod->getSavedValue<int64_t>("grief-chance"));
+        int congregChance = static_cast<int>(horribleMod->getSavedValue<int64_t>("congregation-chance"));
+
+        bool m_dontCreateObjects = false;
+        GameObject *m_destroyingObject;
+    };
+
+    bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
+    {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
+            return false;
+
+        if (m_fields->griefEnabled)
+            LevelManager::DownloadGriefLevel();
+        if (m_fields->congregEnabled)
+            LevelManager::DownloadCongregLevel();
+
+        return true;
+    };
+
+    void destroyPlayer(PlayerObject *p0, GameObject *p1)
+    {
+        int rng = Rand::fast();
+
+        // get back to grief
+        if (m_fields->griefEnabled)
+        {
+            if (p1 == m_anticheatSpike && p0 && !p0->m_isDead)
+                return;
+            if (!m_fields->m_destroyingObject)
+                m_fields->m_destroyingObject = p1;
+
+            // chance to play grief level
+            if (rng <= m_fields->griefChance)
+            {
+                auto glm = GameLevelManager::get();
+                auto griefLevel = glm->getSavedLevel(105001928);
+
+                if (griefLevel && !griefLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 105001928))
+                {
+                    PlayLayer::destroyPlayer(p0, p1);
+
+                    onExit();
+
+                    auto scene = PlayLayer::scene(griefLevel, m_useReplay, m_fields->m_dontCreateObjects);
+
+                    CCDirector::get()->replaceScene(scene);
+
+                    log::info("Switching to Grief level (105001928)");
+
+                    return;
+                }
+                else if (griefLevel && !griefLevel->m_levelNotDownloaded)
+                {
+                    log::debug("Already in grief level");
+                }
+            }
+            else
+            {
+                log::info("Grief jumpscare not triggered {}", m_fields->griefChance);
+            }
+        }
+        // congregation jumpscare
+        if (m_fields->congregEnabled)
+        {
+            // 10% chance to play congregation level
+            if (rng <= m_fields->congregChance)
+            {
+                auto glm = GameLevelManager::get();
+                auto congregLevel = glm->getSavedLevel(93437568);
+
+                if (congregLevel && !congregLevel->m_levelNotDownloaded && (!m_level || m_level->m_levelID.value() != 93437568))
+                {
+                    PlayLayer::destroyPlayer(p0, p1);
+
+                    onExit();
+
+                    auto scene = PlayLayer::scene(congregLevel, m_useReplay, m_fields->m_dontCreateObjects);
+
+                    CCDirector::get()->replaceScene(scene);
+
+                    log::info("Switching to Congregation level (93437568)");
+                    return;
+                }
+                else if (congregLevel && !congregLevel->m_levelNotDownloaded)
+                {
+                    log::debug("Already in congregation level");
+                }
+            }
+            else
+            {
+                log::info("Congregation jumpscare not triggered {}", m_fields->congregChance);
+            }
+        }
+
+        PlayLayer::destroyPlayer(p0, p1);
+    }
+};
