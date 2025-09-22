@@ -19,7 +19,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer)
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;
 
-        int rnd = Rand::fast();
+        int rnd = Rand::tiny();
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -27,9 +27,9 @@ class $modify(BlackScreenPlayLayer, PlayLayer)
         {
             log::debug("black screen enabled, init scheduling black screen");
 
-            float delay = static_cast<float>(rnd % 10001) / 1000.0f; // random delay between 0 and 10 seconds
+            // random delay between 0 and 10 seconds
+            float delay = static_cast<float>(rnd % 10001) / 1000.0f;
             log::debug("Black screen will appear after {} seconds", delay);
-
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                 schedule_selector(BlackScreenPlayLayer::showBlackScreen),
                 this, delay, false);
@@ -68,7 +68,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer)
         {
             blackScreen->removeFromParent();
             log::debug("Black screen removed");
-            int rnd = Rand::fast();
+            int rnd = Rand::tiny();
 
             if (m_fields->enabled)
             {
