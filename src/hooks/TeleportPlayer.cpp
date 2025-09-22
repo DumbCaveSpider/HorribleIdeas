@@ -42,7 +42,6 @@ class $modify(TeleportPlayerObject, PlayerObject)
                 }
             }
         }
-
         return PlayerObject::pushButton(p0);
     };
 };

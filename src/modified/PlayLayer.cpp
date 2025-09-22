@@ -242,6 +242,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         auto gm = GameManager::get();
 
         gm->setGameVariable("0116", true);
+        gm->setGameVariable("0116", true);
 
         float interval = 1.f / value; // cap fps to 60
         if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid

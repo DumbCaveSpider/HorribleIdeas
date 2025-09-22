@@ -142,7 +142,12 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
           "Dementia",
           "Chance of your player randomly teleports back. This is more like player lagging to be honest!\n<cy>Credit: imdissapearinghelp</c>",
           SillyTier::Medium,
-          false}
+          false},
+          {"meme_death",
+           "Meme Death Sounds",
+           "Plays a meme sound effect on certain percentage where you died at.\n<cy>Credit: imdissapearinghelp</c>",
+           SillyTier::Low,
+           false},
         };
 };
 

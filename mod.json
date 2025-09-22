@@ -43,6 +43,9 @@
 	"resources": {
 		"sprites": [
 			"resources/*"
+		],
+		"files": [
+			"audio/*"
 		]
 	},
 	"settings": {
@@ -52,10 +55,10 @@
 			"description": "Prevent any progression made in levels. <cr>Highly recommended that this is kept enabled!</cr>",
 			"default": true
 		},
-		"mods": {
+		"chances": {
 			"type": "title",
-			"name": "Mods",
-			"description": "Customize the horrible mods."
+			"name": "Joke Chances",
+			"description": "Change the chances of each effect happening."
 		},
 		"grief-chance": {
 			"type": "int",
