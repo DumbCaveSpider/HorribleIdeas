@@ -214,31 +214,17 @@ bool HorribleMenuPopup::setup()
     for (const auto &btn : btns)
     {
         auto normalBS = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 0.8f);
-        auto selectedBS = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_02.png", 0, 0.8f);
         if (normalBS && normalBS->m_label)
         {
             normalBS->m_label->setColor(btn.color);
             normalBS->setScale(.8f);
         }
-        if (selectedBS && selectedBS->m_label)
-        {
-            selectedBS->m_label->setColor(btn.color);
-            selectedBS->setScale(.8f);
-        }
 
-        auto normalItem = CCMenuItemSpriteExtra::create(normalBS, nullptr, nullptr);
-        auto selectedItem = CCMenuItemSpriteExtra::create(selectedBS, nullptr, nullptr);
-
-        auto itemsArray = CCArray::create();
-        itemsArray->addObject(normalItem);
-        itemsArray->addObject(selectedItem);
-
-        auto toggleItem = CCMenuItemToggle::createWithTarget(this, menu_selector(HorribleMenuPopup::filterTierCallback), itemsArray);
-        toggleItem->setTag(static_cast<int>(btn.tier));
-        toggleItem->setPosition({0.f, btnY});
-        toggleItem->setSelectedIndex(s_selectedTier == btn.tier ? 1 : 0);
-        filterMenu->addChild(toggleItem);
-        btnY -= 50.f;
+        auto filterBtn = CCMenuItemSpriteExtra::create(normalBS, this, menu_selector(HorribleMenuPopup::filterTierCallback));
+        filterBtn->setTag(static_cast<int>(btn.tier));
+        filterBtn->setPosition({0.f, btnY});
+        filterMenu->addChild(filterBtn);
+        btnY -= 40.f;
     }
 
     m_mainLayer->addChild(filterMenu);
@@ -303,10 +289,10 @@ bool HorribleMenuPopup::setup()
 
 void HorribleMenuPopup::filterTierCallback(CCObject *sender)
 {
-    auto toggleItem = typeinfo_cast<CCMenuItemToggle *>(sender);
-    if (!toggleItem)
+    auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra *>(sender);
+    if (!filterBtn)
         return;
-    SillyTier tier = static_cast<SillyTier>(toggleItem->getTag());
+    SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
 
     // Toggle: clicking same button disables filter
     if (s_selectedTier == tier)
@@ -323,29 +309,6 @@ void HorribleMenuPopup::filterTierCallback(CCObject *sender)
     auto modOptions = getAllOptions();
 
     filterOptionsByTier(optionsScrollLayer, modOptions, s_selectedTier);
-
-    // Update toggle states for all filter buttons
-    CCMenu *filterMenu = nullptr;
-    for (unsigned int i = 0; i < m_mainLayer->getChildrenCount(); ++i)
-    {
-        auto child = m_mainLayer->getChildren()->objectAtIndex(i);
-        filterMenu = typeinfo_cast<CCMenu *>(child);
-        if (filterMenu)
-            break;
-    }
-    if (filterMenu)
-    {
-        for (unsigned int i = 0; i < filterMenu->getChildrenCount(); ++i)
-        {
-            auto btnObj = filterMenu->getChildren()->objectAtIndex(i);
-            auto toggle = typeinfo_cast<CCMenuItemToggle *>(btnObj);
-            if (toggle)
-            {
-                SillyTier btnTier = static_cast<SillyTier>(toggle->getTag());
-                toggle->setSelectedIndex(s_selectedTier == btnTier ? 1 : 0);
-            }
-        }
-    }
 };
 
 void HorribleMenuPopup::openModSettings(CCObject *sender)
