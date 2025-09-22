@@ -18,7 +18,7 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
             // jump pls
             if (auto playLayer = PlayLayer::get(); playLayer && p0 == PlayerButton::Jump) {
                 auto gm = GameManager::sharedState();
-
+                auto rng = Rand::tiny();
                 // count the icons i guess
                 int maxIcons = 0;
                 if (gm) maxIcons = gm->countForType(IconType::Cube);
@@ -26,16 +26,16 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
 
                 // pick random icons that is unlocked
                 int tries = 0;
-                int newIcon = rand() % maxIcons + 1;
+                int newIcon = rng % maxIcons + 1;
                 while (tries < 20 && gm && !gm->isIconUnlocked(newIcon, IconType::Cube)) {
-                    newIcon = rand() % maxIcons + 1;
+                    newIcon = rng % maxIcons + 1;
                     ++tries;
                 }
 
                 // randomize the colors of the icon
-                int r = rand() % 256;
-                int g = rand() % 256;
-                int b = rand() % 256;
+                int r = rng % 256;
+                int g = rng % 256;
+                int b = rng % 256;
                 setColor(cocos2d::ccc3(r, g, b));
                 updatePlayerGlow();
 

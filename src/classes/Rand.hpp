@@ -12,5 +12,8 @@ namespace horrible {
 
         // Get a number between 0 and 5000, recommended to balance chances when firing every frame
         static int tiny();
+
+        // Get a random number to 32767
+        static int max();
     };
 };
