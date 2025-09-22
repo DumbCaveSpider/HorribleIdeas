@@ -137,7 +137,13 @@ std::vector<std::tuple<std::string, std::string, std::string, SillyTier, bool>> 
          "Blinking Icon",
          "Your icon will start to randomly blink.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false} };
+         false},
+         {"dementia",
+          "Dementia",
+          "Chance of your player randomly teleports back. This is more like player lagging to be honest!\n<cy>Credit: imdissapearinghelp</c>",
+          SillyTier::Medium,
+          false}
+        };
 };
 
 // silly tier filter
