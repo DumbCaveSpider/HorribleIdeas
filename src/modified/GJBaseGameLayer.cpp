@@ -17,26 +17,6 @@ class $modify(HorribleGJBaseGameLayer, GJBaseGameLayer) {
         float m_adCooldown = 0.f;
     };
 
-    void handleButton(bool down, int button, bool isPlayer1) {
-
-
-        auto rnd = Rand::fast();
-        log::debug("gjbasegamelayer handleButton chance {}", rnd);
-
-        if (horribleMod->getSavedValue<bool>("no_jump", false) && !m_isPlatformer) {
-            if (button == 1) {
-                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"))) {
-                    log::error("skipped dat jump");
-                    GJBaseGameLayer::handleButton(false, button, isPlayer1);
-                } else {
-                    log::debug("registered dat jump");
-                };
-            };
-        } else {
-            GJBaseGameLayer::handleButton(down, button, isPlayer1);
-        };
-    };
-
     void update(float p0) {
         auto rnd = Rand::fast();
         //log::debug("gjbasegamelayer update chance {}", rnd);
