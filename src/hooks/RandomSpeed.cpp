@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-
-
 class $modify(RandomSpeedPlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = horribleMod->getSavedValue<bool>("random_speed", false);

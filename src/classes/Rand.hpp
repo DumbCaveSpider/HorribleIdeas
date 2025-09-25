@@ -15,5 +15,8 @@ namespace horrible {
 
         // Get a random number to 32767
         static int max();
+
+        // Get a random number between 0 and max
+        static int get(int max = 200);
     };
 };

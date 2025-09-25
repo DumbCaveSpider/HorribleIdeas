@@ -20,3 +20,7 @@ int Rand::tiny() {
 int Rand::max() {
     return static_cast<int>(GameToolbox::fast_rand());
 };
+
+int Rand::get(int max) {
+    return static_cast<int>(GameToolbox::fast_rand()) % max;
+};
