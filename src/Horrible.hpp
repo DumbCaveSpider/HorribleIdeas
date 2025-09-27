@@ -18,7 +18,7 @@ namespace horrible {
     inline Mod* horribleMod = Mod::get();
 
     // All horrible mods
-    inline std::vector<Option> modOptions = {
+    static inline std::vector<Option> modOptions = {
         {
             "oxygen",
          "Oxygen Level",
@@ -200,6 +200,6 @@ namespace horrible {
          "Plays a meme sound effect on certain percentage where you died at.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Low,
          false
-        },
+        }
     };
 };

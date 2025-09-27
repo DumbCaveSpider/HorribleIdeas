@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SillyTier.hpp"
+
 namespace horrible {
     struct Option {
         std::string id; // Unique ID of the option
