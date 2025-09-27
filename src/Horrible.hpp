@@ -200,6 +200,13 @@ namespace horrible {
          "Plays a meme sound effect on certain percentage where you died at.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Low,
          false
+        },
+        {
+            "earthquake",
+         "Earthquake",
+         "Constantly shakes the camera while playing a level.\n<cy>Credit: ArcticWoof</c>",
+         SillyTier::Medium,
+         false
         }
     };
 };
