@@ -20,11 +20,7 @@ class $modify(BlinkingIconPlayerObject, PlayerObject) {
 
                 // randomly makes the player invisible and visible again
                 if (rnd <= m_fields->chance) {
-                    if (isVisible()) {
-                        setVisible(false);
-                    } else {
-                        setVisible(true);
-                    };
+                    setVisible(!isVisible());
 
                     // log::debug("Toggled player visibility");
                 };

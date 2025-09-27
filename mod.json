@@ -298,5 +298,10 @@
 				"big-arrow-step": 20
 			}
 		}
+	},
+	"api": {
+		"include": [
+			"include/*.hpp"
+		]
 	}
 }

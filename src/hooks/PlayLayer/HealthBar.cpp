@@ -7,36 +7,31 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(HealthBarPlayLayer, PlayLayer)
-{
-    struct Fields
-    {
+class $modify(HealthBarPlayLayer, PlayLayer) {
+    struct Fields {
         bool enabled = horribleMod->getSavedValue<bool>("health", false);
-        CCLabelBMFont *m_healthLabel = nullptr;
+        CCLabelBMFont* m_healthLabel = nullptr;
 
         float m_health = 100.f;
 
         Ref<CCSprite> m_healthBar;
-        CCSprite *m_healthBarFill;
+        CCSprite* m_healthBarFill;
 
         bool m_dontCreateObjects = false;
-        GameObject *m_destroyingObject;
+        GameObject* m_destroyingObject;
     };
-    bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
-    {
+    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;
 
-        if (m_fields->enabled)
-        {
+        if (m_fields->enabled) {
             m_fields->m_health = 100.f;
             std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
 
-            if (!m_fields->m_healthBar)
-            {
+            if (!m_fields->m_healthBar) {
                 m_fields->m_healthBar = CCSprite::create("slidergroove2.png");
                 m_fields->m_healthBar->setID("health"_spr);
-                m_fields->m_healthBar->setPosition({10.f, getScaledContentHeight() / 2.f});
+                m_fields->m_healthBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_healthBar->setRotation(90.f);
                 m_fields->m_healthBar->setZOrder(101);
 
@@ -44,31 +39,28 @@ class $modify(HealthBarPlayLayer, PlayLayer)
                 m_fields->m_healthBarFill->setID("health-fill"_spr);
                 m_fields->m_healthBarFill->setZOrder(-1);
                 m_fields->m_healthBarFill->setRotation(-180.f);
-                m_fields->m_healthBarFill->setColor({255, 0, 0});
-                m_fields->m_healthBarFill->setPosition({m_fields->m_healthBar->getScaledContentWidth() - 2.f, 4.f});
-                m_fields->m_healthBarFill->setAnchorPoint({0, 1});
+                m_fields->m_healthBarFill->setColor({ 255, 0, 0 });
+                m_fields->m_healthBarFill->setPosition({ m_fields->m_healthBar->getScaledContentWidth() - 2.f, 4.f });
+                m_fields->m_healthBarFill->setAnchorPoint({ 0, 1 });
 
                 auto fullHealth = m_fields->m_healthBar->getScaledContentWidth() - 4.f;
 
-                m_fields->m_healthBarFill->setTextureRect({0, 0, fullHealth, 8});
+                m_fields->m_healthBarFill->setTextureRect({ 0, 0, fullHealth, 8 });
 
                 m_fields->m_healthBar->addChild(m_fields->m_healthBarFill);
 
                 addChild(m_fields->m_healthBar);
             };
 
-            if (!m_fields->m_healthLabel)
-            {
+            if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
-                m_fields->m_healthLabel->setColor({255, 0, 0});
-                m_fields->m_healthLabel->setAnchorPoint({0.f, 1.0f});
-                m_fields->m_healthLabel->setPosition({2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f});
+                m_fields->m_healthLabel->setColor({ 255, 0, 0 });
+                m_fields->m_healthLabel->setAnchorPoint({ 0.f, 1.0f });
+                m_fields->m_healthLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f });
                 m_fields->m_healthLabel->setScale(0.25f);
 
                 addChild(m_fields->m_healthLabel, 100);
-            }
-            else
-            {
+            } else {
                 m_fields->m_healthLabel->setString(hp.c_str());
             }
         }
@@ -76,47 +68,38 @@ class $modify(HealthBarPlayLayer, PlayLayer)
         return true;
     };
 
-    void resetHealth()
-    {
+    void resetHealth() {
         m_fields->m_health = 100.f;
 
-        if (m_fields->m_healthLabel)
-        {
+        if (m_fields->m_healthLabel) {
             std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             m_fields->m_healthLabel->setString(hp.c_str());
         };
 
-        if (m_fields->m_healthBar)
-        {
+        if (m_fields->m_healthBar) {
             float maxWidth = m_fields->m_healthBar->getContentWidth() - 4.f;
-            m_fields->m_healthBarFill->setTextureRect({0, 0, maxWidth, 8});
+            m_fields->m_healthBarFill->setTextureRect({ 0, 0, maxWidth, 8 });
         };
     };
 
-    void resetLevel()
-    {
+    void resetLevel() {
         resetHealth();
         PlayLayer::resetLevel();
     };
 
-    void destroyPlayer(PlayerObject *player, GameObject *game)
-    {
-        if (!m_fields->enabled)
-        {
+    void destroyPlayer(PlayerObject * player, GameObject * game) {
+        if (!m_fields->enabled) {
             PlayLayer::destroyPlayer(player, game);
             return;
-        }
-        else if (m_fields->enabled)
-        {
+        } else if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
             if (game == m_anticheatSpike && player && !player->m_isDead)
                 return;
             if (!m_fields->m_destroyingObject)
                 m_fields->m_destroyingObject = game;
-                
+
             auto rnd = Rand::fast();
-            if (m_fields->m_health > 0)
-            {
+            if (m_fields->m_health > 0) {
                 m_fields->m_health -= 0.1f;
 
                 // log::debug("Player health is {}", m_fields->m_health);
@@ -126,24 +109,18 @@ class $modify(HealthBarPlayLayer, PlayLayer)
 
                 GJBaseGameLayer::shakeCamera(1.f, 5.f, 1.f);
 
-                if (rnd % 2 == 0)
-                {
+                if (rnd % 2 == 0) {
                     // @geode-ignore(unknown-resource)
                     FMODAudioEngine::sharedEngine()->playEffect("grunt01.ogg");
-                }
-                else if (rnd % 2 == 1)
-                {
+                } else if (rnd % 2 == 1) {
                     // @geode-ignore(unknown-resource)
                     FMODAudioEngine::sharedEngine()->playEffect("grunt02.ogg");
-                }
-                else if (rnd % 2 == 2)
-                {
+                } else if (rnd % 2 == 2) {
                     // @geode-ignore(unknown-resource)
                     FMODAudioEngine::sharedEngine()->playEffect("grunt03.ogg");
                 };
 
-                if (m_fields->m_healthLabel)
-                {
+                if (m_fields->m_healthLabel) {
                     std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
                     m_fields->m_healthLabel->setString(hp.c_str());
 
@@ -151,11 +128,10 @@ class $modify(HealthBarPlayLayer, PlayLayer)
                     float maxWidth = m_fields->m_healthBar->getContentWidth() - 4.f;
                     float newWidth = maxWidth * (m_fields->m_health / 100.f);
 
-                    m_fields->m_healthBarFill->setTextureRect({0, 0, newWidth, 8});
+                    m_fields->m_healthBarFill->setTextureRect({ 0, 0, newWidth, 8 });
                 };
 
-                if (m_fields->m_health <= 0.f)
-                {
+                if (m_fields->m_health <= 0.f) {
                     log::warn("Player health is dead: {}", m_fields->m_health);
                     PlayLayer::destroyPlayer(player, game);
                 };

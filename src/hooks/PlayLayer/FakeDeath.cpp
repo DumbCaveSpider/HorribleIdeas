@@ -5,20 +5,16 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(FakeDeathPlayLayer, PlayLayer)
-{
-    struct Fields
-    {
+class $modify(FakeDeathPlayLayer, PlayLayer) {
+    struct Fields {
         bool enabled = horribleMod->getSavedValue<bool>("death", false);
         bool m_dontCreateObjects = false;
-        GameObject *m_destroyingObject;
+        GameObject* m_destroyingObject;
     };
 
-    void destroyPlayer(PlayerObject *player, GameObject *game)
-    {
+    void destroyPlayer(PlayerObject * player, GameObject * game) {
         // Show explosion visual effect but do not kill the player
-        if (m_fields->enabled)
-        {
+        if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
             if (game == m_anticheatSpike && player && !player->m_isDead)
                 return;
@@ -28,8 +24,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer)
             FMODAudioEngine::sharedEngine()->playEffect("explode_11.ogg");
             GJBaseGameLayer::shakeCamera(1.f, 2.f, 1.f);
 
-            if (m_player1)
-            {
+            if (m_player1) {
                 log::debug("fake death");
                 m_player1->playDeathEffect();
                 m_player1->resetPlayerIcon();
@@ -37,8 +32,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer)
                 m_player1->m_isDead = false;
             };
 
-            if (m_player2)
-            {
+            if (m_player2) {
                 log::debug("fake death");
                 m_player2->playDeathEffect();
                 m_player2->resetPlayerIcon();

@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-
-
 class $modify(FreezePlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = horribleMod->getSavedValue<bool>("freeze", false);
