@@ -9,9 +9,10 @@ using namespace horrible;
 
 class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        MathQuiz* m_currentQuiz = nullptr;
         bool enabled = horribleMod->getSavedValue<bool>("math_quiz", false);
         float chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"));
+
+        MathQuiz* m_currentQuiz = nullptr;
     };
 
     void update(float p0) {

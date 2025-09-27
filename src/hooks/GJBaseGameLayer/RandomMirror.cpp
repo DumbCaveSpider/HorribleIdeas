@@ -57,8 +57,4 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
 
         GJBaseGameLayer::update(p0);
     };
-
-    void toggleFlipped(bool p0, bool p1) {
-        GJBaseGameLayer::toggleFlipped(p0, p1);
-    };
 };

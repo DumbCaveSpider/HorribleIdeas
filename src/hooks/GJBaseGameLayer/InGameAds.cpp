@@ -55,7 +55,8 @@ class $modify(AdsGJBaseGameLayer, GJBaseGameLayer) {
                     CCEGLView::sharedOpenGLView()->showCursor(false);
 #endif
             };
+
             GJBaseGameLayer::update(p0);
-        }
+        };
     };
 };
