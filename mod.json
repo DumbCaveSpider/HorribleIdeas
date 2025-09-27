@@ -297,6 +297,12 @@
 				"big-arrows": true,
 				"big-arrow-step": 20
 			}
+		},
+		"developer-mode": {
+			"type": "bool",
+			"name": "Developer Mode",
+			"description": "Shows extra information in the mod menu interface.",
+			"default": false
 		}
 	},
 	"api": {
