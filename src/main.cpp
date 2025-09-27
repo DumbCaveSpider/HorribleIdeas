@@ -14,16 +14,12 @@ using namespace horrible;
 
 bool isFlipped = false;
 
-class $modify(HorribleCCScene, CCScene)
-{
-    bool init()
-    {
-        if (!CCScene::init())
-            return false;
+class $modify(HorribleCCScene, CCScene) {
+    bool init() {
+        if (!CCScene::init()) return false;
 
 #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
-        if (typeinfo_cast<CCTransitionFade *>(this))
-        {
+        if (typeinfo_cast<CCTransitionFade*>(this)) {
             log::debug("scene is a CCTransitionFade");
             return true;
         };
@@ -36,21 +32,16 @@ class $modify(HorribleCCScene, CCScene)
 };
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
-class $modify(HorribleCCMenuItem, CCMenuItem)
-{
-    void activate()
-    {
+class $modify(HorribleCCMenuItem, CCMenuItem) {
+    void activate() {
         auto rnd = Rand::fast();
         log::debug("button menu chance {}", rnd);
 
-        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true))
-        {
-            if (auto fmod = FMODAudioEngine::sharedEngine())
-            {
+        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
 
                 // @geode-ignore(unknown-resource)
-                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance")))
-                    fmod->playEffect("achievement_01.ogg");
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffect("achievement_01.ogg");
             };
         };
 
@@ -59,26 +50,19 @@ class $modify(HorribleCCMenuItem, CCMenuItem)
 };
 
 // safe mode
-class $modify(HorribleGJGameLevel, GJGameLevel)
-{
-    void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid)
-    {
-        if (horribleMod->getSettingValue<bool>("safe-mode"))
-        {
+class $modify(HorribleGJGameLevel, GJGameLevel) {
+    void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid) {
+        if (horribleMod->getSettingValue<bool>("safe-mode")) {
             log::warn("Safe mode is enabled, progress will not be saved");
-        }
-        else
-        {
+        } else {
             GJGameLevel::savePercentage(percent, isPracticeMode, clicks, attempts, isChkValid);
         };
     };
 };
 
 // WOMP WOMP BROKEN PLAYTEST
-class $modify(HorribleLevelEditorLayer, LevelEditorLayer)
-{
-    void onPlaytest()
-    {
+class $modify(HorribleLevelEditorLayer, LevelEditorLayer) {
+    void onPlaytest() {
         FLAlertLayer::create(
             "Playtest Disabled",
             "<cy>Horrible Ideas Mod</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level.\n<cg>I recommend disabling the mod while editing levels.</c>",

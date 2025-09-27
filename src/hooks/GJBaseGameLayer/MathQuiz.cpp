@@ -7,35 +7,28 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer)
-{
-    struct Fields
-    {
-        MathQuiz *m_currentQuiz = nullptr;
+class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
+    struct Fields {
+        MathQuiz* m_currentQuiz = nullptr;
         bool enabled = horribleMod->getSavedValue<bool>("math_quiz", false);
         float chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"));
     };
 
-    void update(float p0)
-    {
+    void update(float p0) {
         auto rnd = Rand::fast();
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
-        if (m_fields->enabled)
-        {
-            if (rnd <= m_fields->chance)
-            {
+        if (m_fields->enabled) {
+            if (rnd <= m_fields->chance) {
                 log::warn("richard was here");
 
-                if (m_isPracticeMode && !m_fields->m_currentQuiz)
-                {
+                if (m_isPracticeMode && !m_fields->m_currentQuiz) {
                     // pause the game
                     auto gm = GameManager::sharedState();
                     if (auto playLayer = PlayLayer::get())
                         playLayer->pauseGame(true);
 
-                    if (auto quiz = MathQuiz::create())
-                    {
+                    if (auto quiz = MathQuiz::create()) {
 #ifdef GEODE_IS_WINDOWS
                         CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif

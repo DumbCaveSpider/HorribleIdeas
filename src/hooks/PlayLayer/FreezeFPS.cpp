@@ -7,44 +7,35 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(FreezePlayLayer, PlayLayer)
-{
-    struct Fields
-    {
+class $modify(FreezePlayLayer, PlayLayer) {
+    struct Fields {
         bool enabled = horribleMod->getSavedValue<bool>("freeze", false);
     };
 
-    bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
-    {
+    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;
 
-        if (m_fields->enabled)
-        {
+        if (m_fields->enabled) {
             auto rnd = Rand::fast();
-            if (auto gm = GameManager::sharedState())
-            {
+            if (auto gm = GameManager::sharedState()) {
                 if (rnd % 100 < 10) { // 10% chance
                     capFPS(1.f);
                 }
             }
-        }
-        else
-        {
+        } else {
             log::warn("Random freezing at 90% is disabled");
         };
 
         return true;
     };
 
-    void pauseGame(bool p0)
-    {
+    void pauseGame(bool p0) {
         revertFPS();
         PlayLayer::pauseGame(p0);
     };
 
-    void revertFPS()
-    {
+    void revertFPS() {
         // default to user old fps
         auto gm = GameManager::get();
 
@@ -61,8 +52,7 @@ class $modify(FreezePlayLayer, PlayLayer)
         log::debug("reset fps to {} (interval {})", oldFPS, interval);
     };
 
-    void capFPS(float value)
-    {
+    void capFPS(float value) {
         auto gm = GameManager::get();
 
         gm->setGameVariable("0116", true);
@@ -76,8 +66,7 @@ class $modify(FreezePlayLayer, PlayLayer)
         log::debug("cap fps to {} (interval {})", value, interval);
     };
 
-    void onQuit()
-    {
+    void onQuit() {
         revertFPS();
         PlayLayer::onQuit();
     }
