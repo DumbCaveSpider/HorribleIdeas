@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,7 +10,7 @@ using namespace horrible;
 
 class $modify(OnIcePlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("ice_level", false);
+        bool enabled = HorribleIdeas::get("ice_level");
     };
 
     void update(float p0) {

@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,9 @@ using namespace horrible;
 
 class $modify(AdsGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
+        bool enabled = HorribleIdeas::get("ads");
+
         RandomAdPopup* m_currentAd = nullptr;
-        bool enabled = horribleMod->getSavedValue<bool>("ads", false);
         float m_adCooldown = 0.f;
     };
 

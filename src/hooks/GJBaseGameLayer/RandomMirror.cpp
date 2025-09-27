@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,8 @@ using namespace horrible;
 
 class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("random_mirror", false);
-        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("random_mirror-chance"));
+        bool enabled = HorribleIdeas::get("random_mirror");
+        int chance = HorribleIdeas::getChance("random_mirror");
 
         bool isFlipped = false;
         bool inBuffer = false;

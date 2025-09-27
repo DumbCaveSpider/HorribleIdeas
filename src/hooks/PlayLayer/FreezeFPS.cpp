@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,7 +10,7 @@ using namespace horrible;
 
 class $modify(FreezePlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("freeze", false);
+        bool enabled = HorribleIdeas::get("freeze");
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

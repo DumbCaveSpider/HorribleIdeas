@@ -1,5 +1,8 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
+
 #include <Geode/Geode.hpp>
+
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
@@ -7,8 +10,9 @@ using namespace horrible;
 
 class $modify(OxygenBarPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("oxygen", false);
-        bool healthEnabled = horribleMod->getSavedValue<bool>("health", false);
+        bool enabled = HorribleIdeas::get("oxygen");
+        bool healthEnabled = HorribleIdeas::get("health");
+
         CCLabelBMFont* m_oxygenLabel = nullptr;
 
         float m_oxygenLevel = 100.f;
@@ -18,8 +22,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         CCSprite* m_oxygenBarFill;
     };
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
         if (m_fields->enabled) {
             m_fields->m_oxygenActive = true;
@@ -27,7 +30,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
 
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                 schedule_selector(OxygenBarPlayLayer::decreaseOxygen),
-                this, 0.0f, false);
+                this, 0.1f, false);
 
             if (!m_fields->m_oxygenBar) {
                 m_fields->m_oxygenBar = CCSprite::create("slidergroove2.png");
@@ -80,10 +83,8 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
     };
 
     void decreaseOxygen(float dt) {
-        if (!m_fields->m_oxygenActive || !m_fields->m_oxygenLabel)
-            return;
-        if (!m_player1)
-            return;
+        if (!m_fields->m_oxygenActive || !m_fields->m_oxygenLabel) return;
+        if (!m_player1) return;
 
         // regen o2
         if (m_player1->m_isBird || m_player1->m_isShip || m_player1->m_isSwing || m_player1->m_isDart) {
@@ -94,10 +95,8 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
             // log::debug("Oxygen level decreased: {}", m_fields->m_oxygenLevel);
         };
 
-        if (m_fields->m_oxygenLevel > 100.f)
-            m_fields->m_oxygenLevel = 100.f;
-        if (m_fields->m_oxygenLevel < 0.f)
-            m_fields->m_oxygenLevel = 0.f;
+        if (m_fields->m_oxygenLevel > 100.f) m_fields->m_oxygenLevel = 100.f;
+        if (m_fields->m_oxygenLevel < 0.f) m_fields->m_oxygenLevel = 0.f;
 
         std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
         m_fields->m_oxygenLabel->setString(buf.c_str());
@@ -108,8 +107,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, newWidth, 8 });
 
         // Destroy player if oxygen is 0
-        if (m_fields->m_oxygenLevel <= 0.f && m_player1 && !m_player1->m_isDead)
-            destroyPlayer(m_player1, nullptr);
+        if (m_fields->m_oxygenLevel <= 0.f && m_player1 && !m_player1->m_isDead) destroyPlayer(m_player1, nullptr);
     };
 
     void resetOxygenLevel() {
@@ -124,5 +122,5 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
     void resetLevel() {
         resetOxygenLevel();
         PlayLayer::resetLevel();
-    }
+    };
 };

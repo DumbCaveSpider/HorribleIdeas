@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,11 +10,11 @@ using namespace horrible;
 
 class $modify(ForceLevelsPlayLayer, PlayLayer) {
     struct Fields {
-        bool griefEnabled = horribleMod->getSavedValue<bool>("grief", false);
-        bool congregEnabled = horribleMod->getSavedValue<bool>("congregation", false);
+        bool griefEnabled = HorribleIdeas::get("grief");
+        bool congregEnabled = HorribleIdeas::get("congregation");
 
-        int griefChance = static_cast<int>(horribleMod->getSavedValue<int64_t>("grief-chance"));
-        int congregChance = static_cast<int>(horribleMod->getSavedValue<int64_t>("congregation-chance"));
+        int griefChance = HorribleIdeas::getChance("grief");
+        int congregChance = HorribleIdeas::getChance("congregation");
 
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;

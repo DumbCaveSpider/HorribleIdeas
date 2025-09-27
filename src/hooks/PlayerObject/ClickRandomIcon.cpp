@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -10,7 +11,7 @@ using namespace horrible;
 
 class $modify(ClickRandomIconPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("random_icon", false);
+        bool enabled = HorribleIdeas::get("random_icon");
     };
 
     bool pushButton(PlayerButton p0) {

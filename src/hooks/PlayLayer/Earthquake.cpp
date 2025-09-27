@@ -1,5 +1,8 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
+
 #include <Geode/Geode.hpp>
+
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
 using namespace geode::prelude;
@@ -7,7 +10,7 @@ using namespace horrible;
 
 class $modify(EarthquakeGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("earthquake", false);
+        bool enabled = HorribleIdeas::get("earthquake");
     };
 
     void update(float p0) {

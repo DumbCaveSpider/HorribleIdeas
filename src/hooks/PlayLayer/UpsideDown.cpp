@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,8 @@ using namespace horrible;
 
 class $modify(ForceLevelsPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("upside_down", false);
-        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("upside_down-chance")); // chance as percent
+        bool enabled = HorribleIdeas::get("upside_down");
+        int chance = HorribleIdeas::getChance("upside_down"); // chance as percent
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

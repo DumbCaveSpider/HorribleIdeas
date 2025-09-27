@@ -111,7 +111,7 @@
 				"big-arrow-step": 20
 			}
 		},
-		"sleep-chance": {
+		"sleepy-chance": {
 			"type": "int",
 			"name": "Sleep Chance",
 			"description": "<cj>Sleepy Player</c> - Chance of your player falling asleep.",
@@ -297,6 +297,11 @@
 				"big-arrows": true,
 				"big-arrow-step": 20
 			}
+		},
+		"more": {
+			"type": "title",
+			"name": "More Settings",
+			"description": "Other settings you can change."
 		},
 		"developer-mode": {
 			"type": "bool",

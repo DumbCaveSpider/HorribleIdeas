@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,7 @@ using namespace horrible;
 
 class $modify(DoubleJumpPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("double_jump", false);
-
+        bool enabled = HorribleIdeas::get("double_jump");
         int m_jumps = 0;
     };
 

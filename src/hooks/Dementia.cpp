@@ -13,7 +13,7 @@ using namespace horrible;
 class $modify(DementiaPlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = HorribleIdeas::get("dementia");
-        float chance = HorribleIdeas::getChance("dementia");
+        int chance = HorribleIdeas::getChance("dementia");
 
         int lastMusicTime = 0; // last music time in milliseconds
 

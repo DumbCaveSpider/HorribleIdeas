@@ -1,5 +1,8 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
+
 #include <Geode/Geode.hpp>
+
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
@@ -7,7 +10,8 @@ using namespace horrible;
 
 class $modify(FakeDeathPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("death", false);
+        bool enabled = HorribleIdeas::get("death");
+
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;
     };
