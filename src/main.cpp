@@ -21,7 +21,7 @@ class $modify(HorribleCCScene, CCScene)
         if (!CCScene::init())
             return false;
 
-#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
+#if !defined(__APPLE__)
         if (typeinfo_cast<CCTransitionFade *>(this))
         {
             log::debug("scene is a CCTransitionFade");
@@ -48,8 +48,8 @@ class $modify(HorribleCCMenuItem, CCMenuItem)
             if (auto fmod = FMODAudioEngine::sharedEngine())
             {
 
-                // @geode-ignore(unknown-resource)
                 if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance")))
+                    // @geode-ignore(unknown-resource)
                     fmod->playEffect("achievement_01.ogg");
             };
         };
