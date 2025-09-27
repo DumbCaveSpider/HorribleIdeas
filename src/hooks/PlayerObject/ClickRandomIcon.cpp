@@ -35,9 +35,9 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
                 };
 
                 // randomize the colors of the icon
-                int r = rng % 256;
-                int g = rng % 256;
-                int b = rng % 256;
+                int r = rand() % 256;
+                int g = rand() % 256;
+                int b = rand() % 256;
                 setColor(cocos2d::ccc3(r, g, b));
                 updatePlayerGlow();
 
