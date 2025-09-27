@@ -3,6 +3,8 @@
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/PlayerObject.hpp>
+#include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/EnhancedGameObject.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
@@ -52,4 +54,20 @@ class $modify(DementiaPlayerObject, PlayerObject) {
 
         return PlayerObject::pushButton(p0);
     };
+};
+
+class $modify(DementiaEnhancedGameObject, EnhancedGameObject) {
+    bool hasBeenActivated() {
+        if (PlayLayer::get() && this->canAllowMultiActivate()) {
+            return false;
+        }
+        return EnhancedGameObject::hasBeenActivated();
+    }
+
+    bool hasBeenActivatedByPlayer(PlayerObject* p0) {
+        if (PlayLayer::get() && this->canAllowMultiActivate() && m_fields->enabled) {
+            return false;
+        }
+        return EnhancedGameObject::hasBeenActivatedByPlayer(p0);
+    }
 };

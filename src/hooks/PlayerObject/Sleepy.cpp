@@ -7,8 +7,10 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(SleepyPlayerObject, PlayerObject) {
-    struct Fields {
+class $modify(SleepyPlayerObject, PlayerObject)
+{
+    struct Fields
+    {
         bool enabled = horribleMod->getSavedValue<bool>("sleepy", false);
         int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("sleep-chance"));
 
@@ -18,18 +20,19 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         float savedDefaultSpeed = 0.f; // original speed captured at sleep start
     };
 
-    void startSleepTimer() {
+    void startSleepTimer()
+    {
         // begin waking stage
         auto seq = CCSequence::create(
             CCDelayTime::create(5.f),
             CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::wakeUp)),
-            nullptr
-        );
+            nullptr);
 
         runAction(seq);
     };
 
-    void wakeUp() {
+    void wakeUp()
+    {
         log::debug("Waking the player up");
 
         m_fields->sleepy = false;
@@ -41,26 +44,42 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         auto buffer = CCSequence::create(
             CCDelayTime::create(5.f),
             CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp)),
-            nullptr
-        );
+            nullptr);
 
         runAction(buffer);
     };
 
-    void fullyWakeUp() {
+    void fullyWakeUp()
+    {
         m_fields->waking = false;
     };
 
-    void update(float p0) {
-        if (auto playLayer = PlayLayer::get()) {
-            if (m_fields->enabled) {
+    bool pushButton(PlayerButton p0)
+    {
+        // no jumping while sleepy
+        if (m_fields->sleepy)
+        {
+            return false;
+        }
+        PlayerObject::pushButton(p0);
+        return true;
+    };
+
+    void update(float p0)
+    {
+        if (auto playLayer = PlayLayer::get())
+        {
+            if (m_fields->enabled)
+            {
                 // player sleepy if not already in any stage
                 auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
-                if (!m_fields->sleepy && !m_fields->waking && onGround) {
+                if (!m_fields->sleepy && !m_fields->waking && onGround)
+                {
                     auto rnd = Rand::tiny();
 
                     // if the rng is lower than the chance, make the player sleepy
-                    if (rnd <= m_fields->chance) {
+                    if (rnd <= m_fields->chance)
+                    {
                         log::debug("Making the player sleepy");
 
                         m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed
@@ -71,14 +90,18 @@ class $modify(SleepyPlayerObject, PlayerObject) {
                 };
 
                 // go to sleep, go to sleep, sweet little baby go to sleep
-                if (m_fields->sleepy) {
+                if (m_fields->sleepy)
+                {
                     m_playerSpeed *= 0.99f;
-                    if (m_playerSpeed < 0.1f) m_playerSpeed = 0.f;
+                    if (m_playerSpeed < 0.1f)
+                        m_playerSpeed = 0.f;
                 };
-
-            } else {
+            }
+            else
+            {
                 // wake up
-                if (m_fields->sleepy || m_fields->waking) fullyWakeUp();
+                if (m_fields->sleepy || m_fields->waking)
+                    fullyWakeUp();
             };
 
             PlayerObject::update(p0);
