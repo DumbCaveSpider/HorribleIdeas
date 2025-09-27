@@ -30,6 +30,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
                 m_player1->resetPlayerIcon();
 
                 m_player1->m_isDead = false;
+                return;
             };
 
             if (m_player2) {
@@ -38,9 +39,9 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
                 m_player2->resetPlayerIcon();
 
                 m_player2->m_isDead = false;
+                return;
             }
         }
-
         PlayLayer::destroyPlayer(player, game);
     };
 };

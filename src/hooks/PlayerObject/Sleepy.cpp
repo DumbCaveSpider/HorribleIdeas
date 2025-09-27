@@ -55,7 +55,8 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
                 // player sleepy if not already in any stage
-                if (!m_fields->sleepy && !m_fields->waking) {
+                auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
+                if (!m_fields->sleepy && !m_fields->waking && onGround) {
                     auto rnd = Rand::tiny();
 
                     // if the rng is lower than the chance, make the player sleepy
