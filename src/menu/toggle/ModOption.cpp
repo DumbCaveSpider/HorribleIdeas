@@ -94,6 +94,24 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
 
     addChild(nameLabel);
 
+    if (horribleMod->getSettingValue<bool>("dev-mode")) {
+        auto idLabel = CCLabelBMFont::create(
+            m_modID.c_str(),
+            "chatFont.fnt",
+            getContentSize().width - 20.f,
+            kCCTextAlignmentLeft
+        );
+        idLabel->setID("id");
+        idLabel->setLineBreakWithoutSpace(true);
+        idLabel->setPosition({ x, yCenter - 10.f });
+        idLabel->setAnchorPoint({ 0.f, 0.5f });
+        idLabel->setColor({ 0, 0, 0 });
+        idLabel->setOpacity(200);
+        idLabel->setScale(0.5f);
+
+        addChild(idLabel);
+    };
+
     x += nameLabel->getScaledContentSize().width + 15.f;
 
     auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");

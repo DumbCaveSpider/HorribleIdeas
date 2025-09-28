@@ -21,13 +21,10 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        if (m_fields->griefEnabled)
-            LevelManager::DownloadGriefLevel();
-        if (m_fields->congregEnabled)
-            LevelManager::DownloadCongregLevel();
+        if (m_fields->griefEnabled) LevelManager::DownloadGriefLevel();
+        if (m_fields->congregEnabled) LevelManager::DownloadCongregLevel();
 
         return true;
     };
@@ -37,10 +34,8 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
 
         // get back to grief
         if (m_fields->griefEnabled) {
-            if (p1 == m_anticheatSpike && p0 && !p0->m_isDead)
-                return;
-            if (!m_fields->m_destroyingObject)
-                m_fields->m_destroyingObject = p1;
+            if (p1 == m_anticheatSpike && p0 && !p0->m_isDead) return;
+            if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = p1;
 
             // chance to play grief level
             if (rng <= m_fields->griefChance) {
@@ -55,17 +50,15 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
                     auto scene = PlayLayer::scene(griefLevel, m_useReplay, m_fields->m_dontCreateObjects);
 
                     CCDirector::get()->replaceScene(scene);
-
                     log::info("Switching to Grief level (105001928)");
-
-                    return;
                 } else if (griefLevel && !griefLevel->m_levelNotDownloaded) {
                     log::debug("Already in grief level");
-                }
+                };
             } else {
                 log::info("Grief jumpscare not triggered {}", m_fields->griefChance);
-            }
-        }
+            };
+        };
+
         // congregation jumpscare
         if (m_fields->congregEnabled) {
             // 10% chance to play congregation level
@@ -81,17 +74,15 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
                     auto scene = PlayLayer::scene(congregLevel, m_useReplay, m_fields->m_dontCreateObjects);
 
                     CCDirector::get()->replaceScene(scene);
-
                     log::info("Switching to Congregation level (93437568)");
-                    return;
                 } else if (congregLevel && !congregLevel->m_levelNotDownloaded) {
                     log::debug("Already in congregation level");
-                }
+                };
             } else {
                 log::info("Congregation jumpscare not triggered {}", m_fields->congregChance);
-            }
-        }
+            };
+        };
 
         PlayLayer::destroyPlayer(p0, p1);
-    }
+    };
 };

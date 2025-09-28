@@ -27,8 +27,7 @@ void filterOptionsByTier(ScrollLayer* optionsScrollLayer, const std::vector<Opti
                 {
                 optionsScrollLayer->m_contentLayer->getScaledContentWidth(),
                 32.f
-                },
-                id, name, desc, silly, restart
+                }, id, name, desc, silly, restart
             )) optionsScrollLayer->m_contentLayer->addChild(modOption);
         };
     };
@@ -49,6 +48,7 @@ bool HorribleMenuPopup::setup() {
     optionScrollBg->setPosition({ mainLayerSize.width / 2.f - 80.f, mainLayerSize.height / 2.f - 10.f });
     optionScrollBg->setContentSize({ mainLayerSize.width / 1.5f - 25.f, mainLayerSize.height - 45.f });
     optionScrollBg->setOpacity(50);
+
     m_mainLayer->addChild(optionScrollBg);
 
     // add a list button background
@@ -57,6 +57,7 @@ bool HorribleMenuPopup::setup() {
     listBtnBg->setPosition({ mainLayerSize.width - (mainLayerSize.width / 2.f - 25.f) + 115.f, mainLayerSize.height / 2.f - 10.f });
     listBtnBg->setContentSize({ mainLayerSize.width / 3.f, mainLayerSize.height - 45.f });
     listBtnBg->setOpacity(50);
+
     m_mainLayer->addChild(listBtnBg);
 
     // filter buttons :o
@@ -77,18 +78,20 @@ bool HorribleMenuPopup::setup() {
 
     float btnY = 0.f;
     for (const auto& btn : btns) {
-        auto normalBS = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 0.8f);
-        if (normalBS && normalBS->m_label) {
+        if (auto normalBS = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 0.8f)) {
             normalBS->m_label->setColor(btn.color);
             normalBS->setScale(.8f);
-        }
 
-        auto filterBtn = CCMenuItemSpriteExtra::create(normalBS, this, menu_selector(HorribleMenuPopup::filterTierCallback));
-        filterBtn->setTag(static_cast<int>(btn.tier));
-        filterBtn->setPosition({ 0.f, btnY });
-        filterMenu->addChild(filterBtn);
-        btnY -= 40.f;
-    }
+            auto filterBtn = CCMenuItemSpriteExtra::create(normalBS, this, menu_selector(HorribleMenuPopup::filterTierCallback));
+            filterBtn->setTag(static_cast<int>(btn.tier));
+            filterBtn->setPosition({ 0.f, btnY });
+            filterMenu->addChild(filterBtn);
+
+            btnY -= 40.f;
+        } else {
+            log::error("Failed to create filter button sprite");
+        };
+    };
 
     m_mainLayer->addChild(filterMenu);
 
@@ -120,12 +123,14 @@ bool HorribleMenuPopup::setup() {
         CircleBaseColor::Green,
         CircleBaseSize::Medium);
     modSettingsBtnSprite->setScale(0.75f);
+
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
         menu_selector(HorribleMenuPopup::openModSettings));
     modSettingsMenu->setPosition({ 0.f, 0.f });
     modSettingsMenu->addChild(modSettingsBtn);
+
     m_mainLayer->addChild(modSettingsMenu);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode: INACTIVE", "bigFont.fnt");
@@ -143,13 +148,14 @@ bool HorribleMenuPopup::setup() {
     };
 
     m_mainLayer->addChild(safeModeLabel, 100);
+
     return true;
-}
+};
 
 void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
     auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender);
-    if (!filterBtn)
-        return;
+    if (!filterBtn) return;
+
     SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
 
     // Toggle: clicking same button disables filter
@@ -157,7 +163,7 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
         s_selectedTier = SillyTier::None;
     } else {
         s_selectedTier = tier;
-    }
+    };
 
     // Find scroll layer and options
     auto optionsScrollLayer = static_cast<ScrollLayer*>(m_mainLayer->getChildByID("scrollLayer"));

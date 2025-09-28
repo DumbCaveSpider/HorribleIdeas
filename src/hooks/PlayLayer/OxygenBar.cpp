@@ -21,6 +21,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         Ref<CCSprite> m_oxygenBar;
         CCSprite* m_oxygenBarFill;
     };
+
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
@@ -79,6 +80,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         } else {
             log::warn("Oxygen meter is disabled");
         };
+
         return true;
     };
 

@@ -11,19 +11,17 @@ using namespace horrible;
 class $modify(FreezePlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = HorribleIdeas::get("freeze");
+        int chance = HorribleIdeas::getChance("freeze");
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
         if (m_fields->enabled) {
-            auto rnd = Rand::fast();
             if (auto gm = GameManager::sharedState()) {
-                if (rnd % 100 < 10) { // 10% chance
-                    capFPS(1.f);
-                }
-            }
+                auto rnd = Rand::fast();
+                if (rnd % 100 < m_fields->chance) capFPS(1.f);
+            };
         } else {
             log::warn("Random freezing at 90% is disabled");
         };
@@ -60,8 +58,7 @@ class $modify(FreezePlayLayer, PlayLayer) {
         gm->setGameVariable("0116", true);
 
         float interval = 1.f / value; // cap fps to 60
-        if (interval <= 0.0f || interval > 1.0f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("cap fps to {} (interval {})", value, interval);

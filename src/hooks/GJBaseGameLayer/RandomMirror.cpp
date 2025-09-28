@@ -22,6 +22,13 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
         // log::debug("flip buffer ended");
     };
 
+    void toggleFlipped(bool p0, bool p1) {
+        m_fields->isFlipped = p0;
+        log::debug("{}", m_fields->isFlipped ? "flipped" : "unflipped");
+
+        GJBaseGameLayer::toggleFlipped(p0, p1);
+    };
+
     void update(float p0) {
         auto rnd = Rand::tiny();
         // log::debug("gjbasegamelayer update chance {}", rnd);
@@ -29,18 +36,7 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
         if (m_fields->enabled) {
             if (!m_fields->inBuffer && rnd <= m_fields->chance) {
                 if (auto playLayer = PlayLayer::get()) {
-                    // flip state
-                    if (!m_fields->isFlipped) {
-                        toggleFlipped(true, false); // bool 1 = flip, bool 2 = instant
-                        log::debug("flipped");
-
-                        m_fields->isFlipped = true;
-                    } else {
-                        toggleFlipped(false, false);
-                        log::debug("unflipped");
-
-                        m_fields->isFlipped = false;
-                    };
+                    toggleFlipped(!m_fields->isFlipped, false);
 
                     // Start 5s buffer to prevent immediate re-flip
                     m_fields->inBuffer = true;

@@ -57,7 +57,7 @@
 		},
 		"chances": {
 			"type": "title",
-			"name": "Joke Chances",
+			"name": "Mod Chances",
 			"description": "Change the chances of each effect happening."
 		},
 		"grief-chance": {
@@ -99,6 +99,23 @@
 			"name": "Mock Chance",
 			"description": "<cj>Mock your 90%+ Fail</c> - Chance of your fail being shown on screen.",
 			"default": 75,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"freeze-chance": {
+			"type": "int",
+			"name": "Framerate Freeze Chance",
+			"description": "<cj>Random 90%+ FPS Drop</c> - Chance of your game freezing after reaching 90% in a classic level.",
+			"default": 10,
 			"min": 0,
 			"max": 100,
 			"control": {
@@ -303,7 +320,7 @@
 			"name": "More Settings",
 			"description": "Other settings you can change."
 		},
-		"developer-mode": {
+		"dev-mode": {
 			"type": "bool",
 			"name": "Developer Mode",
 			"description": "Shows extra information in the mod menu interface.",
