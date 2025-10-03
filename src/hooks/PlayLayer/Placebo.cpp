@@ -2,40 +2,69 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/LevelPage.hpp>
+#include <Geode/modify/LevelInfoLayer.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(PlaceboPlayLayer, PlayLayer) {
-    struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("placebo", false);
-    };
+struct Fields
+{
+    bool enabled = horribleMod->getSavedValue<bool>("placebo", false);
+};
 
-    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
+Fields m_fields;
+
+void placeboEffect();
+
+class $modify(PlaceboLevelPage, LevelPage)
+{
+
+    void onPlay(CCObject *sender)
     {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
-        if (m_fields->enabled)
+        placeboEffect();
+        LevelPage::onPlay(sender);
+    };
+};
+
+class $modify(PlaceboLevelInfoLayer, LevelInfoLayer)
+{
+
+    void onPlay(CCObject *sender)
+    {
+        placeboEffect();
+        LevelInfoLayer::onPlay(sender);
+    };
+};
+
+
+
+void placeboEffect()
+{
+    if (horribleMod && m_fields.enabled)
+    {
+        int rnd = Rand::tiny() % 1000;
+        log::info("placebo effect roll: {}", rnd);
+
+        if (rnd < 10)
         {
-            int rnd = Rand::get(1000); // 0.05% chance
-            log::debug("placebo init called {}", rnd);
-            if (rnd < 1) // if rng is < 1
+            log::info("Placebo effect activated! Enabling all horrible mod options...");
+
+            for (const auto& option : modOptions)
             {
-                log::debug("placebo activated, you feel stronger");
-                // make every options enabled
-                for (auto& option : modOptions) {
-                    horribleMod->setSavedValue<bool>(option.id, true);
-                }
-            }
-            if (rnd < 5) {
-                log::debug("placebo overactivated, you feel invincible");
-                // make every options disabled
-                for (auto& option : modOptions) {
-                    horribleMod->setSavedValue<bool>(option.id, false);
-                }
+                horribleMod->setSavedValue<bool>(option.id, true);
+                log::debug("Enabled option: {}", option.id);
             }
         }
-        return true;
+
+        if (rnd < 5) {
+            log::info("Placebo effect activated! Disabling all horrible mod options...");
+
+            for (const auto& option : modOptions)
+            {
+                horribleMod->setSavedValue<bool>(option.id, false);
+                log::debug("Disabled option: {}", option.id);
+            }
+        }
     };
 };
