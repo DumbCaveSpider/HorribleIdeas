@@ -57,6 +57,10 @@ class $modify(DementiaPlayerObject, PlayerObject) {
 };
 
 class $modify(DementiaEnhancedGameObject, EnhancedGameObject) {
+    struct Fields {
+        bool enabled = horribleMod->getSavedValue<bool>("dementia", false);
+    };
+    
     bool hasBeenActivated() {
         if (PlayLayer::get() && this->canAllowMultiActivate()) {
             return false;

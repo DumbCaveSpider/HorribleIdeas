@@ -13,200 +13,168 @@
 using namespace geode::prelude;
 
 // Namespace for utility methods for Horrible Ideas
-namespace horrible {
+namespace horrible
+{
     // Pointer reference to the current mod instance
-    inline Mod* horribleMod = Mod::get();
+    inline Mod *horribleMod = Mod::get();
 
     // All horrible mods
     static inline std::vector<Option> modOptions = {
-        {
-            "oxygen",
+        {"oxygen",
          "Oxygen Level",
          "Limited oxygen level. You gain oxygen as a flying gamemode. If your oxygen runs out, your player dies.\n<cy>Credit: ArcticWoof</c>",
          SillyTier::High,
-         false
-        },
-        {
-            "health",
+         false},
+        {"health",
          "Player Health",
          "Add a health bar and decreases everytime you collide with a hazard. If your health reaches zero, your player dies.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "grief",
+         false},
+        {"grief",
          "Get Back on Grief",
          "A chance at death of forcing you to play Grief.\n<cy>Credit: Sweep</c>",
          SillyTier::High,
-         false
-        },
-        {
-            "congregation",
+         false},
+        {"congregation",
          "Congregation Jumpscare",
          "A chance at death of forcing you to play Congregation.\n<cy>Credit: StaticGD</c>",
          SillyTier::High,
-         false
-        },
-        {
-            "mock",
+         false},
+        {"mock",
          "Mock your 90%+ Fail",
          "Shows a screenshot of one of your 90%-99% fails in the main menu.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "freeze",
+         false},
+        {"freeze",
          "Random 90%+ FPS Drop",
          "Your visual framerate starts randomly dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "achieve",
+         false},
+        {"achieve",
          "Random Achievements",
          "Play the achievement sound when doing random things.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
-         false
-        },
-        {
-            "crash_death",
+         false},
+        {"crash_death",
          "Crash Chance on Death",
          "When you die in the level, there's a small chance your game will die too. Don't worry your progress is saved when crashed :)\n<cy>Credit: DragonixGD</c>",
          SillyTier::High,
-         false
-        },
-        {
-            "math_quiz",
+         false},
+        {"math_quiz",
          "Richard's Math Quiz!",
          "When playing a level in practice mode, there's a chance Richard will pop out and give you a quick math quiz. Answer correctly to continue, or restart the level from the beginning.\n<cy>Credit: CyanBoi</c>",
          SillyTier::High,
-         false
-        },
-        {
-            "no_jump",
+         false},
+        {"no_jump",
          "Randomly Don't Jump",
          "When making an input in a level, there will be a chance your character does not jump.\n<cy>Credit: GilanyKing12</c>",
          SillyTier::Low,
-         false
-        },
-        {
-            "gravity",
+         false},
+        {"gravity",
          "Randomize Gravity",
          "Every time you jump in the level, gravity force will increase or decrease randomly.\n<cy>Credit: NJAgain</c>",
          SillyTier::Low,
-         false
-        },
-        {
-            "death",
+         false},
+        {"death",
          "Fake Death",
          "The player's death effect will play but will not die.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "upside_down",
+         false},
+        {"upside_down",
          "Upside-Down Chance",
          "When navigating the game, there's a chance it'll be upside-down and probably break everything.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "ads",
+         false},
+        {"ads",
          "Level Ads",
          "While playing a level in normal mode, an ad for a random level will pop up on the screen from time to time.\n<cy>Credit: staticGD</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "black_screen",
+         false},
+        {"black_screen",
          "Black Screen Blink",
          "The screen can suddenly turn black for a split second while playing a level.\n<cy>Credit: elite_smiler_ispro</c>",
          SillyTier::Low,
-         false
-        },
-        {
-             "parry",
+         false},
+        {"parry",
          "Parry Obstacles",
          "Whenever your hitbox is inside of a hazard hitbox, you will not die if you time your click right.\n<cy>Credit: Wuffin</c>",
          SillyTier::Low,
-         false
-        },
-        {
-             "double_jump",
+         false},
+        {"double_jump",
          "Double-Jump",
          "Allow your character to double-jump in a level.\n<cy>Credit: Cheeseworks</c>",
          SillyTier::Low,
          false
 
-    },
-        {
-            "sleepy",
+        },
+        {"sleepy",
          "Sleepy Player",
          "Your character will occasionally fall asleep while playing.\n<cy>Credit: this_guy_yt</c>",
          SillyTier::Low,
-         false
-    },
-        {
-            "pauses",
+         false},
+        {"pauses",
          "Random Pauses",
          "While playing a level, the game will randomly pause itself.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false
-    },
-        {
-            "ice_level",
+         false},
+        {"ice_level",
          "Ice Level",
          "Make every surface icy. Slip and slide!\n<cy>Credit: TimeRed</c>",
          SillyTier::Medium,
-         false
-    },
-        {
-            "random_mirror",
+         false},
+        {"random_mirror",
          "Random Mirror Portal",
          "Randomly activates a mirror portal in the level.\n<cy>Credit: TimeRed</c>",
          SillyTier::Low,
-         false
-    },
-        {
-            "random_speed",
+         false},
+        {"random_speed",
          "Random Speed Change",
          "Randomly changes your speed while playing a level.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Medium,
-         false
-    },
-        {
-            "random_icon",
+         false},
+        {"random_icon",
          "Random Icon Change",
          "Randomly change your icon every time you jump.\n<cy>Credit: JompyDoJump</c>",
          SillyTier::Low,
          false},
-        {
-            "blinking_icon",
+        {"blinking_icon",
          "Blinking Icon",
          "Your icon will start to randomly blink.\n<cy>Credit: DragonixGD</c>",
          SillyTier::Low,
-         false
-    },
-        {
-            "dementia",
+         false},
+        {"dementia",
          "Dementia",
          "Chance of your player randomly teleports back. This is more like player lagging to be honest!\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Medium,
-         false
-        },
-        {
-            "meme_death",
+         false},
+        {"meme_death",
          "Meme Death Sounds",
          "Plays a meme sound effect on certain percentage where you died at.\n<cy>Credit: imdissapearinghelp</c>",
          SillyTier::Low,
-         false
-        },
-        {
-            "earthquake",
+         false},
+        {"earthquake",
          "Earthquake",
          "Constantly shakes the camera while playing a level.\n<cy>Credit: ArcticWoof</c>",
          SillyTier::Medium,
-         false
-        }
-    };
+         false},
+        {"fake_crash",
+         "Random Fake Crash",
+         "While playing a level, there's a chance your game will fake crash.\n<cy>Credit: Timered</c>",
+         SillyTier::Medium,
+         false},
+        {"flashbang",
+         "Flashbang",
+         "Randomly blinds you for a split second while playing a level.\n<cy>Credit: tmdX3</c>",
+         SillyTier::Medium,
+         false},
+        {"gambler",
+         "Gambler",
+         "While playing a level and reach at the 95%, there's a 50/50 chance you either complete the level or blast into the space backwards.\n<cy>Credit: Timered</c>",
+         SillyTier::Medium,
+         false},
+        {"placebo",
+         "Placebo",
+         "A small chance that when you start a level, all the horrible mods you have enabled are disabled, or all the horrible mods you have disabled are enabled.\n<cy>Credit: tmdXD</c>",
+         SillyTier::High,
+         false}};
 };

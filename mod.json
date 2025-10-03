@@ -42,10 +42,10 @@
 	],
 	"resources": {
 		"sprites": [
-			"resources/*"
+			"resources/*.png"
 		],
 		"files": [
-			"audio/*"
+			"resources/audio/*.mp3"
 		]
 	},
 	"settings": {
@@ -285,6 +285,40 @@
 			"type": "int",
 			"name": "Dementia Chance",
 			"description": "<cj>Dementia</c> - Chance of your player randomly teleports back.",
+			"default": 10,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"fake_crash-chance": {
+			"type": "int",
+			"name": "Fake Crash Chance",
+			"description": "<cj>Fake Crash</c> - Chance of a fake crash happening when you die.",
+			"default": 10,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"flashbang-chance": {
+			"type": "int",
+			"name": "Flashbang Chance",
+			"description": "<cj>Flashbang</c> - Chance of being randomly blinded.",
 			"default": 10,
 			"min": 0,
 			"max": 100,
