@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,7 +10,7 @@ using namespace horrible;
 
 class $modify(MemeDeathPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("meme_death", false);
+        bool enabled = HorribleIdeas::get("meme_death");
     };
 
     void playerDestroyed(bool p0) {

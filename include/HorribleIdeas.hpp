@@ -35,6 +35,15 @@ public:
     static bool get(std::string_view id);
 
     /**
+     * Returns the chance value for an option
+     *
+     * @param id The ID of the option to check
+     *
+     * @returns Integer of the chance value
+     */
+    static int getChance(std::string_view id);
+
+    /**
      * Returns if the mod is enabled or disabled
      *
      * @param id The ID of the option to check

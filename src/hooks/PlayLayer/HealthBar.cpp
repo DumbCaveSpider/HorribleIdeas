@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,7 +10,8 @@ using namespace horrible;
 
 class $modify(HealthBarPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("health", false);
+        bool enabled = HorribleIdeas::get("health");
+
         CCLabelBMFont* m_healthLabel = nullptr;
 
         float m_health = 100.f;

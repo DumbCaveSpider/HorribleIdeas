@@ -57,7 +57,7 @@
 		},
 		"chances": {
 			"type": "title",
-			"name": "Joke Chances",
+			"name": "Mod Chances",
 			"description": "Change the chances of each effect happening."
 		},
 		"grief-chance": {
@@ -111,7 +111,24 @@
 				"big-arrow-step": 20
 			}
 		},
-		"sleep-chance": {
+		"freeze-chance": {
+			"type": "int",
+			"name": "Framerate Freeze Chance",
+			"description": "<cj>Random 90%+ FPS Drop</c> - Chance of your game freezing after reaching 90% in a classic level.",
+			"default": 10,
+			"min": 0,
+			"max": 100,
+			"control": {
+				"input": true,
+				"slider": true,
+				"slider-step": 1,
+				"arrows": true,
+				"arrow-step": 10,
+				"big-arrows": true,
+				"big-arrow-step": 20
+			}
+		},
+		"sleepy-chance": {
 			"type": "int",
 			"name": "Sleep Chance",
 			"description": "<cj>Sleepy Player</c> - Chance of your player falling asleep.",
@@ -331,6 +348,17 @@
 				"big-arrows": true,
 				"big-arrow-step": 20
 			}
+		},
+		"more": {
+			"type": "title",
+			"name": "More Settings",
+			"description": "Other settings you can change."
+		},
+		"dev-mode": {
+			"type": "bool",
+			"name": "Developer Mode",
+			"description": "Shows extra information in the mod menu interface.",
+			"default": false
 		}
 	},
 	"api": {

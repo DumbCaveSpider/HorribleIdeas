@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,9 +10,10 @@ using namespace horrible;
 
 class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
+        bool enabled = HorribleIdeas::get("math_quiz");
+        int chance = HorribleIdeas::getChance("math_quiz");
+
         MathQuiz* m_currentQuiz = nullptr;
-        bool enabled = horribleMod->getSavedValue<bool>("math_quiz", false);
-        float chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("math_quiz-chance"));
     };
 
     void update(float p0) {

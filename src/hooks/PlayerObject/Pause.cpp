@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,8 @@ using namespace horrible;
 
 class $modify(RandomPausePlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("pauses", false);
-        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("pauses-chance"));
+        bool enabled = HorribleIdeas::get("pauses");
+        int chance = HorribleIdeas::getChance("pauses");
     };
 
     void update(float p0) {

@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,8 +10,8 @@ using namespace horrible;
 
 class $modify(NoJumpGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("no_jump", false);
-        float chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("no_jump-chance"));
+        bool enabled = HorribleIdeas::get("no_jump");
+        float chance = HorribleIdeas::get("no_jump");
     };
 
     void handleButton(bool down, int button, bool isPlayer1) {
@@ -22,6 +23,7 @@ class $modify(NoJumpGJBaseGameLayer, GJBaseGameLayer) {
                 if (rng <= m_fields->chance) {
                     log::error("skipped dat jump");
                     GJBaseGameLayer::handleButton(false, button, isPlayer1);
+
                     return;
                 };
             };

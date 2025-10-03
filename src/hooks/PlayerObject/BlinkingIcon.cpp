@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,14 +10,14 @@ using namespace horrible;
 
 class $modify(BlinkingIconPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("blinking_icon", false);
-        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("blinking_icon-chance"));
+        bool enabled = HorribleIdeas::get("blinking_icon");
+        int chance = HorribleIdeas::getChance("blinking_icon");
     };
 
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
-                auto rnd = Rand::fast();
+                auto rnd = Rand::tiny();
 
                 // randomly makes the player invisible and visible again
                 if (rnd <= m_fields->chance) {

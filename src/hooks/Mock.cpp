@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -12,8 +13,8 @@ using namespace horrible;
 
 class $modify(MockMenuLayer, MenuLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("mock", false);
-        int chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("mock-chance"));
+        bool enabled = HorribleIdeas::get("mock");
+        int chance = HorribleIdeas::getChance("mock");
     };
 
     bool init() {
@@ -110,7 +111,7 @@ class $modify(MockMenuLayer, MenuLayer) {
 
 class $modify(MockPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("mock", false);
+        bool enabled = HorribleIdeas::get("mock");
     };
 
     void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {

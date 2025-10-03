@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -9,7 +10,7 @@ using namespace horrible;
 
 class $modify(BlackScreenPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("black_screen", false);
+        bool enabled = HorribleIdeas::get("black_screen");
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

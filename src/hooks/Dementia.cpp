@@ -1,4 +1,5 @@
 #include <Horrible.hpp>
+#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -11,8 +12,8 @@ using namespace horrible;
 
 class $modify(DementiaPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("dementia", false);
-        float chance = static_cast<int>(horribleMod->getSettingValue<int64_t>("dementia-chance"));
+        bool enabled = HorribleIdeas::get("dementia");
+        int chance = HorribleIdeas::getChance("dementia");
 
         int lastMusicTime = 0; // last music time in milliseconds
 
@@ -58,20 +59,22 @@ class $modify(DementiaPlayerObject, PlayerObject) {
 
 class $modify(DementiaEnhancedGameObject, EnhancedGameObject) {
     struct Fields {
-        bool enabled = horribleMod->getSavedValue<bool>("dementia", false);
+        bool enabled = HorribleIdeas::get("dementia");
     };
-    
-    bool hasBeenActivated() {
-        if (PlayLayer::get() && this->canAllowMultiActivate()) {
-            return false;
-        }
-        return EnhancedGameObject::hasBeenActivated();
-    }
 
-    bool hasBeenActivatedByPlayer(PlayerObject* p0) {
-        if (PlayLayer::get() && this->canAllowMultiActivate() && m_fields->enabled) {
-            return false;
-        }
-        return EnhancedGameObject::hasBeenActivatedByPlayer(p0);
-    }
+    bool hasBeenActivated() {
+        if (m_fields->enabled) {
+            return true;
+        } else {
+            return EnhancedGameObject::hasBeenActivated();
+        };
+    };
+
+    bool hasBeenActivatedByPlayer(PlayerObject * p0) {
+        if (m_fields->enabled) {
+            return true;
+        } else {
+            return EnhancedGameObject::hasBeenActivatedByPlayer(p0);
+        };
+    };
 };
