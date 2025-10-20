@@ -10,8 +10,11 @@ using namespace horrible;
 class HorribleMenuPopup : public Popup<> {
 protected:
     bool setup() override;
+
     void openModSettings(CCObject* sender);
-    void filterTierCallback(CCObject* sender);
+
+    void filterTierCallback(CCObject*);
+    void openSeriesPage(CCObject*);
 
 public:
     static HorribleMenuPopup* create();

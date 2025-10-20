@@ -115,6 +115,10 @@ bool HorribleMenuPopup::setup() {
     m_mainLayer->addChild(optionsScrollLayer);
 
     auto modSettingsMenu = CCMenu::create();
+    modSettingsMenu->setPosition({ 0.f, 0.f });
+
+    m_mainLayer->addChild(modSettingsMenu);
+
     // add a mod settings at the bottom left
     auto modSettingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
         // @geode-ignore(unknown-resource)
@@ -127,11 +131,24 @@ bool HorribleMenuPopup::setup() {
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openModSettings));
-    modSettingsMenu->setPosition({ 0.f, 0.f });
+        menu_selector(HorribleMenuPopup::openModSettings)
+    );
+    modSettingsBtn->setID("mod-settings-button");
+
     modSettingsMenu->addChild(modSettingsBtn);
 
-    m_mainLayer->addChild(modSettingsMenu);
+    auto seriesBtnSprite = CCSprite::createWithSpriteFrameName("gj_ytIcon_001.png");
+    seriesBtnSprite->setScale(0.75f);
+
+    auto seriesBtn = CCMenuItemSpriteExtra::create(
+        seriesBtnSprite,
+        this,
+        menu_selector(HorribleMenuPopup::openSeriesPage)
+    );
+    seriesBtn->setID("horrible-mods-series-button");
+    seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
+
+    modSettingsMenu->addChild(seriesBtn);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode: INACTIVE", "bigFont.fnt");
     safeModeLabel->setColor({ 255, 0, 0 });
@@ -171,8 +188,22 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
     filterOptionsByTier(optionsScrollLayer, modOptions, s_selectedTier);
 };
 
-void HorribleMenuPopup::openModSettings(CCObject* sender) {
+void HorribleMenuPopup::openModSettings(CCObject*) {
     openSettingsPopup(horribleMod);
+};
+
+void HorribleMenuPopup::openSeriesPage(CCObject*) {
+    createQuickPopup(
+        "Horrible Mods",
+        "Watch '<cr>Horrible Mods</c>' series on YouTube?",
+        "Cancel",
+        "OK",
+        [=](bool, bool btn2) {
+            if (btn2) {
+                web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
+            };
+        }
+    );
 };
 
 HorribleMenuPopup* HorribleMenuPopup::create() {
