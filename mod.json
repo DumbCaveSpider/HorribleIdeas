@@ -9,8 +9,11 @@
 	"id": "arcticwoof.horrible_ideas",
 	"name": "Horrible Ideas",
 	"version": "v1.0.0",
-	"developer": "ArcticWoof",
-	"description": "Horrible Geode Mod Ideas",
+	"developers": [
+		"ArcticWoof",
+		"Cheeseworks"
+	],
+	"description": "A plethora of ways to ruin your experience...",
 	"links": {
 		"source": "https://github.com/DumbCaveSpider/HorribleIdeas",
 		"community": "https://discord.gg/gXcppxTNxC",

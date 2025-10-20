@@ -1,5 +1,5 @@
 # [<img src="logo.png" width="30" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
-Horrible Geode Mod Ideas.
+A plethora of ways to ruin your gaming experience...
 
 > [<img alt="Latest Version" src="https://img.shields.io/github/v/release/DumbCaveSpider/HorribleIdeas?include_prereleases&sort=semver&display_name=release&style=for-the-badge&logo=github&logoColor=ffffff&label=Version">](../../releases/) [<img alt="Code License" src="https://img.shields.io/github/license/DumbCaveSpider/HorribleIdeas?style=for-the-badge&logo=gnu&logoColor=ffffff&label=License">](LICENSE.md)
 >  

@@ -1,7 +1,7 @@
 # Horrible Ideas
-**Horrible Geode Mod Ideas.**
+**A plethora of ways to ruin your experience...**
 
-*by* ***[ArcticWoof](user:7689052)****!*
+*by [ArcticWoof](user:7689052) & [Cheeseworks](user:6408873)!*
 
 ---
 
