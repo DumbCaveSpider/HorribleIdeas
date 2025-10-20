@@ -9,12 +9,16 @@ using namespace horrible;
 
 class HorribleMenuPopup : public Popup<> {
 protected:
-    bool setup() override;
+    ScrollLayer* m_optionList = nullptr;
+
+    void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
 
     void openModSettings(CCObject* sender);
 
     void filterTierCallback(CCObject*);
     void openSeriesPage(CCObject*);
+
+    bool setup() override;
 
 public:
     static HorribleMenuPopup* create();
