@@ -15,4 +15,5 @@ When pressing `Tab`, a menu will pop up with a list of joke mods you can enable 
 
 ---
 
-### The Series!
+### [The Series!](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu)
+Be sure to watch our progress in playtesting the mod on Avalanche's YouTube channel! This mod could not have been possible without YOU... That's not something to be proud of!
