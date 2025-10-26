@@ -71,7 +71,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto nameLabel = CCLabelBMFont::create(
         m_modName.c_str(),
         "bigFont.fnt",
-        getContentSize().width - 80.f,
+        getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
     );
     nameLabel->setID("name");
@@ -83,7 +83,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto categoryLabel = CCLabelBMFont::create(
         m_modCategory.c_str(),
         "goldFont.fnt",
-        getContentSize().width - 80.f,
+        getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
     );
     categoryLabel->setID("category");
@@ -112,6 +112,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     };
 
     addChild(nameLabel);
+    addChild(categoryLabel);
 
     if (horribleMod->getSettingValue<bool>("dev-mode")) {
         auto idLabel = CCLabelBMFont::create(
