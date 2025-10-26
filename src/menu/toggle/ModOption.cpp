@@ -155,8 +155,8 @@ void ModOption::onToggle(CCObject*) {
     if (m_toggler) horribleMod->setSavedValue(m_modID, m_toggler->isToggled());
     if (m_restartRequired) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
-    // If grief option is toggled on, call LevelManager::checkAndDownloadGriefLevel
-    if (m_modID == "grief" && m_toggler->isToggled()) LevelManager::DownloadGriefLevel();
+    // If grief option is toggled on, call jumpscares::checkAndDownloadGriefLevel
+    if (m_modID == "grief" && m_toggler->isToggled()) jumpscares::DownloadGriefLevel();
 
     log::info("Option {} now set to {}", m_modName, horribleMod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };

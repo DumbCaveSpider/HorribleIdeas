@@ -19,7 +19,7 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
             // jump pls
             if (auto playLayer = PlayLayer::get(); playLayer && p0 == PlayerButton::Jump) {
                 auto gm = GameManager::sharedState();
-                auto rng = Rand::tiny();
+                auto rng = randng::tiny();
 
                 // count the icons i guess
                 int maxIcons = 0;

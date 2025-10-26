@@ -93,7 +93,7 @@ bool HorribleMenuPopup::setup() {
     };
 
     // get the options data
-    filterOptionsByTier(modOptions, SillyTier::None);
+    filterOptionsByTier(options::getAll(), SillyTier::None);
 
     m_mainLayer->addChild(filterMenu);
 
@@ -185,7 +185,7 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
             s_selectedTier = tier;
         };
 
-        filterOptionsByTier(modOptions, s_selectedTier);
+        filterOptionsByTier(options::getAll(), s_selectedTier);
     } else {
         log::error("Filter button cast failed");
     };

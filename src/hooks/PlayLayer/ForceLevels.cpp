@@ -23,14 +23,14 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        if (m_fields->griefEnabled) LevelManager::DownloadGriefLevel();
-        if (m_fields->congregEnabled) LevelManager::DownloadCongregLevel();
+        if (m_fields->griefEnabled) jumpscares::DownloadGriefLevel();
+        if (m_fields->congregEnabled) jumpscares::DownloadCongregLevel();
 
         return true;
     };
 
     void destroyPlayer(PlayerObject * p0, GameObject * p1) {
-        int rng = Rand::fast();
+        int rng = randng::fast();
 
         // get back to grief
         if (m_fields->griefEnabled) {

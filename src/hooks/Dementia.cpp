@@ -24,7 +24,7 @@ class $modify(DementiaPlayerObject, PlayerObject) {
     bool pushButton(PlayerButton p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
-                auto rnd = Rand::fast();
+                auto rnd = randng::fast();
                 log::debug("player teleport chance {}", rnd);
 
                 FMOD::Channel* musicChannel = nullptr;

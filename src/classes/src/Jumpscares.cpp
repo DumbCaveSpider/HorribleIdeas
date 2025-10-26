@@ -1,4 +1,4 @@
-#include "../LevelManager.hpp"
+#include "../Jumpscares.hpp"
 
 #include <Horrible.hpp>
 
@@ -9,7 +9,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-void LevelManager::DownloadGriefLevel() {
+void jumpscares::DownloadGriefLevel() {
     if (horribleMod->getSavedValue<bool>("grief", false)) {
         auto glm = GameLevelManager::get();
 
@@ -27,7 +27,7 @@ void LevelManager::DownloadGriefLevel() {
     };
 };
 
-void LevelManager::DownloadCongregLevel() {
+void jumpscares::DownloadCongregLevel() {
     if (horribleMod->getSavedValue<bool>("congregation", false)) {
         auto glm = GameLevelManager::get();
 

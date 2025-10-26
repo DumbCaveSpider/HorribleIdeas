@@ -5,28 +5,27 @@
 using namespace geode::prelude;
 
 namespace horrible {
-    class Rand {
-    public:
+    namespace randng {
         /**
          * Get a number between 0 and 100
          */
-        static int fast();
+        int fast();
 
         /**
          * Get a number between 0 and 5000, recommended to balance chances when firing every frame
          */
-        static int tiny();
+        int tiny();
 
         /**
          * Get a random number to 32767
          */
-        static int max();
+        int max();
 
         /**
          * Get a number between 0 and max
          *
          * @param max The maximum number to get
          */
-        static int get(int max = 200);
+        int get(int max = 200);
     };
 };

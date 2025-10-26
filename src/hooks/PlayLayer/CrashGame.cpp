@@ -23,7 +23,7 @@ class $modify(CrashGamePlayLayer, PlayLayer) {
             if (p1 == m_anticheatSpike && p0 && !p0->m_isDead) return;
             if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = p1;
 
-            auto rnd = Rand::fast();
+            auto rnd = randng::fast();
             log::debug("crash destroy chance {}", rnd);
 
             if (rnd <= m_fields->chance) {

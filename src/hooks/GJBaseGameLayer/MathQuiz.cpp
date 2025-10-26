@@ -17,7 +17,7 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto rnd = Rand::fast();
+        auto rnd = randng::fast();
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (m_fields->enabled) {

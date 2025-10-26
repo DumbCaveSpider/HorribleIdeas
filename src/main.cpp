@@ -34,7 +34,7 @@ class $modify(HorribleCCScene, CCScene) {
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
 class $modify(HorribleCCMenuItem, CCMenuItem) {
     void activate() {
-        auto rnd = Rand::fast();
+        auto rnd = randng::fast();
         log::debug("button menu chance {}", rnd);
 
         if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {

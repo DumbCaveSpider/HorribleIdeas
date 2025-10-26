@@ -18,7 +18,7 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
         if (horribleMod && m_fields->enabled) {
-            float rng = Rand::fast(); // random float between 0 and 100
+            float rng = randng::fast(); // random float between 0 and 100
             log::debug("scene rng {} chance {}", rng, m_fields->chance);
 
             if (rng <= m_fields->chance) {

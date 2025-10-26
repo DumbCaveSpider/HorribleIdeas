@@ -100,7 +100,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
             if (!m_fields->m_destroyingObject)
                 m_fields->m_destroyingObject = game;
 
-            auto rnd = Rand::fast();
+            auto rnd = randng::fast();
             if (m_fields->m_health > 0) {
                 m_fields->m_health -= 0.1f;
 

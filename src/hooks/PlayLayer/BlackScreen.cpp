@@ -16,7 +16,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        int rnd = Rand::tiny();
+        int rnd = randng::tiny();
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -62,7 +62,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (auto blackScreen = getChildByID("black_screen"_spr)) {
             blackScreen->removeFromParent();
             log::debug("Black screen removed");
-            int rnd = Rand::tiny();
+            int rnd = randng::tiny();
 
             if (m_fields->enabled) {
                 float delay = static_cast<float>(rnd % 10001) / 1000.0f; // random delay between 0 and 10 seconds

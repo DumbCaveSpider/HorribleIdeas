@@ -12,15 +12,14 @@ class $modify(HorriblePlayLayer, PlayLayer) {
 
     // safe mode prevents level completion
     void levelComplete() {
-
         if (m_fields->safeMode) {
             bool testMode = m_isTestMode;
 
             m_isTestMode = true;
-            m_isTestMode = testMode;
             PlayLayer::levelComplete();
+            m_isTestMode = testMode;
             return;
-        }
+        };
 
         PlayLayer::levelComplete();
     };

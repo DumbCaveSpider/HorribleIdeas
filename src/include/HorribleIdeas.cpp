@@ -2,6 +2,8 @@
 
 #include <fmt/core.h>
 
+using namespace horribleideas;
+
 static inline std::mutex s_horrible_registry_mutex;
 
 bool horribleideas::get(std::string_view id) {
@@ -17,12 +19,12 @@ bool horribleideas::set(std::string_view id, bool enable) {
     return Mod::get()->setSavedValue<bool>(std::string(id), enable);
 };
 
-void horribleideas::registerOption(const horrible::Option& option) {
+void horribleideas::registerOption(const Option& option) {
     std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
-    horrible::modOptions.push_back(option);
+    m_options.push_back(option);
 };
 
-std::vector<horrible::Option> horribleideas::getRegisteredOptions() {
+std::vector<Option> horribleideas::getRegisteredOptions() {
     std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
-    return horrible::modOptions;
+    return m_options;
 };

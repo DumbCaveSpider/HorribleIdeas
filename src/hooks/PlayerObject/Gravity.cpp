@@ -17,7 +17,7 @@ class $modify(GravityPlayerObject, PlayerObject) {
     };
 
     void updateJump(float p0) {
-        auto rnd = Rand::fast();
+        auto rnd = randng::fast();
 
         if (m_fields->enabled) {
             float newGrav = std::round((static_cast<float>(rnd) / 100.f) * (2.5f) * 100.0f) / 100.0f;

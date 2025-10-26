@@ -30,7 +30,7 @@ class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto rnd = Rand::tiny();
+        auto rnd = randng::tiny();
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (m_fields->enabled) {
