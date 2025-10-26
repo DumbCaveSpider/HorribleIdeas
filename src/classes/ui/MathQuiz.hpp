@@ -5,6 +5,7 @@
 using namespace geode::prelude;
 
 namespace horrible {
+    // Richard's math quiz layer
     class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
     protected:
         int m_numFirst = 1; // First number in the equation

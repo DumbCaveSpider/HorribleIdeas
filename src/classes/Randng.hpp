@@ -5,6 +5,7 @@
 using namespace geode::prelude;
 
 namespace horrible {
+    // Random number generator utilities
     namespace randng {
         /**
          * Get a number between 0 and 100

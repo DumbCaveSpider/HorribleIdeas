@@ -89,7 +89,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     categoryLabel->setID("category");
     categoryLabel->setLineBreakWithoutSpace(true);
     categoryLabel->setAnchorPoint({ 0.f, 0.5f });
-    categoryLabel->setPosition({ x, yCenter + 8.75f });
+    categoryLabel->setPosition({ x, yCenter + 10.f });
     categoryLabel->setScale(0.25f);
 
     // Set color based on m_modTier
@@ -152,12 +152,13 @@ bool ModOption::init(CCSize const& size, Option option) {
         m_toggler->toggle(false);
         m_toggler->setEnabled(false);
 
-        togglerOff->setColor({ 166, 166, 166 });
-        togglerOn->setColor({ 166, 166, 166 });
+        togglerOff->setColor({ 150, 150, 150 });
+        togglerOn->setColor({ 150, 150, 150 });
 
-        bg->setColor({ 166, 166, 166 });
+        bg->setColor({ 150, 150, 150 });
 
-        nameLabel->setColor({ 166, 166, 166 });
+        nameLabel->setColor({ 150, 150, 150 });
+        categoryLabel->setColor({ 150, 150, 150 });
     };
 
     return true;
