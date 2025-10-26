@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(RandomPausePlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("pauses");
-        int chance = HorribleIdeas::getChance("pauses");
+        bool enabled = horribleideas::get("pauses");
+        int chance = horribleideas::getChance("pauses");
     };
 
     void update(float p0) {

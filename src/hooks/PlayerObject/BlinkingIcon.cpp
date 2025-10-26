@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(BlinkingIconPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("blinking_icon");
-        int chance = HorribleIdeas::getChance("blinking_icon");
+        bool enabled = horribleideas::get("blinking_icon");
+        int chance = horribleideas::getChance("blinking_icon");
     };
 
     void update(float p0) {

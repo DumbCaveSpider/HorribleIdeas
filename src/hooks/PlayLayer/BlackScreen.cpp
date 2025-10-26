@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(BlackScreenPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("black_screen");
+        bool enabled = horribleideas::get("black_screen");
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

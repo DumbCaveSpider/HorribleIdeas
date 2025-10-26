@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("math_quiz");
-        int chance = HorribleIdeas::getChance("math_quiz");
+        bool enabled = horribleideas::get("math_quiz");
+        int chance = horribleideas::getChance("math_quiz");
 
         MathQuiz* m_currentQuiz = nullptr;
     };

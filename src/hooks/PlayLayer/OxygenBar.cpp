@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(OxygenBarPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("oxygen");
-        bool healthEnabled = HorribleIdeas::get("health");
+        bool enabled = horribleideas::get("oxygen");
+        bool healthEnabled = horribleideas::get("health");
 
         CCLabelBMFont* m_oxygenLabel = nullptr;
 

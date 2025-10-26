@@ -13,8 +13,8 @@ using namespace horrible;
 
 class $modify(MockMenuLayer, MenuLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("mock");
-        int chance = HorribleIdeas::getChance("mock");
+        bool enabled = horribleideas::get("mock");
+        int chance = horribleideas::getChance("mock");
     };
 
     bool init() {
@@ -111,7 +111,7 @@ class $modify(MockMenuLayer, MenuLayer) {
 
 class $modify(MockPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("mock");
+        bool enabled = horribleideas::get("mock");
     };
 
     void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {

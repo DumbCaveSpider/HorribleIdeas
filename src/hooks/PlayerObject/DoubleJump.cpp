@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(DoubleJumpPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("double_jump");
+        bool enabled = horribleideas::get("double_jump");
         int m_jumps = 0;
     };
 

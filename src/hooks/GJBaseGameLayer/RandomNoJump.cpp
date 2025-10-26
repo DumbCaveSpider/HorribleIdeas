@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(NoJumpGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("no_jump");
-        float chance = HorribleIdeas::get("no_jump");
+        bool enabled = horribleideas::get("no_jump");
+        float chance = horribleideas::get("no_jump");
     };
 
     void handleButton(bool down, int button, bool isPlayer1) {

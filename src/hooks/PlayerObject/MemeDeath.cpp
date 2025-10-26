@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(MemeDeathPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("meme_death");
+        bool enabled = horribleideas::get("meme_death");
     };
 
     void playerDestroyed(bool p0) {

@@ -14,17 +14,18 @@
 #endif
 #endif
 
+#include <Horrible.hpp>
+
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
-// To easily toggle horrible mod options
-class HorribleIdeas {
-private:
-    // Pointer reference to the current mod instance
-    static inline Mod* horribleMod = Mod::get();
+namespace horrible {
+    struct AWCW_HORRIBLE_API_DLL Option; // forward-declare existing type
+};
 
-public:
+// Namespace with all horrible option functions
+namespace horribleideas {
     /**
      * Returns if the mod is enabled or disabled
      *
@@ -32,7 +33,7 @@ public:
      *
      * @returns Boolean of the current value
      */
-    static bool get(std::string_view id);
+    AWCW_HORRIBLE_API_DLL bool get(std::string_view id);
 
     /**
      * Returns the chance value for an option
@@ -41,7 +42,7 @@ public:
      *
      * @returns Integer of the chance value
      */
-    static int getChance(std::string_view id);
+    AWCW_HORRIBLE_API_DLL int getChance(std::string_view id);
 
     /**
      * Returns if the mod is enabled or disabled
@@ -51,5 +52,11 @@ public:
      *
      * @returns Boolean of the old value
      */
-    static bool set(std::string_view id, bool enable);
+    AWCW_HORRIBLE_API_DLL bool set(std::string_view id, bool enable);
+
+    // Register an option from another mod. Safe to call during that mod's load.
+    AWCW_HORRIBLE_API_DLL void registerOption(const horrible::Option& option);
+
+    // Returns a snapshot of all registered options (including core ones).
+    AWCW_HORRIBLE_API_DLL std::vector<horrible::Option> getRegisteredOptions();
 };

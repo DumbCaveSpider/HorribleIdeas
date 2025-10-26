@@ -1,11 +1,11 @@
 #pragma once
 
+#include <HorribleIdeas.hpp>
+
 #include <Geode/Geode.hpp>
 
 #include <classes/LevelManager.hpp>
-#include <classes/Option.hpp>
 #include <classes/Rand.hpp>
-#include <classes/SillyTier.hpp>
 
 #include <classes/ui/MathQuiz.hpp>
 #include <classes/ui/RandomAdPopup.hpp>
@@ -13,10 +13,66 @@
 using namespace geode::prelude;
 
 // Namespace for utility methods for Horrible Ideas
-namespace horrible
-{
+namespace horrible {
     // Pointer reference to the current mod instance
-    inline Mod *horribleMod = Mod::get();
+    inline Mod* horribleMod = Mod::get();
+
+
+    // How silly a mod option is
+    enum class SillyTier {
+        None = 0, // Null
+        Low = 1, // Not so silly
+        Medium = 2, // Somewhat silly
+        High = 3 // Very silly
+    };
+
+    class Silly {
+    public:
+        /**
+         * Get the int for the tier of silly
+         *
+         * @param silly Silly tier enum
+         *
+         * @returns The integer from the silly tier
+         */
+        static int getInt(SillyTier silly) {
+            switch (silly) {
+            case SillyTier::None:
+                return 0; // No silliness
+
+            case SillyTier::Low:
+                return 1;
+
+            case SillyTier::Medium:
+                return 2;
+
+            case SillyTier::High:
+                return 3;
+
+            default:
+                return 0;
+            };
+
+            return 0;
+        };
+    };
+
+    // A horrible option
+    struct Option {
+        std::string id; // Unique ID of the option
+        std::string name; // Name of the option
+        std::string description; // Description of the option
+        SillyTier silly; // How silly the option is
+        bool restart; // If the option requires a restart to take effect
+
+        Option(
+            std::string id,
+            std::string name,
+            std::string description,
+            SillyTier silly = SillyTier::None,
+            bool restart = false
+        ) : id(id), name(name), description(description), silly(silly), restart(restart) {};
+    };
 
     // All horrible mods
     static inline std::vector<Option> modOptions = {
@@ -176,5 +232,5 @@ namespace horrible
          "Placebo",
          "A small chance that when you start a level, all the horrible mods you have enabled are disabled, or all the horrible mods you have disabled are enabled.\n<cy>Credit: tmdXD</c>",
          SillyTier::High,
-         false}};
+         false} };
 };

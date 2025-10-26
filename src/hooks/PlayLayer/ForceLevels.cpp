@@ -10,11 +10,11 @@ using namespace horrible;
 
 class $modify(ForceLevelsPlayLayer, PlayLayer) {
     struct Fields {
-        bool griefEnabled = HorribleIdeas::get("grief");
-        bool congregEnabled = HorribleIdeas::get("congregation");
+        bool griefEnabled = horribleideas::get("grief");
+        bool congregEnabled = horribleideas::get("congregation");
 
-        int griefChance = HorribleIdeas::getChance("grief");
-        int congregChance = HorribleIdeas::getChance("congregation");
+        int griefChance = horribleideas::getChance("grief");
+        int congregChance = horribleideas::getChance("congregation");
 
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;

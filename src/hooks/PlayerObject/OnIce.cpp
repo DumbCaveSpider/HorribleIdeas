@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(OnIcePlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("ice_level");
+        bool enabled = horribleideas::get("ice_level");
     };
 
     void update(float p0) {

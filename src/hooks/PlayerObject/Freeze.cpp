@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(FreezePlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("freeze");
+        bool enabled = horribleideas::get("freeze");
     };
 
     void update(float p0) {

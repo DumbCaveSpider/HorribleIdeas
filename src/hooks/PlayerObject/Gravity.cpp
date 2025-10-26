@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(GravityPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("gravity");
+        bool enabled = horribleideas::get("gravity");
 
         bool m_isOnSlope = false;
         bool m_wasOnSlope = false;

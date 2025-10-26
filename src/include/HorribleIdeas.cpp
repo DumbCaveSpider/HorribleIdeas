@@ -2,15 +2,27 @@
 
 #include <fmt/core.h>
 
-bool HorribleIdeas::get(std::string_view id) {
-    return horribleMod->getSavedValue<bool>(id, false);
+static inline std::mutex s_horrible_registry_mutex;
+
+bool horribleideas::get(std::string_view id) {
+    return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };
 
-int HorribleIdeas::getChance(std::string_view id) {
+int horribleideas::getChance(std::string_view id) {
     auto fullId = fmt::format("{}-chance", id);
-    return static_cast<int>(horribleMod->getSettingValue<int64_t>(id)) || 0;
+    return static_cast<int>(Mod::get()->getSettingValue<int64_t>(fullId));
 };
 
-bool HorribleIdeas::set(std::string_view id, bool enable) {
-    return horribleMod->setSavedValue<bool>(id, enable);
+bool horribleideas::set(std::string_view id, bool enable) {
+    return Mod::get()->setSavedValue<bool>(std::string(id), enable);
+};
+
+void horribleideas::registerOption(const horrible::Option& option) {
+    std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
+    horrible::modOptions.push_back(option);
+};
+
+std::vector<horrible::Option> horribleideas::getRegisteredOptions() {
+    std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
+    return horrible::modOptions;
 };

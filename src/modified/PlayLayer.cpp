@@ -5,19 +5,15 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(HorriblePlayLayer, PlayLayer)
-{
-    struct Fields
-    {
+class $modify(HorriblePlayLayer, PlayLayer) {
+    struct Fields {
         bool safeMode = horribleMod->getSettingValue<bool>("safe-mode");
     };
 
     // safe mode prevents level completion
-    void levelComplete()
-    {
+    void levelComplete() {
 
-        if (m_fields->safeMode)
-        {
+        if (m_fields->safeMode) {
             bool testMode = m_isTestMode;
 
             m_isTestMode = true;

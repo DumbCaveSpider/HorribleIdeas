@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(RandomMirrorGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = HorribleIdeas::get("random_mirror");
-        int chance = HorribleIdeas::getChance("random_mirror");
+        bool enabled = horribleideas::get("random_mirror");
+        int chance = horribleideas::getChance("random_mirror");
 
         bool isFlipped = false;
         bool inBuffer = false;
