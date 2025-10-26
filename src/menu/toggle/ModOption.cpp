@@ -89,7 +89,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     categoryLabel->setID("category");
     categoryLabel->setLineBreakWithoutSpace(true);
     categoryLabel->setAnchorPoint({ 0.f, 0.5f });
-    categoryLabel->setPosition({ x, yCenter + 6.25f });
+    categoryLabel->setPosition({ x, yCenter + 8.75f });
     categoryLabel->setScale(0.25f);
 
     // Set color based on m_modTier
