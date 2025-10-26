@@ -7,14 +7,21 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-bool ModOption::init(CCSize const& size, std::string id, std::string name, std::string description, SillyTier silly, bool restart) {
-    m_modID = id;
-    m_modName = name;
-    m_modDescription = description;
+bool ModOption::init(CCSize const& size, Option option) {
+    m_modID = option.id;
+    m_modName = option.name;
+    m_modDescription = option.description;
+    m_modCategory = option.category;
 
-    m_modTier = silly;
+    m_modTier = option.silly;
 
-    m_restartRequired = restart;
+    m_restartRequired = option.restart;
+    m_platforms = option.platforms;
+
+    // check for compatibility
+    for (auto p : m_platforms) {
+        if (p & GEODE_PLATFORM_TARGET) { s_compatible = true; break; };
+    };
 
     if (!CCMenu::init()) return false;
 
@@ -73,6 +80,18 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
     nameLabel->setPosition({ x, yCenter });
     nameLabel->setScale(0.4f);
 
+    auto categoryLabel = CCLabelBMFont::create(
+        m_modCategory.c_str(),
+        "goldFont.fnt",
+        getContentSize().width - 80.f,
+        kCCTextAlignmentLeft
+    );
+    categoryLabel->setID("category");
+    categoryLabel->setLineBreakWithoutSpace(true);
+    categoryLabel->setAnchorPoint({ 0.f, 0.5f });
+    categoryLabel->setPosition({ x, yCenter + 6.25f });
+    categoryLabel->setScale(0.25f);
+
     // Set color based on m_modTier
     switch (m_modTier) {
     case SillyTier::Low: // green
@@ -128,10 +147,7 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
 
     addChild(descBtn);
 
-
-    // disable if macos
-#if defined(GEODE_IS_MACOS) || defined(GEODE_IS_IOS)
-    if (m_modID == "mock") { // add an modID to disabled for macOS and ios
+    if (!s_compatible) {
         m_toggler->toggle(false);
         m_toggler->setEnabled(false);
 
@@ -142,7 +158,6 @@ bool ModOption::init(CCSize const& size, std::string id, std::string name, std::
 
         nameLabel->setColor({ 166, 166, 166 });
     };
-#endif
 
     return true;
 };
@@ -186,10 +201,10 @@ std::string ModOption::getModDescription() {
     return m_modDescription;
 };
 
-ModOption* ModOption::create(CCSize const& size, std::string id, std::string name, std::string description, SillyTier silly, bool restart) {
+ModOption* ModOption::create(CCSize const& size, Option option) {
     auto ret = new ModOption();
 
-    if (ret && ret->init(size, id, name, description, silly, restart)) {
+    if (ret && ret->init(size, option)) {
         ret->autorelease();
         return ret;
     };

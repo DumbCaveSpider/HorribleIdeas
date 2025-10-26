@@ -9,6 +9,8 @@ using namespace horrible;
 
 class HorribleMenuPopup : public Popup<> {
 protected:
+    SillyTier s_selectedTier = SillyTier::None;
+
     ScrollLayer* m_optionList = nullptr;
 
     void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);

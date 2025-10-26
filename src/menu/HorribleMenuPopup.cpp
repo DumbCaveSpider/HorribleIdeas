@@ -14,9 +14,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-// silly tier filter
-static SillyTier s_selectedTier = SillyTier::None;
-
 bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
@@ -156,13 +153,13 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
     if (m_optionList) {
         m_optionList->m_contentLayer->removeAllChildren();
 
-        for (const auto& option : allOptions) {
-            if (tier == SillyTier::None || option.silly == tier) {
+        for (const auto& opt : allOptions) {
+            if (tier == SillyTier::None || opt.silly == tier) {
                 if (auto modOption = ModOption::create(
                     {
                     m_optionList->m_contentLayer->getScaledContentWidth(),
                     32.f
-                    }, option.id, option.name, option.description, option.silly, option.restart
+                    }, opt
                 )) m_optionList->m_contentLayer->addChild(modOption);
             };
         };
