@@ -46,8 +46,8 @@ namespace horribleideas {
         std::string description; // Description of the option
         std::string category; // Name of the category this option should be under
         SillyTier silly; // How silly the option is
-        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
         bool restart = false; // If the option requires a restart to take effect
+        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
 
         // Full constructor second
         Option(
@@ -56,15 +56,15 @@ namespace horribleideas {
             std::string description,
             std::string category,
             SillyTier silly,
-            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile },
-            bool restart = false
+            bool restart = false,
+            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }
         ) : id(std::move(id)),
             name(std::move(name)),
             description(std::move(description)),
             category(std::move(category)),
             silly(silly),
-            platforms(std::move(platforms)),
-            restart(restart) {};
+            restart(restart),
+            platforms(std::move(platforms)) {};
     };
 
     class HorribleOptionEvent : public Event {
@@ -115,10 +115,11 @@ namespace horribleideas {
          "Shows a screenshot of one of your 90%-99% fails in the main menu.\n<cy>Credit: Wuffin</c>\n\n<cr>Note: This will not work on macOS and iOS</c>",
          Category::misc,
          SillyTier::Medium,
-        {
+         false,
+         {
             PlatformID::Windows,
             PlatformID::Android
-        }},
+         }},
         {"freeze",
          "Random 90%+ FPS Drop",
          "Your visual framerate starts randomly dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
