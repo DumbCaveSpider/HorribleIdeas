@@ -6,6 +6,17 @@ using namespace horribleideas;
 
 static inline std::mutex s_horrible_registry_mutex;
 
+HorribleOptionEvent::HorribleOptionEvent(std::string id, bool isToggled)
+    : id(id), isToggled(isToggled) {};
+
+std::string HorribleOptionEvent::getId() const {
+    return id;
+};
+
+bool HorribleOptionEvent::getIsToggled() const {
+    return isToggled;
+};
+
 bool horribleideas::get(std::string_view id) {
     return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };

@@ -67,6 +67,27 @@ namespace horribleideas {
             restart(restart) {};
     };
 
+    class HorribleOptionEvent : public Event {
+    protected:
+        std::string id;
+        bool isToggled;
+
+    public:
+        HorribleOptionEvent(std::string id, bool isToggled);
+
+        std::string getId() const;
+        bool getIsToggled() const;
+    };
+
+    class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
+    public:
+        using Callback = ListenerResult(HorribleOptionEvent*);
+
+        ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event) {
+            return fn(event);
+        };
+    };
+
     // All horrible mods
     static inline std::vector<Option> m_options = {
         {"oxygen",
