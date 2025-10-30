@@ -75,8 +75,8 @@ namespace horribleideas {
     public:
         HorribleOptionEvent(std::string id, bool isToggled);
 
-        std::string getId() const;
-        bool getIsToggled() const;
+        AWCW_HORRIBLE_API_DLL std::string getId() const;
+        AWCW_HORRIBLE_API_DLL bool getIsToggled() const;
     };
 
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
@@ -279,9 +279,17 @@ namespace horribleideas {
      */
     AWCW_HORRIBLE_API_DLL bool set(std::string_view id, bool enable);
 
-    // Register an option from another mod. Safe to call during that mod's load.
+    /**
+     * Register an option during load
+     *
+     * @param option The constructed option
+     */
     AWCW_HORRIBLE_API_DLL void registerOption(const Option& option);
 
-    // Returns a snapshot of all registered options (including core ones).
+    /**
+     * Returns a snapshot of all registered options
+     *
+     * @returns An array of every option, main and external
+     */
     AWCW_HORRIBLE_API_DLL std::vector<Option> getRegisteredOptions();
 };
