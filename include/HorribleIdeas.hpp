@@ -67,6 +67,7 @@ namespace horribleideas {
             platforms(std::move(platforms)) {};
     };
 
+    // Event for option toggles
     class HorribleOptionEvent : public Event {
     protected:
         std::string id;
@@ -79,10 +80,17 @@ namespace horribleideas {
         AWCW_HORRIBLE_API_DLL bool getIsToggled() const; // Get the toggle boolean of the option
     };
 
+    // Filter for option toggle event
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
     public:
         using Callback = ListenerResult(HorribleOptionEvent*);
 
+        /**
+         * Event handler
+         *
+         * @param fn Callback function containing a pointer to the event that fired
+         * @param event Pointer to the event that fired
+         */
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event) {
             return fn(event);
         };

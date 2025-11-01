@@ -32,6 +32,19 @@ An event that fires any time any option is changed.
 - `std::string` **`getId()`**: Get the unique ID of the option
 - `bool` **`getIsToggled()`**: Get the toggle boolean of the option
 
+#### class `horribleideas::HorribleOptionEventFilter`
+- `ListenerResult` **`handle(std::function<Callback> fn, HorribleOptionEvent* event)`**: Event handler
+  - `std::function<Callback>` **`fn`**: Callback function containing a pointer to the event that fired
+  - `HorribleOptionEvent*` **`event`**: Pointer to the event that fired
+
+#### Summary
+| Type         | Name                        | Description                          |
+| ------------ | --------------------------- | ------------------------------------ |
+| `enum class` | `SillyTier`                 | Defines how silly an option is       |
+| `struct`     | `Option`                    | Represents a toggleable option       |
+| `class`      | `HorribleOptionEvent`       | Fired when an option is toggled      |
+| `class`      | `HorribleOptionEventFilter` | Filters through option toggle events |
+
 ### Options
 You can register and check any and as many options as you desire through this API.
 
@@ -53,7 +66,13 @@ $execute{
         "Stuff!",
         SillyTier::Medium
     ));
+};
+```
 
+You can include optional fields `restart` and `platforms` as well! The array for `platforms` uses Geode's dynamic `PlatformID` class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas set every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can get very specific about the exact platform you can run your own options on if absolutely necessary, though it's unlikely to be.
+
+```cpp
+$execute{
     auto coolOption = Option(
         "cool-things"_spr,
         "Cool Things",
@@ -63,12 +82,12 @@ $execute{
         false,
         {
             PlatformID::Android32,
-            PlatformID::iOS
+            PlatformID::X64
         }
     );
 
     registerOption(coolOption);
-}
+};
 ```
 
 This will automatically include your option in Horrible Ideas's pre-existing list of options, and will appear in the menu for the player whenever they open it.
@@ -135,4 +154,12 @@ class $modify(SomethingInterestingMenuLayer, MenuLayer) {
 };
 ```
 
-Happy modding!
+### Watch Out!
+Some common pitfalls include the following.
+- Forgetting to use `_spr` when defining unique option ID
+- Not returning `ListenerResult::Propagate` in event callbacks
+- Registering options outside the `$execute` block
+
+Always double-check your code to make sure it follows safe practices.
+
+*Happy modding!*
