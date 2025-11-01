@@ -75,8 +75,8 @@ namespace horribleideas {
     public:
         HorribleOptionEvent(std::string id, bool isToggled);
 
-        AWCW_HORRIBLE_API_DLL std::string getId() const;
-        AWCW_HORRIBLE_API_DLL bool getIsToggled() const;
+        AWCW_HORRIBLE_API_DLL std::string getId() const; // Get the unique ID of the option
+        AWCW_HORRIBLE_API_DLL bool getIsToggled() const; // Get the toggle boolean of the option
     };
 
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
@@ -267,7 +267,7 @@ namespace horribleideas {
      *
      * @returns Integer of the chance value
      */
-    AWCW_HORRIBLE_API_DLL int getChance(std::string_view id);
+    int getChance(std::string_view id);
 
     /**
      * Returns if the mod is enabled or disabled

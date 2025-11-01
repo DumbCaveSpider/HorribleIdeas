@@ -152,6 +152,8 @@ bool ModOption::init(CCSize const& size, Option option) {
         m_toggler->toggle(false);
         m_toggler->setEnabled(false);
 
+        saveTogglerState();
+
         togglerOff->setColor({ 150, 150, 150 });
         togglerOn->setColor({ 150, 150, 150 });
 
@@ -165,17 +167,19 @@ bool ModOption::init(CCSize const& size, Option option) {
 };
 
 void ModOption::saveTogglerState() {
-    if (m_toggler && horribleMod) horribleMod->setSavedValue(m_modID, m_toggler->isToggled());
+    if (m_toggler) horribleideas::set(m_modID, m_toggler->isToggled());
 };
 
 void ModOption::onToggle(CCObject*) {
-    if (m_toggler) horribleMod->setSavedValue(m_modID, m_toggler->isToggled());
+    auto toggle = m_toggler->isToggled();
+    
+    if (m_toggler) horribleideas::set(m_modID, toggle);
     if (m_restartRequired) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
-    auto event = new HorribleOptionEvent(m_modID, m_toggler->isToggled());
+    auto event = new HorribleOptionEvent(m_modID, toggle);
     event->postFromMod(horribleMod);
 
-    log::info("Option {} now set to {}", m_modName, horribleMod->getSavedValue<bool>(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
+    log::info("Option {} now set to {}", m_modName, horribleideas::get(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
 
 void ModOption::onDescription(CCObject*) {
