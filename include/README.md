@@ -1,7 +1,7 @@
 # [<img src="../logo.png" width="30" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
 
 ## Development
-You can directly access the Horrible Ideas mod menu methods by including the [`HorribleIdeas.hpp`](HorribleIdeas.hpp) file in your code. Make sure to include the **`horribleideas`** namespace to directly access all needed classes and methods.
+You can directly access the Horrible Ideas mod menu API by including the [`HorribleIdeas.hpp`](HorribleIdeas.hpp) file in your code. Make sure to include the **`horribleideas`** namespace to directly access all needed classes and methods.
 ```cpp
 #include <arcticwoof.horrible_ideas/include/HorribleIdeas.hpp>
 
@@ -51,11 +51,10 @@ You can register and check any and as many options as you desire through this AP
 #### Registering
 This mod makes it easy for players to access the options they want to use. You can register your own options by using the **`horribleideas::registerOption`** method inside an `$execute` block. You will need to pass one parameter, which is an **`Option`** struct for the option you want to register.
 
-> [!IMPORTANT]
-> Required fields of the **`Option`** struct are, in order: `id`, `name`, `description`, `category`, and `silly`. Optional fields are `restart` and `platforms`.
+*Required fields of the **`Option`** struct are, in order: `id`, `name`, `description`, `category`, and `silly`. Optional fields are `restart` and `platforms`.*
 
 > [!TIP]
-> Be sure to prefix your option's unique ID with your Geode mod ID by appending **`_spr`** after the end of the string to prevent conflicts with this mod or other mods that may also register options.
+> Be sure to prefix your option's unique ID with your Geode mod ID by appending **`_spr`** after the end of the string to prevent conflicts with this mod or other mods that may also register options with possibly identical IDs.
 
 ```cpp
 $execute{
@@ -69,7 +68,7 @@ $execute{
 };
 ```
 
-You can include optional fields `restart` and `platforms` as well! The array for `platforms` uses Geode's dynamic `PlatformID` class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas set every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can get very specific about the exact platform you can run your own options on if absolutely necessary, though it's unlikely to be.
+You can include optional fields **`restart`** and **`platforms`** as well! The array for `platforms` uses Geode's dynamic **`PlatformID`** class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas sets every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can also get very specific about the exact platform you can run your own options on if absolutely necessary, though such a case may not present itself often.
 
 ```cpp
 $execute{
@@ -93,12 +92,13 @@ $execute{
 This will automatically include your option in Horrible Ideas's pre-existing list of options, and will appear in the menu for the player whenever they open it.
 
 #### Handling
-Once you've registered an option on `$execute`, you can use other methods to check and change the option.
+Once you've registered an option on `$execute`, you can use other methods to work with the option.
 
-##### Static Check
+##### Static Conditioning
 You can begin by using **`horribleideas::get`** and provide your option's unique ID to check if an option is enabled or disabled.
 ```cpp
 using namespace geode::prelude;
+using namespace horribleideas;
 
 class $modify(CoolThingsPlayLayer, PlayLayer) {
     struct Fields {
@@ -125,10 +125,11 @@ If you would like or need to re-implement or remove an option's functionality li
 
 ```cpp
 using namespace geode::prelude;
+using namespace horribleideas;
 
 class $modify(SomethingInterestingMenuLayer, MenuLayer) {
     struct Fields {
-        EventListener<HorribleOptionEventFilter> m_horribleListener;
+        EventListener<HorribleOptionEventFilter> m_horribleListener; // Listen to any options being toggled
     };
 
     bool init() {

@@ -285,7 +285,7 @@ namespace horribleideas {
      *
      * @returns Boolean of the old value
      */
-    AWCW_HORRIBLE_API_DLL bool set(std::string_view id, bool enable);
+    bool set(std::string_view id, bool enable);
 
     /**
      * Register an option during load
@@ -299,5 +299,5 @@ namespace horribleideas {
      *
      * @returns An array of every option, main and external
      */
-    AWCW_HORRIBLE_API_DLL std::vector<Option> getRegisteredOptions();
+    std::vector<Option> getRegisteredOptions();
 };

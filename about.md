@@ -5,7 +5,7 @@
 
 ---
 
-## About
+## ![ico](arcticwoof.horrible_ideas/shocksprite.png?scale=0.25) About
 This silly lil' mod adds a mod menu filled to the brim with joke mods!
 
 ---
@@ -30,5 +30,10 @@ Disturb the player's accessibility to the gameplay.
 
 ---
 
-### [The Series!](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu)
+### Developers
+Want to add your own insane stuff to this mod? You can register options by using this mod's API! You can see its [documentation here](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include).
+
+---
+
+### ![fire](frame:player_special_07_001.png?scale=0.375) [The Series!](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu)
 Be sure to watch the series showing our progress in developing and playtesting this mod on [Avalanche's YouTube channel](https://www.youtube.com/@avalanchegd/)! Definitely feel free to drop a few totally awesome suggestions for future features! This mod could not have been possible without YOU... That is NOT something to be proud of!

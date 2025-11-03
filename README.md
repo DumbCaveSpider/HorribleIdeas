@@ -1,4 +1,4 @@
-# [<img src="logo.png" width="30" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
+# [<img src="logo.png" width="25" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
 A plethora of ways to ruin your gaming experience...
 
 > [<img alt="Latest Version" src="https://img.shields.io/github/v/release/DumbCaveSpider/HorribleIdeas?include_prereleases&sort=semver&display_name=release&style=for-the-badge&logo=github&logoColor=ffffff&label=Version">](../../releases/) [<img alt="Code License" src="https://img.shields.io/github/license/DumbCaveSpider/HorribleIdeas?style=for-the-badge&logo=gnu&logoColor=ffffff&label=License">](LICENSE.md)
@@ -7,7 +7,7 @@ A plethora of ways to ruin your gaming experience...
 
 ---
 
-## About
+## <img src="resources/shocksprite.png" width="20" alt="Menu icon." /> About
 This silly lil' mod adds a mod menu filled to the brim with joke mods!
 
 ---
@@ -29,6 +29,11 @@ Trolls that happen on some sort of player interaction.
 
 #### Obstructive
 Disturb the player's accessibility to the gameplay.
+
+---
+
+### Developers
+Want to add your own insane stuff to this mod? You can register options by using this mod's API! You can see its [documentation here](./include).
 
 ---
 
