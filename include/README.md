@@ -58,34 +58,35 @@ This mod makes it easy for players to access the options they want to use. You c
 
 ```cpp
 $execute{
-    registerOption(Option(
+    registerOption({
         "something-interesting"_spr,
         "Something Interesting",
         "This is something that is very interesting.",
         "Stuff!",
         SillyTier::Medium
-    ));
+        });
 };
 ```
 
 You can include optional fields **`restart`** and **`platforms`** as well! The array for `platforms` uses Geode's dynamic **`PlatformID`** class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas sets every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can also get very specific about the exact platform you can run your own options on if absolutely necessary, though such a case may not present itself often.
 
+> [!IMPORTANT]
+> Even if `restart` is **enabled** for your option, the global event for it *will still fire* whenever the player changes it mid-game. What this setting does is actually just notify the player that your option will only load after they restart the game.
+
 ```cpp
 $execute{
-    auto coolOption = Option(
+    registerOption({
         "cool-things"_spr,
         "Cool Things",
         "Some really really cool things.",
         "Stuff!",
         SillyTier::Low,
-        false,
+        true, // Cannot apply until after restart
         {
             PlatformID::Android32,
-            PlatformID::X64
+            PlatformID::X64 // Support certain platforms
         }
-    );
-
-    registerOption(coolOption);
+        });
 };
 ```
 
@@ -156,7 +157,7 @@ class $modify(SomethingInterestingMenuLayer, MenuLayer) {
 ```
 
 ### Watch Out!
-Some common pitfalls include the following.
+Some common pitfalls may include the following.
 - Forgetting to use `_spr` when defining unique option ID
 - Not returning `ListenerResult::Propagate` in event callbacks
 - Registering options outside the `$execute` block

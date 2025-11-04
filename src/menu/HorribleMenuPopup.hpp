@@ -15,6 +15,7 @@ protected:
 
     EventListener<HorribleOptionEventFilter> m_listener = {
         [=](HorribleOptionEvent* event) {
+            // example event listener
             log::info("Horrible option of ID {} toggled to {}", event->getId(), event->getIsToggled() ? "ON" : "OFF");
             return ListenerResult::Propagate;
         },

@@ -17,7 +17,7 @@ $execute{
         bm->registerBindable(
             {"popup"_spr,
              "Show Menu",
-             "Show the Horrible Ideas mod menu.",
+             "Open the Horrible Ideas mod menu.",
              {Keybind::create(KEY_Tab, Modifier::None)},
              "Horrible Ideas"});
 
@@ -27,8 +27,8 @@ $execute{
                 if (menuPopup && menuPopup->getParent()) {
                     log::warn("Menu popup already open");
 
-                        if (menuPopup->getParent()) menuPopup->removeMeAndCleanup();
-                        menuPopup = nullptr;
+                    if (menuPopup->getParent()) menuPopup->removeMeAndCleanup();
+                    menuPopup = nullptr;
                 } else {
                     menuPopup = HorribleMenuPopup::create();
                     if (menuPopup) menuPopup->show();

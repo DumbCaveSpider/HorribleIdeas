@@ -15,7 +15,7 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     m_modTier = option.silly;
 
-    m_restartRequired = option.restart;
+    m_restart = option.restart;
     m_platforms = option.platforms;
 
     // check for compatibility
@@ -26,7 +26,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     if (!CCMenu::init()) return false;
 
     setID(m_modID);
-    setContentSize({ size.width, size.height });
+    setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 
     auto bg = CCScale9Sprite::create("square02_001.png");
@@ -174,7 +174,7 @@ void ModOption::onToggle(CCObject*) {
     auto toggle = m_toggler->isToggled();
     
     if (m_toggler) horribleideas::set(m_modID, toggle);
-    if (m_restartRequired) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+    if (m_restart) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
 
     auto event = new HorribleOptionEvent(m_modID, toggle);
     event->postFromMod(horribleMod);

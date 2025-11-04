@@ -17,7 +17,7 @@ protected:
     std::string m_modCategory; // The description of the horrible mod
     SillyTier m_modTier = SillyTier::None;
 
-    bool m_restartRequired; // If this mod requires a game restart
+    bool m_restart; // If this mod requires a game restart on toggle
     std::vector<PlatformID> m_platforms; // The platforms the horrible mod supports
 
     Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the horrible mod
