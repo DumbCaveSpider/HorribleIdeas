@@ -24,9 +24,13 @@
 		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
 	},
 	"dependencies": {
-		"geode.node-ids": {
-			"importance": "required",
-			"version": ">=1.21.0"
+		"arcticwoof.player_advertisements": {
+			"importance": "suggested",
+			"version": ">=1.0.0"
+		},
+		"prevter.imageplus": {
+			"importance": "recommended",
+			"version": ">=1.0.0"
 		},
 		"geode.custom-keybinds": {
 			"importance": "required",
