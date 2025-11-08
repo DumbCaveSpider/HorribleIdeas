@@ -9,7 +9,7 @@ using namespace geode::prelude;
 using namespace horrible;
 
 struct Fields {
-    bool enabled = horribleMod->getSavedValue<bool>("placebo", false);
+    bool enabled = horribleideas::get("placebo");
 };
 
 Fields m_fields;
@@ -23,7 +23,7 @@ void placeboEffect() {
             log::info("Placebo effect activated! Enabling all horrible mod options...");
 
             for (const auto& option : options::getAll()) {
-                horribleMod->setSavedValue<bool>(option.id, true);
+                horribleideas::set(option.id, true);
                 log::debug("Enabled option: {}", option.id);
             };
         };
@@ -32,7 +32,8 @@ void placeboEffect() {
             log::info("Placebo effect activated! Disabling all horrible mod options...");
 
             for (const auto& option : options::getAll()) {
-                horribleMod->setSavedValue<bool>(option.id, false);
+                // set all options to false
+                horribleideas::set(option.id, false);
                 log::debug("Disabled option: {}", option.id);
             };
         };

@@ -12,6 +12,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+// STILL NEED MORE WORK TO DO
 // Shared parry state accessible by both player and play layer hooks
 static GameObject* s_pendingKiller = nullptr;
 static bool s_parryActive = false;

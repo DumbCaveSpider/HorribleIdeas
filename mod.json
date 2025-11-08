@@ -24,10 +24,6 @@
 		"url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
 	},
 	"dependencies": {
-		"arcticwoof.player_advertisements": {
-			"importance": "suggested",
-			"version": ">=1.0.0"
-		},
 		"prevter.imageplus": {
 			"importance": "recommended",
 			"version": ">=1.0.0"

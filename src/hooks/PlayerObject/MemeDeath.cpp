@@ -8,6 +8,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+// idk if i like this idea but might just leave it as it is for now
 class $modify(MemeDeathPlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = horribleideas::get("meme_death");
