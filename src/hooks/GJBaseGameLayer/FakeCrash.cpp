@@ -20,7 +20,8 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer)
     {
         if (auto playLayer = PlayLayer::get())
         {
-            if (m_fields->m_enabled && !m_fields->m_inFakeCrash && rand() % m_fields->m_chance == 0)
+            log::debug("FakeCrash update tick");
+            if (m_fields->m_enabled && !m_fields->m_inFakeCrash && randng::fast() % m_fields->m_chance == 0)
             {
                 log::debug("Faking crash");
                 m_fields->m_lastTimeWarp = LevelTools::getLastTimewarp();

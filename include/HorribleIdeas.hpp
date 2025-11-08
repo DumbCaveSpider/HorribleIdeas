@@ -19,9 +19,11 @@
 using namespace geode::prelude;
 
 // Namespace with all horrible option functions
-namespace horribleideas {
+namespace horribleideas
+{
     // Default horrible categories
-    class Category {
+    class Category
+    {
     public:
         static inline const std::string playerlife = "Player Life";
         static inline const std::string jumpscares = "Jumpscares";
@@ -32,22 +34,24 @@ namespace horribleideas {
     };
 
     // How silly a mod option is
-    enum class AWCW_HORRIBLE_API_DLL SillyTier {
-        None = 0, // Null
-        Low = 1, // Not so silly
+    enum class AWCW_HORRIBLE_API_DLL SillyTier
+    {
+        None = 0,   // Null
+        Low = 1,    // Not so silly
         Medium = 2, // Somewhat silly
-        High = 3 // Very silly
+        High = 3    // Very silly
     };
 
     // A horrible option
-    struct AWCW_HORRIBLE_API_DLL Option {
-        std::string id; // Unique ID of the option
-        std::string name; // Name of the option
-        std::string description; // Description of the option
-        std::string category; // Name of the category this option should be under
-        SillyTier silly; // How silly the option is
-        bool restart = false; // If the option requires a restart to take effect
-        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
+    struct AWCW_HORRIBLE_API_DLL Option
+    {
+        std::string id;                                                                // Unique ID of the option
+        std::string name;                                                              // Name of the option
+        std::string description;                                                       // Description of the option
+        std::string category;                                                          // Name of the category this option should be under
+        SillyTier silly;                                                               // How silly the option is
+        bool restart = false;                                                          // If the option requires a restart to take effect
+        std::vector<PlatformID> platforms = {PlatformID::Desktop, PlatformID::Mobile}; // Platforms that the option supports
 
         // Full constructor second
         Option(
@@ -57,18 +61,18 @@ namespace horribleideas {
             std::string category,
             SillyTier silly,
             bool restart = false,
-            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }
-        ) : id(std::move(id)),
-            name(std::move(name)),
-            description(std::move(description)),
-            category(std::move(category)),
-            silly(silly),
-            restart(restart),
-            platforms(std::move(platforms)) {};
+            std::vector<PlatformID> platforms = {PlatformID::Desktop, PlatformID::Mobile}) : id(std::move(id)),
+                                                                                             name(std::move(name)),
+                                                                                             description(std::move(description)),
+                                                                                             category(std::move(category)),
+                                                                                             silly(silly),
+                                                                                             restart(restart),
+                                                                                             platforms(std::move(platforms)) {};
     };
 
     // Event for option toggles
-    class HorribleOptionEvent : public Event {
+    class HorribleOptionEvent : public Event
+    {
     protected:
         std::string id;
         bool isToggled;
@@ -81,9 +85,10 @@ namespace horribleideas {
     };
 
     // Filter for option toggle event
-    class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
+    class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent>
+    {
     public:
-        using Callback = ListenerResult(HorribleOptionEvent*);
+        using Callback = ListenerResult(HorribleOptionEvent *);
 
         /**
          * Event handler
@@ -91,7 +96,8 @@ namespace horribleideas {
          * @param fn Callback function containing a pointer to the event that fired
          * @param event Pointer to the event that fired
          */
-        ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event) {
+        ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent *event)
+        {
             return fn(event);
         };
     };
@@ -124,10 +130,8 @@ namespace horribleideas {
          Category::misc,
          SillyTier::Medium,
          false,
-         {
-            PlatformID::Windows,
-            PlatformID::Android
-         }},
+         {PlatformID::Windows,
+          PlatformID::Android}},
         {"freeze",
          "Random 90%+ FPS Drop",
          "Your visual framerate starts randomly dropping between 90-99% while playing.\n<cy>Credit: Hexfire</c>",
@@ -248,16 +252,23 @@ namespace horribleideas {
          "Randomly blinds you for a split second while playing a level.\n<cy>Credit: tmdX3</c>",
          Category::obstructive,
          SillyTier::Medium},
-        {"gambler",
-         "Gambler",
-         "While playing a level and reach at the 95%, there's a 50/50 chance you either complete the level or blast into the space backwards.\n<cy>Credit: Timered</c>",
-         Category::misc,
-         SillyTier::Medium,},
+        {
+            "gambler",
+            "Gambler",
+            "While playing a level and reach at the 95%, there's a 50/50 chance you either complete the level or blast into the space backwards.\n<cy>Credit: Timered</c>",
+            Category::misc,
+            SillyTier::Medium,
+        },
         {"placebo",
          "Placebo",
          "A small chance that when you start a level, all the horrible mods you have enabled are disabled, or all the horrible mods you have disabled are enabled.\n<cy>Credit: tmdXD</c>",
          Category::misc,
-         SillyTier::High} };
+         SillyTier::High},
+        {"click_speed",
+         "Click Speed",
+         "Randomly increases or decreases your click speed while playing a level.\n<cy>Credit: KGplayerA</c>",
+         Category::randoms,
+         SillyTier::Medium}};
 
     /**
      * Returns if the mod is enabled or disabled
@@ -292,7 +303,7 @@ namespace horribleideas {
      *
      * @param option The constructed option
      */
-    AWCW_HORRIBLE_API_DLL void registerOption(const Option& option);
+    AWCW_HORRIBLE_API_DLL void registerOption(const Option &option);
 
     /**
      * Returns a snapshot of all registered options
