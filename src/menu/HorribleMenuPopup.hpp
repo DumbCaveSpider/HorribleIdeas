@@ -11,10 +11,11 @@ class HorribleMenuPopup : public Popup<> {
 protected:
     SillyTier s_selectedTier = SillyTier::None;
 
-    ScrollLayer* m_optionList = nullptr;
+    Ref<ScrollLayer> m_optionList = nullptr;
 
     EventListener<HorribleOptionEventFilter> m_listener = {
         [=](HorribleOptionEvent* event) {
+            // example event listener
             log::info("Horrible option of ID {} toggled to {}", event->getId(), event->getIsToggled() ? "ON" : "OFF");
             return ListenerResult::Propagate;
         },

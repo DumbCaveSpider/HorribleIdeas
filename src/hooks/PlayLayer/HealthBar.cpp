@@ -22,6 +22,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;
     };
+
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;

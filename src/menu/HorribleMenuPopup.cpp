@@ -195,13 +195,11 @@ void HorribleMenuPopup::openModSettings(CCObject*) {
 void HorribleMenuPopup::openSeriesPage(CCObject*) {
     createQuickPopup(
         "Horrible Mods",
-        "Watch '<cr>Horrible Mods</c>' series on YouTube?",
+        "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
         "Cancel",
         "OK",
         [=](bool, bool btn2) {
-            if (btn2) {
-                web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
-            };
+            if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
         }
     );
 };

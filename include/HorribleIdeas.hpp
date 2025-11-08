@@ -67,6 +67,7 @@ namespace horribleideas {
             platforms(std::move(platforms)) {};
     };
 
+    // Event for option toggles
     class HorribleOptionEvent : public Event {
     protected:
         std::string id;
@@ -75,14 +76,21 @@ namespace horribleideas {
     public:
         HorribleOptionEvent(std::string id, bool isToggled);
 
-        AWCW_HORRIBLE_API_DLL std::string getId() const;
-        AWCW_HORRIBLE_API_DLL bool getIsToggled() const;
+        AWCW_HORRIBLE_API_DLL std::string getId() const; // Get the unique ID of the option
+        AWCW_HORRIBLE_API_DLL bool getIsToggled() const; // Get the toggle boolean of the option
     };
 
+    // Filter for option toggle event
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
     public:
         using Callback = ListenerResult(HorribleOptionEvent*);
 
+        /**
+         * Event handler
+         *
+         * @param fn Callback function containing a pointer to the event that fired
+         * @param event Pointer to the event that fired
+         */
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event) {
             return fn(event);
         };
@@ -267,7 +275,7 @@ namespace horribleideas {
      *
      * @returns Integer of the chance value
      */
-    AWCW_HORRIBLE_API_DLL int getChance(std::string_view id);
+    int getChance(std::string_view id);
 
     /**
      * Returns if the mod is enabled or disabled
@@ -277,7 +285,7 @@ namespace horribleideas {
      *
      * @returns Boolean of the old value
      */
-    AWCW_HORRIBLE_API_DLL bool set(std::string_view id, bool enable);
+    bool set(std::string_view id, bool enable);
 
     /**
      * Register an option during load
@@ -291,5 +299,5 @@ namespace horribleideas {
      *
      * @returns An array of every option, main and external
      */
-    AWCW_HORRIBLE_API_DLL std::vector<Option> getRegisteredOptions();
+    std::vector<Option> getRegisteredOptions();
 };
