@@ -265,7 +265,7 @@ namespace horribleideas
          Category::misc,
          SillyTier::High},
         {"click_speed",
-         "Click Random Player Speed",
+         "Click Player Speed",
          "Randomly increases or decreases your player speed everytime you jump.\n<cy>Credit: KGplayerA</c>",
          Category::randoms,
          SillyTier::Medium}};
