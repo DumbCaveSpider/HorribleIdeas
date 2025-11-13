@@ -23,7 +23,7 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
 
             if (rng <= m_fields->chance) {
                 log::debug("setting scene upside down");
-                this->setRotation(-180.f);
+                setRotation(-180.f);
             };
         };
 

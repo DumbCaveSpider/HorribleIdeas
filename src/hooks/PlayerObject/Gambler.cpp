@@ -7,25 +7,20 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(GamblerPlayLayer, PlayLayer)
-{
-    struct Fields
-    {
+class $modify(GamblerPlayLayer, PlayLayer) {
+    struct Fields {
         bool enabled = horribleideas::get("gambler");
         bool triggered = false;
         bool tricked = false;
     };
 
-    bool init(GJGameLevel *level, bool useReplay, bool dontCreateObjects)
-    {
+    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects))
             return false;
-        if (m_fields->enabled)
-        {
+        if (m_fields->enabled) {
             log::debug("gambler enabled");
             // check every frame so we can detect each percentage change
-            if (!m_fields->triggered)
-            {
+            if (!m_fields->triggered) {
                 CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                     schedule_selector(GamblerPlayLayer::gamblerCheck),
                     this, 0.0f, false);
@@ -35,34 +30,29 @@ class $modify(GamblerPlayLayer, PlayLayer)
     };
 
     // ensure that triggered is reset on level restart/full reset
-    void fullReset()
-    {
+    void fullReset() {
         m_fields->triggered = false;
         log::debug("gambler full reset");
         PlayLayer::fullReset();
     }
 
-    void resetLevel()
-    {
+    void resetLevel() {
         m_fields->triggered = false;
         log::debug("gambler level reset");
         PlayLayer::resetLevel();
     }
 
-    void gamblerCheck(float)
-    {
+    void gamblerCheck(float) {
         if (!m_fields->enabled)
             return;
 
         int percentage = getCurrentPercentInt();
         // detect the moment the player first reaches or crosses 95
-        if (percentage == 95 && !m_fields->triggered)
-        {
+        if (percentage == 95 && !m_fields->triggered) {
             // roll a random number between 0 and 1
             int roll = randng::fast() % 2;
             log::info("Gambler roll: {}", roll);
-            if (roll == 0)
-            {
+            if (roll == 0) {
                 log::info("Gambler lost the bet!");
                 // reverse the player
                 m_player1->reversePlayer(nullptr);
@@ -72,11 +62,9 @@ class $modify(GamblerPlayLayer, PlayLayer)
                 m_fields->triggered = true;
                 m_fields->tricked = true;
                 return;
-            }
-            else
-            {
+            } else {
                 log::info("Gambler won the bet! instant win.");
-                this->levelComplete();
+                levelComplete();
                 m_fields->triggered = true;
                 return;
             }

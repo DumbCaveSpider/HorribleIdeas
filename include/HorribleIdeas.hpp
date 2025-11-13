@@ -19,11 +19,9 @@
 using namespace geode::prelude;
 
 // Namespace with all horrible option functions
-namespace horribleideas
-{
+namespace horribleideas {
     // Default horrible categories
-    class Category
-    {
+    class Category {
     public:
         static inline const std::string playerlife = "Player Life";
         static inline const std::string jumpscares = "Jumpscares";
@@ -34,8 +32,7 @@ namespace horribleideas
     };
 
     // How silly a mod option is
-    enum class AWCW_HORRIBLE_API_DLL SillyTier
-    {
+    enum class AWCW_HORRIBLE_API_DLL SillyTier {
         None = 0,   // Null
         Low = 1,    // Not so silly
         Medium = 2, // Somewhat silly
@@ -43,15 +40,14 @@ namespace horribleideas
     };
 
     // A horrible option
-    struct AWCW_HORRIBLE_API_DLL Option
-    {
-        std::string id;                                                                // Unique ID of the option
-        std::string name;                                                              // Name of the option
-        std::string description;                                                       // Description of the option
-        std::string category;                                                          // Name of the category this option should be under
-        SillyTier silly;                                                               // How silly the option is
-        bool restart = false;                                                          // If the option requires a restart to take effect
-        std::vector<PlatformID> platforms = {PlatformID::Desktop, PlatformID::Mobile}; // Platforms that the option supports
+    struct AWCW_HORRIBLE_API_DLL Option {
+        std::string id; // Unique ID of the option
+        std::string name; // Name of the option
+        std::string description; // Description of the option
+        std::string category; // Name of the category this option should be under
+        SillyTier silly; // How silly the option is
+        bool restart = false; // If the option requires a restart to take effect
+        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
 
         // Full constructor second
         Option(
@@ -61,18 +57,17 @@ namespace horribleideas
             std::string category,
             SillyTier silly,
             bool restart = false,
-            std::vector<PlatformID> platforms = {PlatformID::Desktop, PlatformID::Mobile}) : id(std::move(id)),
-                                                                                             name(std::move(name)),
-                                                                                             description(std::move(description)),
-                                                                                             category(std::move(category)),
-                                                                                             silly(silly),
-                                                                                             restart(restart),
-                                                                                             platforms(std::move(platforms)) {};
+            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }) : id(std::move(id)),
+            name(std::move(name)),
+            description(std::move(description)),
+            category(std::move(category)),
+            silly(silly),
+            restart(restart),
+            platforms(std::move(platforms)) {};
     };
 
     // Event for option toggles
-    class HorribleOptionEvent : public Event
-    {
+    class HorribleOptionEvent : public Event {
     protected:
         std::string id;
         bool isToggled;
@@ -85,10 +80,9 @@ namespace horribleideas
     };
 
     // Filter for option toggle event
-    class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent>
-    {
+    class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
     public:
-        using Callback = ListenerResult(HorribleOptionEvent *);
+        using Callback = ListenerResult(HorribleOptionEvent*);
 
         /**
          * Event handler
@@ -96,8 +90,7 @@ namespace horribleideas
          * @param fn Callback function containing a pointer to the event that fired
          * @param event Pointer to the event that fired
          */
-        ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent *event)
-        {
+        ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event) {
             return fn(event);
         };
     };
@@ -268,7 +261,7 @@ namespace horribleideas
          "Click Player Speed",
          "Randomly increases or decreases your player speed everytime you jump.\n<cy>Credit: KGplayerA</c>",
          Category::randoms,
-         SillyTier::Medium}};
+         SillyTier::Medium} };
 
     /**
      * Returns if the mod is enabled or disabled
@@ -303,7 +296,7 @@ namespace horribleideas
      *
      * @param option The constructed option
      */
-    AWCW_HORRIBLE_API_DLL void registerOption(const Option &option);
+    AWCW_HORRIBLE_API_DLL void registerOption(const Option& option);
 
     /**
      * Returns a snapshot of all registered options

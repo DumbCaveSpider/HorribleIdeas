@@ -7,22 +7,20 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer)
-{
+class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool m_enabled = horribleMod->getSavedValue<bool>("fakeCrash", false);
-        int m_chance = static_cast<int>(horribleMod->getSettingValue<int>("fakeCrash-chance"));
+        bool m_enabled = horribleideas::get("fake_crash");
+        int m_chance = horribleideas::getChance("fake_crash");
+
         float m_lastTimeWarp = LevelTools::getLastTimewarp();
         bool m_inFakeCrash = false;
         float m_fakeCrashStartTime = 0.0f;
     };
-    void update(float p0)
-    {
-        if (auto playLayer = PlayLayer::get())
-        {
+
+    void update(float p0) {
+        if (auto playLayer = PlayLayer::get()) {
             //log::debug("FakeCrash update tick");
-            if (m_fields->m_enabled && !m_fields->m_inFakeCrash && randng::fast() % m_fields->m_chance == 0)
-            {
+            if (m_fields->m_enabled && !m_fields->m_inFakeCrash && randng::fast() % m_fields->m_chance == 0) {
                 log::debug("Faking crash");
                 m_fields->m_lastTimeWarp = LevelTools::getLastTimewarp();
                 GJBaseGameLayer::applyTimeWarp(0.0f);
@@ -30,11 +28,9 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer)
                 m_fields->m_fakeCrashStartTime = playLayer->m_gameState.m_currentProgress;
             }
 
-            if (m_fields->m_inFakeCrash)
-            {
+            if (m_fields->m_inFakeCrash) {
                 float elapsedTime = playLayer->m_gameState.m_currentProgress - m_fields->m_fakeCrashStartTime;
-                if (elapsedTime >= 5.0f)
-                {
+                if (elapsedTime >= 5.0f) {
                     log::debug("Reverting timewarp to: {}", m_fields->m_lastTimeWarp);
                     GJBaseGameLayer::applyTimeWarp(m_fields->m_lastTimeWarp);
                     m_fields->m_inFakeCrash = false;
