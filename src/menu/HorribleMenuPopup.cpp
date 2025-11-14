@@ -8,6 +8,7 @@
 #include <Geode/ui/GeodeUI.hpp>
 
 #include <Geode/utils/terminate.hpp>
+
 #include <Geode/binding/ButtonSprite.hpp>
 #include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
@@ -59,12 +60,6 @@ bool HorribleMenuPopup::setup() {
     filterMenu->setID("filter-menu");
     filterMenu->setAnchorPoint({ 0.5, 1 });
     filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 62.5f });
-
-    struct FilterBtnInfo {
-        SillyTier tier;
-        const char* label;
-        ccColor3B color;
-    };
 
     std::vector<FilterBtnInfo> btns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
@@ -129,6 +124,20 @@ bool HorribleMenuPopup::setup() {
     seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
 
     modSettingsMenu->addChild(seriesBtn);
+
+    // @geode-ignore(unknown-resource)
+    auto supporterBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/gift.png");
+    supporterBtnSprite->setScale(0.75f);
+
+    auto supporterBtn = CCMenuItemSpriteExtra::create(
+        supporterBtnSprite,
+        this,
+        menu_selector(HorribleMenuPopup::openSupporterPopup)
+    );
+    supporterBtn->setID("support-us-button");
+    supporterBtn->setPosition({ mainLayerSize.width - 45.f, mainLayerSize.height - 20.f });
+
+    modSettingsMenu->addChild(supporterBtn);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode: INACTIVE", "bigFont.fnt");
     safeModeLabel->setColor({ 255, 0, 0 });
@@ -202,6 +211,10 @@ void HorribleMenuPopup::openSeriesPage(CCObject*) {
             if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
         }
     );
+};
+
+void HorribleMenuPopup::openSupporterPopup(CCObject*) {
+    openSupportPopup(horribleMod);
 };
 
 HorribleMenuPopup* HorribleMenuPopup::create() {

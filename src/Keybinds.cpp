@@ -21,13 +21,13 @@ $execute{
              {Keybind::create(KEY_Tab, Modifier::None)},
              "Horrible Ideas"});
 
-        static HorribleMenuPopup* menuPopup = nullptr;
+        static Ref<HorribleMenuPopup> menuPopup = nullptr;
         new EventListener([=](InvokeBindEvent* event) {
             if (event->isDown()) {
-                if (menuPopup && menuPopup->getParent()) {
+                if (menuPopup) {
                     log::warn("Menu popup already open");
 
-                    if (menuPopup->getParent()) menuPopup->removeMeAndCleanup();
+                    menuPopup->removeMeAndCleanup();
                     menuPopup = nullptr;
                 } else {
                     menuPopup = HorribleMenuPopup::create();

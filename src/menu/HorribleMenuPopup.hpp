@@ -7,6 +7,12 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+struct FilterBtnInfo {
+    SillyTier tier;
+    const char* label;
+    ccColor3B color;
+};
+
 class HorribleMenuPopup : public Popup<> {
 protected:
     SillyTier s_selectedTier = SillyTier::None;
@@ -23,11 +29,11 @@ protected:
     };
 
     void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
-
-    void openModSettings(CCObject* sender);
-
     void filterTierCallback(CCObject*);
+
+    void openModSettings(CCObject*);
     void openSeriesPage(CCObject*);
+    void openSupporterPopup(CCObject*);
 
     bool setup() override;
 
