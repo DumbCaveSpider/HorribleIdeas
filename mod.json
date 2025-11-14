@@ -36,10 +36,6 @@
 				"mac",
 				"android"
 			]
-		},
-		"prevter.imageplus": {
-			"importance": "recommended",
-			"version": ">=1.0.0"
 		}
 	},
 	"tags": [

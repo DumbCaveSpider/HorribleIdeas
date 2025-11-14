@@ -7,8 +7,8 @@ A plethora of ways to ruin your gaming experience...
 
 ---
 
-## <img src="resources/shocksprite.png" width="20" alt="Menu icon." /> About
-This silly lil' mod adds a mod menu filled to the brim with joke mods!
+## About
+This silly lil' mod adds a mod menu filled to the brim with joke mods! Spice up your gameplay by adding some truly terrible features to your game. There's plenty to pick from, and you absolutely will NOT be disappointed at all!
 
 ---
 
@@ -33,4 +33,4 @@ Disturb the player's accessibility to the gameplay.
 ---
 
 ### Developers
-Want to add your own insane stuff to this mod? You can register options by using this mod's API! You can see its [documentation here](./include).
+Want to add your own insane stuff to this mod? You can register your very own horrible options by using this mod's API! You can see its [documentation here](./include).

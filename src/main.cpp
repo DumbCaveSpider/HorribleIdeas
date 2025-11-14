@@ -53,7 +53,7 @@ class $modify(HorribleCCMenuItem, CCMenuItem) {
 class $modify(HorribleGJGameLevel, GJGameLevel) {
     void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid) {
         if (horribleMod->getSettingValue<bool>("safe-mode")) {
-            log::warn("Safe mode is enabled, progress will not be saved");
+            log::warn("Safe mode is enabled, your progress will not be saved!");
         } else {
             GJGameLevel::savePercentage(percent, isPracticeMode, clicks, attempts, isChkValid);
         };
