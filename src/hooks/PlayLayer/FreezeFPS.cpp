@@ -67,5 +67,5 @@ class $modify(FreezePlayLayer, PlayLayer) {
     void onQuit() {
         revertFPS();
         PlayLayer::onQuit();
-    }
+    };
 };

@@ -24,8 +24,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects))
-            return false;
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
         if (m_fields->enabled) {
             m_fields->m_health = 100.f;
@@ -65,8 +64,8 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
                 addChild(m_fields->m_healthLabel, 100);
             } else {
                 m_fields->m_healthLabel->setString(hp.c_str());
-            }
-        }
+            };
+        };
 
         return true;
     };
@@ -93,13 +92,10 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject * player, GameObject * game) {
         if (!m_fields->enabled) {
             PlayLayer::destroyPlayer(player, game);
-            return;
         } else if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
-            if (game == m_anticheatSpike && player && !player->m_isDead)
-                return;
-            if (!m_fields->m_destroyingObject)
-                m_fields->m_destroyingObject = game;
+            if (game == m_anticheatSpike && player && !player->m_isDead) return;
+            if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
             auto rnd = randng::fast();
             if (m_fields->m_health > 0) {
@@ -140,6 +136,5 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
                 };
             };
         };
-        return;
     };
 };

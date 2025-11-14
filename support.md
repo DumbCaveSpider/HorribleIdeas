@@ -1,5 +1,6 @@
 # [Watch The 'Horrible Mods' Series!](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu)
 
+## ArcticWoof
 ### Mod Support
 - [ArcticWoof Discord Server](https://discord.gg/gXcppxTNxC)
 ### Youtube/Twitch

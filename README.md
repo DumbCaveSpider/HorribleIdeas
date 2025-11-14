@@ -34,8 +34,3 @@ Disturb the player's accessibility to the gameplay.
 
 ### Developers
 Want to add your own insane stuff to this mod? You can register options by using this mod's API! You can see its [documentation here](./include).
-
----
-
-### [The Series!](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu)
-Be sure to watch the series showing our progress in developing and playtesting this mod on [Avalanche's YouTube channel](https://www.youtube.com/@avalanchegd/)! Definitely feel free to drop a few totally awesome suggestions for future features! This mod could not have been possible without YOU... That is NOT something to be proud of!

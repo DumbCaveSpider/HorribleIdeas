@@ -52,9 +52,8 @@ class $modify(SleepyPlayerObject, PlayerObject) {
 
     bool pushButton(PlayerButton p0) {
         // no jumping while sleepy
-        if (m_fields->sleepy) {
-            return false;
-        }
+        if (m_fields->sleepy) return false;
+
         PlayerObject::pushButton(p0);
         return true;
     };
@@ -81,13 +80,11 @@ class $modify(SleepyPlayerObject, PlayerObject) {
                 // go to sleep, go to sleep, sweet little baby go to sleep
                 if (m_fields->sleepy) {
                     m_playerSpeed *= 0.99f;
-                    if (m_playerSpeed < 0.1f)
-                        m_playerSpeed = 0.f;
+                    if (m_playerSpeed < 0.1f) m_playerSpeed = 0.f;
                 };
             } else {
                 // wake up
-                if (m_fields->sleepy || m_fields->waking)
-                    fullyWakeUp();
+                if (m_fields->sleepy || m_fields->waking) fullyWakeUp();
             };
 
             PlayerObject::update(p0);

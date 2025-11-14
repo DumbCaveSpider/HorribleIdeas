@@ -18,16 +18,20 @@ class $modify(ClickSpeedPlayerObject, PlayerObject) {
         if (m_fields->enabled) {
             int rng = randng::fast() % 100;
             int currentSpeed = m_playerSpeed;
+
             log::debug("current speed: {}", currentSpeed);
+
             if (rng <= 50) {
                 // increase the player speed
                 m_playerSpeed = currentSpeed + 1;
             } else {
                 // decrease the player speed
                 m_playerSpeed = currentSpeed - 1;
-            }
+            };
+
             log::debug("Click Speed modified player speed to {}", m_playerSpeed);
-        }
+        };
+
         return PlayerObject::pushButton(p0);
-    }
+    };
 };

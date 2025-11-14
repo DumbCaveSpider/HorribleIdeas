@@ -26,7 +26,7 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
                 GJBaseGameLayer::applyTimeWarp(0.0f);
                 m_fields->m_inFakeCrash = true;
                 m_fields->m_fakeCrashStartTime = playLayer->m_gameState.m_currentProgress;
-            }
+            };
 
             if (m_fields->m_inFakeCrash) {
                 float elapsedTime = playLayer->m_gameState.m_currentProgress - m_fields->m_fakeCrashStartTime;
@@ -34,9 +34,10 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
                     log::debug("Reverting timewarp to: {}", m_fields->m_lastTimeWarp);
                     GJBaseGameLayer::applyTimeWarp(m_fields->m_lastTimeWarp);
                     m_fields->m_inFakeCrash = false;
-                }
-            }
-        }
+                };
+            };
+        };
+
         GJBaseGameLayer::update(p0);
-    }
+    };
 };

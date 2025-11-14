@@ -20,10 +20,9 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
         // Show explosion visual effect but do not kill the player
         if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
-            if (game == m_anticheatSpike && player && !player->m_isDead)
-                return;
-            if (!m_fields->m_destroyingObject)
-                m_fields->m_destroyingObject = game;
+            if (game == m_anticheatSpike && player && !player->m_isDead) return;
+            if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
+
             // @geode-ignore(unknown-resource)
             FMODAudioEngine::sharedEngine()->playEffect("explode_11.ogg");
             GJBaseGameLayer::shakeCamera(1.f, 2.f, 1.f);
@@ -44,8 +43,9 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
 
                 m_player2->m_isDead = false;
                 return;
-            }
-        }
+            };
+        };
+        
         PlayLayer::destroyPlayer(player, game);
     };
 };

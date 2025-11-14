@@ -8,57 +8,46 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-struct Fields
-{
+struct Fields {
     bool enabled = horribleideas::get("placebo");
 };
 
 Fields m_fields;
 
-void placeboEffect()
-{
+void placeboEffect() {
     log::info("Checking for placebo effect...");
-    if (horribleMod && m_fields.enabled)
-    {
+
+    if (horribleMod && m_fields.enabled) {
         int rnd = randng::tiny() % 1000;
         log::info("placebo effect roll: {}", rnd);
 
-        if (rnd <= 10) // 1% chance :trol:
-        {
+        if (rnd <= 10) { // 1% chance :trol:
             log::info("Placebo effect activated! Disabling all horrible mod options...");
 
-            for (const auto &option : options::getAll())
-            {
+            for (const auto& option : options::getAll()) {
                 // if the options is disabled, enabled it
-                if (horribleideas::get(option.id) == false)
-                {
+                if (horribleideas::get(option.id) == false) {
                     log::debug("Enabled option: {}", option.id);
                     horribleideas::set(option.id, true);
-                }
-                else
-                {
+                } else {
                     log::debug("Disabled option: {}", option.id);
                     horribleideas::set(option.id, false);
-                }
+                };
             };
         };
     };
 };
 
-class $modify(PlaceboLevelPage, LevelPage)
-{
-    void onPlay(CCObject *sender)
-    {
+class $modify(PlaceboLevelPage, LevelPage) {
+    void onPlay(CCObject * sender) {
         placeboEffect();
         log::debug("Placebo onPlay triggered");
         LevelPage::onPlay(sender);
     };
 };
 
-class $modify(PlaceboLevelInfoLayer, LevelInfoLayer)
-{
-    void onPlay(CCObject *sender)
-    {
+class $modify(PlaceboLevelInfoLayer, LevelInfoLayer) {
+    void onPlay(CCObject * sender) {
         placeboEffect();
         log::debug("Placebo onPlay triggered");
         LevelInfoLayer::onPlay(sender);

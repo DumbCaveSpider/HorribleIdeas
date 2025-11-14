@@ -53,8 +53,7 @@ class $modify(AdsGJBaseGameLayer, GJBaseGameLayer) {
 
 #ifdef GEODE_IS_WINDOWS
                 // Hide cursor if ad popup is closed
-                if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr))
-                    CCEGLView::sharedOpenGLView()->showCursor(false);
+                if (!m_fields->m_currentAd && !CCScene::get()->getChildByID("ad"_spr)) CCEGLView::sharedOpenGLView()->showCursor(false);
 #endif
             };
 

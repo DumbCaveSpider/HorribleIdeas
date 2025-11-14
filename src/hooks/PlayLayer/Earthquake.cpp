@@ -17,10 +17,13 @@ class $modify(EarthquakeGJBaseGameLayer, GJBaseGameLayer) {
         if (m_fields->enabled) {
             // shake the camera randomly based on intensity
             auto rand = randng::fast();
+
             auto shakeX = (static_cast<float>(rand % 25)) * 2.f;
             auto shakeY = (static_cast<float>(rand % 25)) * 2.f;
+
             GJBaseGameLayer::shakeCamera(shakeX, shakeY, 0.1f);
         };
+
         GJBaseGameLayer::update(p0);
     };
 };
