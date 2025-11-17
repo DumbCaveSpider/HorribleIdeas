@@ -33,8 +33,8 @@ Disturb the player's accessibility to the gameplay.
 ### Developers
 Want to add your own insane stuff to this mod? You can register your very own horrible options by using this mod's API! You can see its [documentation here](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include). We're hyped to see how much more you can really mess up this game.
 
-> ![icon](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*If you plan on publishing a mod that acts as an add-on to Horrible Ideas, all we ask is to please be sure to follow the safe code practices in the [documentation](./include) as best as you can!*</c>
+> ![icon](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*If you plan on publishing a mod that acts as an add-on to Horrible Ideas, all we ask is to please be sure to follow the safe code practices in the [documentation](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include) as best as you can!*</c>
 
 ---
 
-### ![YT](frame:gj_ytIcon_001.png?scale=0.25) Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!
+### ![YT](frame:gj_ytIcon_001.png?scale=0.375) Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!
