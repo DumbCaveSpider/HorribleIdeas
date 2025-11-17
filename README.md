@@ -35,6 +35,9 @@ Disturb the player's accessibility to the gameplay.
 ### Developers
 Want to add your own insane stuff to this mod? You can register your very own horrible options by using this mod's API! You can see its [documentation here](./include). We're hyped to see how much more you can really mess up this game.
 
+> [!NOTE]
+> *If you plan on publishing a mod that acts as an add-on, all we ask is to please be sure to follow the safe code practices in the [documentation](./include) as best as you can!*
+
 ---
 
-# <img alt="Trailer Likes" src="https://img.shields.io/youtube/likes/PI_poDUUauw?style=for-the-badge&logo=youtube"> Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!
+### [<img alt="Trailer Likes" src="https://img.shields.io/youtube/likes/PI_poDUUauw?style=for-the-badge&logo=youtube">](https://www.youtube.com/watch?v=PI_poDUUauw&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!
