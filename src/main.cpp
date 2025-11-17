@@ -64,8 +64,8 @@ class $modify(HorribleGJGameLevel, GJGameLevel) {
 class $modify(HorribleLevelEditorLayer, LevelEditorLayer) {
     void onPlaytest() {
         FLAlertLayer::create(
-            "Playtest Disabled",
-            "<cy>Horrible Ideas Mod</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level.\n<cg>I recommend disabling the mod while editing levels.</c>",
+            "Warning",
+            "<cy>Horrible Ideas</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level... Sorry about that!\n<cg>We recommend disabling the mod while editing levels.</c>",
             "OK")
             ->show();
         LevelEditorLayer::onPlaytest();
