@@ -14,7 +14,7 @@ This silly lil' mod adds a mod menu filled to the brim with joke mods! Spice up 
 When pressing `Tab`, a menu will pop up with a list of joke mod options you can toggle anytime on your game to do some interesting things to your gaming experience. From random mirror portals to game-breaking glitches! You can view more information within the contents of the menu itself.
 
 #### Player Life
-Give the player a limited health-like statistic that must always stay above 0 to prevent the player from dying.
+Give the player a limited health-like meter that must always stay above 0 to prevent the player from dying.
 
 #### Jumpscares
 Typically give a chance to teleport you to a whole different level, mid-level. Boo. Haha.
@@ -32,6 +32,18 @@ Disturb the player's accessibility to the gameplay.
 
 ### Developers
 Want to add your own insane stuff to this mod? You can register your very own horrible options by using this mod's API! You can see its [documentation here](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include). We're hyped to see how much more you can really mess up this game.
+
+```cpp
+$execute {
+    horribleideas::registerOption({
+        "my-option"_spr,
+        "My Very Cool Option!",
+        "This option is so very cool!",
+        "Cool Options",
+        SillyTier::Medium
+    });
+};
+```
 
 > ![icon](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*If you plan on publishing a mod that acts as an add-on to Horrible Ideas, all we ask is to please be sure to follow the safe code practices in the [documentation](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include) as best as you can!*</c>
 

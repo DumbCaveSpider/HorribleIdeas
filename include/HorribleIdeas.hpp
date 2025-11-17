@@ -95,7 +95,7 @@ namespace horribleideas {
         };
     };
 
-    // All horrible mods
+    // All horrible options
     static inline std::vector<Option> m_options = {
         {"oxygen",
          "Oxygen Level",

@@ -12,8 +12,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-bool isFlipped = false;
-
 class $modify(HorribleCCScene, CCScene) {
     bool init() {
         if (!CCScene::init()) return false;

@@ -1,4 +1,5 @@
 # [<img src="../logo.png" width="30" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
+A plethora of ways to ruin your gaming experience...
 
 ## Development
 You can directly access the Horrible Ideas mod menu API by including the [`HorribleIdeas.hpp`](HorribleIdeas.hpp) file in your code. Make sure to include the **`horribleideas`** namespace to directly access all needed classes and methods.
@@ -49,7 +50,7 @@ An event that fires any time any option is changed.
 You can register and check any and as many options as you desire through this API.
 
 #### Registering
-This mod makes it easy for players to access the options they want to use. You can register your own options by using the **`horribleideas::registerOption`** method inside an `$execute` block. You will need to pass one parameter, which is an **`Option`** struct for the option you want to register.
+This mod makes it easy for players to access the options they want to use. You can register your own options by using the **`horribleideas::registerOption`** method inside an `$execute` block. You will need to pass one parameter, which is a constructed **`Option`** object for the option you want to register.
 
 *Required fields of the **`Option`** struct are, in order: `id`, `name`, `description`, `category`, and `silly`. Optional fields are `restart` and `platforms`.*
 
@@ -58,35 +59,35 @@ This mod makes it easy for players to access the options they want to use. You c
 
 ```cpp
 $execute{
-    registerOption({
+    horribleideas::registerOption({
         "something-interesting"_spr,
         "Something Interesting",
         "This is something that is very interesting.",
         "Stuff!",
         SillyTier::Medium
-        });
+    });
 };
 ```
 
-You can include optional fields **`restart`** and **`platforms`** as well! The array for `platforms` uses Geode's dynamic **`PlatformID`** class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas sets every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can also get very specific about the exact platform you can run your own options on if absolutely necessary, though such a case may not present itself often.
+You can include optional fields **`restart`** and **`platforms`** as well! Set `restart` to `true` or `false` depending on whether your option is only meant to load once per session. The array for `platforms` uses Geode's dynamic **`PlatformID`** class to identify the exact platform the player is running Geometry Dash on. By default, Horrible Ideas sets every option to be compatible for `PlatformID::Desktop` and `PlatformID::Mobile`, essentially covering all platforms. However, you can also get very specific about the exact platform you can run your own options on if absolutely necessary, though such a case may not present itself often.
 
 > [!IMPORTANT]
 > Even if `restart` is **enabled** for your option, the global event for it *will still fire* whenever the player changes it mid-game. What this setting does is actually just notify the player that your option will only load after they restart the game.
 
 ```cpp
 $execute{
-    registerOption({
+    horribleideas::registerOption({
         "cool-things"_spr,
         "Cool Things",
         "Some really really cool things.",
         "Stuff!",
         SillyTier::Low,
-        true, // Cannot apply until after restart
+        true, // Notify player to restart
         {
             PlatformID::Android32,
-            PlatformID::X64 // Support certain platforms
+            PlatformID::X64 // Support specific platforms
         }
-        });
+    });
 };
 ```
 
@@ -130,15 +131,18 @@ using namespace horribleideas;
 
 class $modify(SomethingInterestingMenuLayer, MenuLayer) {
     struct Fields {
-        EventListener<HorribleOptionEventFilter> m_horribleListener; // Listen to any options being toggled
+        bool enabled = horribleideas::get("something-interesting"_spr);
+        EventListener<HorribleOptionEventFilter> m_optionListener; // Listen to any option being toggled
     };
 
     bool init() {
         if (!MenuLayer::init()) return false;
 
-        // implemented logic here
+        if (m_fields->enabled) {
+            // implemented logic here
+        };
 
-        m_fields->m_horribleListener = {
+        m_fields->m_optionListener = {
             [=](HorribleOptionEvent* event) {
                 if (event->getId() != "something-interesting"_spr) return ListenerResult::Propagate; 
                 
