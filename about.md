@@ -37,4 +37,4 @@ Want to add your own insane stuff to this mod? You can register your very own ho
 
 ---
 
-### ![YT](frame:gj_ytIcon_001.png?scale=0.375) Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!
+**![YT](frame:gj_ytIcon_001.png?scale=0.375) Watch the [Horrible Mods](https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu) series out now on YouTube!**
