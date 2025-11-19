@@ -38,6 +38,8 @@ namespace horribleideas {
          */
         void registerCategory(std::string_view category);
 
+        friend class HorribleOptionEventFilter;
+
     public:
         // Get option manager singleton
         static OptionManager* get();
