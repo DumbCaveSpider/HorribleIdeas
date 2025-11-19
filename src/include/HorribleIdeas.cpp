@@ -20,6 +20,10 @@ bool HorribleOptionEvent::getIsToggled() const {
     return isToggled;
 };
 
+OptionManager::OptionManager() {
+    retain();
+};
+
 void OptionManager::registerCategory(std::string_view category) {
     std::lock_guard<std::mutex> lk(m_mutex);
     if (std::find(m_categories.begin(), m_categories.end(), category) == m_categories.end()) m_categories.push_back(std::string(category));
@@ -51,6 +55,6 @@ bool OptionManager::setOption(std::string_view id, bool enable) const {
 };
 
 OptionManager* OptionManager::get() {
-    static OptionManager inst;
-    return &inst;
+    static auto inst = new OptionManager();
+    return inst;
 };

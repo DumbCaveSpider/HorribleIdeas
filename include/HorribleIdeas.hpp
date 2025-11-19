@@ -103,6 +103,8 @@ namespace horribleideas {
 
         std::vector<std::string> m_categories; // Array of auto-registered categories
 
+        OptionManager(); // Constructor
+
         /**
          * Register a category if not already registered
          *
