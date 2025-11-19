@@ -7,10 +7,8 @@
 using namespace geode::prelude;
 using namespace horribleideas;
 
-static inline std::mutex s_horrible_registry_mutex;
-
 HorribleOptionEvent::HorribleOptionEvent(std::string id, bool isToggled)
-    : id(id), isToggled(isToggled) {};
+    : id(std::move(id)), isToggled(isToggled) {};
 
 std::string HorribleOptionEvent::getId() const {
     return id;
@@ -18,10 +16,6 @@ std::string HorribleOptionEvent::getId() const {
 
 bool HorribleOptionEvent::getIsToggled() const {
     return isToggled;
-};
-
-OptionManager::OptionManager() {
-    retain();
 };
 
 void OptionManager::registerCategory(std::string_view category) {
@@ -55,6 +49,6 @@ bool OptionManager::setOption(std::string_view id, bool enable) const {
 };
 
 OptionManager* OptionManager::get() {
-    static auto inst = new OptionManager();
-    return inst;
+    static OptionManager inst;
+    return &inst;
 };
