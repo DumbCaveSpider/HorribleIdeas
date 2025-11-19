@@ -96,7 +96,7 @@ namespace horribleideas {
     };
 
     // Mod option manager for Horrible Ideas
-    class AWCW_HORRIBLE_API_DLL OptionManager : public cocos2d::CCObject {
+    class AWCW_HORRIBLE_API_DLL OptionManager {
     protected:
         std::vector<Option> m_options; // Array of registered options
         mutable std::mutex m_mutex; // Mutex for thread safety
