@@ -7,36 +7,42 @@
 using namespace geode::prelude;
 using namespace horribleideas;
 
-HorribleOptionEvent::HorribleOptionEvent(std::string id, bool isToggled)
-    : id(std::move(id)), isToggled(isToggled) {};
+HorribleOptionEvent::HorribleOptionEvent(std::string id, bool toggled)
+    : m_id(id), m_toggled(toggled) {};
 
 std::string HorribleOptionEvent::getId() const {
-    return id;
+    return m_id;
 };
 
-bool HorribleOptionEvent::getIsToggled() const {
-    return isToggled;
+bool HorribleOptionEvent::getToggled() const {
+    return m_toggled;
+};
+
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::string id) : m_id(id) {};
+
+ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
+    if (event->getId() == m_id) return fn(event);
+    return ListenerResult::Propagate;
+};
+
+OptionManager::OptionManager() {
+    retain();
 };
 
 void OptionManager::registerCategory(std::string_view category) {
-    std::lock_guard<std::mutex> lk(m_mutex);
     if (std::find(m_categories.begin(), m_categories.end(), category) == m_categories.end()) m_categories.push_back(std::string(category));
 };
 
 void OptionManager::registerOption(const Option& option) {
-    std::lock_guard<std::mutex> lk(m_mutex);
     m_options.push_back(option);
-
     registerCategory(option.category);
 };
 
 std::vector<Option> OptionManager::getOptions() const {
-    std::lock_guard<std::mutex> lk(m_mutex);
     return m_options;
 };
 
 std::vector<std::string> OptionManager::getCategories() const {
-    std::lock_guard<std::mutex> lk(m_mutex);
     return m_categories;
 };
 
@@ -45,10 +51,13 @@ bool OptionManager::getOption(std::string_view id) const {
 };
 
 bool OptionManager::setOption(std::string_view id, bool enable) const {
+    auto event = new HorribleOptionEvent(std::string(id), enable);
+    event->postFromMod(Mod::get());
+
     return Mod::get()->setSavedValue(std::string(id), enable);
 };
 
 OptionManager* OptionManager::get() {
-    static OptionManager inst;
-    return &inst;
+    static auto inst = new OptionManager();
+    return inst;
 };

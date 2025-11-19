@@ -43,7 +43,7 @@ The object structure of an option.
 #### class `horribleideas::HorribleOptionEvent`
 An event that fires any time any option is changed.
 - `std::string` **`getId()`** `const`: Get the unique ID of the option
-- `bool` **`getIsToggled()`** `const`: Get the toggle boolean of the option
+- `bool` **`getToggled()`** `const`: Get the toggle boolean of the option
 
 #### class `horribleideas::HorribleOptionEventFilter`
 - `ListenerResult` **`handle(std::function<Callback> fn, HorribleOptionEvent* event)`**: Event handler
@@ -170,15 +170,13 @@ class $modify(SomethingInterestingMenuLayer, MenuLayer) {
 
         m_fields->m_optionListener = {
             [=](HorribleOptionEvent* event) {
-                if (event->getId() != "something-interesting"_spr) return ListenerResult::Propagate; 
-                
-                if (event->getIsToggled()) {
+                if (event->getToggled()) {
                     // handle re-implementation here
                 };
 
                 return ListenerResult::Propagate;
             },
-            HorribleOptionEventFilter()
+            HorribleOptionEventFilter("something-interesting"_spr)
         };
 
         return true;

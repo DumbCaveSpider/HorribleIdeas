@@ -50,6 +50,17 @@ namespace horrible {
         };
     };
 
+    // Default horrible categories
+    class Category {
+    public:
+        static inline const std::string playerlife = "Player Life";
+        static inline const std::string jumpscares = "Jumpscares";
+        static inline const std::string randoms = "Randoms";
+        static inline const std::string chances = "Chances";
+        static inline const std::string obstructive = "Obstructive";
+        static inline const std::string misc = "Misc";
+    };
+
     // Default horrible options
     static inline std::vector<Option> allOptions = {
         {"oxygen",

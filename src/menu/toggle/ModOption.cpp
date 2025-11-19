@@ -176,9 +176,6 @@ void ModOption::onToggle(CCObject*) {
 
         options::set(m_modID, toggle);
         if (m_restart) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
-
-        auto event = new HorribleOptionEvent(m_modID, toggle);
-        event->postFromMod(horribleMod);
     };
 
     log::info("Option {} now set to {}", m_modName, options::get(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao

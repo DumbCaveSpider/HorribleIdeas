@@ -19,15 +19,6 @@ protected:
 
     Ref<ScrollLayer> m_optionList = nullptr;
 
-    EventListener<HorribleOptionEventFilter> m_listener = {
-        [=](HorribleOptionEvent* event) {
-            // example event listener
-            log::info("Horrible option of ID {} toggled to {}", event->getId(), event->getIsToggled() ? "ON" : "OFF");
-            return ListenerResult::Propagate;
-        },
-        HorribleOptionEventFilter()
-    };
-
     void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
     void filterTierCallback(CCObject*);
 
