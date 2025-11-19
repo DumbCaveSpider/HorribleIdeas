@@ -37,6 +37,11 @@ std::vector<Option> OptionManager::getOptions() const {
     return m_options;
 };
 
+std::vector<std::string> OptionManager::getCategories() const {
+    std::lock_guard<std::mutex> lk(m_mutex);
+    return m_categories;
+};
+
 bool OptionManager::getOption(std::string_view id) const {
     return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };
@@ -46,7 +51,6 @@ bool OptionManager::setOption(std::string_view id, bool enable) const {
 };
 
 OptionManager* OptionManager::get() {
-    static OptionManager* inst = nullptr;
-    if (!inst) inst = new OptionManager();
-    return inst;
+    static OptionManager inst;
+    return &inst;
 };
