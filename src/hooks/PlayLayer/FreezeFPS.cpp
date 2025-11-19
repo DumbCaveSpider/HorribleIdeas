@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(FreezePlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("freeze");
-        int chance = horribleideas::getChance("freeze");
+        bool enabled = options::get("freeze");
+        int chance = options::getChance("freeze");
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

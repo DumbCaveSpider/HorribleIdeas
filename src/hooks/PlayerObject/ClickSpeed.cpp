@@ -11,7 +11,7 @@ using namespace horrible;
 
 class $modify(ClickSpeedPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleideas::get("click_speed");
+        bool enabled = options::get("click_speed");
     };
 
     bool pushButton(PlayerButton p0) {

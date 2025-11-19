@@ -9,6 +9,39 @@ using namespace horribleideas;
 namespace horrible {
     // Horrible options utilities
     namespace options {
+        /**
+         * Returns the array of all registered options
+         *
+         * @returns An array of every registered option, main and external
+         */
         std::vector<Option> getAll();
+
+        /**
+         * Returns the toggle state of an option
+         *
+         * @param id The ID of the option to check
+         *
+         * @returns Boolean of the current value
+         */
+        bool get(std::string_view id);
+
+        /**
+         *Returns the chance value for an option
+         *
+         * @param id The ID of the option to check
+         *
+         * @returns Integer of the chance value
+         */
+        int getChance(std::string_view id);
+
+        /**
+         * Set the toggle state of an option
+         *
+         * @param id The ID of the option to toggle
+         * @param enable Boolean to toggle to
+         *
+         * @returns Boolean of the old value
+         */
+        bool set(std::string_view id, bool enable);
     };
 };

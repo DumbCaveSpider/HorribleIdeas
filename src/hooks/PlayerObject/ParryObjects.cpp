@@ -20,7 +20,7 @@ bool isIntersects = false;
 
 class $modify(ParryPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleideas::get("parry");
+        bool enabled = options::get("parry");
     };
 
     void update(float p0) {
@@ -52,7 +52,7 @@ class $modify(ParryPlayerObject, PlayerObject) {
 
 class $modify(ParryPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("parry");
+        bool enabled = options::get("parry");
 
         float parryTimer = 0.f;
     };

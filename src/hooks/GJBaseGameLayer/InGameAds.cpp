@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(AdsGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("ads");
+        bool enabled = options::get("ads");
 
         RandomAdPopup* m_currentAd = nullptr;
         float m_adCooldown = 0.f;

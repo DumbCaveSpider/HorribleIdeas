@@ -9,7 +9,7 @@ using namespace geode::prelude;
 using namespace horrible;
 
 struct Fields {
-    bool enabled = horribleideas::get("placebo");
+    bool enabled = options::get("placebo");
 };
 
 Fields m_fields;
@@ -26,12 +26,12 @@ void placeboEffect() {
 
             for (const auto& option : options::getAll()) {
                 // if the options is disabled, enabled it
-                if (horribleideas::get(option.id) == false) {
+                if (options::get(option.id) == false) {
                     log::debug("Enabled option: {}", option.id);
-                    horribleideas::set(option.id, true);
+                    options::set(option.id, true);
                 } else {
                     log::debug("Disabled option: {}", option.id);
-                    horribleideas::set(option.id, false);
+                    options::set(option.id, false);
                 };
             };
         };

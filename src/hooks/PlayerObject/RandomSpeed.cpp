@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(RandomSpeedPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleideas::get("random_speed");
-        int chance = horribleideas::getChance("random_speed");
+        bool enabled = options::get("random_speed");
+        int chance = options::getChance("random_speed");
     };
 
     void update(float p0) {

@@ -12,6 +12,14 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+$execute{
+    if (auto optionManager = OptionManager::get()) {
+        for (const auto& option : allOptions) {
+            optionManager->registerOption(option);
+        };
+    };
+};
+
 class $modify(HorribleCCScene, CCScene) {
     bool init() {
         if (!CCScene::init()) return false;

@@ -11,7 +11,7 @@ using namespace horrible;
 
 class $modify(ClickRandomIconPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = horribleideas::get("random_icon");
+        bool enabled = options::get("random_icon");
     };
 
     bool pushButton(PlayerButton p0) {

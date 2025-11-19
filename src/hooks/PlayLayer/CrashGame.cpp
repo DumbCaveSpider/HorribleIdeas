@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(CrashGamePlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("crash_death");
-        int chance = horribleideas::getChance("crash_death");
+        bool enabled = options::get("crash_death");
+        int chance = options::getChance("crash_death");
 
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;

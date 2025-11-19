@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(EarthquakeGJBaseGameLayer, GJBaseGameLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("earthquake");
+        bool enabled = options::get("earthquake");
     };
 
     void update(float p0) {

@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(FakeDeathPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("death");
+        bool enabled = options::get("death");
 
         bool m_dontCreateObjects = false;
         GameObject* m_destroyingObject;
@@ -45,7 +45,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
                 return;
             };
         };
-        
+
         PlayLayer::destroyPlayer(player, game);
     };
 };

@@ -10,8 +10,8 @@ using namespace horrible;
 
 class $modify(ForceLevelsPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("upside_down");
-        int chance = horribleideas::getChance("upside_down"); // chance as percent
+        bool enabled = options::get("upside_down");
+        int chance = options::getChance("upside_down"); // chance as percent
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {

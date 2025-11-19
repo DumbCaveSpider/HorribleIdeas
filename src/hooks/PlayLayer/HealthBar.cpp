@@ -10,7 +10,7 @@ using namespace horrible;
 
 class $modify(HealthBarPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("health");
+        bool enabled = options::get("health");
 
         CCLabelBMFont* m_healthLabel = nullptr;
 

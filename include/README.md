@@ -12,6 +12,18 @@ using namespace horribleideas;
 ### Classes
 Here are some important classes we highly suggest you keep in mind while working with the API.
 
+#### class `horribleideas::OptionManager`
+The manager class for Horrible Ideas mod options.
+- `static OptionManager*` **`get()`**: Get option manager singleton
+- `void` **`registerOption(const Option& option)`**: Register a new option
+  - `const Option&` **`option`**: Constructed option object
+- `std::vector<Option>` **`getOptions()`** `const`: Returns the array of all registered options
+- `bool` **`getOption(std::string_view id)`** `const`: Returns the toggle state of an option
+- `bool` **`setOption(std::string_view id, bool enable)`** `const`: Set the toggle state of an option
+  - `std::string_view` **`id`**: The ID of the option to toggle
+  - `bool` **`enable`**: Boolean to toggle to
+- `std::vector<std::string>` **`getCategories()`** `const`: Returns the array of all registered categories
+
 #### enum class `horribleideas::SillyTier`
 An enum class that defines how chaotic or funny an option is.
 
@@ -30,8 +42,8 @@ The object structure of an option.
 
 #### class `horribleideas::HorribleOptionEvent`
 An event that fires any time any option is changed.
-- `std::string` **`getId()`**: Get the unique ID of the option
-- `bool` **`getIsToggled()`**: Get the toggle boolean of the option
+- `std::string` **`getId()`** `const`: Get the unique ID of the option
+- `bool` **`getIsToggled()`** `const`: Get the toggle boolean of the option
 
 #### class `horribleideas::HorribleOptionEventFilter`
 - `ListenerResult` **`handle(std::function<Callback> fn, HorribleOptionEvent* event)`**: Event handler
@@ -41,6 +53,7 @@ An event that fires any time any option is changed.
 #### Summary
 | Type         | Name                        | Description                          |
 | ------------ | --------------------------- | ------------------------------------ |
+| `class`      | `OptionManager`             | Manager for Horrible Ideas options   |
 | `enum class` | `SillyTier`                 | Defines how silly an option is       |
 | `struct`     | `Option`                    | Represents a toggleable option       |
 | `class`      | `HorribleOptionEvent`       | Fired when an option is toggled      |
@@ -49,8 +62,17 @@ An event that fires any time any option is changed.
 ### Options
 You can register and check any and as many options as you desire through this API.
 
+> [!IMPORTANT]
+> To work with options, you will first be required to access the pointer to the **`OptionManager`** class by using `OptionManager::get()` to define a variable to use in your code.
+>
+> ```cpp
+> auto optionManager = OptionManager::get();
+> ```
+>
+> This way, you can now safely use its methods to work directly with Horrible Ideas's API to handle your own custom options.
+
 #### Registering
-This mod makes it easy for players to access the options they want to use. You can register your own options by using the **`horribleideas::registerOption`** method inside an `$execute` block. You will need to pass one parameter, which is a constructed **`Option`** object for the option you want to register.
+This mod makes it easy for players to access the options they want to use. You can register your own options by using the **`OptionManager::registerOption`** method inside an `$execute` block. You will need to pass one parameter, which is a constructed **`Option`** object for the option you want to register.
 
 *Required fields of the **`Option`** struct are, in order: `id`, `name`, `description`, `category`, and `silly`. Optional fields are `restart` and `platforms`.*
 
@@ -59,7 +81,9 @@ This mod makes it easy for players to access the options they want to use. You c
 
 ```cpp
 $execute{
-    horribleideas::registerOption({
+    auto optionManager = OptionManager::get();
+
+    optionManager->registerOption({
         "something-interesting"_spr,
         "Something Interesting",
         "This is something that is very interesting.",
@@ -76,7 +100,9 @@ You can include optional fields **`restart`** and **`platforms`** as well! Set `
 
 ```cpp
 $execute{
-    horribleideas::registerOption({
+    auto optionManager = OptionManager::get();
+
+    optionManager->registerOption({
         "cool-things"_spr,
         "Cool Things",
         "Some really really cool things.",
@@ -97,14 +123,14 @@ This will automatically include your option in Horrible Ideas's pre-existing lis
 Once you've registered an option on `$execute`, you can use other methods to work with the option.
 
 ##### Static Conditioning
-You can begin by using **`horribleideas::get`** and provide your option's unique ID to check if an option is enabled or disabled.
+You can begin by using **`OptionManager::getOption`** and provide your option's unique ID to check if an option is enabled or disabled.
 ```cpp
 using namespace geode::prelude;
 using namespace horribleideas;
 
 class $modify(CoolThingsPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("cool-things"_spr); // If this option is set to true or false
+        bool enabled = OptionManager::get()->getOption("cool-things"_spr); // If this option is set to true or false
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
@@ -131,7 +157,7 @@ using namespace horribleideas;
 
 class $modify(SomethingInterestingMenuLayer, MenuLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("something-interesting"_spr);
+        bool enabled = OptionManager::get()->getOption("something-interesting"_spr);
         EventListener<HorribleOptionEventFilter> m_optionListener; // Listen to any option being toggled
     };
 

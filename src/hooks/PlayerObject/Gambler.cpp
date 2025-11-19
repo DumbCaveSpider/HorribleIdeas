@@ -9,7 +9,7 @@ using namespace horrible;
 
 class $modify(GamblerPlayLayer, PlayLayer) {
     struct Fields {
-        bool enabled = horribleideas::get("gambler");
+        bool enabled = options::get("gambler");
 
         bool triggered = false;
         bool tricked = false;

@@ -2,6 +2,9 @@
 
 #include <fmt/core.h>
 
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
 using namespace horribleideas;
 
 static inline std::mutex s_horrible_registry_mutex;
@@ -17,25 +20,33 @@ bool HorribleOptionEvent::getIsToggled() const {
     return isToggled;
 };
 
-bool horribleideas::get(std::string_view id) {
+void OptionManager::registerCategory(std::string_view category) {
+    std::lock_guard<std::mutex> lk(m_mutex);
+    if (std::find(m_categories.begin(), m_categories.end(), category) == m_categories.end()) m_categories.push_back(std::string(category));
+};
+
+void OptionManager::registerOption(const Option& option) {
+    std::lock_guard<std::mutex> lk(m_mutex);
+    m_options.push_back(option);
+
+    registerCategory(option.category);
+};
+
+std::vector<Option> OptionManager::getOptions() const {
+    std::lock_guard<std::mutex> lk(m_mutex);
+    return m_options;
+};
+
+bool OptionManager::getOption(std::string_view id) const {
     return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };
 
-int horribleideas::getChance(std::string_view id) {
-    auto fullId = fmt::format("{}-chance", id);
-    return static_cast<int>(Mod::get()->getSettingValue<int64_t>(fullId));
+bool OptionManager::setOption(std::string_view id, bool enable) const {
+    return Mod::get()->setSavedValue(std::string(id), enable);
 };
 
-bool horribleideas::set(std::string_view id, bool enable) {
-    return Mod::get()->setSavedValue<bool>(std::string(id), enable);
-};
-
-void horribleideas::registerOption(const Option& option) {
-    std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
-    m_options.push_back(option);
-};
-
-std::vector<Option> horribleideas::getRegisteredOptions() {
-    std::lock_guard<std::mutex> lk(s_horrible_registry_mutex);
-    return m_options;
+OptionManager* OptionManager::get() {
+    static OptionManager* inst = nullptr;
+    if (!inst) inst = new OptionManager();
+    return inst;
 };
