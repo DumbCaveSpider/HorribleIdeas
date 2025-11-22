@@ -155,6 +155,14 @@ bool HorribleMenuPopup::setup() {
 
     m_mainLayer->addChild(safeModeLabel, 100);
 
+    if (auto optionManager = OptionManager::get()) {
+        for (const auto& option : optionManager->getCategories()) {
+            log::debug("Registered category: {}", option);
+        };
+    } else {
+        log::error("OptionManager not found");
+    };
+
     return true;
 };
 
@@ -177,7 +185,7 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
         m_optionList->scrollToTop();
     } else {
         log::error("Option list layer not found");
-    }
+    };
 };
 
 void HorribleMenuPopup::filterTierCallback(CCObject* sender) {

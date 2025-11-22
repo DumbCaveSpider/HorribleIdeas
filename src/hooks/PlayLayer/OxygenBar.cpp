@@ -11,15 +11,14 @@ using namespace horrible;
 class $modify(OxygenBarPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("oxygen");
-        bool healthEnabled = options::get("health");
 
-        CCLabelBMFont* m_oxygenLabel = nullptr;
+        bool healthEnabled = options::get("health");
 
         float m_oxygenLevel = 100.f;
         bool m_oxygenActive = false;
 
-        Ref<CCSprite> m_oxygenBar;
-        CCSprite* m_oxygenBarFill;
+        Ref<ProgressBar> m_oxygenBar = nullptr;
+        CCLabelBMFont* m_oxygenLabel = nullptr;
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
@@ -34,25 +33,16 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
                 this, 0.1f, false);
 
             if (!m_fields->m_oxygenBar) {
-                m_fields->m_oxygenBar = CCSprite::create("slidergroove2.png");
+                m_fields->m_oxygenBar = ProgressBar::create();
                 m_fields->m_oxygenBar->setID("oxygen"_spr);
+                m_fields->m_oxygenBar->setFillColor({ 0, 175, 255 });
                 m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_oxygenBar->setRotation(90.f);
                 m_fields->m_oxygenBar->setZOrder(101);
 
-                m_fields->m_oxygenBarFill = CCSprite::create("sliderBar2.png");
-                m_fields->m_oxygenBarFill->setID("oxygen-fill"_spr);
-                m_fields->m_oxygenBarFill->setZOrder(-1);
-                m_fields->m_oxygenBarFill->setRotation(-180.f);
-                m_fields->m_oxygenBarFill->setColor({ 0, 175, 255 });
-                m_fields->m_oxygenBarFill->setPosition({ m_fields->m_oxygenBar->getScaledContentWidth() - 2.f, 4.f });
-                m_fields->m_oxygenBarFill->setAnchorPoint({ 0, 1 });
-
-                m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, 0, 8 });
-
-                m_fields->m_oxygenBar->addChild(m_fields->m_oxygenBarFill);
-
                 addChild(m_fields->m_oxygenBar);
+            } else {
+                m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
             };
 
             if (m_fields->healthEnabled) {
@@ -100,13 +90,10 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         if (m_fields->m_oxygenLevel > 100.f) m_fields->m_oxygenLevel = 100.f;
         if (m_fields->m_oxygenLevel < 0.f) m_fields->m_oxygenLevel = 0.f;
 
-        std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
-        m_fields->m_oxygenLabel->setString(buf.c_str());
+        auto o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+        m_fields->m_oxygenLabel->setString(o2.c_str());
 
-        float maxWidth = m_fields->m_oxygenBar->getContentWidth() - 4.f;
-        float newWidth = maxWidth * (m_fields->m_oxygenLevel / 100.f);
-
-        m_fields->m_oxygenBarFill->setTextureRect({ 0, 0, newWidth, 8 });
+        m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
 
         // Destroy player if oxygen is 0
         if (m_fields->m_oxygenLevel <= 0.f && m_player1 && !m_player1->m_isDead) destroyPlayer(m_player1, nullptr);
@@ -116,8 +103,8 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         m_fields->m_oxygenLevel = 100.f;
 
         if (m_fields->m_oxygenLabel) {
-            std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
-            m_fields->m_oxygenLabel->setString(buf.c_str());
+            auto o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+            m_fields->m_oxygenLabel->setString(o2.c_str());
         };
     };
 
