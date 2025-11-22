@@ -3,7 +3,7 @@
 namespace horrible {
     // Jumpscare level manager
     namespace jumpscares {
-        void DownloadGriefLevel();
-        void DownloadCongregLevel();
+        void downloadGrief(); // Download Grief
+        void downloadCongregation(); // Download Congregation
     };
 };

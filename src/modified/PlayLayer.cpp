@@ -18,9 +18,8 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             m_isTestMode = true;
             PlayLayer::levelComplete();
             m_isTestMode = testMode;
-            return;
+        } else {
+            PlayLayer::levelComplete();
         };
-
-        PlayLayer::levelComplete();
     };
 };

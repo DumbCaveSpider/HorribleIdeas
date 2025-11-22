@@ -16,7 +16,7 @@ using namespace horribleideas;
 
 // Namespace for utility methods for Horrible Ideas
 namespace horrible {
-    // Pointer reference to the current mod instance
+    // Pointer reference to this Geode mod
     inline Mod* horribleMod = Mod::get();
 
     // Utilities for SillyTier

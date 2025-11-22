@@ -8,10 +8,10 @@ using namespace geode::prelude;
 namespace horribleideas {
     // How silly a mod option is
     enum class AWCW_HORRIBLE_API_DLL SillyTier {
-        None = 0,   // Null
-        Low = 1,    // Not so silly
+        None = 0, // Null
+        Low = 1, // Not so silly
         Medium = 2, // Somewhat silly
-        High = 3    // Very silly
+        High = 3 // Very silly
     };
 
     // A horrible mod option

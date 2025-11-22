@@ -9,10 +9,8 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-void jumpscares::DownloadGriefLevel() {
-    if (horribleMod->getSavedValue<bool>("grief", false)) {
-        auto glm = GameLevelManager::get();
-
+void jumpscares::downloadGrief() {
+    if (auto glm = GameLevelManager::get()) {
         if (glm->hasDownloadedLevel(105001928)) {
             log::info("Grief already downloaded, skipping download");
             glm->updateLevel(glm->getSavedLevel(105001928));
@@ -24,23 +22,25 @@ void jumpscares::DownloadGriefLevel() {
             glm->downloadLevel(105001928, false);
             mdm->downloadSong(482872);
         };
+    } else {
+        log::error("Cannot download Grief");
     };
 };
 
-void jumpscares::DownloadCongregLevel() {
-    if (horribleMod->getSavedValue<bool>("congregation", false)) {
-        auto glm = GameLevelManager::get();
-
+void jumpscares::downloadCongregation() {
+    if (auto glm = GameLevelManager::get()) {
         if (glm->hasDownloadedLevel(93437568)) {
             log::info("Congregation already downloaded, skipping download");
             glm->updateLevel(glm->getSavedLevel(93437568));
         } else {
             auto mdm = MusicDownloadManager::sharedState();
 
+            log::info("Downloading Congregation in background");
+
             glm->downloadLevel(93437568, false);
             mdm->downloadSong(895761);
-
-            log::info("Downloading Congregation in background");
         };
+    } else {
+        log::error("Cannot download Congregation");
     };
 };

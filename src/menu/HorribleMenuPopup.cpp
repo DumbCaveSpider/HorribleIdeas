@@ -139,7 +139,7 @@ bool HorribleMenuPopup::setup() {
 
     modSettingsMenu->addChild(supporterBtn);
 
-    auto safeModeLabel = CCLabelBMFont::create("Safe Mode: INACTIVE", "bigFont.fnt");
+    auto safeModeLabel = CCLabelBMFont::create("Safe Mode OFF", "bigFont.fnt");
     safeModeLabel->setColor({ 255, 0, 0 });
     safeModeLabel->setAnchorPoint({ 0.5, 0 });
     safeModeLabel->setPosition({ filterMenuBg->getPositionX(), 20.f });
@@ -147,21 +147,13 @@ bool HorribleMenuPopup::setup() {
 
     // Set safemode label if active
     if (horribleMod->getSettingValue<bool>("safe-mode")) {
-        safeModeLabel->setCString("Safe Mode: ACTIVE");
+        safeModeLabel->setCString("Safe Mode ON");
         safeModeLabel->setColor({ 0, 255, 0 });
     } else {
         log::warn("Safe mode is inactive");
     };
 
     m_mainLayer->addChild(safeModeLabel, 100);
-
-    if (auto optionManager = OptionManager::get()) {
-        for (const auto& option : optionManager->getCategories()) {
-            log::debug("Registered category: {}", option);
-        };
-    } else {
-        log::error("OptionManager not found");
-    };
 
     return true;
 };

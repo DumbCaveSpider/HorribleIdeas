@@ -62,7 +62,7 @@ bool RandomAdPopup::setup() {
 };
 
 void RandomAdPopup::onPlayBtn(CCObject*) {// congregation jumpscare
-    jumpscares::DownloadCongregLevel();
+    jumpscares::downloadCongregation();
 
     if (auto playLayer = PlayLayer::get()) {
         auto glm = GameLevelManager::get();

@@ -23,8 +23,8 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        if (m_fields->griefEnabled) jumpscares::DownloadGriefLevel();
-        if (m_fields->congregEnabled) jumpscares::DownloadCongregLevel();
+        if (m_fields->griefEnabled) jumpscares::downloadGrief();
+        if (m_fields->congregEnabled) jumpscares::downloadCongregation();
 
         return true;
     };
