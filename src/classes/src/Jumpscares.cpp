@@ -2,11 +2,6 @@
 
 #include <Horrible.hpp>
 
-#include <cocos2d.h>
-
-#include <Geode/Geode.hpp>
-
-using namespace geode::prelude;
 using namespace horrible;
 
 void jumpscares::downloadGrief() {

@@ -1,7 +1,5 @@
 #include <HorribleIdeas.hpp>
 
-#include <fmt/core.h>
-
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;

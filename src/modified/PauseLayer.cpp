@@ -1,7 +1,5 @@
 #include <Horrible.hpp>
 
-#include <menu/HorribleMenuPopup.hpp>
-
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/PauseLayer.hpp>
@@ -13,30 +11,15 @@ class $modify(HorriblePauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        if (auto rightMenu = getChildByID("right-button-menu")) {
-            auto btnSprite = CircleButtonSprite::createWithSprite(
-                "shocksprite.png"_spr,
-                0.875f,
-                CircleBaseColor::Green,
-                CircleBaseSize::MediumAlt
-            );
-            btnSprite->setScale(0.6f);
-
-            auto btn = CCMenuItemSpriteExtra::create(
-                btnSprite,
-                this,
-                menu_selector(HorriblePauseLayer::onHorribleButton)
-            );
-            btn->setID("menu-btn"_spr);
-
-            if (auto menu = typeinfo_cast<CCMenu*>(rightMenu)) {
-                menu->addChild(btn);
-                menu->updateLayout(true);
-            };
-        };
+        if (auto rightMenu = getChildByID("right-button-menu")) menu::addButton(
+            rightMenu,
+            this,
+            menu_selector(HorriblePauseLayer::onHorribleButton),
+            0.6f
+        );
     };
 
     void onHorribleButton(CCObject*) {
-        if (auto popup = HorribleMenuPopup::create()) popup->show();
+        menu::open();
     };
 };

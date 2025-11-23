@@ -2,9 +2,12 @@
 
 #include <HorribleIdeas.hpp>
 
+#include <fmt/core.h>
+
 #include <Geode/Geode.hpp>
 
 #include <classes/Jumpscares.hpp>
+#include <classes/Menu.hpp>
 #include <classes/Options.hpp>
 #include <classes/Randng.hpp>
 
