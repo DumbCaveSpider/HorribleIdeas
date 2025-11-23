@@ -11,16 +11,8 @@ class $modify(HorribleLevelInfoLayer, LevelInfoLayer) {
     bool init(GJGameLevel * level, bool challenge) {
         if (!LevelInfoLayer::init(level, challenge)) return false;
 
-        if (auto leftMenu = getChildByID("left-side-menu")) menu::addButton(
-            leftMenu,
-            this,
-            menu_selector(HorribleLevelInfoLayer::onHorribleButton)
-        );
+        if (auto leftMenu = getChildByID("left-side-menu")) menu::addButton(leftMenu);
 
         return true;
-    };
-
-    void onHorribleButton(CCObject*) {
-        menu::open();
     };
 };

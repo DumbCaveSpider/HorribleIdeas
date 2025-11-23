@@ -21,6 +21,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             PlayLayer::levelComplete();
             m_isTestMode = testMode;
         } else {
+            log::warn("Safe mode is disabled");
             PlayLayer::levelComplete();
         };
     };

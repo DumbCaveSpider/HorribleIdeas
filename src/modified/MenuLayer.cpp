@@ -19,17 +19,8 @@ class $modify(HorribleMenuLayer, MenuLayer) {
             log::debug("Store Current FPS: {}", storedFPS);
         };
 
-        if (auto bottomMenu = getChildByID("bottom-menu")) menu::addButton(
-            bottomMenu,
-            this,
-            menu_selector(HorribleMenuLayer::onHorribleButton),
-            1.125f
-        );
+        if (auto bottomMenu = getChildByID("bottom-menu")) menu::addButton(bottomMenu, 1.125f);
 
         return true;
-    };
-
-    void onHorribleButton(CCObject*) {
-        menu::open();
     };
 };

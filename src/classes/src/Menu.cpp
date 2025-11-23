@@ -6,11 +6,24 @@
 
 using namespace horrible;
 
+menu::MenuButtonTarget::MenuButtonTarget() {
+    retain();
+};
+
+menu::MenuButtonTarget* menu::MenuButtonTarget::get() {
+    static auto inst = new MenuButtonTarget();
+    return inst;
+};
+
+void menu::MenuButtonTarget::openMenuCallback(CCObject*) {
+    menu::open();
+};
+
 void menu::open() {
     if (auto popup = HorribleMenuPopup::create()) popup->show();
 };
 
-void menu::addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, float scale) {
+void menu::addButton(CCNode* menu, float scale) {
     auto btnSprite = CircleButtonSprite::createWithSprite(
         "shocksprite.png"_spr,
         0.9f,
@@ -21,16 +34,16 @@ void menu::addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, f
 
     auto btn = CCMenuItemSpriteExtra::create(
         btnSprite,
-        target,
-        callback
+        MenuButtonTarget::get(),
+        menu_selector(MenuButtonTarget::openMenuCallback)
     );
-    btn->setID("horrible-menu-btn"_spr);
+    btn->setID("horrible-options-button"_spr);
     btn->setZOrder(9);
 
     if (auto m = static_cast<CCMenu*>(menu)) {
         m->addChild(btn);
         m->updateLayout(true);
     } else {
-        log::error("Could not case node to CCMenu to add mod option menu button");
+        log::error("Could not cast node to CCMenu to add mod option menu button");
     };
 };

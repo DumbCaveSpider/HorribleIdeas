@@ -11,15 +11,6 @@ class $modify(HorriblePauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        if (auto rightMenu = getChildByID("right-button-menu")) menu::addButton(
-            rightMenu,
-            this,
-            menu_selector(HorriblePauseLayer::onHorribleButton),
-            0.625f
-        );
-    };
-
-    void onHorribleButton(CCObject*) {
-        menu::open();
+        if (auto rightMenu = getChildByID("right-button-menu")) menu::addButton(rightMenu, 0.625f);
     };
 };
