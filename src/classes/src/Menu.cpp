@@ -13,7 +13,7 @@ void menu::open() {
 void menu::addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, float scale) {
     auto btnSprite = CircleButtonSprite::createWithSprite(
         "shocksprite.png"_spr,
-        0.875f,
+        0.9f,
         CircleBaseColor::Green,
         CircleBaseSize::MediumAlt
     );
