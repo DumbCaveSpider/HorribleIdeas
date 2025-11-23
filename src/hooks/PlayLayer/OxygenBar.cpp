@@ -1,5 +1,4 @@
 #include <Horrible.hpp>
-#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -36,26 +35,21 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
                 m_fields->m_oxygenBar = ProgressBar::create();
                 m_fields->m_oxygenBar->setID("oxygen"_spr);
                 m_fields->m_oxygenBar->setFillColor({ 0, 175, 255 });
+                m_fields->m_oxygenBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
-                m_fields->m_oxygenBar->setRotation(90.f);
+                m_fields->m_oxygenBar->setRotation(-90.f);
                 m_fields->m_oxygenBar->setZOrder(101);
 
                 addChild(m_fields->m_oxygenBar);
-            } else {
-                m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
             };
 
-            if (m_fields->healthEnabled) {
-                m_fields->m_oxygenBar->setPosition({ 30.f, getScaledContentHeight() / 2.f });
-            } else {
-                // center if health bar is disabled
-                m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
-            };
+            m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
 
-            std::string buf = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+            if (m_fields->healthEnabled) m_fields->m_oxygenBar->setPositionX(m_fields->m_oxygenBar->getPositionX() + 25.f);
 
+            std::string o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             if (!m_fields->m_oxygenLabel) {
-                m_fields->m_oxygenLabel = CCLabelBMFont::create(buf.c_str(), "bigFont.fnt");
+                m_fields->m_oxygenLabel = CCLabelBMFont::create(o2.c_str(), "bigFont.fnt");
                 m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
                 m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.0f });
                 m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
@@ -63,7 +57,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
 
                 addChild(m_fields->m_oxygenLabel, 100);
             } else {
-                m_fields->m_oxygenLabel->setString(buf.c_str());
+                m_fields->m_oxygenLabel->setString(o2.c_str());
             };
 
             m_fields->m_oxygenLabel->setPosition({ m_fields->m_oxygenBar->getPositionX() + 2.f - 10.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });

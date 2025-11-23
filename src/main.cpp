@@ -14,9 +14,15 @@ using namespace horrible;
 
 $execute{
     if (auto optionManager = OptionManager::get()) {
+        log::debug("Registering default options...");
+
         for (const auto& option : allOptions) {
             optionManager->registerOption(option);
         };
+
+        log::info("Done registering {} options", allOptions.size());
+    } else {
+        log::error("Failed to get OptionManager!");
     };
 };
 

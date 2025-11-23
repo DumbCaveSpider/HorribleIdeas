@@ -13,7 +13,7 @@ namespace horrible {
 
         int m_answer = 1; // The calculated answer to the equation
 
-        TextInput* m_answerInput = nullptr; // Answer gets typed out here
+        Ref<TextInput> m_answerInput = nullptr; // Answer gets typed out here
 
         void infoPopup(CCObject*);
 
@@ -21,6 +21,7 @@ namespace horrible {
 
     public:
         static MathQuiz* create();
+
         void keyBackClicked() override;
     };
 };

@@ -8,24 +8,16 @@ using namespace geode::prelude;
 using namespace horrible;
 
 bool ModOption::init(CCSize const& size, Option option) {
-    m_modID = option.id;
-    m_modName = option.name;
-    m_modDescription = option.description;
-    m_modCategory = option.category;
-
-    m_modTier = option.silly;
-
-    m_restart = option.restart;
-    m_platforms = option.platforms;
+    m_option = option;
 
     // check for compatibility
-    for (auto p : m_platforms) {
+    for (auto p : m_option.platforms) {
         if (p & GEODE_PLATFORM_TARGET) { s_compatible = true; break; };
     };
 
     if (!CCMenu::init()) return false;
 
-    setID(m_modID);
+    setID(m_option.id);
     setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 
@@ -61,7 +53,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     m_toggler->setScale(0.875f);
 
     // Set toggler state based on saved mod option value
-    if (horribleMod) m_toggler->toggle(horribleMod->getSavedValue<bool>(m_modID));
+    if (horribleMod) m_toggler->toggle(horribleMod->getSavedValue<bool>(m_option.id));
 
     addChild(m_toggler);
 
@@ -69,7 +61,7 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     // name of the joke
     auto nameLabel = CCLabelBMFont::create(
-        m_modName.c_str(),
+        m_option.name.c_str(),
         "bigFont.fnt",
         getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
@@ -81,7 +73,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     nameLabel->setScale(0.4f);
 
     auto categoryLabel = CCLabelBMFont::create(
-        m_modCategory.c_str(),
+        m_option.category.c_str(),
         "goldFont.fnt",
         getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
@@ -92,8 +84,8 @@ bool ModOption::init(CCSize const& size, Option option) {
     categoryLabel->setPosition({ x, yCenter + 10.f });
     categoryLabel->setScale(0.25f);
 
-    // Set color based on m_modTier
-    switch (m_modTier) {
+    // Set color based on m_option.Tier
+    switch (m_option.silly) {
     case SillyTier::Low: // green
         nameLabel->setColor({ 100, 255, 100 });
         break;
@@ -116,7 +108,7 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     if (horribleMod->getSettingValue<bool>("dev-mode")) {
         auto idLabel = CCLabelBMFont::create(
-            m_modID.c_str(),
+            m_option.id.c_str(),
             "chatFont.fnt",
             getContentSize().width - 20.f,
             kCCTextAlignmentLeft
@@ -167,24 +159,24 @@ bool ModOption::init(CCSize const& size, Option option) {
 };
 
 void ModOption::saveTogglerState() {
-    if (m_toggler) options::set(m_modID, m_toggler->isToggled());
+    if (m_toggler) options::set(m_option.id, m_toggler->isToggled());
 };
 
 void ModOption::onToggle(CCObject*) {
     if (m_toggler) {
         auto toggle = m_toggler->isToggled();
 
-        options::set(m_modID, toggle);
-        if (m_restart) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+        options::set(m_option.id, toggle);
+        if (m_option.restart) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
     };
 
-    log::info("Option {} now set to {}", m_modName, options::get(m_modID) ? "disabled" : "enabled"); // wtf is it other way around lmao
+    log::info("Option {} now set to {}", m_option.name, options::get(m_option.id) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
 
 void ModOption::onDescription(CCObject*) {
     if (auto popup = FLAlertLayer::create(
-        m_modName.c_str(),
-        m_modDescription.c_str(),
+        m_option.name.c_str(),
+        m_option.description.c_str(),
         "OK"))
         popup->show();
 };
@@ -195,15 +187,15 @@ void ModOption::onExit() {
 }
 
 std::string ModOption::getModID() {
-    return m_modID;
+    return m_option.id;
 };
 
 std::string ModOption::getModName() {
-    return m_modName;
+    return m_option.name;
 };
 
 std::string ModOption::getModDescription() {
-    return m_modDescription;
+    return m_option.description;
 };
 
 ModOption* ModOption::create(CCSize const& size, Option option) {

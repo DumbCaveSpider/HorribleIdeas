@@ -218,5 +218,11 @@ namespace horrible {
          "Click Player Speed",
          "Randomly increases or decreases your player speed everytime you jump.\n<cy>Credit: KGplayerA</c>",
          Category::randoms,
-         SillyTier::Medium } };
+         SillyTier::Medium },
+        { "friends",
+        "Friends",
+        "Random friends fly by your screen as you play a level!\n<cb>Inspired by the '[Friends!](mod:n.friends)' mod.</c>\n<cy>Credit: Cheeseworks</c>",
+        Category::misc,
+        SillyTier::Low}
+    };
 };

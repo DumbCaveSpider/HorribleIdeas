@@ -1,5 +1,4 @@
 #include <Horrible.hpp>
-#include <HorribleIdeas.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -26,21 +25,22 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
 
         if (m_fields->enabled) {
             m_fields->m_health = 100.f;
-            std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
 
             if (!m_fields->m_healthBar) {
                 m_fields->m_healthBar = ProgressBar::create();
                 m_fields->m_healthBar->setID("health"_spr);
                 m_fields->m_healthBar->setFillColor({ 255, 0, 0 });
+                m_fields->m_healthBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_healthBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
-                m_fields->m_healthBar->setRotation(90.f);
+                m_fields->m_healthBar->setRotation(-90.f);
                 m_fields->m_healthBar->setZOrder(101);
 
                 addChild(m_fields->m_healthBar);
-            } else {
-                m_fields->m_healthBar->updateProgress(m_fields->m_health);
             };
 
+            m_fields->m_healthBar->updateProgress(m_fields->m_health);
+
+            auto hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
                 m_fields->m_healthLabel->setColor({ 255, 0, 0 });
