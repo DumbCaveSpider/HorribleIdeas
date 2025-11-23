@@ -14,8 +14,7 @@ class $modify(HorribleLevelInfoLayer, LevelInfoLayer) {
         if (auto leftMenu = getChildByID("left-side-menu")) menu::addButton(
             leftMenu,
             this,
-            menu_selector(HorribleLevelInfoLayer::onHorribleButton),
-            0.925f
+            menu_selector(HorribleLevelInfoLayer::onHorribleButton)
         );
 
         return true;

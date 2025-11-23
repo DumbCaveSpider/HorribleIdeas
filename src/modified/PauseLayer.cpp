@@ -15,7 +15,7 @@ class $modify(HorriblePauseLayer, PauseLayer) {
             rightMenu,
             this,
             menu_selector(HorriblePauseLayer::onHorribleButton),
-            0.75f
+            0.625f
         );
     };
 

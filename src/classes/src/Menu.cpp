@@ -15,7 +15,7 @@ void menu::addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, f
         "shocksprite.png"_spr,
         0.9f,
         CircleBaseColor::Green,
-        CircleBaseSize::MediumAlt
+        CircleBaseSize::Medium
     );
     btnSprite->setScale(scale);
 
@@ -25,9 +25,12 @@ void menu::addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, f
         callback
     );
     btn->setID("horrible-menu-btn"_spr);
+    btn->setZOrder(9);
 
     if (auto m = static_cast<CCMenu*>(menu)) {
         m->addChild(btn);
         m->updateLayout(true);
+    } else {
+        log::error("Could not case node to CCMenu to add mod option menu button");
     };
 };

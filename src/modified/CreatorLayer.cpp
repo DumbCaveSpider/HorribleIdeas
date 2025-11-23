@@ -15,7 +15,7 @@ class $modify(HorribleCreatorLayer, CreatorLayer) {
             bottomLeftMenu,
             this,
             menu_selector(HorribleCreatorLayer::onHorribleButton),
-            0.825f
+            0.875f
         );
 
         return true;
