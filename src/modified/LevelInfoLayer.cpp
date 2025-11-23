@@ -15,7 +15,7 @@ class $modify(HorribleLevelInfoLayer, LevelInfoLayer) {
             leftMenu,
             this,
             menu_selector(HorribleLevelInfoLayer::onHorribleButton),
-            0.9f
+            0.925f
         );
 
         return true;
