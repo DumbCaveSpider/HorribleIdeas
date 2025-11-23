@@ -17,6 +17,6 @@ namespace horrible {
          * @param callback The callback selector for the button
          * @param scale The scale of the button
          */
-        void addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, float scale = 0.6f);
+        void addButton(CCNode* menu, CCObject* target, SEL_MenuHandler callback, float scale = 1.f);
     };
 };

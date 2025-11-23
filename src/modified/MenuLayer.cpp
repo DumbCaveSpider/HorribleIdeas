@@ -22,8 +22,7 @@ class $modify(HorribleMenuLayer, MenuLayer) {
         if (auto bottomMenu = getChildByID("bottom-menu")) menu::addButton(
             bottomMenu,
             this,
-            menu_selector(HorribleMenuLayer::onHorribleButton),
-            0.6f
+            menu_selector(HorribleMenuLayer::onHorribleButton)
         );
 
         return true;
