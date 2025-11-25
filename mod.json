@@ -334,11 +334,11 @@
 				"big-arrow-step": 20
 			}
 		},
-		"flashbang-chance": {
+		"size_changer-chance": {
 			"type": "int",
-			"name": "Flashbang Chance",
-			"description": "<cj>Flashbang</c> - Chance of being randomly blinded.",
-			"default": 10,
+			"name": "Size Changer Chance",
+			"description": "<cj>Size Changer</c> - Chance of your player size changing randomly.",
+			"default": 50,
 			"min": 0,
 			"max": 100,
 			"control": {
