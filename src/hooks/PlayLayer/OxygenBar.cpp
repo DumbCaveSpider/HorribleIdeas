@@ -51,7 +51,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
             if (!m_fields->m_oxygenLabel) {
                 m_fields->m_oxygenLabel = CCLabelBMFont::create(o2.c_str(), "bigFont.fnt");
                 m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
-                m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.0f });
+                m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.f });
                 m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
                 m_fields->m_oxygenLabel->setScale(0.25f);
 

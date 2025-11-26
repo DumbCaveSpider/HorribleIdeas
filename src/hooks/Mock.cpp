@@ -75,8 +75,11 @@ class $modify(MockMenuLayer, MenuLayer) {
 
                                 ss->addChild(percLabel);
 
-                                float yA = static_cast<float>(rnd) / 100.f; // starting height pos
-                                float yB = static_cast<float>(rnd) / 100.f; // ending height pos
+                                auto rA = static_cast<float>(randng::fast()) / 100.f;
+                                auto rB = static_cast<float>(randng::fast()) / 100.f;
+
+                                float yA = getScaledContentHeight() * rB; // starting height pos
+                                float yB = getScaledContentHeight() * rA; // ending height pos
 
                                 ss->setPositionY(getScaledContentHeight() * yA);
                                 ss->setRotation(360.f * (yA * yB)); // random rotation

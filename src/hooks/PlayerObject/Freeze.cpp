@@ -30,7 +30,7 @@ class $modify(FreezePlayerObject, PlayerObject) {
                     int randomFPS = 1 + (rand() % 46); // 1 to 45 inclusive
 
                     float interval = 1.f / static_cast<float>(randomFPS);
-                    if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+                    if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
 
@@ -45,7 +45,7 @@ class $modify(FreezePlayerObject, PlayerObject) {
 
                     // Use seconds per frame, not raw FPS
                     float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-                    if (interval <= 0.0f || interval > 1.0f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+                    if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
 

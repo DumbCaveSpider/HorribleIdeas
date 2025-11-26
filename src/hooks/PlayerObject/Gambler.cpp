@@ -25,7 +25,7 @@ class $modify(GamblerPlayLayer, PlayLayer) {
             if (!m_fields->triggered) {
                 CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
                     schedule_selector(GamblerPlayLayer::gamblerCheck),
-                    this, 0.0f, false);
+                    this, 0.f, false);
             };
         };
 

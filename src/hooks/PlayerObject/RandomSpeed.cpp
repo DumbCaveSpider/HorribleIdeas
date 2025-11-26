@@ -21,7 +21,7 @@ class $modify(RandomSpeedPlayerObject, PlayerObject) {
                 // if the rng is lower than the chance, change the speed
                 if (rnd <= m_fields->chance) {
                     // randomly choose a new speed between 10% and 200%
-                    auto newSpeed = (rand() % 191 + 10) / 100.0f;
+                    auto newSpeed = (rand() % 191 + 10) / 100.f;
                     m_playerSpeed = static_cast<float>(newSpeed);
 
                     log::debug("Changed player speed to {}", newSpeed);

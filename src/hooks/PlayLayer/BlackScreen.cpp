@@ -23,7 +23,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
             log::debug("black screen enabled, init scheduling black screen");
 
             // random delay between 0 and 10 seconds
-            float delay = static_cast<float>(rnd % 10001) / 1000.0f;
+            float delay = static_cast<float>(rnd % 10001) / 1000.f;
             log::debug("Black screen will appear after {} seconds", delay);
 
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
@@ -61,10 +61,11 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (auto blackScreen = getChildByID("black_screen"_spr)) {
             blackScreen->removeFromParent();
             log::debug("Black screen removed");
-            int rnd = randng::tiny();
 
             if (m_fields->enabled) {
-                float delay = static_cast<float>(rnd % 10001) / 1000.0f; // random delay between 0 and 10 seconds
+                int rnd = randng::tiny();
+
+                float delay = static_cast<float>(rnd % 10001) / 1000.f; // random delay between 0 and 10 seconds
                 log::debug("Black screen will appear again after {} seconds", delay);
 
                 CCDirector::sharedDirector()->getScheduler()->scheduleSelector(

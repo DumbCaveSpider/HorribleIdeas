@@ -44,7 +44,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
             if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
                 m_fields->m_healthLabel->setColor({ 255, 0, 0 });
-                m_fields->m_healthLabel->setAnchorPoint({ 0.f, 1.0f });
+                m_fields->m_healthLabel->setAnchorPoint({ 0.f, 1.f });
                 m_fields->m_healthLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f });
                 m_fields->m_healthLabel->setScale(0.25f);
 
