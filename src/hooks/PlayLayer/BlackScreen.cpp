@@ -52,26 +52,23 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
             blackScreen->runAction(
                 CCSequence::create(
                     CCDelayTime::create(0.25f),
-                    CCCallFunc::create(this, callfunc_selector(BlackScreenPlayLayer::removeBlackScreen)),
+                    CCCallFuncN::create(this, callfuncN_selector(BlackScreenPlayLayer::removeBlackScreen)),
                     nullptr));
         };
     };
 
-    void removeBlackScreen() {
-        if (auto blackScreen = getChildByID("black_screen"_spr)) {
-            blackScreen->removeFromParent();
-            log::debug("Black screen removed");
+    void removeBlackScreen(CCNode * sender) {
+        if (sender) sender->removeMeAndCleanup();
 
-            if (m_fields->enabled) {
-                int rnd = randng::tiny();
+        if (m_fields->enabled) {
+            int rnd = randng::tiny();
 
-                float delay = static_cast<float>(rnd % 10001) / 1000.f; // random delay between 0 and 10 seconds
-                log::debug("Black screen will appear again after {} seconds", delay);
+            float delay = static_cast<float>(rnd % 10001) / 1000.f; // random delay between 0 and 10 seconds
+            log::debug("Black screen will appear again after {} seconds", delay);
 
-                CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                    schedule_selector(BlackScreenPlayLayer::showBlackScreen),
-                    this, delay, false);
-            };
+            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
+                schedule_selector(BlackScreenPlayLayer::showBlackScreen),
+                this, delay, false);
         };
     };
 };

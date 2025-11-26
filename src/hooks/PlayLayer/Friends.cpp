@@ -32,8 +32,8 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             int rnd = randng::tiny();
             log::info("playlayer setup completed {}", rnd);
 
-            // random delay between 0 and 10 seconds
-            float delay = static_cast<float>(rnd % 10001) / 1000.f;
+            // random delay between 1 and 10 seconds
+            float delay = (static_cast<float>(rnd % 10001) / 1000.f) + 1.f;
             log::debug("Friend will visit after {} seconds", delay);
 
             CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
@@ -51,7 +51,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float xA = -125.f; // starting x pos
             float xB = getScaledContentWidth() + 125.f; // ending x pos
 
-            if ((rnd / 2) <= 37.5) { xA = xB; xB = -125.f; }; // swap sides
+            if ((rnd / 2) <= 50) { xA = xB; xB = -125.f; }; // swap sides
 
             auto rA = static_cast<float>(randng::fast()) / 100.f;
             auto rB = static_cast<float>(randng::fast()) / 100.f;
@@ -60,7 +60,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yB = getScaledContentHeight() * rB; // ending height pos
 
             auto idx = randng::get(m_fields->friends.size() - 1);
-            auto friendSprite = CCSprite::createWithSpriteFrameName(m_fields->friends[idx].c_str());
+            Ref<CCSprite> friendSprite = CCSprite::createWithSpriteFrameName(m_fields->friends[idx].c_str());
             friendSprite->setID("friend"_spr);
             friendSprite->setPosition({ xA, yA });
             friendSprite->setScale(1.25 * (rB + rA));
@@ -72,26 +72,23 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             auto rotate = CCRotateBy::create(12.5f * rB, 90.f * (rB + rA)); // slight rotation while moving
 
             auto action = CCSpawn::createWithTwoActions(move, rotate);
-            auto finish = CCCallFunc::create(this, callfunc_selector(FriendsPlayLayer::cleanupFriend));
+            auto finish = CCCallFuncN::create(this, callfuncN_selector(FriendsPlayLayer::cleanupFriend));
             friendSprite->runAction(CCSequence::createWithTwoActions(action, finish));
         };
     };
 
-    void cleanupFriend() {
-        if (auto friendSprite = getChildByID("friend"_spr)) {
-            friendSprite->removeMeAndCleanup();
-            log::debug("Friend has exited");
+    void cleanupFriend(CCNode * sender) {
+        if (sender) sender->removeMeAndCleanup();
 
-            if (m_fields->enabled) {
-                int rnd = randng::tiny();
+        if (m_fields->enabled) {
+            int rnd = randng::tiny();
 
-                float delay = (static_cast<float>(rnd % 90001) / 1000.f) + 1.f; // random delay between 1 and 10 seconds
-                log::debug("Friend will visit again after {} seconds", delay);
+            float delay = (static_cast<float>(rnd % 112501) / 1000.f) + 1.25f; // random delay between 1.25 and 12.5 seconds
+            log::debug("Friend will visit again after {} seconds", delay);
 
-                CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                    schedule_selector(FriendsPlayLayer::showAFriend),
-                    this, delay, false);
-            };
+            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
+                schedule_selector(FriendsPlayLayer::showAFriend),
+                this, delay, false);
         };
     };
 };
