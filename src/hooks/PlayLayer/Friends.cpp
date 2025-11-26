@@ -64,15 +64,16 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             friendSprite->setID("friend"_spr);
             friendSprite->setPosition({ xA, yA });
             friendSprite->setScale(1.25 * (rB + rA));
-            friendSprite->setRotation(360.f * (yA * yB)); // random rotation
+            friendSprite->setRotation(180.f * (yA * yB)); // random rotation
 
-            addChild(friendSprite);
-
-            auto move = CCMoveTo::create(12.5f * rA, { xB, yB });
-            auto rotate = CCRotateBy::create(12.5f * rB, 90.f * (rB + rA)); // slight rotation while moving
+            auto dur = 12.5f * rA;
+            auto move = CCMoveTo::create(dur, { xB, yB });
+            auto rotate = CCRotateBy::create(dur, 90.f * (rB + rA)); // slight rotation while moving
 
             auto action = CCSpawn::createWithTwoActions(move, rotate);
             auto finish = CCCallFuncN::create(this, callfuncN_selector(FriendsPlayLayer::cleanupFriend));
+
+            addChild(friendSprite);
             friendSprite->runAction(CCSequence::createWithTwoActions(action, finish));
         };
     };
