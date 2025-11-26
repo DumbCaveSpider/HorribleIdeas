@@ -48,7 +48,7 @@ namespace horrible {
 
             return 0;
         };
-    };  // namespace silly
+    };
 
     // Default horrible categories
     class Category {
@@ -218,13 +218,13 @@ namespace horrible {
          SillyTier::Medium},
         {"friends",
          "Friends",
-         "Random friends fly by your screen as you play a level!\n<cy>Credit: Cheeseworks</c>",
+         "Random friends fly across your screen as you play through a level!\n<cy>Credit: Cheeseworks</c>",
          Category::obstructive,
-         SillyTier::Low},
+         SillyTier::Medium},
         {"size_changer",
          "Size Changer",
          "Random chance your player size every time you jump.\n<cy>Credit: himynameisryan21</c>",
          Category::randoms,
          SillyTier::Medium},
     };
-};  // namespace horrible
+};
