@@ -94,13 +94,13 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
 
                 if (rnd % 2 == 0) {
                     // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffect("grunt01.ogg");
+                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt01.ogg");
                 } else if (rnd % 2 == 1) {
                     // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffect("grunt02.ogg");
+                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt02.ogg");
                 } else if (rnd % 2 == 2) {
                     // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffect("grunt03.ogg");
+                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt03.ogg");
                 };
 
                 if (m_fields->m_healthLabel) {

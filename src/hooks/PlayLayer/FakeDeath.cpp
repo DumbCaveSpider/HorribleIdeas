@@ -23,7 +23,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
             if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
             // @geode-ignore(unknown-resource)
-            FMODAudioEngine::sharedEngine()->playEffect("explode_11.ogg");
+            FMODAudioEngine::sharedEngine()->playEffectAsync("explode_11.ogg");
             GJBaseGameLayer::shakeCamera(1.f, 2.f, 1.f);
 
             if (m_player1) {

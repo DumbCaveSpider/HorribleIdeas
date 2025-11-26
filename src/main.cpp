@@ -53,7 +53,7 @@ class $modify(HorribleCCMenuItem, CCMenuItem) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
 
                 // @geode-ignore(unknown-resource)
-                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffect("achievement_01.ogg");
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffectAsync("achievement_01.ogg");
             };
         };
 
