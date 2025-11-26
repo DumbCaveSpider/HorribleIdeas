@@ -60,11 +60,12 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yB = getScaledContentHeight() * rB; // ending height pos
 
             auto idx = randng::get(m_fields->friends.size() - 1);
-            Ref<CCSprite> friendSprite = CCSprite::createWithSpriteFrameName(m_fields->friends[idx].c_str());
-            friendSprite->setID("friend"_spr);
-            friendSprite->setPosition({ xA, yA });
-            friendSprite->setScale(1.25 * (rB + rA));
-            friendSprite->setRotation(180.f * (yA * yB)); // random rotation
+            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(m_fields->friends[idx].c_str());
+            friendSpr->setID("friend"_spr);
+            friendSpr->setPosition({ xA, yA });
+            friendSpr->setScale(1.25 * (rB + rA));
+            friendSpr->setRotation(180.f * (yA * yB)); // random rotation
+            friendSpr->setZOrder(9);
 
             auto dur = 12.5f * rA;
             auto move = CCMoveTo::create(dur, { xB, yB });
@@ -73,8 +74,8 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             auto action = CCSpawn::createWithTwoActions(move, rotate);
             auto finish = CCCallFuncN::create(this, callfuncN_selector(FriendsPlayLayer::cleanupFriend));
 
-            addChild(friendSprite);
-            friendSprite->runAction(CCSequence::createWithTwoActions(action, finish));
+            addChild(friendSpr);
+            friendSpr->runAction(CCSequence::createWithTwoActions(action, finish));
         };
     };
 

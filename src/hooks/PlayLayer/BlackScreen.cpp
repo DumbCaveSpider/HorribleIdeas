@@ -44,7 +44,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
             blackScreen->setContentSize({ winSize.width + 10.f, winSize.height + 10.f });
             blackScreen->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
             blackScreen->setID("black_screen"_spr);
-            blackScreen->setZOrder(100);
+            blackScreen->setZOrder(99);
 
             addChild(blackScreen);
 
