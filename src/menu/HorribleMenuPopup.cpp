@@ -15,6 +15,20 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+class HorribleMenuPopup::Impl final {
+public:
+    SillyTier s_selectedTier = SillyTier::None;
+    bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
+
+    Ref<ScrollLayer> m_optionList = nullptr;
+};
+
+HorribleMenuPopup::HorribleMenuPopup() {
+    m_impl = std::make_unique<Impl>();
+};
+
+HorribleMenuPopup::~HorribleMenuPopup() {};
+
 bool HorribleMenuPopup::setup() {
     setID("options"_spr);
     setTitle("Horrible Options");
@@ -37,14 +51,14 @@ bool HorribleMenuPopup::setup() {
     m_mainLayer->addChild(optionListBg);
 
     // scroll layer
-    m_optionList = ScrollLayer::create({ optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f });
-    m_optionList->setID("options-layer");
-    m_optionList->setAnchorPoint({ 0.5, 0.5 });
-    m_optionList->ignoreAnchorPointForPosition(false);
-    m_optionList->setPosition(optionListBg->getPosition());
-    m_optionList->m_contentLayer->setLayout(columnLayout);
+    m_impl->m_optionList = ScrollLayer::create({ optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f });
+    m_impl->m_optionList->setID("options-layer");
+    m_impl->m_optionList->setAnchorPoint({ 0.5, 0.5 });
+    m_impl->m_optionList->ignoreAnchorPointForPosition(false);
+    m_impl->m_optionList->setPosition(optionListBg->getPosition());
+    m_impl->m_optionList->m_contentLayer->setLayout(columnLayout);
 
-    m_mainLayer->addChild(m_optionList);
+    m_mainLayer->addChild(m_impl->m_optionList);
 
     // add a list button background
     auto filterMenuBg = CCScale9Sprite::create("square02_001.png");
@@ -159,22 +173,29 @@ bool HorribleMenuPopup::setup() {
 };
 
 void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier) {
-    if (m_optionList) {
-        m_optionList->m_contentLayer->removeAllChildren();
+    if (m_impl->m_optionList) {
+        m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
         for (const auto& opt : allOptions) {
             if (tier == SillyTier::None || opt.silly == tier) {
                 if (auto modOption = ModOption::create(
                     {
-                    m_optionList->m_contentLayer->getScaledContentWidth(),
-                    32.f
+                    m_impl->m_optionList->m_contentLayer->getScaledContentWidth(),
+                    32.5f
                     }, opt
-                )) m_optionList->m_contentLayer->addChild(modOption);
+                )) {
+                    if (modOption->isCompatible() || m_impl->m_showIncompatible) {
+                        m_impl->m_optionList->m_contentLayer->addChild(modOption);
+                    } else {
+                        log::error("{} is incompatible with the current platform", modOption->getOption().id);
+                        modOption->removeMeAndCleanup();
+                    };
+                };
             };
         };
 
-        m_optionList->m_contentLayer->updateLayout();
-        m_optionList->scrollToTop();
+        m_impl->m_optionList->m_contentLayer->updateLayout();
+        m_impl->m_optionList->scrollToTop();
     } else {
         log::error("Option list layer not found");
     };
@@ -185,13 +206,13 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
         SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
 
         // Toggle: clicking same button disables filter
-        if (s_selectedTier == tier) {
-            s_selectedTier = SillyTier::None;
+        if (m_impl->s_selectedTier == tier) {
+            m_impl->s_selectedTier = SillyTier::None;
         } else {
-            s_selectedTier = tier;
+            m_impl->s_selectedTier = tier;
         };
 
-        filterOptionsByTier(options::getAll(), s_selectedTier);
+        filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);
     } else {
         log::error("Filter button cast failed");
     };

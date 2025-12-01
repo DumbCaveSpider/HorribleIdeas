@@ -27,9 +27,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
             m_fields->m_oxygenActive = true;
             m_fields->m_oxygenLevel = 100.f;
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(OxygenBarPlayLayer::decreaseOxygen),
-                this, 0.1f, false);
+            schedule(schedule_selector(OxygenBarPlayLayer::decreaseOxygen), 0.1f);
 
             if (!m_fields->m_oxygenBar) {
                 m_fields->m_oxygenBar = ProgressBar::create();

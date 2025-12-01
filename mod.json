@@ -356,6 +356,12 @@
             "name": "More Settings",
             "description": "Other settings you can change."
         },
+        "show-incompatible": {
+            "type": "bool",
+            "name": "Show Incompatible Options",
+            "description": "Include options incompatible with your current platform when loading the <cy>Horrible Options</c> menu.",
+            "default": false
+        },
         "dev-mode": {
             "type": "bool",
             "name": "Developer Mode",

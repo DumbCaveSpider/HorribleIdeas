@@ -22,11 +22,7 @@ class $modify(GamblerPlayLayer, PlayLayer) {
             log::debug("gambler enabled");
 
             // check every frame so we can detect each percentage change
-            if (!m_fields->triggered) {
-                CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                    schedule_selector(GamblerPlayLayer::gamblerCheck),
-                    this, 0.f, false);
-            };
+            if (!m_fields->triggered) schedule(schedule_selector(GamblerPlayLayer::gamblerCheck), 0.f);
         };
 
         return true;

@@ -9,18 +9,11 @@ using namespace horrible;
 
 class ModOption : public CCMenu {
 protected:
-    bool s_compatible = false; // If this option is compatible with the current platform
+    class Impl;
+    std::unique_ptr<Impl> m_impl;
 
-    // The option
-    Option m_option = {
-        "unk"_spr,
-        "Unknown Option",
-        "No description provided.",
-        "General",
-        SillyTier::None
-    };
-
-    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
+    ModOption();
+    virtual ~ModOption();
 
     void onToggle(CCObject*);
     void onDescription(CCObject*);
@@ -34,7 +27,6 @@ private:
 public:
     static ModOption* create(CCSize const& size, Option option);
 
-    std::string getModID();
-    std::string getModName();
-    std::string getModDescription();
+    Option getOption() const;
+    bool isCompatible() const;
 };
