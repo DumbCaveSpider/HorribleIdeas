@@ -1,13 +1,16 @@
 #pragma once
 
+#include <HorribleIdeas.hpp>
+
 #include <fmt/core.h>
 
 #include <Geode/Geode.hpp>
-#include <HorribleIdeas.hpp>
+
 #include <classes/Jumpscares.hpp>
 #include <classes/Menu.hpp>
 #include <classes/Options.hpp>
 #include <classes/Randng.hpp>
+
 #include <classes/ui/MathQuiz.hpp>
 #include <classes/ui/RandomAdPopup.hpp>
 
