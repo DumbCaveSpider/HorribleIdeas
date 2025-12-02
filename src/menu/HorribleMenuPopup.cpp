@@ -18,6 +18,7 @@ class HorribleMenuPopup::Impl final {
       bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
 
       Ref<ScrollLayer> m_optionList = nullptr;
+      Ref<TextInput> m_searchInput = nullptr;
 };
 
 HorribleMenuPopup::HorribleMenuPopup() {
@@ -42,29 +43,27 @@ bool HorribleMenuPopup::setup() {
       auto optionListBg = CCScale9Sprite::create("square02_001.png");
       optionListBg->setAnchorPoint({0.5, 0.5});
       optionListBg->setPosition({(mainLayerSize.width / 2.f) - 80.f, (mainLayerSize.height / 2.f) - 32.5f});
-      optionListBg->setContentSize({(mainLayerSize.width / 1.5f) - 25.f, mainLayerSize.height - 75.f});
+      optionListBg->setContentSize({(mainLayerSize.width / 1.5f) - 25.f, mainLayerSize.height - 85.f});
       optionListBg->setOpacity(50);
 
       m_mainLayer->addChild(optionListBg);
 
       // scroll layer
-      m_optionList = ScrollLayer::create({optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f});
-      m_optionList->setID("options-layer");
-      m_optionList->setAnchorPoint({0.5, 0.5});
-      m_optionList->ignoreAnchorPointForPosition(false);
-      m_optionList->setPosition(optionListBg->getPosition());
-      m_optionList->m_contentLayer->setLayout(columnLayout);
+      m_impl->m_optionList = ScrollLayer::create({optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f});
+      m_impl->m_optionList->setID("options-layer");
+      m_impl->m_optionList->setAnchorPoint({0.5, 0.5});
+      m_impl->m_optionList->ignoreAnchorPointForPosition(false);
+      m_impl->m_optionList->setPosition(optionListBg->getPosition());
+      m_impl->m_optionList->m_contentLayer->setLayout(columnLayout);
 
-      m_mainLayer->addChild(m_optionList);
+      m_mainLayer->addChild(m_impl->m_optionList);
 
-      // textinput for searching
-      m_searchInput = TextInput::create(200.f, "Search...");
-      m_searchInput->setID("search-input");
-      m_searchInput->setAnchorPoint({0.5, 0.5});
-      m_searchInput->setPosition({optionListBg->getPositionX(), mainLayerSize.height - 50.f});
-      m_searchInput->setContentWidth(270.f);
+      // add search bar
+      m_impl->m_searchInput = TextInput::create(270, "Search...", "bigFont.fnt");
+      m_impl->m_searchInput->setID("search-input");
+      m_impl->m_searchInput->setPosition({optionListBg->getPositionX(), mainLayerSize.height - 52.5f});
 
-      m_mainLayer->addChild(m_searchInput);
+      m_mainLayer->addChild(m_impl->m_searchInput);
 
       // add a list button background
       auto filterMenuBg = CCScale9Sprite::create("square02_001.png");
@@ -192,13 +191,12 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
                               };
                         };
                   };
-
-                  m_impl->m_optionList->m_contentLayer->updateLayout();
-                  m_impl->m_optionList->scrollToTop();
-            }
-            else {
-                  log::error("Option list layer not found");
             };
+
+            m_impl->m_optionList->m_contentLayer->updateLayout();
+            m_impl->m_optionList->scrollToTop();
+      } else {
+            log::error("Option list layer not found");
       };
 };
 

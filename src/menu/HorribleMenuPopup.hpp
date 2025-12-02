@@ -17,8 +17,6 @@ class HorribleMenuPopup : public Popup<> {
       class Impl;
       std::unique_ptr<Impl> m_impl;
 
-      Ref<ScrollLayer> m_optionList = nullptr;
-      Ref<TextInput> m_searchInput = nullptr;
       HorribleMenuPopup();
       virtual ~HorribleMenuPopup();
 
