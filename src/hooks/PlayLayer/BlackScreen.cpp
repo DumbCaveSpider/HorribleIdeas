@@ -15,20 +15,18 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
-        int rnd = randng::tiny();
+        int rnd = randng::get(500);
         log::info("playlayer init called {}", rnd);
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-        if (horribleMod && m_fields->enabled) {
+        if (m_fields->enabled) {
             log::debug("black screen enabled, init scheduling black screen");
 
-            // random delay between 0 and 10 seconds
-            float delay = static_cast<float>(rnd % 10001) / 1000.f;
+            // random delay between 0 and 5 seconds
+            float delay = static_cast<float>(rnd) / 100.f;
             log::debug("Black screen will appear after {} seconds", delay);
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(BlackScreenPlayLayer::showBlackScreen),
-                this, delay, false);
+            scheduleOnce(schedule_selector(BlackScreenPlayLayer::showBlackScreen), delay);
         };
 
         return true;
@@ -63,12 +61,10 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             int rnd = randng::tiny();
 
-            float delay = static_cast<float>(rnd % 10001) / 1000.f; // random delay between 0 and 10 seconds
+            float delay = static_cast<float>(rnd % 5001) / 1000.f; // random delay between 0 and 5 seconds
             log::debug("Black screen will appear again after {} seconds", delay);
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(BlackScreenPlayLayer::showBlackScreen),
-                this, delay, false);
+            scheduleOnce(schedule_selector(BlackScreenPlayLayer::showBlackScreen), delay);
         };
     };
 };

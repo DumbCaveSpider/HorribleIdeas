@@ -17,7 +17,7 @@ Fields m_fields;
 void placeboEffect() {
     log::info("Checking for placebo effect...");
 
-    if (horribleMod && m_fields.enabled) {
+    if (m_fields.enabled) {
         int rnd = randng::tiny() % 1000;
         log::info("placebo effect roll: {}", rnd);
 

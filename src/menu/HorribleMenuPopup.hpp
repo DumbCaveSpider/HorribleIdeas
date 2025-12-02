@@ -15,10 +15,16 @@ struct FilterBtnInfo {
 
 class HorribleMenuPopup : public Popup<> {
 protected:
-    SillyTier s_selectedTier = SillyTier::None;
+    class Impl;
+    std::unique_ptr<Impl> m_impl;
 
+<<<<<<< HEAD
     Ref<ScrollLayer> m_optionList = nullptr;
     Ref<TextInput> m_searchInput = nullptr;
+=======
+    HorribleMenuPopup();
+    virtual ~HorribleMenuPopup();
+>>>>>>> fa458e54e8808e051d70f9dcf6c4a95d78aecdbd
 
     void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
     void filterTierCallback(CCObject*);

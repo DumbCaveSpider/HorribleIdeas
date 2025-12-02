@@ -7,17 +7,38 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+class ModOption::Impl final {
+    public:
+    bool s_compatible = false; // If this option is compatible with the current platform
+    // The option
+    Option m_option = {
+        "unk"_spr,
+        "Unknown Option",
+        "No description provided.",
+        "General",
+        SillyTier::None
+    };
+
+    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
+};
+
+ModOption::ModOption() {
+    m_impl = std::make_unique<Impl>();
+};
+
+ModOption::~ModOption() {};
+
 bool ModOption::init(CCSize const& size, Option option) {
-    m_option = option;
+    m_impl->m_option = option;
 
     // check for compatibility
-    for (auto p : m_option.platforms) {
-        if (p & GEODE_PLATFORM_TARGET) { s_compatible = true; break; };
+    for (auto p : m_impl->m_option.platforms) {
+        if (p & GEODE_PLATFORM_TARGET) { m_impl->s_compatible = true; break; };
     };
 
     if (!CCMenu::init()) return false;
 
-    setID(m_option.id);
+    setID(m_impl->m_option.id);
     setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 
@@ -42,50 +63,50 @@ bool ModOption::init(CCSize const& size, Option option) {
     togglerOn->setScale(0.875f);
 
     // toggler for the joke
-    m_toggler = CCMenuItemToggler::create(
+    m_impl->m_toggler = CCMenuItemToggler::create(
         togglerOff,
         togglerOn,
         this,
         menu_selector(ModOption::onToggle));
-    m_toggler->setID("toggle");
-    m_toggler->setAnchorPoint({ 0.5f, 0.5f });
-    m_toggler->setPosition({ x + 12.f, yCenter });
-    m_toggler->setScale(0.875f);
+    m_impl->m_toggler->setID("toggler");
+    m_impl->m_toggler->setAnchorPoint({ 0.5f, 0.5f });
+    m_impl->m_toggler->setPosition({ x + 12.f, yCenter });
+    m_impl->m_toggler->setScale(0.875f);
 
     // Set toggler state based on saved mod option value
-    if (horribleMod) m_toggler->toggle(horribleMod->getSavedValue<bool>(m_option.id));
+    if (horribleMod) m_impl->m_toggler->toggle(horribleMod->getSavedValue<bool>(m_impl->m_option.id));
 
-    addChild(m_toggler);
+    addChild(m_impl->m_toggler);
 
     x += 30.f;
 
     // name of the joke
     auto nameLabel = CCLabelBMFont::create(
-        m_option.name.c_str(),
+        m_impl->m_option.name.c_str(),
         "bigFont.fnt",
         getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
     );
-    nameLabel->setID("name");
+    nameLabel->setID("name-label");
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({ 0.f, 0.5f });
     nameLabel->setPosition({ x, yCenter });
     nameLabel->setScale(0.4f);
 
     auto categoryLabel = CCLabelBMFont::create(
-        m_option.category.c_str(),
+        m_impl->m_option.category.c_str(),
         "goldFont.fnt",
         getScaledContentSize().width - 80.f,
         kCCTextAlignmentLeft
     );
-    categoryLabel->setID("category");
+    categoryLabel->setID("category-label");
     categoryLabel->setLineBreakWithoutSpace(true);
     categoryLabel->setAnchorPoint({ 0.f, 0.5f });
     categoryLabel->setPosition({ x, yCenter + 10.f });
     categoryLabel->setScale(0.25f);
 
-    // Set color based on m_option.Tier
-    switch (m_option.silly) {
+    // Set color based on m_impl->m_option.Tier
+    switch (m_impl->m_option.silly) {
     case SillyTier::Low: // green
         nameLabel->setColor({ 100, 255, 100 });
         break;
@@ -108,12 +129,12 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     if (horribleMod->getSettingValue<bool>("dev-mode")) {
         auto idLabel = CCLabelBMFont::create(
-            m_option.id.c_str(),
+            m_impl->m_option.id.c_str(),
             "chatFont.fnt",
             getContentSize().width - 20.f,
             kCCTextAlignmentLeft
         );
-        idLabel->setID("id");
+        idLabel->setID("id-label");
         idLabel->setLineBreakWithoutSpace(true);
         idLabel->setPosition({ x, yCenter - 10.f });
         idLabel->setAnchorPoint({ 0.f, 0.5f });
@@ -126,25 +147,24 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     x += nameLabel->getScaledContentSize().width + 15.f;
 
-    auto descBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
-    descBtnSprite->setScale(0.75f);
+    auto helpBtnSprite = CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png");
+    helpBtnSprite->setScale(0.75f);
 
     // info button
-    auto descBtn = CCMenuItemSpriteExtra::create(
-        descBtnSprite,
+    auto helpBtn = CCMenuItemSpriteExtra::create(
+        helpBtnSprite,
         this,
         menu_selector(ModOption::onDescription));
-    descBtn->setID("info");
-    descBtn->setAnchorPoint({ 0.5f, 0.5f });
-    descBtn->setPosition({ getContentSize().width - padding - 10.f, yCenter });
+    helpBtn->setID("help-btn");
+    helpBtn->setAnchorPoint({ 0.5f, 0.5f });
+    helpBtn->setPosition({ getContentSize().width - padding - 10.f, yCenter });
 
-    addChild(descBtn);
+    addChild(helpBtn);
 
-    if (!s_compatible) {
-        m_toggler->toggle(false);
-        m_toggler->setEnabled(false);
+    if (!m_impl->s_compatible) {
+        m_impl->m_toggler->toggle(false);
 
-        saveTogglerState();
+        togglerOn->setDisplayFrame(togglerOff->displayFrame());
 
         togglerOff->setColor({ 150, 150, 150 });
         togglerOn->setColor({ 150, 150, 150 });
@@ -153,30 +173,44 @@ bool ModOption::init(CCSize const& size, Option option) {
 
         nameLabel->setColor({ 150, 150, 150 });
         categoryLabel->setColor({ 150, 150, 150 });
+
+        // @geode-ignore(unknown-resource)
+        auto newHelpBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/info-alert.png");
+        newHelpBtnSprite->setScale(0.75f);
+        
+        helpBtn->setSprite(newHelpBtnSprite);
+
+        saveTogglerState();
     };
 
     return true;
 };
 
 void ModOption::saveTogglerState() {
-    if (m_toggler) options::set(m_option.id, m_toggler->isToggled());
+    if (m_impl->m_toggler) options::set(m_impl->m_option.id, m_impl->m_toggler->isToggled());
 };
 
 void ModOption::onToggle(CCObject*) {
-    if (m_toggler) {
-        auto toggle = m_toggler->isToggled();
+    if (m_impl->s_compatible) {
+        saveTogglerState();
+        if (m_impl->m_option.restart) {
+            Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+            log::warn("Restart required to apply option {}", m_impl->m_option.id);
+        };
 
-        options::set(m_option.id, toggle);
-        if (m_option.restart) Notification::create("Restart required!", NotificationIcon::Warning, 2.5f)->show();
+        log::info("Option {} now set to {}", m_impl->m_option.name, options::get(m_impl->m_option.id) ? "disabled" : "enabled"); // wtf is it other way around lmao
+    } else if (m_impl->m_toggler) {
+        Notification::create(fmt::format("{} is unavailable for {}", m_impl->m_option.name, GEODE_PLATFORM_NAME), NotificationIcon::Error, 1.25f)->show();
+        log::error("Option {} is not available for platform {}", m_impl->m_option.id, GEODE_PLATFORM_SHORT_IDENTIFIER);
+
+        m_impl->m_toggler->toggle(false);
     };
-
-    log::info("Option {} now set to {}", m_option.name, options::get(m_option.id) ? "disabled" : "enabled"); // wtf is it other way around lmao
 };
 
 void ModOption::onDescription(CCObject*) {
     if (auto popup = FLAlertLayer::create(
-        m_option.name.c_str(),
-        m_option.description.c_str(),
+        m_impl->m_option.name.c_str(),
+        m_impl->m_option.description.c_str(),
         "OK"))
         popup->show();
 };
@@ -186,16 +220,12 @@ void ModOption::onExit() {
     CCMenu::onExit();
 }
 
-std::string ModOption::getModID() {
-    return m_option.id;
+Option ModOption::getOption() const {
+    return m_impl->m_option;
 };
 
-std::string ModOption::getModName() {
-    return m_option.name;
-};
-
-std::string ModOption::getModDescription() {
-    return m_option.description;
+bool ModOption::isCompatible() const {
+    return m_impl->s_compatible;
 };
 
 ModOption* ModOption::create(CCSize const& size, Option option) {

@@ -18,7 +18,7 @@ $execute{
             {"popup"_spr,
              "Show Menu",
              "Open the Horrible Ideas mod menu.",
-             {Keybind::create(KEY_Tab, Modifier::None)},
+             {Keybind::create(KEY_Backslash, Modifier::None)},
              "Horrible Ideas"});
 
         static Ref<HorribleMenuPopup> menuPopup = nullptr;
@@ -35,7 +35,9 @@ $execute{
                 };
             };
 
-            return ListenerResult::Propagate; }, InvokeBindFilter(nullptr, "popup"_spr));
+            return ListenerResult::Propagate;
+                          },
+                          InvokeBindFilter(nullptr, "popup"_spr));
     } else {
         log::error("Failed to get keybind manager");
     };

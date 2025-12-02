@@ -29,16 +29,14 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            int rnd = randng::tiny();
+            int rnd = randng::get(1150);
             log::info("playlayer setup completed {}", rnd);
 
-            // random delay between 1 and 10 seconds
-            float delay = (static_cast<float>(rnd % 10001) / 1000.f) + 1.f;
+            // random delay between 1 and 12.5 seconds
+            float delay = (static_cast<float>(rnd) / 100.f) + 1.f;
             log::debug("Friend will visit after {} seconds", delay);
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(FriendsPlayLayer::showAFriend),
-                this, delay, false);
+            schedule(schedule_selector(FriendsPlayLayer::showAFriend), delay);
         };
 
         PlayLayer::setupHasCompleted();
@@ -85,12 +83,10 @@ class $modify(FriendsPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             int rnd = randng::tiny();
 
-            float delay = (static_cast<float>(rnd % 112501) / 1000.f) + 1.25f; // random delay between 1.25 and 12.5 seconds
+            float delay = (static_cast<float>(rnd % 1251) / 1000.f) + 1.25f; // random delay between 1.25 and 2.5 seconds
             log::debug("Friend will visit again after {} seconds", delay);
 
-            CCDirector::sharedDirector()->getScheduler()->scheduleSelector(
-                schedule_selector(FriendsPlayLayer::showAFriend),
-                this, delay, false);
+            scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
         };
     };
 };

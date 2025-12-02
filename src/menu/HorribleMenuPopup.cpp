@@ -12,6 +12,20 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+class HorribleMenuPopup::Impl final {
+     public:
+      SillyTier s_selectedTier = SillyTier::None;
+      bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
+
+      Ref<ScrollLayer> m_optionList = nullptr;
+};
+
+HorribleMenuPopup::HorribleMenuPopup() {
+      m_impl = std::make_unique<Impl>();
+};
+
+HorribleMenuPopup::~HorribleMenuPopup() {};
+
 bool HorribleMenuPopup::setup() {
       setID("options"_spr);
       setTitle("Horrible Options");
@@ -161,69 +175,76 @@ bool HorribleMenuPopup::setup() {
 };
 
 void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier) {
-      if (m_optionList) {
-            m_optionList->m_contentLayer->removeAllChildren();
+      if (m_impl->m_optionList) {
+            m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
             for (const auto& opt : allOptions) {
                   if (tier == SillyTier::None || opt.silly == tier) {
                         if (auto modOption = ModOption::create(
-                                {m_optionList->m_contentLayer->getScaledContentWidth(),
-                                 32.f},
-                                opt)) m_optionList->m_contentLayer->addChild(modOption);
+                                {m_impl->m_optionList->m_contentLayer->getScaledContentWidth(),
+                                 32.5f},
+                                opt)) {
+                              if (modOption->isCompatible() || m_impl->m_showIncompatible) {
+                                    m_impl->m_optionList->m_contentLayer->addChild(modOption);
+                              } else {
+                                    log::error("{} is incompatible with the current platform", modOption->getOption().id);
+                                    modOption->removeMeAndCleanup();
+                              };
+                        };
                   };
+
+                  m_impl->m_optionList->m_contentLayer->updateLayout();
+                  m_impl->m_optionList->scrollToTop();
+            }
+            else {
+                  log::error("Option list layer not found");
             };
-
-            m_optionList->m_contentLayer->updateLayout();
-            m_optionList->scrollToTop();
-      } else {
-            log::error("Option list layer not found");
       };
-};
 
-void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
-      if (auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-            SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
+      void HorribleMenuPopup::filterTierCallback(CCObject * sender) {
+            if (auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
+                  SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
 
-            // Toggle: clicking same button disables filter
-            if (s_selectedTier == tier) {
-                  s_selectedTier = SillyTier::None;
+                  // Toggle: clicking same button disables filter
+                  if (m_impl->s_selectedTier == tier) {
+                        m_impl->s_selectedTier = SillyTier::None;
+                  } else {
+                        m_impl->s_selectedTier = tier;
+                  };
+
+                  filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);
             } else {
-                  s_selectedTier = tier;
+                  log::error("Filter button cast failed");
+            };
+      };
+
+      void HorribleMenuPopup::openModSettings(CCObject*) {
+            openSettingsPopup(horribleMod);
+      };
+
+      void HorribleMenuPopup::openSeriesPage(CCObject*) {
+            createQuickPopup(
+                "Horrible Mods",
+                "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
+                "Cancel",
+                "OK",
+                [=](bool, bool btn2) {
+                      if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
+                });
+      };
+
+      void HorribleMenuPopup::openSupporterPopup(CCObject*) {
+            openSupportPopup(horribleMod);
+      };
+
+      HorribleMenuPopup* HorribleMenuPopup::create() {
+            auto ret = new HorribleMenuPopup();
+
+            if (ret && ret->initAnchored(450.f, 280.f)) {
+                  ret->autorelease();
+                  return ret;
             };
 
-            filterOptionsByTier(options::getAll(), s_selectedTier);
-      } else {
-            log::error("Filter button cast failed");
+            CC_SAFE_DELETE(ret);
+            return nullptr;
       };
-};
-
-void HorribleMenuPopup::openModSettings(CCObject*) {
-      openSettingsPopup(horribleMod);
-};
-
-void HorribleMenuPopup::openSeriesPage(CCObject*) {
-      createQuickPopup(
-          "Horrible Mods",
-          "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
-          "Cancel",
-          "OK",
-          [=](bool, bool btn2) {
-                if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
-          });
-};
-
-void HorribleMenuPopup::openSupporterPopup(CCObject*) {
-      openSupportPopup(horribleMod);
-};
-
-HorribleMenuPopup* HorribleMenuPopup::create() {
-      auto ret = new HorribleMenuPopup();
-
-      if (ret && ret->initAnchored(450.f, 280.f)) {
-            ret->autorelease();
-            return ret;
-      };
-
-      CC_SAFE_DELETE(ret);
-      return nullptr;
-};

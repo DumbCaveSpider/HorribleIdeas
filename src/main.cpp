@@ -49,7 +49,7 @@ class $modify(HorribleCCMenuItem, CCMenuItem) {
         auto rnd = randng::fast();
         log::debug("button menu chance {}", rnd);
 
-        if (horribleMod && horribleMod->getSavedValue<bool>("achieve", true)) {
+        if (horribleMod->getSavedValue<bool>("achieve", true)) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
 
                 // @geode-ignore(unknown-resource)
