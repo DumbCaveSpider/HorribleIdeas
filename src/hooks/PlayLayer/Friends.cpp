@@ -36,7 +36,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float delay = (static_cast<float>(rnd) / 100.f) + 1.f;
             log::debug("Friend will visit after {} seconds", delay);
 
-            schedule(schedule_selector(FriendsPlayLayer::showAFriend), delay);
+            scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
         };
 
         PlayLayer::setupHasCompleted();

@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Horrible.hpp>
 #include <algorithm>
+#include <cmath>
 #include <random>
 
 #include "../MathQuiz.hpp"
@@ -17,7 +18,7 @@ bool MathQuiz::init() {
       std::random_device rd;
       std::mt19937 gen(rd());
       std::uniform_int_distribution<> numDist(1, 10);
-      std::uniform_int_distribution<> opDist(0, 2);
+      std::uniform_int_distribution<> opDist(0, 3);
 
       m_numFirst = numDist(gen);
       m_numSecond = numDist(gen);
@@ -35,22 +36,68 @@ bool MathQuiz::init() {
                   break;
       }
 
-      // Create problem label
-      std::string operationSymbol = (m_operation == 0) ? "+" : (m_operation == 1) ? "-"
-                                                                                  : "*";
-      std::string problemText = fmt::format("{} {} {}", m_numFirst, operationSymbol, m_numSecond);
-
       auto winSize = CCDirector::get()->getWinSize();
+      // geometry dash
+      if (m_operation == 3) {
+            std::uniform_int_distribution<> sidesDist(3, 8);
+            int sides = sidesDist(gen);
+            m_correctAnswer = sides;
+
+            // draw node and polygon points
+            if (!m_drawNode) {
+                  m_drawNode = CCDrawNode::create();
+                  m_drawNode->setID("math-quiz-drawnode"_spr);
+            }
+
+            float radius = std::min(winSize.width, winSize.height) / 8.f;
+            float centerX = winSize.width / 2.f + 160.f; // offset a bit to the right
+            float centerY = winSize.height / 2.f;
+
+            std::vector<CCPoint> polyPoints;
+            polyPoints.reserve(sides);
+            constexpr float PI = 3.14159265358979323846f;
+            float theta = (2.0f * PI) / sides;
+            for (int i = 0; i < sides; ++i) {
+                  float angle = theta * i - PI / 2.0f; // start at top
+                  float x = radius * cosf(angle);
+                  float y = radius * sinf(angle);
+                  polyPoints.push_back(ccp(x, y));
+            }
+
+            // draw the polygon in local coords with drawNode placed at center
+            m_drawNode->setPosition({centerX, centerY});
+            cocos2d::ccColor4F fillColor = {0.85f, 0.65f, 0.15f, 1.0f};
+            cocos2d::ccColor4F borderColor = {0.05f, 0.05f, 0.05f, 1.0f};
+            m_drawNode->clear();
+            m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.0f, borderColor);
+            this->addChild(m_drawNode, 250);
+
+            // Set problem text for geometry
+            // We'll override the problem label text later so set a generic label for now
+      }
+
+      // Create problem label
+      std::string problemText;
+      if (m_operation == 3) {
+            problemText = "How many sides does this shape have?";
+      } else {
+            std::string operationSymbol = (m_operation == 0) ? "+" : (m_operation == 1) ? "-" : "*";
+            problemText = fmt::format("{} {} {}", m_numFirst, operationSymbol, m_numSecond);
+      }
+
+      // reuse winSize declared above
       auto problemLabel = CCLabelBMFont::create(problemText.c_str(), "goldFont.fnt");
       problemLabel->setID("problem-label");
       problemLabel->setPosition({winSize.width / 2.f, winSize.height - 60.f});
       problemLabel->setScale(1.5f);
       this->addChild(problemLabel);
 
-      auto equalsLabel = CCLabelBMFont::create("= ?", "bigFont.fnt");
-      equalsLabel->setID("equals-label");
-      equalsLabel->setPosition({winSize.width / 2.f, winSize.height - 100.f});
-      this->addChild(equalsLabel);
+      if (m_operation != 3) {
+            auto equalsLabel = CCLabelBMFont::create("= ?", "bigFont.fnt");
+            equalsLabel->setID("equals-label");
+            equalsLabel->setPosition({winSize.width / 2.f, winSize.height - 100.f});
+            this->addChild(equalsLabel);
+      }
 
       // i hope i did this right cheese, u added this progress bar thing
       if (!m_timerBar) {
@@ -71,14 +118,24 @@ bool MathQuiz::init() {
       m_answers.clear();
       m_answers.push_back(m_correctAnswer);
 
-      // Add 3 wrong answers evil me
-      std::uniform_int_distribution<> wrongDist(-20, 20);
-      while (m_answers.size() < 4) {
-            int wrongAnswer = m_correctAnswer + wrongDist(gen);
-            // Make sure it's not the correct answer and not a duplicate
-            if (wrongAnswer != m_correctAnswer &&
-                std::find(m_answers.begin(), m_answers.end(), wrongAnswer) == m_answers.end()) {
-                  m_answers.push_back(wrongAnswer);
+      // Add 3 wrong answers
+      if (m_operation == 3) {
+            std::uniform_int_distribution<> wrongSidesDist(3, 8);
+            while (m_answers.size() < 4) {
+                  int wrongAnswer = wrongSidesDist(gen);
+                  if (wrongAnswer != m_correctAnswer &&
+                      std::find(m_answers.begin(), m_answers.end(), wrongAnswer) == m_answers.end()) {
+                        m_answers.push_back(wrongAnswer);
+                  }
+            }
+      } else {
+            std::uniform_int_distribution<> wrongDist(-20, 20);
+            while (m_answers.size() < 4) {
+                  int wrongAnswer = m_correctAnswer + wrongDist(gen);
+                  if (wrongAnswer != m_correctAnswer &&
+                      std::find(m_answers.begin(), m_answers.end(), wrongAnswer) == m_answers.end()) {
+                        m_answers.push_back(wrongAnswer);
+                  }
             }
       }
 
@@ -203,6 +260,10 @@ void MathQuiz::keyBackClicked() {
             m_answerMenu->removeFromParentAndCleanup(true);
             m_answerMenu = nullptr;
       }
+      if (m_drawNode) {
+            m_drawNode->removeFromParentAndCleanup(true);
+            m_drawNode = nullptr;
+      }
       Notification::create("Nope! you cant escape the math quiz!", NotificationIcon::Error, 1.5f)->show();
       setWasCorrectFlag(false);
       closePopup();
@@ -213,6 +274,10 @@ void MathQuiz::closeAfterFeedback(CCNode* node) {
       if (m_answerMenu) {
             m_answerMenu->removeFromParentAndCleanup(true);
             m_answerMenu = nullptr;
+      }
+      if (m_drawNode) {
+            m_drawNode->removeFromParentAndCleanup(true);
+            m_drawNode = nullptr;
       }
       if (m_onCloseCallback) m_onCloseCallback();
       this->unscheduleUpdate();

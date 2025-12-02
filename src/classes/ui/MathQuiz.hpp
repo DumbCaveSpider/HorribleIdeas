@@ -21,6 +21,7 @@ namespace horrible {
         Ref<ProgressBar> m_timerBar = nullptr;
         Ref<CCMenu> m_answerMenu = nullptr;
         Ref<CCSprite> m_richardSprite = nullptr;
+        Ref<CCDrawNode> m_drawNode = nullptr;
         float m_timeRemaining = 10.f;
         float m_totalTime = 10.f;
         std::function<void()> m_onCloseCallback = nullptr;
