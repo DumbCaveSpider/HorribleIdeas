@@ -18,6 +18,7 @@ protected:
     SillyTier s_selectedTier = SillyTier::None;
 
     Ref<ScrollLayer> m_optionList = nullptr;
+    Ref<TextInput> m_searchInput = nullptr;
 
     void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
     void filterTierCallback(CCObject*);
