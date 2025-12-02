@@ -55,6 +55,7 @@ bool MathQuiz::init() {
       // i hope i did this right cheese, u added this progress bar thing
       if (!m_timerBar) {
             m_timerBar = ProgressBar::create();
+            m_timerBar->setStyle(ProgressBarStyle::Solid);
             m_timerBar->setID("math-quiz-timer"_spr);
             m_timerBar->setFillColor({255, 210, 0});
             m_timerBar->setAnchorPoint({0.5f, 0.5f});
@@ -191,7 +192,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
                 nullptr);
 
             feedbackLabel->runAction(seq);
-
+            setKeypadEnabled(false);
             setWasCorrectFlag(correct);
             this->unscheduleUpdate();
       }
@@ -226,6 +227,7 @@ void MathQuiz::closePopup() {
       if (m_onCloseCallback) m_onCloseCallback();
       this->unscheduleUpdate();
       removeFromParentAndCleanup(true);
+      
 }
 
 void MathQuiz::update(float dt) {
