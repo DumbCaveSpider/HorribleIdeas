@@ -4,6 +4,7 @@
 #include <Geode/binding/ButtonSprite.hpp>
 #include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 #include <Geode/ui/GeodeUI.hpp>
+#include <Geode/ui/TextInput.hpp>
 #include <Geode/utils/terminate.hpp>
 #include <Horrible.hpp>
 
@@ -16,6 +17,7 @@ class HorribleMenuPopup::Impl final {
      public:
       SillyTier s_selectedTier = SillyTier::None;
       bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
+      std::string m_searchText = "";
 
       Ref<ScrollLayer> m_optionList = nullptr;
       Ref<TextInput> m_searchInput = nullptr;
@@ -62,6 +64,10 @@ bool HorribleMenuPopup::setup() {
       m_impl->m_searchInput = TextInput::create(270, "Search...", "bigFont.fnt");
       m_impl->m_searchInput->setID("search-input");
       m_impl->m_searchInput->setPosition({optionListBg->getPositionX(), mainLayerSize.height - 52.5f});
+      m_impl->m_searchInput->setCallback([this](std::string const& str) {
+            m_impl->m_searchText = str;
+            filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);  // lets search this crap
+      });
 
       m_mainLayer->addChild(m_impl->m_searchInput);
 
@@ -87,7 +93,7 @@ bool HorribleMenuPopup::setup() {
 
       float btnY = 0.f;
       for (const auto& btn : btns) {
-            if (auto normalBs = ButtonSprite::create(btn.label, 0, false, "bigFont.fnt", "GJ_button_01.png", 0, 0.8f)) {
+            if (auto normalBs = ButtonSprite::create(btn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0, .8f)) {
                   normalBs->m_label->setColor(btn.color);
                   normalBs->setScale(0.8f);
 
@@ -178,7 +184,23 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
             m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
             for (const auto& opt : allOptions) {
-                  if (tier == SillyTier::None || opt.silly == tier) {
+                  // tier filter
+                  bool tierMatches = (tier == SillyTier::None || opt.silly == tier);
+
+                  // search filter
+                  bool searchMatches = true;
+                  if (!m_impl->m_searchText.empty()) {
+                        std::string searchLower = m_impl->m_searchText;
+                        std::string nameLower = opt.name;
+
+                        // convert lowercase stuff
+                        std::transform(searchLower.begin(), searchLower.end(), searchLower.begin(), ::tolower);
+                        std::transform(nameLower.begin(), nameLower.end(), nameLower.begin(), ::tolower);
+
+                        searchMatches = (nameLower.find(searchLower) != std::string::npos);
+                  }
+
+                  if (tierMatches && searchMatches) {
                         if (auto modOption = ModOption::create(
                                 {m_impl->m_optionList->m_contentLayer->getScaledContentWidth(),
                                  32.5f},
