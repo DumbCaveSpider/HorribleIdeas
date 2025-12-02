@@ -26,10 +26,11 @@ namespace horribleideas {
     // Mod option manager for Horrible Ideas
     class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
     protected:
-        std::vector<Option> m_options; // Array of registered options
-        std::vector<std::string> m_categories; // Array of auto-registered categories
+        class Impl; // PImpl class
+        std::unique_ptr<Impl> m_impl; // PImpl pointer
 
         OptionManager(); // Constructor
+        virtual ~OptionManager(); // Destructor
 
         /**
          * Register a category if not already registered

@@ -6,40 +6,52 @@
 using namespace geode::prelude;
 
 namespace horrible {
+    enum class MathOperation {
+        Addition = 0,
+        Subtraction = 1,
+        Multiplication = 2,
+        Geometry = 3
+    };
+
     class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
     protected:
-        int m_numFirst = 0;
-        int m_numSecond = 0;
-        int m_operation = 0; // 0 = add, 1 = subtract, 2 = multiply
+        class Impl;
+        std::unique_ptr<Impl> m_impl;
 
-        int m_correctAnswer = 0;
-        std::vector<int> m_answers; // 4 answer options
+        MathQuiz();
+        virtual ~MathQuiz();
 
-        bool init() override;
+        void onTimeout();
+
+        void closeAfterFeedback(CCNode* node);
         void onAnswerClicked(CCObject* sender);
 
-        Ref<ProgressBar> m_timerBar = nullptr;
-        Ref<CCMenu> m_answerMenu = nullptr;
-        Ref<CCSprite> m_richardSprite = nullptr;
-        Ref<CCDrawNode> m_drawNode = nullptr;
-        float m_timeRemaining = 10.f;
-        float m_totalTime = 10.f;
-        std::function<void()> m_onCloseCallback = nullptr;
-        bool m_wasCorrect = false;
         void keyBackClicked() override;
         void update(float dt) override;
-        void onTimeout();
-        void closeAfterFeedback(CCNode* node);
 
-    public:
-        void setOnCloseCallback(std::function<void()> cb) { m_onCloseCallback = cb; }
-        void setWasCorrectFlag(bool v) { m_wasCorrect = v; }
-        void closePopup();
-
-    public:
-        bool wasCorrect() const { return m_wasCorrect; }
+        bool init() override;
 
     public:
         static MathQuiz* create();
+
+        void setOnCloseCallback(std::function<void()> cb);
+        void setWasCorrectFlag(bool v);
+        void closePopup();
+
+        bool wasCorrect() const;
+    };
+
+    class Richard : public CCNode {
+    protected:
+        class Impl;
+        std::unique_ptr<Impl> m_impl;
+
+        Richard();
+        virtual ~Richard();
+
+        bool init() override;
+
+    public:
+        static Richard* create();
     };
 };

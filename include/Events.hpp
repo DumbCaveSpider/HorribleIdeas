@@ -1,3 +1,5 @@
+#pragma once
+
 #include "HorribleIdeas.hpp"
 
 #include <Geode/Geode.hpp>
@@ -22,7 +24,7 @@ namespace horribleideas {
     // Filter for option toggle event
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
     protected:
-        std::string m_id; // Unique ID of the option
+        std::vector<std::string> m_ids = {}; // Unique ID of the options to listen to
 
     public:
         using Callback = ListenerResult(HorribleOptionEvent*);
@@ -34,6 +36,9 @@ namespace horribleideas {
          * @param event Pointer to the event that fired
          */
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event);
-        HorribleOptionEventFilter(std::string id); // Constructor
+
+        HorribleOptionEventFilter() = default; // Constructor
+        HorribleOptionEventFilter(std::string id); // Constructor (listens to one option's toggle)
+        HorribleOptionEventFilter(std::vector<std::string> ids); // Constructor (listens to any specified options' toggles)
     };
 };

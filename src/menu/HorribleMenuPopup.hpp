@@ -7,28 +7,28 @@ using namespace geode::prelude;
 using namespace horrible;
 
 struct FilterBtnInfo {
-      SillyTier tier;
-      const char* label;
-      ccColor3B color;
+    SillyTier tier;
+    const char* label;
+    ccColor3B color;
 };
 
 class HorribleMenuPopup : public Popup<> {
-     protected:
-      class Impl;
-      std::unique_ptr<Impl> m_impl;
+protected:
+    class Impl;
+    std::unique_ptr<Impl> m_impl;
 
-      HorribleMenuPopup();
-      virtual ~HorribleMenuPopup();
+    HorribleMenuPopup();
+    virtual ~HorribleMenuPopup();
 
-      void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
-      void filterTierCallback(CCObject*);
+    void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
+    void filterTierCallback(CCObject*);
 
-      void openModSettings(CCObject*);
-      void openSeriesPage(CCObject*);
-      void openSupporterPopup(CCObject*);
+    void openModSettings(CCObject*);
+    void openSeriesPage(CCObject*);
+    void openSupporterPopup(CCObject*);
 
-      bool setup() override;
+    bool setup() override;
 
-     public:
-      static HorribleMenuPopup* create();
+public:
+    static HorribleMenuPopup* create();
 };

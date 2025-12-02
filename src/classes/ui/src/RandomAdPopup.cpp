@@ -85,7 +85,6 @@ void RandomAdPopup::onPlayBtn(CCObject*) {// congregation jumpscare
 
 RandomAdPopup* RandomAdPopup::create() {
     auto ret = new RandomAdPopup();
-
     if (ret && ret->initAnchored(375.f, 250.f)) {
         ret->autorelease();
         return ret;

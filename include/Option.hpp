@@ -1,3 +1,5 @@
+#pragma once
+
 #include "HorribleIdeas.hpp"
 
 #include <Geode/Geode.hpp>
