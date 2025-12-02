@@ -84,10 +84,32 @@ bool MathQuiz::init() {
       // Shuffle the answers
       std::shuffle(m_answers.begin(), m_answers.end(), gen);
 
-      // Create answer buttons in a 2x2 grid
-      auto menu = CCMenu::create();
-      menu->setID("answer-menu");
-      menu->setPosition({winSize.width / 2.f, winSize.height / 2.f - 20.f});
+      // richard floating lol
+      if (!m_richardSprite) {
+            auto richard = CCSprite::create("richard.png"_spr);
+            if (richard) {
+                  m_richardSprite = richard;
+                  m_richardSprite->setID("richard_sprite"_spr);
+                  m_richardSprite->setAnchorPoint({1.f, 0.5f});
+                  m_richardSprite->setScale(0.6f);
+                  m_richardSprite->setPosition({winSize.width - 36.f, winSize.height / 2.f});
+                  m_richardSprite->setZOrder(500);
+                  this->addChild(m_richardSprite);
+
+                  // floating animation
+                  float floatDistance = 8.f;
+                  float floatTime = 1.0f;
+                  auto moveUp = CCMoveBy::create(floatTime, ccp(0, floatDistance));
+                  auto moveDown = CCMoveBy::create(floatTime, ccp(0, -floatDistance));
+                  auto seq = CCSequence::create(moveUp, moveDown, nullptr);
+                  auto repeat = CCRepeatForever::create(seq);
+                  m_richardSprite->runAction(repeat);
+            }
+      }
+
+      m_answerMenu = CCMenu::create();
+      m_answerMenu->setID("answer-menu");
+      m_answerMenu->setPosition({winSize.width / 2.f, winSize.height / 2.f - 20.f});
 
       float buttonWidth = 80.f;
       float buttonHeight = 35.f;
@@ -109,16 +131,16 @@ bool MathQuiz::init() {
                 this,
                 menu_selector(MathQuiz::onAnswerClicked));
 
-            // Position buttons in 2x2 grid
+            //  2x2 grid
             float x = (i % 2 == 0) ? -spacingX / 2.f : spacingX / 2.f;
             float y = (i < 2) ? spacingY / 2.f : -spacingY / 2.f;
 
             answerBtn->setPosition({x, y});
-            answerBtn->setTag(m_answers[i]);  // Store the answer value as tag
-            menu->addChild(answerBtn);
+            answerBtn->setTag(m_answers[i]);
+            m_answerMenu->addChild(answerBtn);
       }
 
-      this->addChild(menu);
+      this->addChild(m_answerMenu);
 
       return true;
 }
@@ -128,7 +150,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
             int selectedAnswer = btn->getTag();
             bool correct = (selectedAnswer == m_correctAnswer);
 
-            // Button shake for incorrect
+            // Button shake for incorrect fancy
             if (!correct) {
                   auto shake = CCSequence::create(
                       CCMoveBy::create(0.03f, ccp(-6, 0)),
@@ -138,8 +160,13 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
                   btn->runAction(shake);
             }
 
-            // Create feedback label
-            Notification::create(correct ? "Correct!" : "Incorrect!", correct ? NotificationIcon::Success : NotificationIcon::Error, 1.5f)->show();
+            if (m_answerMenu) {
+                  m_answerMenu->removeFromParentAndCleanup(true);
+                  m_answerMenu = nullptr;
+            }
+
+            // feedback label
+            // Notification::create(correct ? "Correct!" : "Incorrect!", correct ? NotificationIcon::Success : NotificationIcon::Error, 1.5f)->show();
             auto winSize = CCDirector::get()->getWinSize();
             auto feedbackLabel = CCLabelBMFont::create(correct ? "Correct!" : "Incorrect!", "goldFont.fnt");
             feedbackLabel->setID("feedback-label");
@@ -171,22 +198,31 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
 }
 
 void MathQuiz::keyBackClicked() {
+      if (m_answerMenu) {
+            m_answerMenu->removeFromParentAndCleanup(true);
+            m_answerMenu = nullptr;
+      }
+      Notification::create("Nope! you cant escape the math quiz!", NotificationIcon::Error, 1.5f)->show();
       setWasCorrectFlag(false);
       closePopup();
 }
 
-// onClose is not used by CCBlockLayer; prefer closePopup() helper instead
-
 void MathQuiz::closeAfterFeedback(CCNode* node) {
-      // clean up feedback label
       if (node) node->removeFromParentAndCleanup(true);
-      // Call onClose callback if any
+      if (m_answerMenu) {
+            m_answerMenu->removeFromParentAndCleanup(true);
+            m_answerMenu = nullptr;
+      }
       if (m_onCloseCallback) m_onCloseCallback();
       this->unscheduleUpdate();
       removeFromParentAndCleanup(true);
 }
 
 void MathQuiz::closePopup() {
+      if (m_answerMenu) {
+            m_answerMenu->removeFromParentAndCleanup(true);
+            m_answerMenu = nullptr;
+      }
       if (m_onCloseCallback) m_onCloseCallback();
       this->unscheduleUpdate();
       removeFromParentAndCleanup(true);
@@ -203,8 +239,13 @@ void MathQuiz::update(float dt) {
             // automatic incorrect
             this->unscheduleUpdate();
             setWasCorrectFlag(false);
-            Notification::create("Time's Up!", NotificationIcon::Error, 1.5f)->show();
+            // Notification::create("Time's Up!", NotificationIcon::Error, 1.5f)->show();
             auto winSize = CCDirector::get()->getWinSize();
+            if (m_answerMenu) {
+                  m_answerMenu->removeFromParentAndCleanup(true);
+                  m_answerMenu = nullptr;
+            }
+
             auto feedbackLabel = CCLabelBMFont::create("Time's Up!", "goldFont.fnt");
             feedbackLabel->setID("feedback-label");
             feedbackLabel->setAnchorPoint({0.5f, 0.5f});

@@ -11,6 +11,7 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
             int chance = options::getChance("math_quiz");
 
             MathQuiz* m_currentQuiz = nullptr;
+            float m_nextQuizCooldown = 0.f;
       };
 
       void update(float p0) {
@@ -18,10 +19,15 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
             // log::debug("gjbasegamelayer update chance {}", rnd);
 
             if (m_fields->enabled) {
+                  // decrement cooldown timer before possibly showing a new quiz
+                  if (m_fields->m_nextQuizCooldown > 0.f) {
+                        m_fields->m_nextQuizCooldown -= p0;
+                        if (m_fields->m_nextQuizCooldown < 0.f) m_fields->m_nextQuizCooldown = 0.f;
+                  }
                   if (rnd <= m_fields->chance) {
                         //log::warn("richard was here");
 
-                        if (m_isPracticeMode && !m_fields->m_currentQuiz) {
+                        if (m_isPracticeMode && !m_fields->m_currentQuiz && m_fields->m_nextQuizCooldown <= 0.f) {
                               if (auto playLayer = PlayLayer::get()) {
 #ifdef GEODE_IS_WINDOWS
                                     CCEGLView::sharedOpenGLView()->showCursor(true);
@@ -39,6 +45,10 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
                                                 if (!correct) {
                                                       if (auto playLayer = PlayLayer::get()) playLayer->resetLevelFromStart();
                                                 }
+
+                                                // set cooldown between 5 and 10 seconds before next quiz
+                                                auto rnd = randng::fast();
+                                                m_fields->m_nextQuizCooldown = static_cast<float>((rnd % 6) + 5); // 5..10 seconds
 
                                                 m_fields->m_currentQuiz = nullptr;
                                           });

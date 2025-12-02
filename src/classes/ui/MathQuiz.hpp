@@ -6,7 +6,6 @@
 using namespace geode::prelude;
 
 namespace horrible {
-    // Richard's math quiz layer
     class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
     protected:
         int m_numFirst = 0;
@@ -20,6 +19,8 @@ namespace horrible {
         void onAnswerClicked(CCObject* sender);
 
         Ref<ProgressBar> m_timerBar = nullptr;
+        Ref<CCMenu> m_answerMenu = nullptr;
+        Ref<CCSprite> m_richardSprite = nullptr;
         float m_timeRemaining = 10.f;
         float m_totalTime = 10.f;
         std::function<void()> m_onCloseCallback = nullptr;
@@ -27,11 +28,9 @@ namespace horrible {
         void keyBackClicked() override;
         void update(float dt) override;
         void onTimeout();
-        // helper to signal close and cleanup
         void closeAfterFeedback(CCNode* node);
 
     public:
-        // timewarp support removed
         void setOnCloseCallback(std::function<void()> cb) { m_onCloseCallback = cb; }
         void setWasCorrectFlag(bool v) { m_wasCorrect = v; }
         void closePopup();
