@@ -200,51 +200,52 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
                   log::error("Option list layer not found");
             };
       };
+};
 
-      void HorribleMenuPopup::filterTierCallback(CCObject * sender) {
-            if (auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-                  SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
+void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
+      if (auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
+            SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
 
-                  // Toggle: clicking same button disables filter
-                  if (m_impl->s_selectedTier == tier) {
-                        m_impl->s_selectedTier = SillyTier::None;
-                  } else {
-                        m_impl->s_selectedTier = tier;
-                  };
-
-                  filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);
+            // Toggle: clicking same button disables filter
+            if (m_impl->s_selectedTier == tier) {
+                  m_impl->s_selectedTier = SillyTier::None;
             } else {
-                  log::error("Filter button cast failed");
-            };
-      };
-
-      void HorribleMenuPopup::openModSettings(CCObject*) {
-            openSettingsPopup(horribleMod);
-      };
-
-      void HorribleMenuPopup::openSeriesPage(CCObject*) {
-            createQuickPopup(
-                "Horrible Mods",
-                "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
-                "Cancel",
-                "OK",
-                [=](bool, bool btn2) {
-                      if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
-                });
-      };
-
-      void HorribleMenuPopup::openSupporterPopup(CCObject*) {
-            openSupportPopup(horribleMod);
-      };
-
-      HorribleMenuPopup* HorribleMenuPopup::create() {
-            auto ret = new HorribleMenuPopup();
-
-            if (ret && ret->initAnchored(450.f, 280.f)) {
-                  ret->autorelease();
-                  return ret;
+                  m_impl->s_selectedTier = tier;
             };
 
-            CC_SAFE_DELETE(ret);
-            return nullptr;
+            filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);
+      } else {
+            log::error("Filter button cast failed");
       };
+};
+
+void HorribleMenuPopup::openModSettings(CCObject*) {
+      openSettingsPopup(horribleMod);
+};
+
+void HorribleMenuPopup::openSeriesPage(CCObject*) {
+      createQuickPopup(
+          "Horrible Mods",
+          "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
+          "Cancel",
+          "OK",
+          [=](bool, bool btn2) {
+                if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
+          });
+};
+
+void HorribleMenuPopup::openSupporterPopup(CCObject*) {
+      openSupportPopup(horribleMod);
+};
+
+HorribleMenuPopup* HorribleMenuPopup::create() {
+      auto ret = new HorribleMenuPopup();
+
+      if (ret && ret->initAnchored(450.f, 280.f)) {
+            ret->autorelease();
+            return ret;
+      };
+
+      CC_SAFE_DELETE(ret);
+      return nullptr;
+};
