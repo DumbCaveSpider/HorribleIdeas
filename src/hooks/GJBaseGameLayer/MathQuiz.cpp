@@ -1,51 +1,54 @@
-#include <Horrible.hpp>
-
 #include <Geode/Geode.hpp>
-
 #include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Horrible.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
 class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
-    struct Fields {
-        bool enabled = options::get("math_quiz");
-        int chance = options::getChance("math_quiz");
+      struct Fields {
+            bool enabled = options::get("math_quiz");
+            int chance = options::getChance("math_quiz");
 
-        MathQuiz* m_currentQuiz = nullptr;
-    };
+            MathQuiz* m_currentQuiz = nullptr;
+      };
 
-    void update(float p0) {
-        auto rnd = randng::fast();
-        // log::debug("gjbasegamelayer update chance {}", rnd);
+      void update(float p0) {
+            auto rnd = randng::fast();
+            // log::debug("gjbasegamelayer update chance {}", rnd);
 
-        if (m_fields->enabled) {
-            if (rnd <= m_fields->chance) {
-                log::warn("richard was here");
+            if (m_fields->enabled) {
+                  if (rnd <= m_fields->chance) {
+                        //log::warn("richard was here");
 
-                if (m_isPracticeMode && !m_fields->m_currentQuiz) {
-                    // pause the game
-                    auto gm = GameManager::sharedState();
-                    if (auto playLayer = PlayLayer::get())
-                        playLayer->pauseGame(true);
-
-                    if (auto quiz = MathQuiz::create()) {
+                        if (m_isPracticeMode && !m_fields->m_currentQuiz) {
+                              if (auto playLayer = PlayLayer::get()) {
 #ifdef GEODE_IS_WINDOWS
-                        CCEGLView::sharedOpenGLView()->showCursor(true);
+                                    CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif
-                        m_fields->m_currentQuiz = quiz;
-                        m_fields->m_currentQuiz->customSetup();
 
-                        CCScene::get()->addChild(m_fields->m_currentQuiz);
-                    };
-                };
-            };
+                                    if (auto quiz = MathQuiz::create()) {
+#ifdef GEODE_IS_WINDOWS
+                                          CCEGLView::sharedOpenGLView()->showCursor(true);
+#endif
+                                          m_fields->m_currentQuiz = quiz;
+                                          // clear pointer on close / handle correct/wrong answer
+                                          m_fields->m_currentQuiz->setOnCloseCallback([this]() {
+                                                if (!m_fields->m_currentQuiz) return;
+                                                bool correct = m_fields->m_currentQuiz->wasCorrect();
+                                                if (!correct) {
+                                                      if (auto playLayer = PlayLayer::get()) playLayer->resetLevelFromStart();
+                                                }
 
-            // do something like if answer is right, just do PlayLayer::resumeGame()
-            // then do something like if answer is wrong, do PlayLayer::resetLevelFromStart()
-            // if the user do a keyBack, then absolutely do PlayLayer::resetLevelFromStart() :trol:
-        };
+                                                m_fields->m_currentQuiz = nullptr;
+                                          });
+                                          playLayer->addChild(m_fields->m_currentQuiz, 1000);
+                                    }
+                              }
+                        }
+                  }
+            }
 
-        GJBaseGameLayer::update(p0);
-    };
+            GJBaseGameLayer::update(p0);
+      }
 };

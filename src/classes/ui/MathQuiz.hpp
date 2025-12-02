@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
+#include <functional>
 
 using namespace geode::prelude;
 
@@ -8,20 +9,37 @@ namespace horrible {
     // Richard's math quiz layer
     class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
     protected:
-        int m_numFirst = 1; // First number in the equation
-        int m_numSecond = 1; // Second number in the equation
+        int m_numFirst = 0;
+        int m_numSecond = 0;
+        int m_operation = 0; // 0 = add, 1 = subtract, 2 = multiply
 
-        int m_answer = 1; // The calculated answer to the equation
-
-        Ref<TextInput> m_answerInput = nullptr; // Answer gets typed out here
-
-        void infoPopup(CCObject*);
+        int m_correctAnswer = 0;
+        std::vector<int> m_answers; // 4 answer options
 
         bool init() override;
+        void onAnswerClicked(CCObject* sender);
+
+        Ref<ProgressBar> m_timerBar = nullptr;
+        float m_timeRemaining = 10.f;
+        float m_totalTime = 10.f;
+        std::function<void()> m_onCloseCallback = nullptr;
+        bool m_wasCorrect = false;
+        void keyBackClicked() override;
+        void update(float dt) override;
+        void onTimeout();
+        // helper to signal close and cleanup
+        void closeAfterFeedback(CCNode* node);
+
+    public:
+        // timewarp support removed
+        void setOnCloseCallback(std::function<void()> cb) { m_onCloseCallback = cb; }
+        void setWasCorrectFlag(bool v) { m_wasCorrect = v; }
+        void closePopup();
+
+    public:
+        bool wasCorrect() const { return m_wasCorrect; }
 
     public:
         static MathQuiz* create();
-
-        void keyBackClicked() override;
     };
 };
