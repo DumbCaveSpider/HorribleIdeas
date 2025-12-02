@@ -34,6 +34,8 @@ bool MathQuiz::init() {
             case 2:  // Multiplication
                   m_correctAnswer = m_numFirst * m_numSecond;
                   break;
+            case 3:  // Geometry
+                  break;
       }
 
       auto winSize = CCDirector::get()->getWinSize();
@@ -50,7 +52,7 @@ bool MathQuiz::init() {
             }
 
             float radius = std::min(winSize.width, winSize.height) / 8.f;
-            float centerX = winSize.width / 2.f + 160.f; // offset a bit to the right
+            float centerX = winSize.width / 2.f - 160.f;
             float centerY = winSize.height / 2.f;
 
             std::vector<CCPoint> polyPoints;
@@ -58,7 +60,7 @@ bool MathQuiz::init() {
             constexpr float PI = 3.14159265358979323846f;
             float theta = (2.0f * PI) / sides;
             for (int i = 0; i < sides; ++i) {
-                  float angle = theta * i - PI / 2.0f; // start at top
+                  float angle = theta * i - PI / 2.0f;  // start at top
                   float x = radius * cosf(angle);
                   float y = radius * sinf(angle);
                   polyPoints.push_back(ccp(x, y));
@@ -71,9 +73,6 @@ bool MathQuiz::init() {
             m_drawNode->clear();
             m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.0f, borderColor);
             this->addChild(m_drawNode, 250);
-
-            // Set problem text for geometry
-            // We'll override the problem label text later so set a generic label for now
       }
 
       // Create problem label
@@ -81,15 +80,16 @@ bool MathQuiz::init() {
       if (m_operation == 3) {
             problemText = "How many sides does this shape have?";
       } else {
-            std::string operationSymbol = (m_operation == 0) ? "+" : (m_operation == 1) ? "-" : "*";
+            std::string operationSymbol = (m_operation == 0) ? "+" : (m_operation == 1) ? "-"
+                                                                                        : "*";
             problemText = fmt::format("{} {} {}", m_numFirst, operationSymbol, m_numSecond);
       }
 
       // reuse winSize declared above
-      auto problemLabel = CCLabelBMFont::create(problemText.c_str(), "goldFont.fnt");
+      auto problemLabel = CCLabelBMFont::create(problemText.c_str(), "bigFont.fnt");
       problemLabel->setID("problem-label");
       problemLabel->setPosition({winSize.width / 2.f, winSize.height - 60.f});
-      problemLabel->setScale(1.5f);
+      problemLabel->setScale(0.9f);
       this->addChild(problemLabel);
 
       if (m_operation != 3) {
@@ -98,6 +98,10 @@ bool MathQuiz::init() {
             equalsLabel->setPosition({winSize.width / 2.f, winSize.height - 100.f});
             this->addChild(equalsLabel);
       }
+
+      // make the text smaller for geometry
+      if (m_operation == 3)
+            problemLabel->setScale(0.5f);
 
       // i hope i did this right cheese, u added this progress bar thing
       if (!m_timerBar) {
@@ -222,6 +226,10 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
                   m_answerMenu->removeFromParentAndCleanup(true);
                   m_answerMenu = nullptr;
             }
+            if (m_drawNode) {
+                  m_drawNode->removeFromParentAndCleanup(true);
+                  m_drawNode = nullptr;
+            }
 
             // feedback label
             // Notification::create(correct ? "Correct!" : "Incorrect!", correct ? NotificationIcon::Success : NotificationIcon::Error, 1.5f)->show();
@@ -292,7 +300,6 @@ void MathQuiz::closePopup() {
       if (m_onCloseCallback) m_onCloseCallback();
       this->unscheduleUpdate();
       removeFromParentAndCleanup(true);
-      
 }
 
 void MathQuiz::update(float dt) {
