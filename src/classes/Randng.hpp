@@ -12,7 +12,7 @@ namespace horrible {
          *
          * @param max The maximum number to get
          */
-        int get(int max = 200);
+        int get(int max = 200, int min = 0);
 
         /**
          * Get any number between 0 and 5000
@@ -22,8 +22,5 @@ namespace horrible {
 
         // Get any number between 0 and 100
         int fast();
-
-        // Get a random number up to 32767
-        int max();
     };
 };

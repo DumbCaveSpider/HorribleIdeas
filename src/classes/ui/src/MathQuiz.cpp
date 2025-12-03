@@ -167,7 +167,7 @@ bool MathQuiz::init() {
     };
 
     // Shuffle the answers
-    std::shuffle(m_impl->m_answers.begin(), m_impl->m_answers.end(), std::mt19937{ std::random_device{}() });
+    utils::random::shuffle<std::vector<int>>(m_impl->m_answers);
 
     // richard floating lol
     if (auto richard = Richard::create()) {

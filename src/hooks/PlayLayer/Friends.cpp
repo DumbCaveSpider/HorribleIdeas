@@ -29,11 +29,10 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            int rnd = randng::get(1150);
+            int rnd = randng::get(10);
             log::info("playlayer setup completed {}", rnd);
 
-            // random delay between 1 and 12.5 seconds
-            float delay = (static_cast<float>(rnd) / 100.f) + 1.f;
+            float delay = static_cast<float>(rnd);
             log::debug("Friend will visit after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
@@ -49,7 +48,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float xA = -125.f; // starting x pos
             float xB = getScaledContentWidth() + 125.f; // ending x pos
 
-            if ((rnd / 2) <= 50) { xA = xB; xB = -125.f; }; // swap sides
+            if ((rnd / 2) <= 50.0) { xA = xB; xB = -125.f; }; // swap sides
 
             auto rA = static_cast<float>(randng::fast()) / 100.f;
             auto rB = static_cast<float>(randng::fast()) / 100.f;
@@ -81,9 +80,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
         if (sender) sender->removeMeAndCleanup();
 
         if (m_fields->enabled) {
-            int rnd = randng::tiny();
-
-            float delay = (static_cast<float>(rnd % 1251) / 1000.f) + 1.25f; // random delay between 1.25 and 2.5 seconds
+            float delay = static_cast<float>(randng::get(4));
             log::debug("Friend will visit again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
