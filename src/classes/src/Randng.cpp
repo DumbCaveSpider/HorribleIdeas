@@ -16,11 +16,17 @@ int randng::get(int max) {
     auto rn = utils::random::generateString(maxStr.size(), "0123456789");
     auto num = utils::numFromString<int>(std::string_view(rn), 10);
 
+    log::debug("generated random string {}", rn);
+
     if (num.isOk()) {
         auto n = num.unwrapOr(max);
         if (n >= max) n = max;
+
+        log::debug("returning generated number {}", n);
+
         return n;
     } else {
+        log::error("failed to unwrap {} into int for {}", rn, num.isErr() ? num.unwrapErr() : "");
         return max;
     };
 };
