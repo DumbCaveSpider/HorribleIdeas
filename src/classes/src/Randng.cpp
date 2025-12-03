@@ -10,9 +10,7 @@ using namespace geode::prelude;
 using namespace horrible;
 
 int randng::get(int max, int min) {
-    auto n = utils::random::generate<int>(min, max);
-    //log::debug("returning generated number {}/{}", n, max);
-    return n;
+    return rng::generate<int>(min, max);
 };
 
 int randng::tiny() {

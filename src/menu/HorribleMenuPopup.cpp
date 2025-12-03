@@ -13,9 +13,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-// ez string
-namespace str = utils::string;
-
 class HorribleMenuPopup::Impl final {
 public:
     SillyTier s_selectedTier = SillyTier::None;

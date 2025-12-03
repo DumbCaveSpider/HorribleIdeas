@@ -54,7 +54,7 @@
         "safe-mode": {
             "type": "bool",
             "name": "Safe Mode",
-            "description": "Prevent any progression made in levels. <cr>Highly recommended that this is kept enabled!</cr>",
+            "description": "Prevent saving any progression made in levels. <cr>Keeping this enabled while using Horrible Ideas is highly recommended!</cr>",
             "default": true
         },
         "chances": {
@@ -84,6 +84,23 @@
             "name": "Congregation Chance",
             "description": "<cj>Congregation Jumpscare</c> - Chance of your level switching to Congregation.",
             "default": 10,
+            "min": 0,
+            "max": 100,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 1,
+                "arrows": true,
+                "arrow-step": 10,
+                "big-arrows": true,
+                "big-arrow-step": 20
+            }
+        },
+        "math_quiz-chance": {
+            "type": "int",
+            "name": "Math Quiz Chance",
+            "description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
+            "default": 1,
             "min": 0,
             "max": 100,
             "control": {
@@ -168,23 +185,6 @@
             "type": "int",
             "name": "Crash Chance",
             "description": "<cj>Crash Chance on Death</c> - Chance of your crashing when dying in a level.",
-            "default": 1,
-            "min": 0,
-            "max": 100,
-            "control": {
-                "input": true,
-                "slider": true,
-                "slider-step": 1,
-                "arrows": true,
-                "arrow-step": 10,
-                "big-arrows": true,
-                "big-arrow-step": 20
-            }
-        },
-        "math_quiz-chance": {
-            "type": "int",
-            "name": "Math Quiz Chance",
-            "description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
             "default": 1,
             "min": 0,
             "max": 100,
@@ -365,7 +365,7 @@
         "dev-mode": {
             "type": "bool",
             "name": "Developer Mode",
-            "description": "Shows extra information in the mod menu interface.",
+            "description": "Shows debug information in the mod menu interface.",
             "default": false
         }
     },

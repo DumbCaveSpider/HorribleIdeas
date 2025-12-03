@@ -2,11 +2,9 @@
 
 #include <Horrible.hpp>
 
-#include <algorithm>
-#include <cmath>
-#include <random>
-
 #include <Geode/Geode.hpp>
+
+#include <Geode/binding/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
@@ -28,6 +26,7 @@ public:
 
     float m_timeRemaining = 10.f;
     float m_totalTime = 10.f;
+    float m_timeDt = 0.f;
 
     std::function<void()> m_onCloseCallback = nullptr;
     bool m_wasCorrect = false;
@@ -230,6 +229,9 @@ bool MathQuiz::init() {
 
     addChild(m_impl->m_answerMenu);
 
+    // @geode-ignore(unknown-resource)
+    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chest07.ogg");
+
     return true;
 };
 
@@ -239,6 +241,8 @@ void MathQuiz::setOnCloseCallback(std::function<void()> cb) {
 
 void MathQuiz::setWasCorrectFlag(bool v) {
     m_impl->m_wasCorrect = v;
+    // @geode-ignore(unknown-resource)
+    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");
 };
 
 bool MathQuiz::wasCorrect() const {
@@ -329,6 +333,13 @@ void MathQuiz::update(float dt) {
     if (m_impl->m_timeRemaining <= 0.f) return;
     m_impl->m_timeRemaining -= dt;
 
+    m_impl->m_timeDt += dt;
+    if (m_impl->m_timeDt >= 0.5f) {
+        // @geode-ignore(unknown-resource)
+        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("counter003.ogg");
+        m_impl->m_timeDt = 0.f;
+    };
+
     if (m_impl->m_timeRemaining < 0.f) m_impl->m_timeRemaining = 0.f;
     float pct = (m_impl->m_timeRemaining / m_impl->m_totalTime) * 100.f;
 
@@ -392,7 +403,7 @@ bool Richard::init() {
     m_impl->m_sprite = CCSprite::createWithSpriteFrameName("diffIcon_02_btn_001.png");
     m_impl->m_sprite->setID("richard-sprite");
     m_impl->m_sprite->setAnchorPoint({ 0.5f, 0.5f });
-    m_impl->m_sprite->setScale(1.25f);
+    m_impl->m_sprite->setScale(5.f);
 
     addChild(m_impl->m_sprite);
 

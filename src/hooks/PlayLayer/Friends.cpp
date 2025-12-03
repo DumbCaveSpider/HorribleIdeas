@@ -71,16 +71,21 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             auto action = CCSpawn::createWithTwoActions(move, rotate);
             auto finish = CCCallFuncN::create(this, callfuncN_selector(FriendsPlayLayer::cleanupFriend));
 
+            auto friendAction = CCSequence::createWithTwoActions(action, finish);
+            auto scheduleAction = CCSpawn::create(CCCallFunc::create(this, callfunc_selector(FriendsPlayLayer::scheduleNextFriend)), nullptr);
+
             addChild(friendSpr);
-            friendSpr->runAction(CCSequence::createWithTwoActions(action, finish));
+            friendSpr->runAction(CCSpawn::createWithTwoActions(friendAction, scheduleAction));
         };
     };
 
     void cleanupFriend(CCNode * sender) {
         if (sender) sender->removeMeAndCleanup();
+    };
 
+    void scheduleNextFriend() {
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(4));
+            float delay = static_cast<float>(randng::get(10));
             log::debug("Friend will visit again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
