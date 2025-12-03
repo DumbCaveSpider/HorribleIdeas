@@ -11,7 +11,7 @@ using namespace horrible;
 
 int randng::get(int max, int min) {
     auto n = utils::random::generate<int>(min, max);
-    log::debug("returning generated number {}/{}", n, max);
+    //log::debug("returning generated number {}/{}", n, max);
     return n;
 };
 
