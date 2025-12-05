@@ -38,14 +38,14 @@ bool FloatingButton::init() {
       float y = horribleMod->getSavedValue<float>("button-y", 100.0f);
 
       // create a circle sprite for the visual button
-      auto sprite = CircleButtonSprite::createWithSprite(
+      m_sprite = CircleButtonSprite::createWithSprite(
           "shocksprite.png"_spr,
           0.9f);
-      sprite->setScale(1.0f);
-      sprite->setPosition({sprite->getContentSize().width / 2, sprite->getContentSize().height / 2});
-      sprite->setOpacity(Mod::get()->getSettingValue<int64_t>("opacity-floating-button"));
-      this->setContentSize(sprite->getContentSize() + 5);
-      this->addChild(sprite);
+      m_sprite->setScale(.8f);
+      m_sprite->setOpacity(Mod::get()->getSettingValue<int64_t>("opacity-floating-button"));
+      this->setContentSize({m_sprite->getContentSize()});
+      this->setAnchorPoint({0, 0});
+      this->addChild(m_sprite);
 
       // set position
       this->setPosition({x, y});
@@ -53,9 +53,9 @@ bool FloatingButton::init() {
       // enable touches and schedule updates
       this->setTouchMode(kCCTouchesOneByOne);
       this->setTouchEnabled(true);
-      this->setTouchPriority(-1000);  // ewww touch priority
+      this->setTouchPriority(-503);  // ewww touch priority
       this->setID("floating-button"_spr);
-      this->setZOrder(999);
+      this->setZOrder(106);
       this->scheduleUpdate();
 
       return true;
@@ -67,8 +67,6 @@ void FloatingButton::setPosition(const CCPoint& position) {
       horribleMod->setSavedValue<float>("button-x", position.x);
       horribleMod->setSavedValue<float>("button-y", position.y);
 }
-
-// removed getPosition override; using base CCNode/CCLayer method instead
 
 bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
       CCPoint touchLocation = touch->getLocation();
@@ -90,7 +88,7 @@ void FloatingButton::ccTouchMoved(CCTouch* touch, CCEvent* ev) {
             this->setPosition(newLocation);
             isMoving = true;
             // CCscaleTo action for visual feedback
-            this->runAction(CCScaleTo::create(0.2f, 1.1f));
+            this->runAction(CCScaleTo::create(0.1f, 1.2f));
       }
 }
 void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
@@ -105,11 +103,19 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
       horribleMod->setSavedValue<float>("button-x", this->getPosition().x);
       horribleMod->setSavedValue<float>("button-y", this->getPosition().y);
       // reset scale
-      this->runAction(CCScaleTo::create(0.2f, 1.0f));
+      this->runAction(CCScaleTo::create(0.1f, 1.0f));
 }
 
 void FloatingButton::update(float delta) {
       CCLayer::update(delta);
+      m_sprite->setOpacity(Mod::get()->getSettingValue<int64_t>("opacity-floating-button"));
+      if (Mod::get()->getSettingValue<bool>("floating-button")) {
+            this->setVisible(true);
+            this->setTouchEnabled(true);
+      } else {
+            this->setVisible(false);
+            this->setTouchEnabled(false);
+      }
 }
 
 void FloatingButton::visit() {

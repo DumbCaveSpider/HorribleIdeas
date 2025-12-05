@@ -19,6 +19,11 @@ void menu::MenuButtonTarget::openMenuCallback(CCObject*) {
 };
 
 void menu::open() {
+      if (auto existing = CCScene::get()->getChildByID("options"_spr)) {
+            existing->removeFromParentAndCleanup(true);
+            return;
+      }
+
       if (auto popup = HorribleMenuPopup::create()) popup->show();
 };
 

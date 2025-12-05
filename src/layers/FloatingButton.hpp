@@ -11,6 +11,7 @@ class FloatingButton : public CCLayer {
       bool isDragging = false;
       bool isMoving = false;
       CCPoint dragStartPos = {0, 0};
+      CircleButtonSprite* m_sprite = nullptr;
 
       public:
        static FloatingButton* get();
