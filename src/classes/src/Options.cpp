@@ -23,3 +23,16 @@ bool options::set(std::string_view id, bool enable) {
     if (auto optionManager = OptionManager::get()) return optionManager->setOption(id, enable);
     return false;
 };
+
+std::vector<std::string> options::getAllCategories() {
+    if (auto optionManager = OptionManager::get()) return optionManager->getCategories();
+    return {};
+};
+
+bool options::doesCategoryExist(const std::string& category) {
+    for (const auto& cat : getAllCategories()) {
+        if (cat == category) return true;
+    };
+
+    return false;
+};

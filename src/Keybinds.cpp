@@ -13,12 +13,15 @@ using namespace keybinds;
 
 $execute {
       if (auto bm = BindManager::get()) {
-            bm->registerBindable(
-                {"popup"_spr,
-                 "Show Menu",
+          bm->registerBindable({
+              "popup"_spr,
+               "Show Menu",
                  "Open the Horrible Ideas mod menu.",
-                 {Keybind::create(KEY_Backslash, Modifier::None)},
-                 "Horrible Ideas"});
+                 {
+                    Keybind::create(KEY_Backslash, Modifier::None)
+                },
+                 "Horrible Ideas"
+                               });
 
 
             static Ref<HorribleMenuPopup> menuPopup = nullptr;

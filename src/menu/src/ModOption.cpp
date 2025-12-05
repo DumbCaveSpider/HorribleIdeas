@@ -1,4 +1,4 @@
-#include "ModOption.hpp"
+#include "../ModOption.hpp"
 
 #include <Horrible.hpp>
 
@@ -32,7 +32,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     m_impl->m_option = option;
 
     // check for compatibility
-    for (auto p : m_impl->m_option.platforms) {
+    for (const auto& p : m_impl->m_option.platforms) {
         if (p & GEODE_PLATFORM_TARGET) { m_impl->s_compatible = true; break; };
     };
 
@@ -44,7 +44,7 @@ bool ModOption::init(CCSize const& size, Option option) {
 
     auto bg = CCScale9Sprite::create("square02_001.png");
     bg->setID("background");
-    bg->setScale(0.5);
+    bg->setScale(0.5f);
     bg->setAnchorPoint({ 0, 0 });
     bg->setContentSize({ getScaledContentWidth() * 2.f, getScaledContentHeight() * 2.f });
     bg->setOpacity(40);
@@ -62,12 +62,13 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto togglerOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
     togglerOn->setScale(0.875f);
 
-    // toggler for the joke
+    // toggler for the option
     m_impl->m_toggler = CCMenuItemToggler::create(
         togglerOff,
         togglerOn,
         this,
-        menu_selector(ModOption::onToggle));
+        menu_selector(ModOption::onToggle)
+    );
     m_impl->m_toggler->setID("toggler");
     m_impl->m_toggler->setAnchorPoint({ 0.5f, 0.5f });
     m_impl->m_toggler->setPosition({ x + 12.f, yCenter });
@@ -84,7 +85,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto nameLabel = CCLabelBMFont::create(
         m_impl->m_option.name.c_str(),
         "bigFont.fnt",
-        getScaledContentSize().width - 80.f,
+        getScaledContentWidth() - 80.f,
         kCCTextAlignmentLeft
     );
     nameLabel->setID("name-label");
@@ -96,7 +97,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto categoryLabel = CCLabelBMFont::create(
         m_impl->m_option.category.c_str(),
         "goldFont.fnt",
-        getScaledContentSize().width - 80.f,
+        getScaledContentWidth() - 80.f,
         kCCTextAlignmentLeft
     );
     categoryLabel->setID("category-label");

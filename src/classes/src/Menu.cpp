@@ -24,23 +24,21 @@ void menu::open() {
 };
 
 void menu::addButton(CCNode* menu, float scale) {
-    auto btnSprite = CircleButtonSprite::createWithSprite(
-        "shocksprite.png"_spr,
-        0.9f,
-        CircleBaseColor::Green,
-        CircleBaseSize::Medium
-    );
-    btnSprite->setScale(scale);
-
-    auto btn = CCMenuItemSpriteExtra::create(
-        btnSprite,
-        MenuButtonTarget::get(),
-        menu_selector(MenuButtonTarget::openMenuCallback)
-    );
-    btn->setID("horrible-options-button"_spr);
-    btn->setZOrder(9);
-
     if (auto m = static_cast<CCMenu*>(menu)) {
+        auto btnSprite = CircleButtonSprite::createWithSprite(
+            "shocksprite.png"_spr,
+            0.9f
+        );
+        btnSprite->setScale(scale);
+
+        auto btn = CCMenuItemSpriteExtra::create(
+            btnSprite,
+            MenuButtonTarget::get(),
+            menu_selector(MenuButtonTarget::openMenuCallback)
+        );
+        btn->setID("horrible-options-button"_spr);
+        btn->setZOrder(9);
+
         m->addChild(btn);
         m->updateLayout(true);
     } else {

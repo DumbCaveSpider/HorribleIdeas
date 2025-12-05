@@ -26,7 +26,7 @@ namespace horrible {
         bool get(std::string_view id);
 
         /**
-         *Returns the chance value for an option
+         * Returns the chance value for an option
          *
          * @param id The ID of the option to check
          *
@@ -43,5 +43,19 @@ namespace horrible {
          * @returns Boolean of the old value
          */
         bool set(std::string_view id, bool enable);
+
+        /**
+         * Returns the array of all registered option categories
+         *
+         * @returns An array of every registered option category, main and external
+         */
+        std::vector<std::string> getAllCategories();
+
+        /**
+         * Returns if a category exists or not
+         *
+         * @param category The exact name of the category to check
+         */
+        bool doesCategoryExist(const std::string& category);
     };
 };

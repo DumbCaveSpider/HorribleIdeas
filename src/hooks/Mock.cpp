@@ -6,8 +6,6 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
-using namespace geode::utils;
-using namespace matjson;
 using namespace horrible;
 
 class $modify(MockMenuLayer, MenuLayer) {
@@ -26,8 +24,6 @@ class $modify(MockMenuLayer, MenuLayer) {
         if (m_fields->enabled) {
             log::debug("mock feature enabled in MainMenu layer");
 
-            namespace fs = std::filesystem;
-
             if (rnd <= m_fields->chance) {
                 auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                 auto mockConfig = file::readJson(fs::path(mockConfigPath));
@@ -37,7 +33,7 @@ class $modify(MockMenuLayer, MenuLayer) {
                 if (mockConfig.isOk()) {
                     log::debug("Read mocking config file");
 
-                    auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+                    auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
 
                     auto lvlUnwr = mockConfigUnwr.begin();
                     std::advance(lvlUnwr, rnd % mockConfigUnwr.size());
@@ -147,18 +143,18 @@ class $modify(MockPlayLayer, PlayLayer) {
                     auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                     auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved fails to mock the player with :)
 
-                    auto toWrite = Value(); // what we're gonna write in the mock.json file
+                    auto toWrite = matjson::Value(); // what we're gonna write in the mock.json file
 
                     if (mockConfig.isOk()) {
                         // unwrap the whole thing
-                        auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+                        auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
 
                         // overwrite this field (or add it) with the percent
                         mockConfigUnwr[std::to_string(id)] = percentage;
 
                         toWrite = mockConfigUnwr;
                     } else {
-                        toWrite = makeObject({ {std::to_string(id), percentage} });
+                        toWrite = matjson::makeObject({ {std::to_string(id), percentage} });
                     };
 
                     if (!toWrite.isNull()) {
@@ -200,7 +196,7 @@ class $modify(MockPlayLayer, PlayLayer) {
 
             if (mockConfig.isOk()) {
                 log::debug("Clearing mock record for {}", id);
-                auto mockConfigUnwr = mockConfig.unwrapOr(Value());
+                auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
 
                 mockConfigUnwr[std::to_string(id)].clear();
 

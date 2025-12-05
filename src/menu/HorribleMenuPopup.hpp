@@ -1,7 +1,10 @@
 #pragma once
 
-#include <Geode/Geode.hpp>
+#include "CategoryItem.hpp"
+
 #include <Horrible.hpp>
+
+#include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
@@ -17,10 +20,19 @@ protected:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 
+    EventListener<CategoryEventFilter> m_listener = {
+        [this](CategoryEvent* event) {
+            return OnCategory(event->getId());
+        },
+        CategoryEventFilter()
+    };
+
     HorribleMenuPopup();
     virtual ~HorribleMenuPopup();
 
-    void filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier);
+    ListenerResult OnCategory(const std::string& category);
+
+    void filterOptions(const std::vector<Option>& allOptions, SillyTier tier = SillyTier::None, const std::string& category = "");
     void filterTierCallback(CCObject*);
 
     void openModSettings(CCObject*);

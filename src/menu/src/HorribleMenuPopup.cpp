@@ -1,14 +1,19 @@
-#include "HorribleMenuPopup.hpp"
+#include "../HorribleMenuPopup.hpp"
 
-#include <Geode/Geode.hpp>
-#include <Geode/binding/ButtonSprite.hpp>
-#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
-#include <Geode/ui/GeodeUI.hpp>
-#include <Geode/ui/TextInput.hpp>
-#include <Geode/utils/terminate.hpp>
+#include "../ModOption.hpp"
+#include "../CategoryItem.hpp"
+
 #include <Horrible.hpp>
 
-#include "toggle/ModOption.hpp"
+#include <Geode/Geode.hpp>
+
+#include <Geode/ui/GeodeUI.hpp>
+#include <Geode/ui/TextInput.hpp>
+
+#include <Geode/utils/terminate.hpp>
+
+#include <Geode/binding/ButtonSprite.hpp>
+#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
@@ -16,10 +21,15 @@ using namespace horrible;
 class HorribleMenuPopup::Impl final {
 public:
     SillyTier s_selectedTier = SillyTier::None;
-    bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
+    std::string s_selectedCategory = "";
+
     std::string m_searchText = "";
 
+    bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
+
     Ref<ScrollLayer> m_optionList = nullptr;
+    Ref<ScrollLayer> m_categoryList = nullptr;
+
     Ref<TextInput> m_searchInput = nullptr;
 };
 
@@ -52,13 +62,38 @@ bool HorribleMenuPopup::setup() {
 
     // scroll layer
     m_impl->m_optionList = ScrollLayer::create({ optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f });
-    m_impl->m_optionList->setID("options-layer");
+    m_impl->m_optionList->setID("options-list");
     m_impl->m_optionList->setAnchorPoint({ 0.5, 0.5 });
     m_impl->m_optionList->ignoreAnchorPointForPosition(false);
     m_impl->m_optionList->setPosition(optionListBg->getPosition());
     m_impl->m_optionList->m_contentLayer->setLayout(columnLayout);
 
-    m_mainLayer->addChild(m_impl->m_optionList);
+    m_mainLayer->addChild(m_impl->m_optionList, 9);
+
+    auto categoryListBg = CCScale9Sprite::create("square02_001.png");
+    categoryListBg->setAnchorPoint({ 0.5, 0.5 });
+    categoryListBg->setPosition({ mainLayerSize.width - 82.5f, 75.f });
+    categoryListBg->setContentSize({ (mainLayerSize.width / 3.f) - 10.f, 92.5f });
+    categoryListBg->setOpacity(50);
+
+    m_mainLayer->addChild(categoryListBg);
+
+    // scroll layer
+    m_impl->m_categoryList = ScrollLayer::create({ categoryListBg->getScaledContentWidth() - 10.f, categoryListBg->getScaledContentHeight() - 10.f });
+    m_impl->m_categoryList->setID("categories-list");
+    m_impl->m_categoryList->setAnchorPoint({ 0.5, 0.5 });
+    m_impl->m_categoryList->ignoreAnchorPointForPosition(false);
+    m_impl->m_categoryList->setPosition(categoryListBg->getPosition());
+    m_impl->m_categoryList->m_contentLayer->setLayout(columnLayout);
+
+    for (const auto& category : options::getAllCategories()) {
+        if (auto categoryItem = CategoryItem::create({ m_impl->m_categoryList->getScaledContentWidth(), 20.f }, category)) m_impl->m_categoryList->m_contentLayer->addChild(categoryItem);
+    };
+
+    m_impl->m_categoryList->m_contentLayer->updateLayout();
+    m_impl->m_categoryList->scrollToTop();
+
+    m_mainLayer->addChild(m_impl->m_categoryList, 1);
 
     // add search bar
     m_impl->m_searchInput = TextInput::create(270, "Search...", "bigFont.fnt");
@@ -67,7 +102,7 @@ bool HorribleMenuPopup::setup() {
 
     m_impl->m_searchInput->setCallback([this](std::string const& str) {
         m_impl->m_searchText = str;
-        filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);  // lets search this crap
+        filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);  // lets search this crap
                                        });
 
     m_mainLayer->addChild(m_impl->m_searchInput);
@@ -81,18 +116,26 @@ bool HorribleMenuPopup::setup() {
 
     m_mainLayer->addChild(filterMenuBg);
 
+    auto filtersLabel = CCLabelBMFont::create("Filters", "goldFont.fnt");
+    filtersLabel->setAnchorPoint({ 0.5, 0 });
+    filtersLabel->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 47.5f });
+    filtersLabel->setScale(0.325f);
+
+    m_mainLayer->addChild(filtersLabel);
+
     // filter buttons :o
     auto filterMenu = CCMenu::create();
     filterMenu->setID("filter-menu");
     filterMenu->setAnchorPoint({ 0.5, 1 });
-    filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 62.5f });
+    filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 65.f });
 
     std::vector<FilterBtnInfo> btns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
         {SillyTier::Medium, "Medium", {255, 255, 100}},
-        {SillyTier::High, "High", {255, 100, 100}} };
+        {SillyTier::High, "High", {255, 100, 100}}
+    };
 
-    float btnY = 0.f;
+    float fBtnY = 0.f;
     for (const auto& btn : btns) {
         if (auto normalBs = ButtonSprite::create(btn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0, .8f)) {
             normalBs->m_label->setColor(btn.color);
@@ -100,17 +143,18 @@ bool HorribleMenuPopup::setup() {
 
             auto filterBtn = CCMenuItemSpriteExtra::create(normalBs, this, menu_selector(HorribleMenuPopup::filterTierCallback));
             filterBtn->setTag(static_cast<int>(btn.tier));
-            filterBtn->setPosition({ 0.f, btnY });
+            filterBtn->setPosition({ 0.f, fBtnY });
+
             filterMenu->addChild(filterBtn);
 
-            btnY -= 40.f;
+            fBtnY -= 35.f;
         } else {
             log::error("Failed to create filter button sprite");
         };
     };
 
     // get the options data
-    filterOptionsByTier(options::getAll(), SillyTier::None);
+    filterOptions(options::getAll());
 
     m_mainLayer->addChild(filterMenu);
 
@@ -123,15 +167,15 @@ bool HorribleMenuPopup::setup() {
     auto modSettingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
         // @geode-ignore(unknown-resource)
         "geode.loader/settings.png",
-        1.f,
-        CircleBaseColor::Green,
-        CircleBaseSize::Medium);
+        1.f
+    );
     modSettingsBtnSprite->setScale(0.75f);
 
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openModSettings));
+        menu_selector(HorribleMenuPopup::openModSettings)
+    );
     modSettingsBtn->setID("mod-settings-button");
 
     modSettingsMenu->addChild(modSettingsBtn);
@@ -142,7 +186,8 @@ bool HorribleMenuPopup::setup() {
     auto seriesBtn = CCMenuItemSpriteExtra::create(
         seriesBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openSeriesPage));
+        menu_selector(HorribleMenuPopup::openSeriesPage)
+    );
     seriesBtn->setID("horrible-mods-series-button");
     seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
 
@@ -155,16 +200,18 @@ bool HorribleMenuPopup::setup() {
     auto supporterBtn = CCMenuItemSpriteExtra::create(
         supporterBtnSprite,
         this,
-        menu_selector(HorribleMenuPopup::openSupporterPopup));
-    supporterBtn->setID("support-us-button");
+        menu_selector(HorribleMenuPopup::openSupporterPopup)
+    );
+    supporterBtn->setID("support-button");
     supporterBtn->setPosition({ mainLayerSize.width - 45.f, mainLayerSize.height - 20.f });
 
     modSettingsMenu->addChild(supporterBtn);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode OFF", "bigFont.fnt");
+    safeModeLabel->setID("safe-mode-label");
     safeModeLabel->setColor({ 255, 0, 0 });
     safeModeLabel->setAnchorPoint({ 0.5, 0 });
-    safeModeLabel->setPosition({ filterMenuBg->getPositionX(), 20.f });
+    safeModeLabel->setPosition({ filterMenuBg->getPositionX(), 15.f });
     safeModeLabel->setScale(0.325f);
 
     // Set safemode label if active
@@ -175,21 +222,31 @@ bool HorribleMenuPopup::setup() {
         log::warn("Safe mode is inactive");
     };
 
-    m_mainLayer->addChild(safeModeLabel, 100);
+    m_mainLayer->addChild(safeModeLabel, 9);
 
     return true;
 };
 
-void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOptions, SillyTier tier) {
+ListenerResult HorribleMenuPopup::OnCategory(const std::string& category) {
+    m_impl->s_selectedCategory = category;
+    filterOptions(options::getAll(), m_impl->s_selectedTier, category);
+    return ListenerResult::Propagate;
+};
+
+void HorribleMenuPopup::filterOptions(const std::vector<Option>& allOptions, SillyTier tier, const std::string& category) {
     if (m_impl->m_optionList) {
         m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
+        auto useCategory = options::doesCategoryExist(category);
+
         for (const auto& opt : allOptions) {
             // tier filter
-            bool tierMatches = (tier == SillyTier::None || opt.silly == tier);
+            auto tierMatches = tier == SillyTier::None || opt.silly == tier;
+            // category filter
+            auto categoryMatches = !useCategory || (opt.category == category);
 
             // search filter
-            bool searchMatches = true;
+            auto searchMatches = true;
             if (!m_impl->m_searchText.empty()) {
                 std::string searchLower = m_impl->m_searchText;
                 std::string nameLower = opt.name;
@@ -201,7 +258,7 @@ void HorribleMenuPopup::filterOptionsByTier(const std::vector<Option>& allOption
                 searchMatches = str::contains(nameLower, searchLower);
             };
 
-            if (tierMatches && searchMatches) {
+            if (tierMatches && categoryMatches && searchMatches) {
                 if (auto modOption = ModOption::create(
                     { m_impl->m_optionList->m_contentLayer->getScaledContentWidth(),
                      32.5f },
@@ -234,7 +291,7 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
             m_impl->s_selectedTier = tier;
         };
 
-        filterOptionsByTier(options::getAll(), m_impl->s_selectedTier);
+        filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);
     } else {
         log::error("Filter button cast failed");
     };
