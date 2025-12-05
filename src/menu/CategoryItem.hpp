@@ -10,11 +10,13 @@ using namespace horrible;
 class CategoryEvent : public Event {
 protected:
     std::string m_id;
+    bool m_enabled;
 
 public:
-    CategoryEvent(std::string id);
+    CategoryEvent(std::string id, bool enabled = false);
 
     std::string getId() const;
+    bool isEnabled() const;
 };
 
 // Filter for option toggle event
@@ -31,7 +33,7 @@ protected:
 
     EventListener<CategoryEventFilter> m_listener = {
         [this](CategoryEvent* event) {
-            return OnCategory(event->getId());
+            return OnCategory(event->getId(), event->isEnabled());
         },
         CategoryEventFilter()
     };
@@ -39,10 +41,9 @@ protected:
     CategoryItem();
     virtual ~CategoryItem();
 
-    ListenerResult OnCategory(const std::string& category);
+    ListenerResult OnCategory(const std::string& category, bool enabled = false);
 
-    void onToggle(CCObject*);
-    void setButtonSprite(CCMenuItemSpriteExtra* button, const char* frameName);
+    void onToggle(CCObject* sender);
 
     bool init(CCSize const& size, const std::string& category);
 

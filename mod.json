@@ -77,7 +77,8 @@
             "type": "bool",
             "name": "Show Button in Level",
             "description": "Show the floating menu button while playing a level.",
-            "default": false
+            "default": false,
+            "enable-if": "floating-button"
         },
         "floating-button-scale": {
             "type": "float",

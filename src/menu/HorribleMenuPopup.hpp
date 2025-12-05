@@ -22,7 +22,7 @@ protected:
 
     EventListener<CategoryEventFilter> m_listener = {
         [this](CategoryEvent* event) {
-            return OnCategory(event->getId());
+            return OnCategory(event->getId(), event->isEnabled());
         },
         CategoryEventFilter()
     };
@@ -30,7 +30,7 @@ protected:
     HorribleMenuPopup();
     virtual ~HorribleMenuPopup();
 
-    ListenerResult OnCategory(const std::string& category);
+    ListenerResult OnCategory(const std::string& category, bool enabled = true);
 
     void filterOptions(const std::vector<Option>& allOptions, SillyTier tier = SillyTier::None, const std::string& category = "");
     void filterTierCallback(CCObject*);

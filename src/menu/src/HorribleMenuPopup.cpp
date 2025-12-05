@@ -192,6 +192,8 @@ bool HorribleMenuPopup::setup() {
     resetFiltersBtn->setID("reset-filters-btn");
     resetFiltersBtn->setPositionX(m_mainLayer->getScaledContentWidth());
 
+    modSettingsMenu->addChild(resetFiltersBtn);
+
     auto seriesBtnSprite = CCSprite::createWithSpriteFrameName("gj_ytIcon_001.png");
     seriesBtnSprite->setScale(0.75f);
 
@@ -239,9 +241,9 @@ bool HorribleMenuPopup::setup() {
     return true;
 };
 
-ListenerResult HorribleMenuPopup::OnCategory(const std::string& category) {
-    m_impl->s_selectedCategory = category;
-    filterOptions(options::getAll(), m_impl->s_selectedTier, category);
+ListenerResult HorribleMenuPopup::OnCategory(const std::string& category, bool enabled) {
+    m_impl->s_selectedCategory = enabled ? category : "";
+    filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);
     return ListenerResult::Propagate;
 };
 
@@ -317,7 +319,7 @@ void HorribleMenuPopup::resetFilters(CCObject*) {
         [=](bool, bool btn2) {
             if (btn2) {
                 m_impl->s_selectedTier = SillyTier::None;
-                CategoryEvent("").post();
+                CategoryEvent("", false).post();
             };
         });
 };

@@ -7,10 +7,14 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-CategoryEvent::CategoryEvent(std::string id) : m_id(id) {};
+CategoryEvent::CategoryEvent(std::string id, bool enabled) : m_id(id), m_enabled(enabled) {};
 
 std::string CategoryEvent::getId() const {
     return m_id;
+};
+
+bool CategoryEvent::isEnabled() const {
+    return m_enabled;
 };
 
 ListenerResult CategoryEventFilter::handle(std::function<Callback> fn, CategoryEvent* event) {
@@ -21,8 +25,7 @@ class CategoryItem::Impl final {
 public:
     std::string m_category = ""; // The category name
 
-    Ref<CCMenuItemSpriteExtra> m_toggler = nullptr; // The toggler for the option
-    bool m_toggled = false;
+    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
 };
 
 CategoryItem::CategoryItem() {
@@ -49,12 +52,15 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
 
     addChild(bg, -1);
 
-    auto togglerSprite = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
-    togglerSprite->setScale(0.5f);
+    auto togglerOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
+    togglerOff->setScale(0.5f);
+    auto togglerOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
+    togglerOn->setScale(0.5f);
 
     // toggler for the category
-    m_impl->m_toggler = CCMenuItemSpriteExtra::create(
-        togglerSprite,
+    m_impl->m_toggler = CCMenuItemToggler::create(
+        togglerOff,
+        togglerOn,
         this,
         menu_selector(CategoryItem::onToggle)
     );
@@ -83,36 +89,16 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
     return true;
 };
 
-void CategoryItem::setButtonSprite(CCMenuItemSpriteExtra* button, const char* frameName) {
-    if (button) {
-        if (auto sprite = typeinfo_cast<CCSprite*>(button->getNormalImage())) {
-            if (auto frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(frameName)) sprite->setDisplayFrame(frame);
-        };
-    };
-};
-
-ListenerResult CategoryItem::OnCategory(const std::string& category) {
-    m_impl->m_toggled = category == m_impl->m_category;
-
+ListenerResult CategoryItem::OnCategory(const std::string& category, bool enabled) {
     if (m_impl->m_toggler) {
-        auto spr = m_impl->m_toggler->getNormalImage();
-        auto toggleSpr = CCSprite::createWithSpriteFrameName(
-            m_impl->m_toggled ? "GJ_checkOn_001.png" : "GJ_checkOff_001.png"
-        );
-
-        if (toggleSpr && spr) {
-            toggleSpr->setScale(spr->getScale());
-            toggleSpr->setPosition(spr->getPosition());
-
-            m_impl->m_toggler->setNormalImage(toggleSpr);
-        };
+        if (category != m_impl->m_category) m_impl->m_toggler->toggle(false);
     };
 
     return ListenerResult::Propagate;
 };
 
-void CategoryItem::onToggle(CCObject*) {
-    CategoryEvent(m_impl->m_toggled ? "" : m_impl->m_category).post();
+void CategoryItem::onToggle(CCObject* sender) {
+    if (m_impl->m_toggler) CategoryEvent(m_impl->m_category, !m_impl->m_toggler->isOn()).post();
 };
 
 CategoryItem* CategoryItem::create(CCSize const& size, const std::string& category) {
