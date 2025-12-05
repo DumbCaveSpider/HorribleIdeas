@@ -356,6 +356,30 @@
             "name": "More Settings",
             "description": "Other settings you can change."
         },
+        "floating-button": {
+            "type": "bool",
+            "name": "Floating Menu Button",
+            "description": "Show a floating button on the main menu to quickly access the <cy>Horrible Options</c> menu. <co>Intended for mobile users.</c>",
+            "default": true
+        },
+        "opacity-floating-button": {
+            "type": "int",
+            "name": "Floating Button Opacity",
+            "description": "Change the opacity of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
+            "default": 100,
+            "min": 10,
+            "max": 255,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 1,
+                "arrows": true,
+                "arrow-step": 10,
+                "big-arrows": true,
+                "big-arrow-step": 20
+            },
+            "enable-if": "floating-button"
+        },
         "show-incompatible": {
             "type": "bool",
             "name": "Show Incompatible Options",
