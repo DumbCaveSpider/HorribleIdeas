@@ -11,7 +11,7 @@ class $modify(HorribleEditLevelLayer, EditLevelLayer) {
     bool init(GJGameLevel * level) {
         if (!EditLevelLayer::init(level)) return false;
 
-        if (auto levelActionsMenu = getChildByID("level-actions-menu")) menu::addButton(levelActionsMenu);
+        // if (auto levelActionsMenu = getChildByID("level-actions-menu")) menu::addButton(levelActionsMenu);
 
         return true;
     };

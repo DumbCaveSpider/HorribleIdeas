@@ -29,7 +29,6 @@ FloatingButton* FloatingButton::get() {
 }
 
 bool FloatingButton::init() {
-      // init as a layer so we can handle touches
       if (!CCLayer::init())
             return false;
 
@@ -37,25 +36,24 @@ bool FloatingButton::init() {
       float x = horribleMod->getSavedValue<float>("button-x", 100.0f);
       float y = horribleMod->getSavedValue<float>("button-y", 100.0f);
 
-      // create a circle sprite for the visual button
       m_sprite = CircleButtonSprite::createWithSprite(
           "shocksprite.png"_spr,
           0.9f);
-      m_sprite->setScale(.8f);
+      // set initial scale from settings
+      m_sprite->setScale(Mod::get()->getSettingValue<float>("floating-button-scale"));
       m_sprite->setOpacity(Mod::get()->getSettingValue<int64_t>("opacity-floating-button"));
       this->setContentSize({m_sprite->getContentSize()});
       this->setAnchorPoint({0, 0});
       this->addChild(m_sprite);
 
-      // set position
       this->setPosition({x, y});
 
       // enable touches and schedule updates
       this->setTouchMode(kCCTouchesOneByOne);
       this->setTouchEnabled(true);
-      this->setTouchPriority(-503);  // ewww touch priority
+      this->setTouchPriority(-512);  // ewww touch priority
       this->setID("floating-button"_spr);
-      this->setZOrder(106);
+      this->setZOrder(10000);
       this->scheduleUpdate();
 
       return true;
@@ -76,6 +74,12 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
       if (ccpDistance(touchLocation, nodeLocation) <= radius) {
             isDragging = true;
             dragStartPos = ccpSub(nodeLocation, touchLocation);
+                  m_sprite->stopAllActions();
+                  m_isAnimating = true;
+                  m_sprite->runAction(CCSequence::create(
+                CCScaleTo::create(0.1f, Mod::get()->getSettingValue<float>("floating-button-scale") - 0.2f),
+                CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
+                nullptr));
             return true;  // swallow touch
       }
       return false;
@@ -87,12 +91,9 @@ void FloatingButton::ccTouchMoved(CCTouch* touch, CCEvent* ev) {
             CCPoint newLocation = ccpAdd(touchLocation, dragStartPos);
             this->setPosition(newLocation);
             isMoving = true;
-            // CCscaleTo action for visual feedback
-            this->runAction(CCScaleTo::create(0.1f, 1.2f));
       }
 }
 void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
-      // if we didn't move, treat as click
       if (!isMoving) {
             menu::open();
       }
@@ -103,12 +104,22 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
       horribleMod->setSavedValue<float>("button-x", this->getPosition().x);
       horribleMod->setSavedValue<float>("button-y", this->getPosition().y);
       // reset scale
-      this->runAction(CCScaleTo::create(0.1f, 1.0f));
+            m_sprite->stopAllActions();
+            m_isAnimating = true;
+            m_sprite->runAction(CCSequence::create(
+          CCScaleTo::create(0.1f, Mod::get()->getSettingValue<float>("floating-button-scale")),
+          CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
+          nullptr));
 }
 
 void FloatingButton::update(float delta) {
       CCLayer::update(delta);
       m_sprite->setOpacity(Mod::get()->getSettingValue<int64_t>("opacity-floating-button"));
+      // Avoid overriding scaling when dragging or animating
+      float baseScale = Mod::get()->getSettingValue<float>("floating-button-scale");
+      if (!isDragging && !m_isAnimating) {
+            m_sprite->setScale(baseScale);
+      }
       if (Mod::get()->getSettingValue<bool>("floating-button")) {
             this->setVisible(true);
             this->setTouchEnabled(true);
@@ -120,4 +131,8 @@ void FloatingButton::update(float delta) {
 
 void FloatingButton::visit() {
       CCLayer::visit();
+}
+
+void FloatingButton::onScaleEnd() {
+      m_isAnimating = false;
 }

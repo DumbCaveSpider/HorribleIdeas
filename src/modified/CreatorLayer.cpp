@@ -11,7 +11,7 @@ class $modify(HorribleCreatorLayer, CreatorLayer) {
     bool init() {
         if (!CreatorLayer::init()) return false;
 
-        if (auto bottomLeftMenu = getChildByID("bottom-left-menu")) menu::addButton(bottomLeftMenu, 0.875f);
+        // if (auto bottomLeftMenu = getChildByID("bottom-left-menu")) menu::addButton(bottomLeftMenu, 0.875f);
 
         return true;
     };

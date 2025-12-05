@@ -12,10 +12,12 @@ class FloatingButton : public CCLayer {
       bool isMoving = false;
       CCPoint dragStartPos = {0, 0};
       CircleButtonSprite* m_sprite = nullptr;
+      bool m_isAnimating = false;
+      void onScaleEnd();
 
-      public:
-       static FloatingButton* get();
-       static FloatingButton* create();
+     public:
+      static FloatingButton* get();
+      static FloatingButton* create();
 
       void setPosition(const CCPoint& position) override;
 

@@ -11,7 +11,7 @@ class $modify(HorribleEditorPauseLayer, EditorPauseLayer) {
     bool init(LevelEditorLayer * layer) {
         if (!EditorPauseLayer::init(layer)) return false;
 
-        if (auto guidelinesMenu = getChildByID("guidelines-menu")) menu::addButton(guidelinesMenu, 0.875f);
+        // if (auto guidelinesMenu = getChildByID("guidelines-menu")) menu::addButton(guidelinesMenu, 0.875f);
 
         return true;
     };

@@ -20,8 +20,8 @@ class $modify(HorribleMenuLayer, MenuLayer) {
                   log::debug("Store Current FPS: {}", storedFPS);
             };
 
-            if (auto bottomMenu = getChildByID("bottom-menu"))
-                  menu::addButton(bottomMenu, 1.125f);
+            // if (auto bottomMenu = getChildByID("bottom-menu"))
+            //       menu::addButton(bottomMenu, 1.125f);
 
             if (!getChildByID("floating-button")) {
                   if (auto fb = FloatingButton::get()) {
