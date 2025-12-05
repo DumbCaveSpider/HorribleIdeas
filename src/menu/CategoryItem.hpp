@@ -41,7 +41,8 @@ protected:
 
     ListenerResult OnCategory(const std::string& category);
 
-    void onToggle(CCObject* sender);
+    void onToggle(CCObject*);
+    void setButtonSprite(CCMenuItemSpriteExtra* button, const char* frameName);
 
     bool init(CCSize const& size, const std::string& category);
 

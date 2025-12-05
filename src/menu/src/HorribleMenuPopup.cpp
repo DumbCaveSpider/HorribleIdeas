@@ -177,9 +177,20 @@ bool HorribleMenuPopup::setup() {
         this,
         menu_selector(HorribleMenuPopup::openModSettings)
     );
-    modSettingsBtn->setID("mod-settings-button");
+    modSettingsBtn->setID("mod-settings-btn");
 
     modSettingsMenu->addChild(modSettingsBtn);
+
+    auto resetFiltersBtnSprite = CCSprite::createWithSpriteFrameName("GJ_replayBtn_001.png");
+    resetFiltersBtnSprite->setScale(0.5f);
+
+    auto resetFiltersBtn = CCMenuItemSpriteExtra::create(
+        resetFiltersBtnSprite,
+        this,
+        menu_selector(HorribleMenuPopup::resetFilters)
+    );
+    resetFiltersBtn->setID("reset-filters-btn");
+    resetFiltersBtn->setPositionX(m_mainLayer->getScaledContentWidth());
 
     auto seriesBtnSprite = CCSprite::createWithSpriteFrameName("gj_ytIcon_001.png");
     seriesBtnSprite->setScale(0.75f);
@@ -189,7 +200,7 @@ bool HorribleMenuPopup::setup() {
         this,
         menu_selector(HorribleMenuPopup::openSeriesPage)
     );
-    seriesBtn->setID("horrible-mods-series-button");
+    seriesBtn->setID("horrible-mods-series-btn");
     seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
 
     modSettingsMenu->addChild(seriesBtn);
@@ -203,7 +214,7 @@ bool HorribleMenuPopup::setup() {
         this,
         menu_selector(HorribleMenuPopup::openSupporterPopup)
     );
-    supporterBtn->setID("support-button");
+    supporterBtn->setID("support-btn");
     supporterBtn->setPosition({ mainLayerSize.width - 45.f, mainLayerSize.height - 20.f });
 
     modSettingsMenu->addChild(supporterBtn);
@@ -298,6 +309,19 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
     };
 };
 
+void HorribleMenuPopup::resetFilters(CCObject*) {
+    createQuickPopup(
+        "Reset Filters",
+        "Would you like to <cr>reset all filters</c>?",
+        "Cancel", "OK",
+        [=](bool, bool btn2) {
+            if (btn2) {
+                m_impl->s_selectedTier = SillyTier::None;
+                CategoryEvent("").post();
+            };
+        });
+};
+
 void HorribleMenuPopup::openModSettings(CCObject*) {
     openSettingsPopup(horribleMod);
 };
@@ -306,8 +330,7 @@ void HorribleMenuPopup::openSeriesPage(CCObject*) {
     createQuickPopup(
         "Horrible Mods",
         "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
-        "Cancel",
-        "OK",
+        "Cancel", "OK",
         [=](bool, bool btn2) {
             if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
         });

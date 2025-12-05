@@ -35,6 +35,8 @@ protected:
     void filterOptions(const std::vector<Option>& allOptions, SillyTier tier = SillyTier::None, const std::string& category = "");
     void filterTierCallback(CCObject*);
 
+    void resetFilters(CCObject*);
+
     void openModSettings(CCObject*);
     void openSeriesPage(CCObject*);
     void openSupporterPopup(CCObject*);

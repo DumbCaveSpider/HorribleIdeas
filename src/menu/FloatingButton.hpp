@@ -25,6 +25,9 @@ public:
 
     void setOpacity(GLubyte opacity);
 
+    void onEnter() override;
+    void onExit() override;
+
     void setScale(float scale) override;
     void setPosition(const CCPoint& position) override;
 

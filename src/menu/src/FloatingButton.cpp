@@ -15,7 +15,9 @@ public:
     bool m_isDragging = false;
     bool m_isMoving = false;
 
+    CCSize m_screenSize = CCDirector::sharedDirector()->getWinSize();
     CCPoint m_dragStartPos = { 0, 0 };
+
     Ref<CircleButtonSprite> m_sprite = nullptr;
 
     bool m_isAnimating = false;
@@ -68,39 +70,54 @@ void FloatingButton::setScale(float scale) {
     m_impl->m_scale = scale;
 
     if (!m_impl->m_isDragging && !m_impl->m_isAnimating) {
-        CCLayer::setScale(scale);
-        if (m_impl->m_sprite) m_impl->m_sprite->setScale(scale);
+        if (m_impl->m_sprite) {
+            m_impl->m_sprite->setScale(scale);
+            setContentSize(m_impl->m_sprite->getScaledContentSize());
+        };
     };
 };
 
 void FloatingButton::setPosition(const CCPoint& position) {
-    CCLayer::setPosition(position);
+    if (m_impl->m_sprite) {
+        auto halfX = m_impl->m_sprite->getScaledContentWidth() / 2.f;
+        auto halfY = m_impl->m_sprite->getScaledContentHeight() / 2.f;
 
-    // save the position
-    if (!m_impl->m_isDragging) {
-        horribleMod->setSavedValue<float>("button-x", position.x);
-        horribleMod->setSavedValue<float>("button-y", position.y);
+        auto clampX = std::clamp<float>(position.x, halfX, m_impl->m_screenSize.width - halfX);
+        auto clampY = std::clamp<float>(position.y, halfY, m_impl->m_screenSize.height - halfY);
+
+        auto clampPos = ccp(clampX, clampY);
+        CCLayer::setPosition(clampPos);
+
+        // Save only when not dragging
+        if (!m_impl->m_isDragging) {
+            horribleMod->setSavedValue<float>("button-x", clampPos.x);
+            horribleMod->setSavedValue<float>("button-y", clampPos.y);
+        };
+    } else {
+        CCLayer::setPosition(position);
     };
 };
 
 bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
-    CCPoint touchLocation = convertToNodeSpace(touch->getLocation());
+    if (m_impl->m_sprite) {
+        CCPoint touchLocation = convertToNodeSpace(touch->getLocation());
 
-    auto box = m_impl->m_sprite->boundingBox();
-    if (box.containsPoint(touchLocation)) {
-        m_impl->m_isDragging = true;
+        auto box = m_impl->m_sprite->boundingBox();
+        if (box.containsPoint(touchLocation)) {
+            m_impl->m_isDragging = true;
 
-        m_impl->m_dragStartPos = ccpSub(getPosition(), touch->getLocation());
+            m_impl->m_dragStartPos = ccpSub(getPosition(), touch->getLocation());
 
-        m_impl->m_sprite->stopAllActions();
-        m_impl->m_isAnimating = true;
+            m_impl->m_sprite->stopAllActions();
+            m_impl->m_isAnimating = true;
 
-        m_impl->m_sprite->runAction(CCSequence::create(
-            CCScaleTo::create(0.1f, m_impl->m_scale - 0.2f),
-            CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
-            nullptr));
+            m_impl->m_sprite->runAction(CCSequence::create(
+                CCScaleTo::create(0.1f, m_impl->m_scale - 0.2f),
+                CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
+                nullptr));
 
-        return true;  // swallow touch
+            return true;  // swallow touch
+        };
     };
 
     return false;
@@ -128,13 +145,26 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
     horribleMod->setSavedValue<float>("button-x", getPosition().x);
     horribleMod->setSavedValue<float>("button-y", getPosition().y);
 
-    // reset scale
-    m_impl->m_sprite->stopAllActions();
     m_impl->m_isAnimating = true;
-    m_impl->m_sprite->runAction(CCSequence::create(
-        CCScaleTo::create(0.1f, m_impl->m_scale),
-        CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
-        nullptr));
+
+    if (m_impl->m_sprite) {
+        // reset scale
+        m_impl->m_sprite->stopAllActions();
+        m_impl->m_sprite->runAction(CCSequence::create(
+            CCScaleTo::create(0.1f, m_impl->m_scale),
+            CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
+            nullptr));
+    };
+};
+
+void FloatingButton::onEnter() {
+    CCLayer::onEnter();
+    setTouchEnabled(true);
+};
+
+void FloatingButton::onExit() {
+    CCLayer::onExit();
+    setTouchEnabled(false);
 };
 
 void FloatingButton::visit() {

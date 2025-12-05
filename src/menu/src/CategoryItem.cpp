@@ -21,7 +21,8 @@ class CategoryItem::Impl final {
 public:
     std::string m_category = ""; // The category name
 
-    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
+    Ref<CCMenuItemSpriteExtra> m_toggler = nullptr; // The toggler for the option
+    bool m_toggled = false;
 };
 
 CategoryItem::CategoryItem() {
@@ -48,21 +49,18 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
 
     addChild(bg, -1);
 
-    auto togglerOff = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
-    togglerOff->setScale(0.5f);
-    auto togglerOn = CCSprite::createWithSpriteFrameName("GJ_checkOn_001.png");
-    togglerOn->setScale(0.5f);
+    auto togglerSprite = CCSprite::createWithSpriteFrameName("GJ_checkOff_001.png");
+    togglerSprite->setScale(0.5f);
 
     // toggler for the category
-    m_impl->m_toggler = CCMenuItemToggler::create(
-        togglerOff,
-        togglerOn,
+    m_impl->m_toggler = CCMenuItemSpriteExtra::create(
+        togglerSprite,
         this,
         menu_selector(CategoryItem::onToggle)
     );
     m_impl->m_toggler->setID("toggler");
     m_impl->m_toggler->setAnchorPoint({ 0.5f, 0.5f });
-    m_impl->m_toggler->setPosition({ 15.f, getScaledContentHeight() / 2.f });
+    m_impl->m_toggler->setPosition({ 10.f, getScaledContentHeight() / 2.f });
     m_impl->m_toggler->setScale(0.875f);
 
     addChild(m_impl->m_toggler);
@@ -71,13 +69,13 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
     auto nameLabel = CCLabelBMFont::create(
         m_impl->m_category.c_str(),
         "goldFont.fnt",
-        getScaledContentWidth() - 50.f,
+        getScaledContentWidth() - 37.5f,
         kCCTextAlignmentLeft
     );
     nameLabel->setID("name-label");
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({ 0.f, 0.5f });
-    nameLabel->setPosition({ 25.f, getScaledContentHeight() / 2.f });
+    nameLabel->setPosition({ 17.5f, getScaledContentHeight() / 2.f });
     nameLabel->setScale(0.375f);
 
     addChild(nameLabel);
@@ -85,14 +83,36 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
     return true;
 };
 
+void CategoryItem::setButtonSprite(CCMenuItemSpriteExtra* button, const char* frameName) {
+    if (button) {
+        if (auto sprite = typeinfo_cast<CCSprite*>(button->getNormalImage())) {
+            if (auto frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(frameName)) sprite->setDisplayFrame(frame);
+        };
+    };
+};
+
 ListenerResult CategoryItem::OnCategory(const std::string& category) {
-    if (m_impl->m_toggler) if (m_impl->m_toggler->isToggled() != (category == m_impl->m_category)) m_impl->m_toggler->toggle(category == m_impl->m_category);
+    m_impl->m_toggled = category == m_impl->m_category;
+
+    if (m_impl->m_toggler) {
+        auto spr = m_impl->m_toggler->getNormalImage();
+        auto toggleSpr = CCSprite::createWithSpriteFrameName(
+            m_impl->m_toggled ? "GJ_checkOn_001.png" : "GJ_checkOff_001.png"
+        );
+
+        if (toggleSpr && spr) {
+            toggleSpr->setScale(spr->getScale());
+            toggleSpr->setPosition(spr->getPosition());
+
+            m_impl->m_toggler->setNormalImage(toggleSpr);
+        };
+    };
+
     return ListenerResult::Propagate;
 };
 
-void CategoryItem::onToggle(CCObject* sender) {
-    // why contrary
-    if (auto toggler = static_cast<CCMenuItemToggler*>(sender)) CategoryEvent(toggler->isToggled() ? m_impl->m_category : "").post();
+void CategoryItem::onToggle(CCObject*) {
+    CategoryEvent(m_impl->m_toggled ? "" : m_impl->m_category).post();
 };
 
 CategoryItem* CategoryItem::create(CCSize const& size, const std::string& category) {
