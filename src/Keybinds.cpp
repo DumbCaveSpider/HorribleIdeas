@@ -1,7 +1,8 @@
-#include <Geode/Geode.hpp>
-#include <Geode/utils/cocos.hpp>
+#include <menu/HorribleMenuPopup.hpp>
 
-#include "menu/HorribleMenuPopup.hpp"
+#include <Geode/Geode.hpp>
+
+#include <Geode/utils/cocos.hpp>
 
 using namespace geode::prelude;
 
@@ -11,7 +12,7 @@ using namespace geode::prelude;
 
 using namespace keybinds;
 
-$execute {
+$execute{
       if (auto bm = BindManager::get()) {
           bm->registerBindable({
               "popup"_spr,
@@ -29,9 +30,7 @@ $execute {
                   if (event->isDown()) {
                         if (menuPopup) {
                               log::warn("Menu popup already open");
-
                               menuPopup->removeMeAndCleanup();
-                              menuPopup = nullptr;
                         } else {
                               menuPopup = HorribleMenuPopup::create();
                               if (menuPopup) menuPopup->show();

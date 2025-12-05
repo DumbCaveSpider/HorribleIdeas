@@ -41,9 +41,9 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
 
     auto bg = CCScale9Sprite::create("square02_001.png");
     bg->setID("background");
-    bg->setScale(0.5f);
+    bg->setScale(0.2f);
     bg->setAnchorPoint({ 0, 0 });
-    bg->setContentSize({ getScaledContentWidth() * 2.f, getScaledContentHeight() * 2.f });
+    bg->setContentSize({ getScaledContentWidth() * 5.f, getScaledContentHeight() * 5.f });
     bg->setOpacity(40);
 
     addChild(bg, -1);

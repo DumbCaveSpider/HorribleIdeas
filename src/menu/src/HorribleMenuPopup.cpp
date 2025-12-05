@@ -71,9 +71,10 @@ bool HorribleMenuPopup::setup() {
     m_mainLayer->addChild(m_impl->m_optionList, 9);
 
     auto categoryListBg = CCScale9Sprite::create("square02_001.png");
+    categoryListBg->setScale(0.5f);
     categoryListBg->setAnchorPoint({ 0.5, 0.5 });
     categoryListBg->setPosition({ mainLayerSize.width - 82.5f, 75.f });
-    categoryListBg->setContentSize({ (mainLayerSize.width / 3.f) - 10.f, 92.5f });
+    categoryListBg->setContentSize({ ((mainLayerSize.width / 3.f) - 10.f) * 2.f, 92.5f * 2.f });
     categoryListBg->setOpacity(50);
 
     m_mainLayer->addChild(categoryListBg);

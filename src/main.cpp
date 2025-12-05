@@ -1,18 +1,22 @@
-#include <Geode/Geode.hpp>
-#include <Geode/binding/FMODAudioEngine.hpp>
-#include <Geode/modify/CCMenuItem.hpp>
-#include <Geode/modify/CCScene.hpp>
-#include <Geode/modify/GJGameLevel.hpp>
-#include <Geode/modify/LevelEditorLayer.hpp>
-#include <Geode/modify/MenuLayer.hpp>
+#include <menu/HorribleMenuPopup.hpp>
+#include <menu/FloatingButton.hpp>
+
 #include <Horrible.hpp>
 
-#include "menu/HorribleMenuPopup.hpp"
+#include <Geode/Geode.hpp>
+
+#include <Geode/modify/CCScene.hpp>
+#include <Geode/modify/MenuLayer.hpp>
+#include <Geode/modify/CCMenuItem.hpp>
+#include <Geode/modify/GJGameLevel.hpp>
+#include <Geode/modify/LevelEditorLayer.hpp>
+
+#include <Geode/binding/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
-$execute {
+$execute{
       if (auto optionManager = OptionManager::get()) {
             log::debug("Registering default options...");
 
@@ -26,7 +30,22 @@ $execute {
       };
 };
 
-// class $modify(HorribleCCScene, CCScene) {
+class $modify(HIMenuLayer, MenuLayer) {
+    bool init() {
+        if (!MenuLayer::init()) return false;
+
+        if (!getChildByID("floating-button"_spr)) {
+            if (auto fb = FloatingButton::get()) {
+                addChild(fb, 999);
+                SceneManager::get()->keepAcrossScenes(fb);
+            };
+        };
+
+        return true;
+    };
+};
+
+// class $modify(HICCScene, CCScene) {
 //       bool init() {
 //             if (!CCScene::init()) return false;
 
@@ -44,42 +63,41 @@ $execute {
 // };
 
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
-class $modify(HorribleCCMenuItem, CCMenuItem) {
-      void activate() {
-            auto rnd = randng::fast();
-            log::debug("button menu chance {}", rnd);
+class $modify(HICCMenuItem, CCMenuItem) {
+    void activate() {
+        auto rnd = randng::fast();
+        log::debug("button menu chance {}", rnd);
 
-            if (horribleMod->getSavedValue<bool>("achieve", true)) {
-                  if (auto fmod = FMODAudioEngine::sharedEngine()) {
-                        // @geode-ignore(unknown-resource)
-                        if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffectAsync("achievement_01.ogg");
-                  };
+        if (horribleMod->getSavedValue<bool>("achieve", true)) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) {
+                // @geode-ignore(unknown-resource)
+                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffectAsync("achievement_01.ogg");
             };
+        };
 
-            CCMenuItem::activate();
-      };
+        CCMenuItem::activate();
+    };
 };
 
 // safe mode
-class $modify(HorribleGJGameLevel, GJGameLevel) {
-      void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid) {
-            if (horribleMod->getSettingValue<bool>("safe-mode")) {
-                  log::warn("Safe mode is enabled, your progress will not be saved!");
-            } else {
-                  GJGameLevel::savePercentage(percent, isPracticeMode, clicks, attempts, isChkValid);
-            };
-      };
+class $modify(HIGJGameLevel, GJGameLevel) {
+    void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid) {
+        if (horribleMod->getSettingValue<bool>("safe-mode")) {
+            log::warn("Safe mode is enabled, your progress will not be saved!");
+        } else {
+            GJGameLevel::savePercentage(percent, isPracticeMode, clicks, attempts, isChkValid);
+        };
+    };
 };
 
-
 // WOMP WOMP BROKEN PLAYTEST
-class $modify(HorribleLevelEditorLayer, LevelEditorLayer) {
-      void onPlaytest() {
-            FLAlertLayer::create(
-                "Warning",
-                "<cy>Horrible Ideas</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level... Sorry about that!\n<cg>We recommend disabling the mod while editing levels.</c>",
-                "OK")
-                ->show();
-            LevelEditorLayer::onPlaytest();
-      };
+class $modify(HILevelEditorLayer, LevelEditorLayer) {
+    void onPlaytest() {
+        FLAlertLayer::create(
+            "Warning",
+            "<cy>Horrible Ideas</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level... Sorry about that!\n<cg>We recommend disabling the mod while editing levels.</c>",
+            "OK")
+            ->show();
+        LevelEditorLayer::onPlaytest();
+    };
 };
