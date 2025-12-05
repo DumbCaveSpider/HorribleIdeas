@@ -8,7 +8,7 @@ using namespace horrible;
 
 void menu::open() {
     if (auto existing = CCScene::get()->getChildByID("options"_spr)) {
-        existing->removeFromParentAndCleanup(true);
+        existing->removeMeAndCleanup();
         return;
     };
 

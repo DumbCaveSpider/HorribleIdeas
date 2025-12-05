@@ -57,6 +57,64 @@
             "description": "Prevent saving any progression made in levels. <cr>Keeping this enabled while using Horrible Ideas is highly recommended!</cr>",
             "default": true
         },
+        "ui": {
+            "type": "title",
+            "name": "Interface",
+            "description": "Appearance and functionality of the interface."
+        },
+        "floating-button": {
+            "type": "bool",
+            "name": "Floating Menu Button",
+            "description": "Show a floating button on the main menu to quickly access the <cy>Horrible Options</c> menu. <co>Intended for mobile users.</c>",
+            "default": {
+                "win": false,
+                "mac": false,
+                "android": true,
+                "ios": true
+            }
+        },
+        "floating-button-level": {
+            "type": "bool",
+            "name": "Show Button in Level",
+            "description": "Show the floating menu button while playing a level.",
+            "default": false
+        },
+        "floating-button-scale": {
+            "type": "float",
+            "name": "Floating Button Scale",
+            "description": "Change the size of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
+            "default": 1.0,
+            "min": 0.5,
+            "max": 3.0,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 0.1,
+                "arrows": true,
+                "arrow-step": 0.1,
+                "big-arrows": true,
+                "big-arrow-step": 0.5
+            },
+            "enable-if": "floating-button"
+        },
+        "floating-button-opacity": {
+            "type": "int",
+            "name": "Floating Button Opacity",
+            "description": "Change the opacity of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
+            "default": 100,
+            "min": 10,
+            "max": 255,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 1,
+                "arrows": true,
+                "arrow-step": 10,
+                "big-arrows": true,
+                "big-arrow-step": 20
+            },
+            "enable-if": "floating-button"
+        },
         "chances": {
             "type": "title",
             "name": "Mod Chances",
@@ -355,48 +413,6 @@
             "type": "title",
             "name": "More Settings",
             "description": "Other settings you can change."
-        },
-        "floating-button": {
-            "type": "bool",
-            "name": "Floating Menu Button",
-            "description": "Show a floating button on the main menu to quickly access the <cy>Horrible Options</c> menu. <co>Intended for mobile users.</c>",
-            "default": true
-        },
-        "floating-button-scale": {
-            "type": "float",
-            "name": "Floating Button Scale",
-            "description": "Change the size of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
-            "default": 1.0,
-            "min": 0.5,
-            "max": 3.0,
-            "control": {
-                "input": true,
-                "slider": true,
-                "slider-step": 0.1,
-                "arrows": true,
-                "arrow-step": 0.1,
-                "big-arrows": true,
-                "big-arrow-step": 0.5
-            },
-            "enable-if": "floating-button"
-        },
-        "opacity-floating-button": {
-            "type": "int",
-            "name": "Floating Button Opacity",
-            "description": "Change the opacity of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
-            "default": 100,
-            "min": 10,
-            "max": 255,
-            "control": {
-                "input": true,
-                "slider": true,
-                "slider-step": 1,
-                "arrows": true,
-                "arrow-step": 10,
-                "big-arrows": true,
-                "big-arrow-step": 20
-            },
-            "enable-if": "floating-button"
         },
         "show-incompatible": {
             "type": "bool",

@@ -16,7 +16,6 @@ protected:
 
     void onScaleEnd();
 
-    virtual void update(float dt) override;
     virtual bool init() override;
     virtual void visit() override;
 
@@ -24,6 +23,9 @@ public:
     static FloatingButton* get();
     static FloatingButton* create();
 
+    void setOpacity(GLubyte opacity);
+
+    void setScale(float scale) override;
     void setPosition(const CCPoint& position) override;
 
     // CCLayer targeted touch listener methods

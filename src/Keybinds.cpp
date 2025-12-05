@@ -7,7 +7,6 @@
 using namespace geode::prelude;
 
 #if !defined(GEODE_IS_IOS)
-
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 
 using namespace keybinds;
@@ -24,27 +23,13 @@ $execute{
                  "Horrible Ideas"
                                });
 
-
-            static Ref<HorribleMenuPopup> menuPopup = nullptr;
             new EventListener([=](InvokeBindEvent* event) {
-                  if (event->isDown()) {
-                        if (menuPopup) {
-                              log::warn("Menu popup already open");
-                              menuPopup->removeMeAndCleanup();
-                        } else {
-                              menuPopup = HorribleMenuPopup::create();
-                              if (menuPopup) menuPopup->show();
-                        };
-                  };
-
+                  if (event->isDown()) menu::open();
                   return ListenerResult::Propagate;
-            },
+                              },
                               InvokeBindFilter(nullptr, "popup"_spr));
-
-
       } else {
             log::error("Failed to get keybind manager");
       };
 };
-
 #endif

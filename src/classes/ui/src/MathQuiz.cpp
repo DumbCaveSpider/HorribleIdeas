@@ -82,10 +82,10 @@ bool MathQuiz::init() {
         polyPoints.reserve(sides);
 
         constexpr float PI = 3.14159265358979323846f;
-        float theta = (2.0f * PI) / sides;
+        float theta = (2.f * PI) / sides;
 
         for (int i = 0; i < sides; ++i) {
-            float angle = theta * i - PI / 2.0f;  // start at top
+            float angle = theta * i - PI / 2.f;  // start at top
             float x = radius * cosf(angle);
             float y = radius * sinf(angle);
             polyPoints.push_back(ccp(x, y));
@@ -94,11 +94,11 @@ bool MathQuiz::init() {
         // draw the polygon in local coords with drawNode placed at center
         m_impl->m_drawNode->setPosition({ centerX, centerY });
 
-        cocos2d::ccColor4F fillColor = { 0.85f, 0.65f, 0.15f, 1.0f };
-        cocos2d::ccColor4F borderColor = { 0.05f, 0.05f, 0.05f, 1.0f };
+        cocos2d::ccColor4F fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
+        cocos2d::ccColor4F borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
 
         m_impl->m_drawNode->clear();
-        m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.0f, borderColor);
+        m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.f, borderColor);
 
         addChild(m_impl->m_drawNode, 250);
     };
@@ -181,7 +181,7 @@ bool MathQuiz::init() {
 
         // floating animation
         float floatDistance = 8.f;
-        float floatTime = 1.0f;
+        float floatTime = 1.f;
 
         auto moveUp = CCMoveBy::create(floatTime, ccp(0, floatDistance));
         auto moveDown = CCMoveBy::create(floatTime, ccp(0, -floatDistance));
@@ -287,7 +287,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
         // Small scale animation, delay, then call close
         auto seq = CCSequence::create(
             CCScaleTo::create(0.12f, 1.2f),
-            CCScaleTo::create(0.08f, 1.0f),
+            CCScaleTo::create(0.08f, 1.f),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
             nullptr);
@@ -366,7 +366,7 @@ void MathQuiz::update(float dt) {
 
         auto seq = CCSequence::create(
             CCScaleTo::create(0.12f, 1.2f),
-            CCScaleTo::create(0.08f, 1.0f),
+            CCScaleTo::create(0.08f, 1.f),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
             nullptr);

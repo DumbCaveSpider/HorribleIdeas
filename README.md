@@ -13,7 +13,7 @@ This silly lil' mod adds a mod menu filled to the brim with crazy joke mods! Spi
 ---
 
 ### Options
-When pressing `\` or by pressing the button which can be found in a number of places in the game, a menu will pop up with a list of joke mod options you can toggle anytime on your game to do some interesting things to your gaming experience. From random mirror portals to game-breaking glitches! You can view more information within the contents of the menu itself.
+When pressing `\` or by pressing the floating *Horrible Options* button on your screen, a menu will pop up with a list of joke mod options you can toggle anytime on your game to do some interesting things to your gaming experience. From random mirror portals to game-breaking glitches! You can view more information within the contents of the menu itself.
 
 > [!NOTE]
 > *You can customize any keybinds in this mod via the *[Custom Keybinds](https://www.geode-sdk.org/mods/geode.custom-keybinds)* mod.*

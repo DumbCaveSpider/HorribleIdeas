@@ -11,6 +11,8 @@
 #include <Geode/modify/GJGameLevel.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
 
+#include <Geode/loader/SettingV3.hpp>
+
 #include <Geode/binding/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
@@ -28,6 +30,18 @@ $execute{
       } else {
             log::error("Failed to get OptionManager!");
       };
+
+listenForSettingChanges("floating-button", [=](bool value) {
+    if (auto fb = FloatingButton::get()) fb->setVisible(value);
+                        });
+
+listenForSettingChanges("floating-button-scale", [=](double value) {
+    if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
+                        });
+
+listenForSettingChanges("floating-button-opacity", [=](int64_t value) {
+    if (auto fb = FloatingButton::get()) fb->setOpacity(value);
+                        });
 };
 
 class $modify(HIMenuLayer, MenuLayer) {
