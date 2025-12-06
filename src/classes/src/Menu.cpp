@@ -7,10 +7,12 @@
 using namespace horrible;
 
 void menu::open() {
-    if (auto existing = CCScene::get()->getChildByID("options"_spr)) {
-        existing->removeMeAndCleanup();
-        return;
+    static Ref<HorribleMenuPopup> menu = nullptr;
+    if (menu) {
+        menu->removeMeAndCleanup();
+        menu = nullptr;
+    } else if (auto popup = HorribleMenuPopup::create()) {
+        popup->show();
+        menu = popup;
     };
-
-    if (auto popup = HorribleMenuPopup::create()) popup->show();
 };

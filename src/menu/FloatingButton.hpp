@@ -24,9 +24,9 @@ public:
     static FloatingButton* create();
 
     void setOpacity(GLubyte opacity);
+    void setShowInLevel(bool show);
 
     void onEnter() override;
-    void onExit() override;
 
     void setScale(float scale) override;
     void setPosition(const CCPoint& position) override;
@@ -35,4 +35,8 @@ public:
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
     virtual void ccTouchMoved(CCTouch* touch, CCEvent* event) override;
     virtual void ccTouchEnded(CCTouch* touch, CCEvent* event) override;
+
+    int64_t getOpacitySetting() const;
+    float getScaleSetting() const;
+    bool showInLevel() const;
 };

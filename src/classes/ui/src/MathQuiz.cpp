@@ -377,7 +377,7 @@ void MathQuiz::update(float dt) {
 
 MathQuiz* MathQuiz::create() {
     auto ret = new MathQuiz();
-    if (ret && ret->init()) {
+    if (ret->init()) {
         ret->autorelease();
         return ret;
     };
@@ -415,7 +415,7 @@ bool Richard::init() {
 
 Richard* Richard::create() {
     auto ret = new Richard();
-    if (ret && ret->init()) {
+    if (ret->init()) {
         ret->autorelease();
         return ret;
     };

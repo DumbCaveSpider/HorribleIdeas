@@ -45,11 +45,37 @@ bool HorribleMenuPopup::setup() {
 
     auto mainLayerSize = m_mainLayer->getContentSize();
 
-    auto columnLayout = ColumnLayout::create();
-    columnLayout->setGap(5.f);
-    columnLayout->setAxisReverse(true);  // Top to bottom
-    columnLayout->setAxisAlignment(AxisAlignment::End);
-    columnLayout->setAutoGrowAxis(0.f);
+    auto categoryListBg = CCScale9Sprite::create("square02_001.png");
+    categoryListBg->setScale(0.5f);
+    categoryListBg->setAnchorPoint({ 0.5, 0.5 });
+    categoryListBg->setPosition({ mainLayerSize.width - 82.5f, 75.f });
+    categoryListBg->setContentSize({ ((mainLayerSize.width / 3.f) - 10.f) * 2.f, 92.5f * 2.f });
+    categoryListBg->setOpacity(50);
+
+    m_mainLayer->addChild(categoryListBg);
+
+    auto layoutCategories = ColumnLayout::create()
+        ->setGap(2.5f)
+        ->setAxisReverse(true) // Top to bottom
+        ->setAxisAlignment(AxisAlignment::End)
+        ->setAutoGrowAxis(categoryListBg->getScaledContentHeight() - 8.75f);
+
+    // scroll layer
+    m_impl->m_categoryList = ScrollLayer::create({ categoryListBg->getScaledContentWidth() - 8.75f, categoryListBg->getScaledContentHeight() - 8.75f });
+    m_impl->m_categoryList->setID("categories-list");
+    m_impl->m_categoryList->setAnchorPoint({ 0.5, 0.5 });
+    m_impl->m_categoryList->ignoreAnchorPointForPosition(false);
+    m_impl->m_categoryList->setPosition(categoryListBg->getPosition());
+    m_impl->m_categoryList->m_contentLayer->setLayout(layoutCategories);
+
+    for (const auto& category : options::getAllCategories()) {
+        if (auto categoryItem = CategoryItem::create({ m_impl->m_categoryList->getScaledContentWidth(), 20.f }, category)) m_impl->m_categoryList->m_contentLayer->addChild(categoryItem);
+    };
+
+    m_impl->m_categoryList->m_contentLayer->updateLayout();
+    m_impl->m_categoryList->scrollToTop();
+
+    m_mainLayer->addChild(m_impl->m_categoryList, 1);
 
     // Add a background sprite to the popup
     auto optionListBg = CCScale9Sprite::create("square02_001.png");
@@ -60,41 +86,21 @@ bool HorribleMenuPopup::setup() {
 
     m_mainLayer->addChild(optionListBg);
 
+    auto layoutOptions = ColumnLayout::create()
+        ->setGap(5.f)
+        ->setAxisReverse(true) // Top to bottom
+        ->setAxisAlignment(AxisAlignment::End)
+        ->setAutoGrowAxis(optionListBg->getScaledContentHeight() - 10.f);
+
     // scroll layer
     m_impl->m_optionList = ScrollLayer::create({ optionListBg->getScaledContentWidth() - 10.f, optionListBg->getScaledContentHeight() - 10.f });
     m_impl->m_optionList->setID("options-list");
     m_impl->m_optionList->setAnchorPoint({ 0.5, 0.5 });
     m_impl->m_optionList->ignoreAnchorPointForPosition(false);
     m_impl->m_optionList->setPosition(optionListBg->getPosition());
-    m_impl->m_optionList->m_contentLayer->setLayout(columnLayout);
+    m_impl->m_optionList->m_contentLayer->setLayout(layoutOptions);
 
     m_mainLayer->addChild(m_impl->m_optionList, 9);
-
-    auto categoryListBg = CCScale9Sprite::create("square02_001.png");
-    categoryListBg->setScale(0.5f);
-    categoryListBg->setAnchorPoint({ 0.5, 0.5 });
-    categoryListBg->setPosition({ mainLayerSize.width - 82.5f, 75.f });
-    categoryListBg->setContentSize({ ((mainLayerSize.width / 3.f) - 10.f) * 2.f, 92.5f * 2.f });
-    categoryListBg->setOpacity(50);
-
-    m_mainLayer->addChild(categoryListBg);
-
-    // scroll layer
-    m_impl->m_categoryList = ScrollLayer::create({ categoryListBg->getScaledContentWidth() - 10.f, categoryListBg->getScaledContentHeight() - 10.f });
-    m_impl->m_categoryList->setID("categories-list");
-    m_impl->m_categoryList->setAnchorPoint({ 0.5, 0.5 });
-    m_impl->m_categoryList->ignoreAnchorPointForPosition(false);
-    m_impl->m_categoryList->setPosition(categoryListBg->getPosition());
-    m_impl->m_categoryList->m_contentLayer->setLayout(columnLayout);
-
-    for (const auto& category : options::getAllCategories()) {
-        if (auto categoryItem = CategoryItem::create({ m_impl->m_categoryList->getScaledContentWidth(), 20.f }, category)) m_impl->m_categoryList->m_contentLayer->addChild(categoryItem);
-    };
-
-    m_impl->m_categoryList->m_contentLayer->updateLayout();
-    m_impl->m_categoryList->scrollToTop();
-
-    m_mainLayer->addChild(m_impl->m_categoryList, 1);
 
     // add search bar
     m_impl->m_searchInput = TextInput::create(270, "Search...", "bigFont.fnt");
@@ -344,7 +350,7 @@ void HorribleMenuPopup::openSupporterPopup(CCObject*) {
 
 HorribleMenuPopup* HorribleMenuPopup::create() {
     auto ret = new HorribleMenuPopup();
-    if (ret && ret->initAnchored(450.f, 280.f)) {
+    if (ret->initAnchored(450.f, 280.f)) {
         ret->autorelease();
         return ret;
     };

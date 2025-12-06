@@ -104,7 +104,7 @@ void CategoryItem::onToggle(CCObject* sender) {
 
 CategoryItem* CategoryItem::create(CCSize const& size, const std::string& category) {
     auto ret = new CategoryItem();
-    if (ret && ret->init(size, category)) {
+    if (ret->init(size, category)) {
         ret->autorelease();
         return ret;
     };

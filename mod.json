@@ -432,5 +432,6 @@
         "include": [
             "include/*.hpp"
         ]
-    }
+    },
+    "early-load": false
 }

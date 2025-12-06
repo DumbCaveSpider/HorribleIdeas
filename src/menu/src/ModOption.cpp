@@ -231,7 +231,7 @@ bool ModOption::isCompatible() const {
 
 ModOption* ModOption::create(CCSize const& size, Option option) {
     auto ret = new ModOption();
-    if (ret && ret->init(size, option)) {
+    if (ret->init(size, option)) {
         ret->autorelease();
         return ret;
     };

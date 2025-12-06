@@ -12,6 +12,8 @@ public:
     float m_scale = static_cast<float>(horribleMod->getSettingValue<double>("floating-button-scale"));
     int64_t m_opacity = horribleMod->getSettingValue<int64_t>("floating-button-opacity");
 
+    bool m_inLevel = horribleMod->getSettingValue<bool>("floating-button-level");
+
     bool m_isDragging = false;
     bool m_isMoving = false;
 
@@ -64,6 +66,10 @@ bool FloatingButton::init() {
 
 void FloatingButton::setOpacity(GLubyte opacity) {
     if (m_impl->m_sprite) m_impl->m_sprite->setOpacity(opacity);
+};
+
+void FloatingButton::setShowInLevel(bool show) {
+    m_impl->m_inLevel = show;
 };
 
 void FloatingButton::setScale(float scale) {
@@ -162,11 +168,6 @@ void FloatingButton::onEnter() {
     setTouchEnabled(true);
 };
 
-void FloatingButton::onExit() {
-    CCLayer::onExit();
-    setTouchEnabled(false);
-};
-
 void FloatingButton::visit() {
     CCLayer::visit();
 };
@@ -175,9 +176,21 @@ void FloatingButton::onScaleEnd() {
     m_impl->m_isAnimating = false;
 };
 
+int64_t FloatingButton::getOpacitySetting() const {
+    return m_impl->m_opacity;
+};
+
+float FloatingButton::getScaleSetting() const {
+    return m_impl->m_scale;
+};
+
+bool FloatingButton::showInLevel() const {
+    return m_impl->m_inLevel;
+};
+
 FloatingButton* FloatingButton::create() {
     auto ret = new FloatingButton();
-    if (ret && ret->init()) {
+    if (ret->init()) {
         ret->autorelease();
         return ret;
     };

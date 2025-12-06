@@ -11,16 +11,25 @@ using namespace horrible;
 
 class $modify(HorriblePlayLayer, PlayLayer) {
     struct Fields {
-        bool buttonLevel = horribleMod->getSettingValue<bool>("floating-button-level");
-        int64_t buttonOpacity = horribleMod->getSettingValue<int64_t>("floating-button-opacity");
-
         bool safeMode = horribleMod->getSettingValue<bool>("safe-mode");
     };
 
     void setupHasCompleted() {
         PlayLayer::setupHasCompleted();
 
-        if (auto fb = FloatingButton::get()) fb->setOpacity(m_fields->buttonLevel ? m_fields->buttonOpacity : 0);
+        hideButton();
+    };
+
+    void resume() {
+        PlayLayer::resume();
+
+        hideButton();
+    };
+
+    void resumeAndRestart(bool fromStart) {
+        PlayLayer::resumeAndRestart(fromStart);
+
+        hideButton();
     };
 
     // safe mode prevents level completion
@@ -35,5 +44,9 @@ class $modify(HorriblePlayLayer, PlayLayer) {
             log::warn("Safe mode is disabled");
             PlayLayer::levelComplete();
         };
+    };
+
+    void hideButton() {
+        if (auto fb = FloatingButton::get()) fb->setOpacity(fb->showInLevel() ? fb->getOpacitySetting() : 0);
     };
 };

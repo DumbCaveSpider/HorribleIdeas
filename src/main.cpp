@@ -1,4 +1,3 @@
-#include <menu/HorribleMenuPopup.hpp>
 #include <menu/FloatingButton.hpp>
 
 #include <Horrible.hpp>
@@ -35,6 +34,10 @@ listenForSettingChanges("floating-button", [=](bool value) {
     if (auto fb = FloatingButton::get()) fb->setVisible(value);
                         });
 
+listenForSettingChanges("floating-button-level", [=](bool value) {
+    if (auto fb = FloatingButton::get()) fb->setShowInLevel(value);
+                        });
+
 listenForSettingChanges("floating-button-scale", [=](double value) {
     if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
                         });
@@ -48,11 +51,9 @@ class $modify(HIMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
-        if (!getChildByID("floating-button"_spr)) {
-            if (auto fb = FloatingButton::get()) {
-                addChild(fb, 999);
-                SceneManager::get()->keepAcrossScenes(fb);
-            };
+        if (auto fb = FloatingButton::get()) {
+            addChild(fb, 999);
+            SceneManager::get()->keepAcrossScenes(fb);
         };
 
         return true;
@@ -109,7 +110,7 @@ class $modify(HILevelEditorLayer, LevelEditorLayer) {
     void onPlaytest() {
         FLAlertLayer::create(
             "Warning",
-            "<cy>Horrible Ideas</c> has <cr>completely broken</c> the Playtest function which prevents the player from testing the level... Sorry about that!\n<cg>We recommend disabling the mod while editing levels.</c>",
+            "<cy>Horrible Ideas</c> has somehow <cr>completely broke</c> the Playtest function in the level editor which now prevents the player from playtesting the level... Sorry about that!\n\n<cg>We recommend disabling the mod while working on levels.</c>",
             "OK")
             ->show();
         LevelEditorLayer::onPlaytest();
