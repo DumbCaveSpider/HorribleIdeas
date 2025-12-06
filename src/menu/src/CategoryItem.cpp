@@ -39,7 +39,8 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
 
     if (!CCMenu::init()) return false;
 
-    setID(str::join(str::split(str::toLower(category), " "), "-"));
+    auto id = str::join(str::split(str::toLower(category), " "), "-");
+    setID(id);
     setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 
@@ -75,13 +76,13 @@ bool CategoryItem::init(CCSize const& size, const std::string& category) {
     auto nameLabel = CCLabelBMFont::create(
         m_impl->m_category.c_str(),
         "goldFont.fnt",
-        getScaledContentWidth() - 37.5f,
+        getScaledContentWidth() - 35.f,
         kCCTextAlignmentLeft
     );
     nameLabel->setID("name-label");
     nameLabel->setLineBreakWithoutSpace(true);
     nameLabel->setAnchorPoint({ 0.f, 0.5f });
-    nameLabel->setPosition({ 17.5f, getScaledContentHeight() / 2.f });
+    nameLabel->setPosition({ 20.f, getScaledContentHeight() / 2.f });
     nameLabel->setScale(0.375f);
 
     addChild(nameLabel);

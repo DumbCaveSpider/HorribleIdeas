@@ -170,7 +170,7 @@ bool HorribleMenuPopup::setup() {
         "geode.loader/settings.png",
         1.f
     );
-    modSettingsBtnSprite->setScale(0.75f);
+    modSettingsBtnSprite->setScale(0.625f);
 
     auto modSettingsBtn = CCMenuItemSpriteExtra::create(
         modSettingsBtnSprite,
@@ -182,7 +182,7 @@ bool HorribleMenuPopup::setup() {
     modSettingsMenu->addChild(modSettingsBtn);
 
     auto resetFiltersBtnSprite = CCSprite::createWithSpriteFrameName("GJ_replayBtn_001.png");
-    resetFiltersBtnSprite->setScale(0.5f);
+    resetFiltersBtnSprite->setScale(0.375f);
 
     auto resetFiltersBtn = CCMenuItemSpriteExtra::create(
         resetFiltersBtnSprite,
