@@ -21,7 +21,7 @@ class $modify(AdsGJBaseGameLayer, GJBaseGameLayer) {
                 m_fields->m_adCooldown += p0;
 
                 static float nextAdTime = 0.f;
-                auto rnd = randng::fast();
+                int rnd = randng::fast();
                 auto gm = GameManager::sharedState();
 
                 if (nextAdTime == 0.f || m_fields->m_adCooldown >= nextAdTime) {

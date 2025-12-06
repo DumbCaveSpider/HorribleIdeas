@@ -20,6 +20,8 @@ protected:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 
+    static HorribleMenuPopup* s_inst;
+
     EventListener<CategoryEventFilter> m_listener = {
         [this](CategoryEvent* event) {
             return OnCategory(event->getId(), event->isEnabled());
@@ -41,8 +43,14 @@ protected:
     void openSeriesPage(CCObject*);
     void openSupporterPopup(CCObject*);
 
+    void onClose(CCObject* sender) override;
+    void onExit() override;
+    void cleanup() override;
+
     bool setup() override;
 
 public:
     static HorribleMenuPopup* create();
+
+    static HorribleMenuPopup* get();
 };

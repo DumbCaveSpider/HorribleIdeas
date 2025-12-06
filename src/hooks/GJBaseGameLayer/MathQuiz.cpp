@@ -17,7 +17,7 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
     };
 
     void update(float p0) {
-        auto rnd = randng::fast();
+        int rnd = randng::fast();
         // log::debug("gjbasegamelayer update chance {}", rnd);
 
         if (m_fields->enabled) {
@@ -48,7 +48,7 @@ class $modify(MathQuizGJBaseGameLayer, GJBaseGameLayer) {
                                 if (!m_fields->m_currentQuiz->wasCorrect()) if (auto playLayer = PlayLayer::get()) playLayer->resetLevelFromStart();
 
                                 // set cooldown between 5 and 10 seconds before next quiz
-                                auto rnd = randng::fast();
+                                int rnd = randng::fast();
                                 m_fields->m_nextQuizCooldown = static_cast<float>((rnd % 6) + 5); // 5..10 seconds
 
                                 m_fields->m_currentQuiz = nullptr;

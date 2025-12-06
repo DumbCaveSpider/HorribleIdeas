@@ -85,7 +85,7 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto nameLabel = CCLabelBMFont::create(
         m_impl->m_option.name.c_str(),
         "bigFont.fnt",
-        getScaledContentWidth() - 80.f,
+        getScaledContentWidth() - 40.f,
         kCCTextAlignmentLeft
     );
     nameLabel->setID("name-label");
@@ -97,13 +97,14 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto categoryLabel = CCLabelBMFont::create(
         m_impl->m_option.category.c_str(),
         "goldFont.fnt",
-        getScaledContentWidth() - 80.f,
+        getScaledContentWidth() - 60.f,
         kCCTextAlignmentLeft
     );
     categoryLabel->setID("category-label");
     categoryLabel->setLineBreakWithoutSpace(true);
     categoryLabel->setAnchorPoint({ 0.f, 0.5f });
     categoryLabel->setPosition({ x, yCenter + 10.f });
+    categoryLabel->setOpacity(200);
     categoryLabel->setScale(0.25f);
 
     // Set color based on m_impl->m_option.Tier
@@ -132,7 +133,7 @@ bool ModOption::init(CCSize const& size, Option option) {
         auto idLabel = CCLabelBMFont::create(
             m_impl->m_option.id.c_str(),
             "chatFont.fnt",
-            getContentSize().width - 20.f,
+            getScaledContentWidth() - 20.f,
             kCCTextAlignmentLeft
         );
         idLabel->setID("id-label");
@@ -140,7 +141,7 @@ bool ModOption::init(CCSize const& size, Option option) {
         idLabel->setPosition({ x, yCenter - 10.f });
         idLabel->setAnchorPoint({ 0.f, 0.5f });
         idLabel->setColor({ 0, 0, 0 });
-        idLabel->setOpacity(200);
+        idLabel->setOpacity(125);
         idLabel->setScale(0.5f);
 
         addChild(idLabel);
@@ -155,7 +156,8 @@ bool ModOption::init(CCSize const& size, Option option) {
     auto helpBtn = CCMenuItemSpriteExtra::create(
         helpBtnSprite,
         this,
-        menu_selector(ModOption::onDescription));
+        menu_selector(ModOption::onDescription)
+    );
     helpBtn->setID("help-btn");
     helpBtn->setAnchorPoint({ 0.5f, 0.5f });
     helpBtn->setPosition({ getContentSize().width - padding - 10.f, yCenter });

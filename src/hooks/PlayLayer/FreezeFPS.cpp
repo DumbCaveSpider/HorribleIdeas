@@ -18,7 +18,7 @@ class $modify(FreezePlayLayer, PlayLayer) {
 
         if (m_fields->enabled) {
             if (auto gm = GameManager::sharedState()) {
-                auto rnd = randng::fast();
+                int rnd = randng::fast();
                 if (rnd % 100 < m_fields->chance) capFPS(1.f);
             };
         } else {

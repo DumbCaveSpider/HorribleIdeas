@@ -21,7 +21,7 @@
 
 using namespace geode::prelude;
 
-// Container for Horrible Ideas API
+// Container for Horrible Ideas API functions
 namespace horribleideas {
     // Mod option manager for Horrible Ideas
     class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
@@ -37,7 +37,16 @@ namespace horribleideas {
          *
          * @param category Name of the category
          */
-        void registerCategory(std::string_view category);
+        void registerCategory(const std::string& category);
+
+        /**
+         * Check if an option already exists
+         *
+         * @param id The ID of the option to check
+         *
+         * @returns Whether this option already exists or not
+         */
+        bool doesOptionExist(std::string_view id) const;
 
         friend class HorribleOptionEventFilter;
 
@@ -76,7 +85,7 @@ namespace horribleideas {
          *
          * @returns Boolean of the old value
          */
-        bool setOption(std::string_view id, bool enable) const;
+        bool setOption(const std::string& id, bool enable) const;
 
         /**
          * Returns the array of all registered categories

@@ -18,7 +18,7 @@ class $modify(SizeChangerPlayerObject, PlayerObject) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
                 // log::debug("size changer jump detected");
-                auto rnd = randng::fast();
+                int rnd = randng::fast();
                 if (rnd <= m_fields->chance) {
                     if (m_fields->scaled == true) {
                         log::debug("change scale big");

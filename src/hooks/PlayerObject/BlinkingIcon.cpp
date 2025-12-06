@@ -16,7 +16,7 @@ class $modify(BlinkingIconPlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
-                auto rnd = randng::tiny();
+                int rnd = randng::tiny();
 
                 // randomly makes the player invisible and visible again
                 if (rnd <= m_fields->chance) {

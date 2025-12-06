@@ -81,7 +81,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
             if (game == m_anticheatSpike && player && !player->m_isDead) return;
             if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
-            auto rnd = randng::fast();
+            int rnd = randng::fast();
             if (m_fields->m_health > 0) {
                 m_fields->m_health -= 0.1f;
 

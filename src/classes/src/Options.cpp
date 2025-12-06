@@ -19,7 +19,7 @@ int options::getChance(std::string_view id) {
     return static_cast<int>(horribleMod->getSettingValue<int64_t>(fullId));
 };
 
-bool options::set(std::string_view id, bool enable) {
+bool options::set(const std::string& id, bool enable) {
     if (auto optionManager = OptionManager::get()) return optionManager->setOption(id, enable);
     return false;
 };

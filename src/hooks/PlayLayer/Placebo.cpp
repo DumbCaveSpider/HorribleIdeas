@@ -18,21 +18,16 @@ void placeboEffect() {
     log::info("Checking for placebo effect...");
 
     if (m_fields.enabled) {
-        int rnd = randng::tiny() % 1000;
+        int rnd = randng::fast();
         log::info("placebo effect roll: {}", rnd);
 
-        if (rnd <= 10) { // 1% chance :trol:
+        if (rnd <= 1) { // 1% chance :trol:
             log::info("Placebo effect activated! Disabling all horrible mod options...");
 
             for (const auto& option : options::getAll()) {
-                // if the options is disabled, enabled it
-                if (options::get(option.id) == false) {
-                    log::debug("Enabled option: {}", option.id);
-                    options::set(option.id, true);
-                } else {
-                    log::debug("Disabled option: {}", option.id);
-                    options::set(option.id, false);
-                };
+                auto toggle = options::get(option.id);
+                log::debug("Placebo {} option {}", toggle ? "disabled" : "enabled", option.id);
+                options::set(option.id, !toggle);
             };
         };
     };

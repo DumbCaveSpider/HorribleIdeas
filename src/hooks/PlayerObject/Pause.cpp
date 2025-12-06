@@ -16,7 +16,7 @@ class $modify(RandomPausePlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
-                auto rnd = randng::tiny();
+                int rnd = randng::tiny();
 
                 // if the rng is lower than the chance, pause the game
                 if (rnd <= m_fields->chance) {

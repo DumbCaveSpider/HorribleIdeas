@@ -17,7 +17,7 @@ class $modify(MockMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
-        auto rnd = randng::fast();
+        int rnd = randng::fast();
         log::debug("mock chance {}", rnd);
 
         // Show a LazySprite for the first PNG found in the save directory

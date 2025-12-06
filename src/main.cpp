@@ -18,46 +18,33 @@ using namespace geode::prelude;
 using namespace horrible;
 
 $execute{
-      if (auto optionManager = OptionManager::get()) {
-            log::debug("Registering default options...");
+    if (auto optionManager = OptionManager::get()) {
+        log::debug("Registering default options...");
 
-            for (const auto& option : allOptions) {
-                  optionManager->registerOption(option);
-            };
-
-            log::info("Done registering {} options", allOptions.size());
-      } else {
-            log::error("Failed to get OptionManager!");
-      };
-
-listenForSettingChanges("floating-button", [=](bool value) {
-    if (auto fb = FloatingButton::get()) fb->setVisible(value);
-                        });
-
-listenForSettingChanges("floating-button-level", [=](bool value) {
-    if (auto fb = FloatingButton::get()) fb->setShowInLevel(value);
-                        });
-
-listenForSettingChanges("floating-button-scale", [=](double value) {
-    if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
-                        });
-
-listenForSettingChanges("floating-button-opacity", [=](int64_t value) {
-    if (auto fb = FloatingButton::get()) fb->setOpacity(value);
-                        });
-};
-
-class $modify(HIMenuLayer, MenuLayer) {
-    bool init() {
-        if (!MenuLayer::init()) return false;
-
-        if (auto fb = FloatingButton::get()) {
-            addChild(fb, 999);
-            SceneManager::get()->keepAcrossScenes(fb);
+        for (const auto& option : allOptions) {
+            optionManager->registerOption(option);
         };
 
-        return true;
+        log::info("Done registering {} options", allOptions.size());
+    } else {
+        log::error("Failed to get OptionManager!");
     };
+
+    listenForSettingChanges("floating-button", [=](bool value) {
+        if (auto fb = FloatingButton::get()) fb->setVisible(value);
+                            });
+
+    listenForSettingChanges("floating-button-level", [=](bool value) {
+        if (auto fb = FloatingButton::get()) fb->setShowInLevel(value);
+                            });
+
+    listenForSettingChanges("floating-button-scale", [=](double value) {
+        if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
+                            });
+
+    listenForSettingChanges("floating-button-opacity", [=](int64_t value) {
+        if (auto fb = FloatingButton::get()) fb->setOpacity(value);
+                            });
 };
 
 // class $modify(HICCScene, CCScene) {
@@ -77,20 +64,30 @@ class $modify(HIMenuLayer, MenuLayer) {
 //       };
 // };
 
+class $modify(HIMenuLayer, MenuLayer) {
+    bool init() {
+        if (!MenuLayer::init()) return false;
+
+        if (auto fb = FloatingButton::get()) SceneManager::get()->keepAcrossScenes(fb);
+
+        return true;
+    };
+};
+
 // modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
 class $modify(HICCMenuItem, CCMenuItem) {
     void activate() {
-        auto rnd = randng::fast();
+        CCMenuItem::activate();
+
+        int rnd = randng::fast();
         log::debug("button menu chance {}", rnd);
 
-        if (horribleMod->getSavedValue<bool>("achieve", true)) {
+        if (options::get("achieve")) {
             if (auto fmod = FMODAudioEngine::sharedEngine()) {
                 // @geode-ignore(unknown-resource)
-                if (rnd <= static_cast<int>(horribleMod->getSettingValue<int64_t>("achieve-chance"))) fmod->playEffectAsync("achievement_01.ogg");
+                if (rnd <= options::getChance("achieve")) fmod->playEffectAsync("achievement_01.ogg");
             };
         };
-
-        CCMenuItem::activate();
     };
 };
 
@@ -113,6 +110,7 @@ class $modify(HILevelEditorLayer, LevelEditorLayer) {
             "<cy>Horrible Ideas</c> has somehow <cr>completely broke</c> the Playtest function in the level editor which now prevents the player from playtesting the level... Sorry about that!\n\n<cg>We recommend disabling the mod while working on levels.</c>",
             "OK")
             ->show();
+
         LevelEditorLayer::onPlaytest();
     };
 };

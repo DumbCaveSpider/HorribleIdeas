@@ -9,10 +9,11 @@ using namespace horrible;
 
 class FloatingButton::Impl final {
 public:
+    bool m_enabled = horribleMod->getSettingValue<bool>("floating-button");
+    bool m_inLevel = horribleMod->getSettingValue<bool>("floating-button-level");
+
     float m_scale = static_cast<float>(horribleMod->getSettingValue<double>("floating-button-scale"));
     int64_t m_opacity = horribleMod->getSettingValue<int64_t>("floating-button-opacity");
-
-    bool m_inLevel = horribleMod->getSettingValue<bool>("floating-button-level");
 
     bool m_isDragging = false;
     bool m_isMoving = false;
@@ -65,6 +66,7 @@ bool FloatingButton::init() {
 };
 
 void FloatingButton::setOpacity(GLubyte opacity) {
+    m_impl->m_opacity = opacity;
     if (m_impl->m_sprite) m_impl->m_sprite->setOpacity(opacity);
 };
 

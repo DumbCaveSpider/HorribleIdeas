@@ -16,7 +16,7 @@ class $modify(RandomSpeedPlayerObject, PlayerObject) {
     void update(float p0) {
         if (auto playLayer = PlayLayer::get()) {
             if (m_fields->enabled) {
-                auto rnd = randng::tiny();
+                int rnd = randng::tiny();
 
                 // if the rng is lower than the chance, change the speed
                 if (rnd <= m_fields->chance) {

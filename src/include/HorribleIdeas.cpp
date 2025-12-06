@@ -15,7 +15,7 @@ bool HorribleOptionEvent::getToggled() const {
     return m_toggled;
 };
 
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::string id) : m_ids({ id }) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(const std::string& id) : m_ids({ id }) {};
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> ids) : m_ids(ids) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
@@ -36,13 +36,27 @@ OptionManager::OptionManager() {
 
 OptionManager::~OptionManager() {};
 
-void OptionManager::registerCategory(std::string_view category) {
-    if (std::find(m_impl->m_categories.begin(), m_impl->m_categories.end(), category) == m_impl->m_categories.end()) m_impl->m_categories.push_back(std::string(category));
+void OptionManager::registerCategory(const std::string& category) {
+    if (!utils::string::containsAny(category, getCategories())) m_impl->m_categories.push_back(std::string(category));
+};
+
+bool OptionManager::doesOptionExist(std::string_view id) const {
+    for (const auto& option : getOptions()) {
+        if (option.id == id) return true;
+    };
+
+    return false;
 };
 
 void OptionManager::registerOption(const Option& option) {
-    m_impl->m_options.push_back(option);
-    registerCategory(option.category);
+    if (doesOptionExist(option.id)) {
+        log::error("Could not register option '{}' ({}) because it already exists!", option.name, option.id);
+    } else {
+        m_impl->m_options.push_back(option);
+        registerCategory(option.category);
+
+        log::debug("Registered option {}", option.id);
+    };
 };
 
 std::vector<Option> OptionManager::getOptions() const {
@@ -57,7 +71,7 @@ bool OptionManager::getOption(std::string_view id) const {
     return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };
 
-bool OptionManager::setOption(std::string_view id, bool enable) const {
+bool OptionManager::setOption(const std::string& id, bool enable) const {
     auto event = new HorribleOptionEvent(std::string(id), enable);
     event->postFromMod(Mod::get());
 

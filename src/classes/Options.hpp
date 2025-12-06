@@ -42,7 +42,7 @@ namespace horrible {
          *
          * @returns Boolean of the old value
          */
-        bool set(std::string_view id, bool enable);
+        bool set(const std::string& id, bool enable);
 
         /**
          * Returns the array of all registered option categories

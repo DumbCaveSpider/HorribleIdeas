@@ -18,6 +18,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+HorribleMenuPopup* HorribleMenuPopup::s_inst = nullptr;
 class HorribleMenuPopup::Impl final {
 public:
     SillyTier s_selectedTier = SillyTier::None;
@@ -49,7 +50,7 @@ bool HorribleMenuPopup::setup() {
     categoryListBg->setScale(0.5f);
     categoryListBg->setAnchorPoint({ 0.5, 0.5 });
     categoryListBg->setPosition({ mainLayerSize.width - 82.5f, 75.f });
-    categoryListBg->setContentSize({ ((mainLayerSize.width / 3.f) - 10.f) * 2.f, 92.5f * 2.f });
+    categoryListBg->setContentSize({ ((mainLayerSize.width / 3.f) - 10.f) * 2.f, 95.f * 2.f });
     categoryListBg->setOpacity(50);
 
     m_mainLayer->addChild(categoryListBg);
@@ -348,10 +349,30 @@ void HorribleMenuPopup::openSupporterPopup(CCObject*) {
     openSupportPopup(horribleMod);
 };
 
+void HorribleMenuPopup::onClose(CCObject* sender) {
+    s_inst = nullptr;
+    Popup<>::onClose(sender);
+};
+
+void HorribleMenuPopup::onExit() {
+    s_inst = nullptr;            // safety: clear when leaving scene/layer
+    Popup<>::onExit();
+};
+
+void HorribleMenuPopup::cleanup() {
+    s_inst = nullptr;            // safety: clear when node is cleaned up
+    Popup<>::cleanup();
+};
+
+HorribleMenuPopup* HorribleMenuPopup::get() {
+    return s_inst;
+};
+
 HorribleMenuPopup* HorribleMenuPopup::create() {
     auto ret = new HorribleMenuPopup();
     if (ret->initAnchored(450.f, 280.f)) {
         ret->autorelease();
+        s_inst = ret;
         return ret;
     };
 
