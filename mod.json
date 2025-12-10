@@ -36,10 +36,6 @@
                 "mac",
                 "android"
             ]
-        },
-        "cheeseworks.moddevbranding": {
-            "importance": "recommended",
-            "version": ">=1.0.0"
         }
     },
     "tags": [
