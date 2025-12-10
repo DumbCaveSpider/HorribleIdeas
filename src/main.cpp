@@ -14,8 +14,11 @@
 
 #include <Geode/binding/FMODAudioEngine.hpp>
 
+#include <cheeseworks.moddevbranding/include/OptionalAPI.hpp>
+
 using namespace geode::prelude;
 using namespace horrible;
+using namespace branding;
 
 $execute{
     if (auto optionManager = OptionManager::get()) {
@@ -45,6 +48,15 @@ $execute{
     listenForSettingChanges("floating-button-opacity", [=](int64_t value) {
         if (auto fb = FloatingButton::get()) fb->setOpacity(value);
                             });
+
+    (void)[&]()->Result<> {
+        GEODE_UNWRAP(BrandingManagerOpt::registerBrand(
+            GEODE_MOD_ID,
+            "https://github.com/DumbCaveSpider/HorribleIdeas/blob/main/logo.png?raw=true",
+            BrandImageType::URL
+        ));
+        return Ok();
+    }();
 };
 
 // class $modify(HICCScene, CCScene) {
