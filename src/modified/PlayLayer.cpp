@@ -17,19 +17,25 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     void setupHasCompleted() {
         PlayLayer::setupHasCompleted();
 
-        hideButton();
+        toggleButton();
     };
 
     void resume() {
         PlayLayer::resume();
 
-        hideButton();
+        toggleButton();
     };
 
     void resumeAndRestart(bool fromStart) {
         PlayLayer::resumeAndRestart(fromStart);
 
-        hideButton();
+        toggleButton();
+    };
+
+    void showEndLayer() {
+        PlayLayer::showEndLayer();
+
+        toggleButton(true);
     };
 
     // safe mode prevents level completion
@@ -46,7 +52,7 @@ class $modify(HorriblePlayLayer, PlayLayer) {
         };
     };
 
-    void hideButton() {
-        if (auto fb = FloatingButton::get()) fb->setOpacity(fb->showInLevel() ? fb->getOpacitySetting() : 0);
+    void toggleButton(bool toggle = false) {
+        if (auto fb = FloatingButton::get()) fb->setVisible(fb->showInLevel() || toggle);
     };
 };

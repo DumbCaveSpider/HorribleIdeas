@@ -9,7 +9,6 @@ using namespace horrible;
 
 class FloatingButton::Impl final {
 public:
-    bool m_enabled = horribleMod->getSettingValue<bool>("floating-button");
     bool m_inLevel = horribleMod->getSettingValue<bool>("floating-button-level");
 
     float m_scale = static_cast<float>(horribleMod->getSettingValue<double>("floating-button-scale"));
@@ -59,7 +58,8 @@ bool FloatingButton::init() {
 
     setScale(m_impl->m_scale); // set initial scale
     setOpacity(m_impl->m_opacity); // set initial opacity
-    setVisible(m_impl->m_enabled); // set initial visibility
+
+    setVisible(horribleMod->getSettingValue<bool>("floating-button")); // set initial visibility
 
     addChild(m_impl->m_sprite);
 

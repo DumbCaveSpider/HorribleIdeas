@@ -10,6 +10,6 @@ class $modify(HorriblePauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        if (auto fb = FloatingButton::get()) fb->setOpacity(fb->getOpacitySetting());
+        if (auto fb = FloatingButton::get()) fb->setVisible(true);
     };
 };

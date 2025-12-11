@@ -23,6 +23,18 @@
         "info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
         "url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
     },
+    "tags": [
+        "joke",
+        "offline",
+        "universal",
+        "gameplay",
+        "cheat"
+    ],
+    "resources": {
+        "sprites": [
+            "resources/*.png"
+        ]
+    },
     "dependencies": {
         "geode.node-ids": {
             "importance": "required",
@@ -38,16 +50,9 @@
             ]
         }
     },
-    "tags": [
-        "joke",
-        "offline",
-        "universal",
-        "gameplay",
-        "cheat"
-    ],
-    "resources": {
-        "sprites": [
-            "resources/*.png"
+    "api": {
+        "include": [
+            "include/*.hpp"
         ]
     },
     "settings": {
@@ -427,11 +432,6 @@
             "description": "Shows debug information in the mod menu interface.",
             "default": false
         }
-    },
-    "api": {
-        "include": [
-            "include/*.hpp"
-        ]
     },
     "early-load": false
 }
