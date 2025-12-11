@@ -18,11 +18,11 @@ using namespace geode::prelude;
 using namespace horrible;
 
 $execute{
-    if (auto optionManager = OptionManager::get()) {
+    if (auto om = OptionManager::get()) {
         log::debug("Registering default options...");
 
         for (const auto& option : allOptions) {
-            optionManager->registerOption(option);
+            om->registerOption(option);
         };
 
         log::info("Done registering {} options", allOptions.size());

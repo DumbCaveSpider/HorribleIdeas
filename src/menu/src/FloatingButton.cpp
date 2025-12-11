@@ -59,6 +59,7 @@ bool FloatingButton::init() {
 
     setScale(m_impl->m_scale); // set initial scale
     setOpacity(m_impl->m_opacity); // set initial opacity
+    setVisible(m_impl->m_enabled); // set initial visibility
 
     addChild(m_impl->m_sprite);
 
@@ -67,7 +68,7 @@ bool FloatingButton::init() {
 
 void FloatingButton::setOpacity(GLubyte opacity) {
     m_impl->m_opacity = opacity;
-    if (m_impl->m_sprite) m_impl->m_sprite->setOpacity(opacity);
+    if (m_impl->m_sprite) m_impl->m_sprite->setOpacity(isVisible() ? opacity : 0);
 };
 
 void FloatingButton::setShowInLevel(bool show) {
@@ -107,7 +108,7 @@ void FloatingButton::setPosition(const CCPoint& position) {
 };
 
 bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
-    if (m_impl->m_sprite) {
+    if (m_impl->m_sprite && isVisible()) {
         CCPoint touchLocation = convertToNodeSpace(touch->getLocation());
 
         auto box = m_impl->m_sprite->boundingBox();
@@ -120,7 +121,10 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
             m_impl->m_isAnimating = true;
 
             m_impl->m_sprite->runAction(CCSequence::create(
-                CCScaleTo::create(0.1f, m_impl->m_scale - 0.2f),
+                CCSpawn::createWithTwoActions(
+                    CCEaseExponentialOut::create(CCScaleTo::create(0.125f, m_impl->m_scale * 0.875f)),
+                    CCEaseExponentialOut::create(CCFadeTo::create(0.125f, 255))
+                ),
                 CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
                 nullptr));
 
@@ -159,7 +163,10 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
         // reset scale
         m_impl->m_sprite->stopAllActions();
         m_impl->m_sprite->runAction(CCSequence::create(
-            CCScaleTo::create(0.1f, m_impl->m_scale),
+            CCSpawn::createWithTwoActions(
+                CCEaseExponentialOut::create(CCScaleTo::create(0.125f, m_impl->m_scale)),
+                CCEaseExponentialOut::create(CCFadeTo::create(0.125f, m_impl->m_opacity))
+            ),
             CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
             nullptr));
     };

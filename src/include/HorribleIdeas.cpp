@@ -1,4 +1,6 @@
+#define GEODE_DEFINE_EVENT_EXPORTS
 #include <HorribleIdeas.hpp>
+#include <OptionalAPI.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -72,8 +74,11 @@ bool OptionManager::getOption(std::string_view id) const {
 };
 
 bool OptionManager::setOption(const std::string& id, bool enable) const {
-    auto event = new HorribleOptionEvent(std::string(id), enable);
+    auto event = new HorribleOptionEvent(id, enable);
     event->postFromMod(Mod::get());
+
+    auto eventV2 = new HorribleOptionEventV2(id, enable);
+    eventV2->postFromMod(Mod::get());
 
     return Mod::get()->setSavedValue(std::string(id), enable);
 };
@@ -81,4 +86,19 @@ bool OptionManager::setOption(const std::string& id, bool enable) const {
 OptionManager* OptionManager::get() {
     static auto inst = new OptionManager();
     return inst;
+};
+
+Result<> OptionManagerV2::registerOption(const OptionV2& option) {
+    if (auto om = OptionManager::get()) om->registerOption(static_cast<Option>(option));
+    return Ok();
+};
+
+Result<bool> OptionManagerV2::getOption(std::string_view id) {
+    if (auto om = OptionManager::get()) return Ok(om->getOption(id));
+    return Err("Failed to get OptionManager");
+};
+
+Result<bool> OptionManagerV2::setOption(const std::string& id, bool enable) {
+    if (auto om = OptionManager::get()) return Ok(om->setOption(id, enable));
+    return Err("Failed to get OptionManager");
 };

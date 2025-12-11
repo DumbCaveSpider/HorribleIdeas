@@ -9,7 +9,7 @@ using namespace geode::prelude;
 // Container for Horrible Ideas API
 namespace horribleideas {
     // How silly a mod option is
-    enum class AWCW_HORRIBLE_API_DLL SillyTier {
+    enum class SillyTier : unsigned int {
         None = 0, // Null
         Low = 1, // Not so silly
         Medium = 2, // Somewhat silly
@@ -25,6 +25,8 @@ namespace horribleideas {
         SillyTier silly; // How silly the option is
         bool restart = false; // If the option requires a restart to take effect
         std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
+
+        Option() = default;
 
         // Constructor
         Option(

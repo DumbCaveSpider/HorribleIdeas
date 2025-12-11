@@ -5,12 +5,12 @@
 using namespace horrible;
 
 std::vector<Option> options::getAll() {
-    if (auto optionManager = OptionManager::get()) return optionManager->getOptions();
+    if (auto om = OptionManager::get()) return om->getOptions();
     return {};
 };
 
 bool options::get(std::string_view id) {
-    if (auto optionManager = OptionManager::get()) return optionManager->getOption(id);
+    if (auto om = OptionManager::get()) return om->getOption(id);
     return false;
 };
 
@@ -20,12 +20,12 @@ int options::getChance(std::string_view id) {
 };
 
 bool options::set(const std::string& id, bool enable) {
-    if (auto optionManager = OptionManager::get()) return optionManager->setOption(id, enable);
+    if (auto om = OptionManager::get()) return om->setOption(id, enable);
     return false;
 };
 
 std::vector<std::string> options::getAllCategories() {
-    if (auto optionManager = OptionManager::get()) return optionManager->getCategories();
+    if (auto om = OptionManager::get()) return om->getCategories();
     return {};
 };
 
