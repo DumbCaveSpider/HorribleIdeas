@@ -5,7 +5,7 @@
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
-using namespace horribleideas;
+using namespace horrible;
 
 HorribleOptionEvent::HorribleOptionEvent(std::string id, bool toggled) : m_id(id), m_toggled(toggled) {};
 

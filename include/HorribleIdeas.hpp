@@ -22,7 +22,7 @@
 using namespace geode::prelude;
 
 // Container for Horrible Ideas API functions
-namespace horribleideas {
+namespace horrible {
     // Mod option manager for Horrible Ideas
     class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
     protected:

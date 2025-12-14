@@ -15,9 +15,8 @@
 #include <classes/ui/RandomAdPopup.hpp>
 
 using namespace geode::prelude;
-using namespace horribleideas;
 
-// Internal namespace for utility methods for Horrible Ideas
+// Additional utility methods for Horrible Ideas
 namespace horrible {
     // Pointer reference to this Geode mod
     inline Mod* horribleMod = Mod::get();

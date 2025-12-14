@@ -13,7 +13,7 @@
 
 using namespace geode::prelude;
 
-namespace horribleideas {
+namespace horrible {
     class HorribleOptionEventV2 : public Event {
     private:
         std::string m_id;

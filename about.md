@@ -36,12 +36,10 @@ Disturb the player's accessibility to the gameplay.
 Want to add your own insane stuff to this mod? You can <cy>register your very own horrible options</c> by using <cg>this mod's API</c>! You can see its [documentation here](https://github.com/DumbCaveSpider/HorribleIdeas/tree/main/include). We're hyped to see how much more you can really mess up this game.
 
 ```cpp
-using namespace horribleideas;
+using namespace horrible;
 
-$execute {
-    auto optionManager = OptionManager::get();
-
-    optionManager->registerOption({
+$execute{
+    OptionManager::get()->registerOption({
         "my-option"_spr,
         "My Very Cool Option!",
         "This option is so very cool!",

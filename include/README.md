@@ -12,17 +12,17 @@ Let's start off by adding this mod as a dependency in your `mod.json`!
 }
 ```
 
-You can directly access the Horrible Ideas mod menu API by including the [`HorribleIdeas.hpp`](HorribleIdeas.hpp) file in your code. Make sure to include the **`horribleideas`** namespace to directly access all needed classes and methods.
+You can directly access the Horrible Ideas mod menu API by including the [`HorribleIdeas.hpp`](HorribleIdeas.hpp) file in your code. Make sure to include the **`horrible`** namespace to directly access all needed classes and methods.
 ```cpp
 #include <arcticwoof.horrible_ideas/include/HorribleIdeas.hpp>
 
-using namespace horribleideas;
+using namespace horrible;
 ```
 
 ### Classes
 Here are some important classes we highly suggest you keep in mind while working with the API.
 
-#### class `horribleideas::OptionManager`
+#### class `horrible::OptionManager`
 The manager class for Horrible Ideas mod options.
 - `static OptionManager*` **`get()`**: Get option manager singleton
 - `void` **`registerOption(const Option& option)`**: Register a new option
@@ -34,13 +34,13 @@ The manager class for Horrible Ideas mod options.
   - `bool` **`enable`**: Boolean to toggle to
 - `std::vector<std::string>` **`getCategories()`** `const`: Returns the array of all registered categories
 
-#### enum class `horribleideas::SillyTier`
+#### enum class `horrible::SillyTier`
 An enum class that defines how chaotic or funny an option is.
 
 #### class `geode::PlatformID`
 A dynamic enum class provided by Geode that defines the player's current platform.
 
-#### struct `horribleideas::Option`
+#### struct `horrible::Option`
 The object structure of an option.
 - `std::string` **`id`**: Unique ID of the option
 - `std::string` **`name`**: Name of the option
@@ -50,12 +50,12 @@ The object structure of an option.
 - `bool` **`restart`** (`false`): If the option requires a restart to take effect
 - `std::vector<PlatformID>` **`platforms`** (`{ PlatformID::Desktop, PlatformID::Mobile }`): Platforms that the option supports
 
-#### class `horribleideas::HorribleOptionEvent`
+#### class `horrible::HorribleOptionEvent`
 An event that fires any time any option is changed.
 - `std::string` **`getId()`** `const`: Get the unique ID of the option
 - `bool` **`getToggled()`** `const`: Get the toggle boolean of the option
 
-#### class `horribleideas::HorribleOptionEventFilter`
+#### class `horrible::HorribleOptionEventFilter`
 - `ListenerResult` **`handle(std::function<Callback> fn, HorribleOptionEvent* event)`**: Event handler
   - `std::function<Callback>` **`fn`**: Callback function containing a pointer to the event that fired
   - `HorribleOptionEvent*` **`event`**: Pointer to the event that fired
@@ -76,7 +76,7 @@ You can register and check any and as many options as you desire through this AP
 > To work with options, you will first be required to access the pointer to the **`OptionManager`** class by using `OptionManager::get()` to define a variable to use in your code.
 >
 > ```cpp
-> auto optionManager = OptionManager::get();
+> auto optMgr = OptionManager::get();
 > ```
 >
 > This way, you can now safely use its methods to work directly with Horrible Ideas's API to handle your own custom options.
@@ -91,9 +91,9 @@ This mod makes it easy for players to access the options they want to use. You c
 
 ```cpp
 $execute{
-    auto optionManager = OptionManager::get();
+    auto optMgr = OptionManager::get();
 
-    optionManager->registerOption({
+    optMgr->registerOption({
         "something-interesting"_spr,
         "Something Interesting",
         "This is something that is very interesting.",
@@ -110,9 +110,9 @@ You can include optional fields **`restart`** and **`platforms`** as well! Set `
 
 ```cpp
 $execute{
-    auto optionManager = OptionManager::get();
+    auto optMgr = OptionManager::get();
 
-    optionManager->registerOption({
+    optMgr->registerOption({
         "cool-things"_spr,
         "Cool Things",
         "Some really really cool things.",
@@ -136,7 +136,7 @@ Once you've registered an option on `$execute`, you can use other methods to wor
 You can begin by using **`OptionManager::getOption`** and provide your option's unique ID to check if an option is enabled or disabled.
 ```cpp
 using namespace geode::prelude;
-using namespace horribleideas;
+using namespace horrible;
 
 class $modify(CoolThingsPlayLayer, PlayLayer) {
     struct Fields {
@@ -163,7 +163,7 @@ If you would like or need to re-implement or remove an option's functionality li
 
 ```cpp
 using namespace geode::prelude;
-using namespace horribleideas;
+using namespace horrible;
 
 class $modify(SomethingInterestingMenuLayer, MenuLayer) {
     struct Fields {

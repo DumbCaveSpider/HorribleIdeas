@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 
 // Container for Horrible Ideas API
-namespace horribleideas {
+namespace horrible {
     // How silly a mod option is
     enum class SillyTier : unsigned int {
         None = 0, // Null

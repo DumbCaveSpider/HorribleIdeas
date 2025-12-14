@@ -4,7 +4,6 @@
 #include <HorribleIdeas.hpp>
 
 using namespace horrible;
-using namespace horribleideas;
 
 namespace horrible {
     // Horrible options utilities

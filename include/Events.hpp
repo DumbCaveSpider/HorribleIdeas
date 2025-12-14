@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 
 // Container for Horrible Ideas API
-namespace horribleideas {
+namespace horrible {
     // Event for option toggles
     class HorribleOptionEvent : public Event {
     protected:
