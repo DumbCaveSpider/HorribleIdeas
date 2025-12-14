@@ -1,6 +1,6 @@
 #include "../ModOption.hpp"
 
-#include <Horrible.hpp>
+#include <Utils.hpp>
 
 #include <Geode/Geode.hpp>
 

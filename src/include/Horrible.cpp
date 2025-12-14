@@ -1,5 +1,5 @@
 #define GEODE_DEFINE_EVENT_EXPORTS
-#include <HorribleIdeas.hpp>
+#include <Horrible.hpp>
 #include <OptionalAPI.hpp>
 
 #include <Geode/Geode.hpp>

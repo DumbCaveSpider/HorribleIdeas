@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include <Horrible.hpp>
+#include <Utils.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;

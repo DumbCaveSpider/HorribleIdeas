@@ -1,4 +1,4 @@
-#include <Horrible.hpp>
+#include <Utils.hpp>
 
 #include <menu/FloatingButton.hpp>
 
@@ -53,6 +53,6 @@ class $modify(HorriblePlayLayer, PlayLayer) {
     };
 
     void toggleButton(bool toggle = false) {
-        if (auto fb = FloatingButton::get()) fb->setVisible(fb->showInLevel() || toggle);
+        if (auto fb = FloatingButton::get()) fb->setVisible(horribleMod->getSettingValue<bool>("floating-button") && (fb->showInLevel() || toggle));
     };
 };
