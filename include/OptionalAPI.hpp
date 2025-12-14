@@ -14,7 +14,7 @@
 using namespace geode::prelude;
 
 namespace horribleideas {
-    class HorribleOptionEventV2 : public geode::Event {
+    class HorribleOptionEventV2 : public Event {
     private:
         std::string m_id;
         bool m_toggled;
@@ -27,19 +27,19 @@ namespace horribleideas {
         bool getToggled() const { return m_toggled; };
     };
 
-    class HorribleOptionEventFilterV2 : public geode::EventFilter<HorribleOptionEventV2> {
+    class HorribleOptionEventFilterV2 : public EventFilter<HorribleOptionEventV2> {
     private:
         std::vector<std::string> m_ids;
 
     public:
-        using Callback = geode::ListenerResult(HorribleOptionEventV2*);
+        using Callback = ListenerResult(HorribleOptionEventV2*);
 
-        geode::ListenerResult handle(std::function<Callback> fn, HorribleOptionEventV2* event) {
+        ListenerResult handle(std::function<Callback> fn, HorribleOptionEventV2* event) {
             if (std::find(m_ids.begin(), m_ids.end(), event->getId()) != m_ids.end()) {
                 return fn(event);
             };
 
-            return geode::ListenerResult::Propagate;
+            return ListenerResult::Propagate;
         };
 
         HorribleOptionEventFilterV2() = default;
@@ -47,53 +47,9 @@ namespace horribleideas {
         HorribleOptionEventFilterV2(std::vector<std::string> ids) : m_ids(std::move(ids)) {}
     };
 
-    struct OptionV2 {
-        std::string id;
-        std::string name;
-        std::string description;
-        std::string category;
-        SillyTier silly;
-        bool restart = false;
-        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile };
-
-        OptionV2() = default;
-
-        OptionV2(
-            std::string id,
-            std::string name,
-            std::string description,
-            std::string category,
-            SillyTier silly,
-            bool restart = false,
-            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }) : id(std::move(id)),
-            name(std::move(name)),
-            description(std::move(description)),
-            category(std::move(category)),
-            silly(silly),
-            restart(restart),
-            platforms(std::move(platforms)) {};
-
-        operator Option() const {
-            std::vector<PlatformID> plats;
-            plats.reserve(platforms.size());
-            for (auto const& p : platforms) {
-                plats.push_back(static_cast<PlatformID>(p));
-            };
-            return Option(
-                id,
-                name,
-                description,
-                category,
-                static_cast<SillyTier>(silly),
-                restart,
-                plats
-            );
-        };
-    };
-
     class OptionManagerV2 {
     public:
-        static Result<> registerOption(const OptionV2& option)
+        static Result<> registerOption(const Option& option)
             GEODE_EVENT_EXPORT(&OptionManagerV2::registerOption, (option));
 
         static Result<bool> getOption(std::string_view id)

@@ -88,8 +88,8 @@ OptionManager* OptionManager::get() {
     return inst;
 };
 
-Result<> OptionManagerV2::registerOption(const OptionV2& option) {
-    if (auto om = OptionManager::get()) om->registerOption(static_cast<Option>(option));
+Result<> OptionManagerV2::registerOption(const Option& option) {
+    if (auto om = OptionManager::get()) om->registerOption(option);
     return Ok();
 };
 

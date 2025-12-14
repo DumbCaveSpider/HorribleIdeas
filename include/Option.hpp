@@ -17,7 +17,7 @@ namespace horribleideas {
     };
 
     // A horrible mod option
-    struct AWCW_HORRIBLE_API_DLL Option {
+    struct Option {
         std::string id; // Unique ID of the option
         std::string name; // Name of the option
         std::string description; // Description of the option
