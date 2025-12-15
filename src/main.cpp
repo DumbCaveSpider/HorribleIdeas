@@ -4,8 +4,9 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/modify/CCScene.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/PauseLayer.hpp>
 #include <Geode/modify/CCMenuItem.hpp>
 #include <Geode/modify/GJGameLevel.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
@@ -28,39 +29,22 @@ $execute{
         log::error("Failed to get OptionManager!");
     };
 
-    listenForSettingChanges("floating-button", [this](bool value) {
+    listenForSettingChanges("floating-button", [](bool value) {
         if (auto fb = FloatingButton::get()) fb->setVisible(value);
                             });
 
-    listenForSettingChanges("floating-button-level", [this](bool value) {
+    listenForSettingChanges("floating-button-level", [](bool value) {
         if (auto fb = FloatingButton::get()) fb->setShowInLevel(value);
                             });
 
-    listenForSettingChanges("floating-button-scale", [this](double value) {
+    listenForSettingChanges("floating-button-scale", [](double value) {
         if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
                             });
 
-    listenForSettingChanges("floating-button-opacity", [this](int64_t value) {
+    listenForSettingChanges("floating-button-opacity", [](int64_t value) {
         if (auto fb = FloatingButton::get()) fb->setOpacity(value);
                             });
 };
-
-// class $modify(HICCScene, CCScene) {
-//       bool init() {
-//             if (!CCScene::init()) return false;
-
-// #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS)
-//             if (typeinfo_cast<CCTransitionFade*>(this)) {
-//                   log::debug("scene is a CCTransitionFade");
-//                   return true;
-//             };
-// #endif
-
-//             log::debug("scene init called");
-
-//             return true;
-//       };
-// };
 
 class $modify(HIMenuLayer, MenuLayer) {
     bool init() {
@@ -68,7 +52,71 @@ class $modify(HIMenuLayer, MenuLayer) {
 
         if (auto fb = FloatingButton::get()) SceneManager::get()->keepAcrossScenes(fb);
 
+        if (auto gm = GameManager::get()) {
+            // get and store user current fps
+            float currentFPS = gm->m_customFPSTarget;
+            float storedFPS = horribleMod->setSavedValue<float>("fps", currentFPS);
+
+            log::debug("Store Current FPS: {}", storedFPS);
+        };
+
         return true;
+    };
+};
+
+class $modify(HIPlayLayer, PlayLayer) {
+    struct Fields {
+        bool safeMode = horribleMod->getSettingValue<bool>("safe-mode");
+    };
+
+    void setupHasCompleted() {
+        PlayLayer::setupHasCompleted();
+
+        toggleButton();
+    };
+
+    void resume() {
+        PlayLayer::resume();
+
+        toggleButton();
+    };
+
+    void resumeAndRestart(bool fromStart) {
+        PlayLayer::resumeAndRestart(fromStart);
+
+        toggleButton();
+    };
+
+    void showEndLayer() {
+        PlayLayer::showEndLayer();
+
+        toggleButton(true);
+    };
+
+    // safe mode prevents level completion
+    void levelComplete() {
+        if (m_fields->safeMode) {
+            bool testMode = m_isTestMode;
+
+            m_isTestMode = true;
+            PlayLayer::levelComplete();
+            m_isTestMode = testMode;
+        } else {
+            log::warn("Safe mode is disabled");
+            PlayLayer::levelComplete();
+        };
+    };
+
+    void toggleButton(bool toggle = false) {
+        if (auto fb = FloatingButton::get()) fb->setVisible(horribleMod->getSettingValue<bool>("floating-button") && (fb->showInLevel() || toggle));
+    };
+};
+
+class $modify(HIPauseLayer, PauseLayer) {
+    void customSetup() {
+        PauseLayer::customSetup();
+
+        if (auto fb = FloatingButton::get()) fb->setVisible(horribleMod->getSettingValue<bool>("floating-button"));
     };
 };
 
