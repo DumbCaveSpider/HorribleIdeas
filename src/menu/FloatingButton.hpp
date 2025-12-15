@@ -17,11 +17,11 @@ protected:
     void onScaleEnd();
 
     virtual bool init() override;
-    virtual void visit() override;
+
+    static FloatingButton* create();
 
 public:
     static FloatingButton* get();
-    static FloatingButton* create();
 
     void setOpacity(GLubyte opacity);
     void setShowInLevel(bool show);

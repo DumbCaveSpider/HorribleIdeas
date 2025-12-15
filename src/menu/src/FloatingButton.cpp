@@ -119,16 +119,15 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
 
             m_impl->m_sprite->stopAllActions();
             m_impl->m_isAnimating = true;
-
             m_impl->m_sprite->runAction(CCSequence::create(
                 CCSpawn::createWithTwoActions(
-                    CCEaseExponentialOut::create(CCScaleTo::create(0.125f, m_impl->m_scale * 0.875f)),
-                    CCEaseExponentialOut::create(CCFadeTo::create(0.125f, 255))
+                    CCEaseElasticOut::create(CCScaleTo::create(0.875f, m_impl->m_scale * 0.875f)),
+                    CCFadeTo::create(0.5f, 255)
                 ),
                 CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
                 nullptr));
 
-            return true;  // swallow touch
+            return true; // swallow touch
         };
     };
 
@@ -163,11 +162,10 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
         // reset scale
         m_impl->m_sprite->stopAllActions();
         m_impl->m_sprite->runAction(CCSequence::create(
-            CCSpawn::createWithTwoActions(
-                CCEaseExponentialOut::create(CCScaleTo::create(0.125f, m_impl->m_scale)),
-                CCEaseExponentialOut::create(CCFadeTo::create(0.125f, m_impl->m_opacity))
-            ),
+            CCEaseElasticOut::create(CCScaleTo::create(0.875f, m_impl->m_scale)),
             CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
+            CCDelayTime::create(1.f),
+            CCFadeTo::create(0.5f, m_impl->m_opacity),
             nullptr));
     };
 };
@@ -175,10 +173,6 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
 void FloatingButton::onEnter() {
     CCLayer::onEnter();
     setTouchEnabled(true);
-};
-
-void FloatingButton::visit() {
-    CCLayer::visit();
 };
 
 void FloatingButton::onScaleEnd() {
@@ -209,6 +203,6 @@ FloatingButton* FloatingButton::create() {
 };
 
 FloatingButton* FloatingButton::get() {
-    static auto instance = FloatingButton::create();
-    return instance;
+    static auto inst = FloatingButton::create();
+    return inst;
 };
