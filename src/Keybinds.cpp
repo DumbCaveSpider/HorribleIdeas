@@ -22,7 +22,7 @@ $execute{
             "Horrible Ideas"
                                });
 
-            new EventListener([=](InvokeBindEvent* event) {
+            new EventListener([this](InvokeBindEvent* event) {
                 if (event->isDown()) menu::open();
                 return ListenerResult::Propagate;
                               },

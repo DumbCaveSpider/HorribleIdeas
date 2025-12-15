@@ -179,7 +179,7 @@ class $modify(SomethingInterestingMenuLayer, MenuLayer) {
         };
 
         m_fields->m_optionListener = {
-            [=](HorribleOptionEvent* event) {
+            [this](HorribleOptionEvent* event) {
                 if (event->getToggled()) {
                     // handle re-implementation here
                 };

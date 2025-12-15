@@ -28,19 +28,19 @@ $execute{
         log::error("Failed to get OptionManager!");
     };
 
-    listenForSettingChanges("floating-button", [=](bool value) {
+    listenForSettingChanges("floating-button", [this](bool value) {
         if (auto fb = FloatingButton::get()) fb->setVisible(value);
                             });
 
-    listenForSettingChanges("floating-button-level", [=](bool value) {
+    listenForSettingChanges("floating-button-level", [this](bool value) {
         if (auto fb = FloatingButton::get()) fb->setShowInLevel(value);
                             });
 
-    listenForSettingChanges("floating-button-scale", [=](double value) {
+    listenForSettingChanges("floating-button-scale", [this](double value) {
         if (auto fb = FloatingButton::get()) fb->setScale(static_cast<float>(value));
                             });
 
-    listenForSettingChanges("floating-button-opacity", [=](int64_t value) {
+    listenForSettingChanges("floating-button-opacity", [this](int64_t value) {
         if (auto fb = FloatingButton::get()) fb->setOpacity(value);
                             });
 };

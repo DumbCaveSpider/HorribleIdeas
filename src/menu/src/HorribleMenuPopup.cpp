@@ -331,7 +331,7 @@ void HorribleMenuPopup::resetFilters(CCObject*) {
         "Reset Filters",
         "Would you like to <cr>reset all filters</c>?",
         "Cancel", "OK",
-        [=](bool, bool btn2) {
+        [this](bool, bool btn2) {
             if (btn2) {
                 m_impl->s_selectedTier = SillyTier::None;
                 CategoryEvent("", false).post();
@@ -348,7 +348,7 @@ void HorribleMenuPopup::openSeriesPage(CCObject*) {
         "Horrible Mods",
         "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
         "Cancel", "OK",
-        [=](bool, bool btn2) {
+        [this](bool, bool btn2) {
             if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");
         });
 };
