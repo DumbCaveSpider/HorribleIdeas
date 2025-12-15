@@ -7,8 +7,8 @@
 using namespace horrible;
 
 void menu::open() {
-    if (auto popup = HorribleMenuPopup::get()) {
-        popup->removeMeAndCleanup();
+    if (auto old = HorribleMenuPopup::get()) {
+        old->removeMeAndCleanup();
     } else if (auto popup = HorribleMenuPopup::create()) {
         popup->show();
     };

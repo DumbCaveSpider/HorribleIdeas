@@ -92,17 +92,6 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
 
                 GJBaseGameLayer::shakeCamera(1.f, 5.f, 1.f);
 
-                if (rnd % 2 == 0) {
-                    // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt01.ogg");
-                } else if (rnd % 2 == 1) {
-                    // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt02.ogg");
-                } else if (rnd % 2 == 2) {
-                    // @geode-ignore(unknown-resource)
-                    FMODAudioEngine::sharedEngine()->playEffectAsync("grunt03.ogg");
-                };
-
                 if (m_fields->m_healthLabel) {
                     std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
                     m_fields->m_healthLabel->setString(hp.c_str());

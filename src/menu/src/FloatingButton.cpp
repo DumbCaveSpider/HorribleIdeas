@@ -47,8 +47,8 @@ bool FloatingButton::init() {
     setZOrder(10000);
 
     m_impl->m_sprite = CircleButtonSprite::createWithSprite(
-        "shocksprite.png"_spr,
-        0.9f
+        "icon.png"_spr,
+        0.925f
     );
     m_impl->m_sprite->setAnchorPoint({ 0.5, 0.5 });
 

@@ -4,8 +4,6 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/binding/FMODAudioEngine.hpp>
-
 using namespace geode::prelude;
 using namespace horrible;
 

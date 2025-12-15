@@ -19,6 +19,7 @@ using namespace geode::prelude;
 using namespace horrible;
 
 HorribleMenuPopup* HorribleMenuPopup::s_inst = nullptr;
+
 class HorribleMenuPopup::Impl final {
 public:
     SillyTier s_selectedTier = SillyTier::None;
@@ -81,8 +82,8 @@ bool HorribleMenuPopup::setup() {
     // Add a background sprite to the popup
     auto optionListBg = CCScale9Sprite::create("square02_001.png");
     optionListBg->setAnchorPoint({ 0.5, 0.5 });
-    optionListBg->setPosition({ (mainLayerSize.width / 2.f) - 80.f, (mainLayerSize.height / 2.f) - 32.5f });
-    optionListBg->setContentSize({ (mainLayerSize.width / 1.5f) - 25.f, mainLayerSize.height - 85.f });
+    optionListBg->setPosition({ (mainLayerSize.width / 2.f) - 77.5f, (mainLayerSize.height / 2.f) - 32.5f });
+    optionListBg->setContentSize({ (mainLayerSize.width / 1.5f) - 20.f, mainLayerSize.height - 85.f });
     optionListBg->setOpacity(50);
 
     m_mainLayer->addChild(optionListBg);
@@ -104,13 +105,17 @@ bool HorribleMenuPopup::setup() {
     m_mainLayer->addChild(m_impl->m_optionList, 9);
 
     // add search bar
-    m_impl->m_searchInput = TextInput::create(270, "Search...", "bigFont.fnt");
+    m_impl->m_searchInput = TextInput::create(optionListBg->getScaledContentWidth(), "Search...", "bigFont.fnt");
     m_impl->m_searchInput->setID("search-input");
     m_impl->m_searchInput->setPosition({ optionListBg->getPositionX(), mainLayerSize.height - 52.5f });
 
     m_impl->m_searchInput->setCallback([this](std::string const& str) {
         m_impl->m_searchText = str;
-        filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);  // lets search this crap
+        filterOptions(
+            options::getAll(),
+            m_impl->s_selectedTier,
+            m_impl->s_selectedCategory
+        );  // lets search this crap
                                        });
 
     m_mainLayer->addChild(m_impl->m_searchInput);
@@ -137,25 +142,28 @@ bool HorribleMenuPopup::setup() {
     filterMenu->setAnchorPoint({ 0.5, 1 });
     filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 65.f });
 
-    std::vector<FilterBtnInfo> btns = {
+    std::vector<FilterBtnInfo> filterBtns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
         {SillyTier::Medium, "Medium", {255, 255, 100}},
         {SillyTier::High, "High", {255, 100, 100}}
     };
 
     float fBtnY = 0.f;
-    for (const auto& btn : btns) {
-        if (auto normalBs = ButtonSprite::create(btn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0, .8f)) {
-            normalBs->m_label->setColor(btn.color);
-            normalBs->setScale(0.8f);
+    for (const auto& filterBtn : filterBtns) {
+        if (auto btnSprite = ButtonSprite::create(filterBtn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0.f, 0.8f)) {
+            btnSprite->m_label->setColor(filterBtn.color);
+            btnSprite->setScale(0.8f);
 
-            auto filterBtn = CCMenuItemSpriteExtra::create(normalBs, this, menu_selector(HorribleMenuPopup::filterTierCallback));
-            filterBtn->setTag(static_cast<int>(btn.tier));
-            filterBtn->setPosition({ 0.f, fBtnY });
+            if (auto btn = CCMenuItemSpriteExtra::create(btnSprite, this, menu_selector(HorribleMenuPopup::filterTierCallback))) {
+                btn->setTag(static_cast<int>(filterBtn.tier));
+                btn->setPosition({ 0.f, fBtnY });
 
-            filterMenu->addChild(filterBtn);
+                filterMenu->addChild(btn);
 
-            fBtnY -= 35.f;
+                fBtnY -= 35.f;
+            } else {
+                log::error("Failed to create filter button");
+            };
         } else {
             log::error("Failed to create filter button sprite");
         };
@@ -302,8 +310,8 @@ void HorribleMenuPopup::filterOptions(const std::vector<Option>& allOptions, Sil
 };
 
 void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
-    if (auto filterBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-        SillyTier tier = static_cast<SillyTier>(filterBtn->getTag());
+    if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
+        SillyTier tier = static_cast<SillyTier>(btn->getTag());
 
         // Toggle: clicking same button disables filter
         if (m_impl->s_selectedTier == tier) {
@@ -355,12 +363,12 @@ void HorribleMenuPopup::onClose(CCObject* sender) {
 };
 
 void HorribleMenuPopup::onExit() {
-    s_inst = nullptr;            // safety: clear when leaving scene/layer
+    s_inst = nullptr;
     Popup<>::onExit();
 };
 
 void HorribleMenuPopup::cleanup() {
-    s_inst = nullptr;            // safety: clear when node is cleaned up
+    s_inst = nullptr;
     Popup<>::cleanup();
 };
 
