@@ -8,7 +8,6 @@
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PauseLayer.hpp>
-#include <Geode/modify/CCMenuItem.hpp>
 #include <Geode/modify/GJGameLevel.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
 
@@ -27,7 +26,7 @@ $execute{
 
         log::info("Done registering {} options", allOptions.size());
     } else {
-        log::error("Failed to get OptionManager!");
+        log::error("Failed to get OptionManager");
     };
 
     listenForSettingChanges("floating-button", [](bool value) {
@@ -123,27 +122,14 @@ class $modify(HIPauseLayer, PauseLayer) {
     };
 };
 
-// modify CCMenuItem so it plays the sound whenever a button is clicked regardless of the layer
-class $modify(HICCMenuItem, CCMenuItem) {
-    void activate() {
-        CCMenuItem::activate();
-
-        int rnd = randng::fast();
-        log::debug("button menu chance {}", rnd);
-
-        if (options::get("achieve")) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) {
-                // @geode-ignore(unknown-resource)
-                if (rnd <= options::getChance("achieve")) fmod->playEffectAsync("achievement_01.ogg");
-            };
-        };
-    };
-};
-
 // safe mode
 class $modify(HIGJGameLevel, GJGameLevel) {
+    struct Fields {
+        bool safeMode = horribleMod->getSettingValue<bool>("safe-mode");
+    };
+
     void savePercentage(int percent, bool isPracticeMode, int clicks, int attempts, bool isChkValid) {
-        if (horribleMod->getSettingValue<bool>("safe-mode")) {
+        if (m_fields->safeMode) {
             log::warn("Safe mode is enabled, your progress will not be saved!");
         } else {
             GJGameLevel::savePercentage(percent, isPracticeMode, clicks, attempts, isChkValid);
@@ -156,7 +142,7 @@ class $modify(HILevelEditorLayer, LevelEditorLayer) {
     void onPlaytest() {
         FLAlertLayer::create(
             "Warning",
-            "<cy>Horrible Ideas</c> has somehow <cr>completely broke</c> the Playtest function in the level editor which now prevents the player from playtesting the level... Sorry about that!\n\n<cg>We recommend disabling the mod while working on levels.</c>",
+            "<cy>Horrible Ideas</c> has somehow <cr>completely broke</c> the Playtest function in the level editor which now prevents the player from playtesting the level... Sorry about that!\n\n<cg>We recommend disabling the mod while working on levels in the meantime.</c>",
             "OK")
             ->show();
 

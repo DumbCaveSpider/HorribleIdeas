@@ -28,6 +28,7 @@
         "offline",
         "universal",
         "gameplay",
+        "content",
         "cheat"
     ],
     "resources": {
@@ -42,12 +43,7 @@
         },
         "geode.custom-keybinds": {
             "importance": "required",
-            "version": ">=1.10.0",
-            "platforms": [
-                "win",
-                "mac",
-                "android"
-            ]
+            "version": ">=1.10.0"
         }
     },
     "api": {

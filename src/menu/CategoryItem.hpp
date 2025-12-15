@@ -1,11 +1,9 @@
 #pragma once
 
-#include <Utils.hpp>
-
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
+
 // Event for option toggles
 class CategoryEvent : public Event {
 protected:

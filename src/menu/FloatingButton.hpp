@@ -1,10 +1,8 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include <Utils.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
 
 class FloatingButton : public CCLayer {
 private:

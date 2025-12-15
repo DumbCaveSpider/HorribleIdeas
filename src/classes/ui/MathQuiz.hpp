@@ -14,10 +14,11 @@ namespace horrible {
     };
 
     class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
-    protected:
+    private:
         class Impl;
         std::unique_ptr<Impl> m_impl;
 
+    protected:
         MathQuiz();
         virtual ~MathQuiz();
 

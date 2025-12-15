@@ -54,10 +54,10 @@ bool HorribleSettingNodeV3::init(std::shared_ptr<HorribleSettingV3> setting, flo
     if (!SettingNodeV3::init(setting, width)) return false;
 
     m_impl->buttonSprite = ButtonSprite::create(
-        "Options Menu",
+        "Horrible Options Menu",
         "bigFont.fnt",
         "GJ_button_01.png",
-        0.825f
+        0.875f
     );
     m_impl->buttonSprite->setScale(.5f);
 

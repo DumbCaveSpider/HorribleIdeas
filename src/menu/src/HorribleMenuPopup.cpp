@@ -180,11 +180,7 @@ bool HorribleMenuPopup::setup() {
     m_mainLayer->addChild(settingsMenu);
 
     // add a mod settings at the bottom left
-    auto settingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
-        // @geode-ignore(unknown-resource)
-        "geode.loader/settings.png",
-        1.f
-    );
+    auto settingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName("geode.loader/settings.png");
     settingsBtnSprite->setScale(0.625f);
 
     auto settingsBtn = CCMenuItemSpriteExtra::create(

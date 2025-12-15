@@ -178,7 +178,6 @@ bool ModOption::init(CCSize const& size, Option const& option) {
         nameLabel->setColor({ 150, 150, 150 });
         categoryLabel->setColor({ 150, 150, 150 });
 
-        // @geode-ignore(unknown-resource)
         auto newHelpBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/info-alert.png");
         newHelpBtnSprite->setScale(0.75f);
         

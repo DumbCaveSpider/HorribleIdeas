@@ -15,7 +15,7 @@ $execute{
         bm->registerBindable({
             "popup"_spr,
             "Show Menu",
-            "Open the Horrible Ideas mod menu.",
+            "Open the Horrible Ideas option menu.",
             {
                 Keybind::create(KEY_Backslash, Modifier::None)
             },
