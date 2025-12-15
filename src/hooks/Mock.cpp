@@ -125,7 +125,7 @@ class $modify(MockPlayLayer, PlayLayer) {
             CCScene* scene = CCScene::get();
 
             // Get the window size in points and scale to pixels
-            auto winSize = director->getWinSize();
+            const auto winSize = director->getWinSize();
 
             int width = static_cast<int>(winSize.width);
             int height = static_cast<int>(winSize.height);

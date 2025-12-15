@@ -20,7 +20,7 @@ $execute{
     if (auto om = OptionManager::get()) {
         log::debug("Registering default options...");
 
-        for (const auto& option : allOptions) {
+        for (auto const& option : allOptions) {
             om->registerOption(option);
         };
 

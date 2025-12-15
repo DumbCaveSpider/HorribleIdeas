@@ -10,6 +10,7 @@ using namespace horrible;
 class ModOption::Impl final {
     public:
     bool s_compatible = false; // If this option is compatible with the current platform
+
     // The option
     Option m_option = {
         "unk"_spr,
@@ -32,7 +33,7 @@ bool ModOption::init(CCSize const& size, Option const& option) {
     m_impl->m_option = option;
 
     // check for compatibility
-    for (const auto& p : m_impl->m_option.platforms) {
+    for (auto const& p : m_impl->m_option.platforms) {
         if (p & GEODE_PLATFORM_TARGET) { m_impl->s_compatible = true; break; };
     };
 
@@ -214,14 +215,14 @@ void ModOption::onDescription(CCObject*) {
     if (auto popup = FLAlertLayer::create(
         m_impl->m_option.name.c_str(),
         m_impl->m_option.description.c_str(),
-        "OK"))
-        popup->show();
+        "OK"
+    )) popup->show();
 };
 
 void ModOption::onExit() {
     saveTogglerState();
     CCMenu::onExit();
-}
+};
 
 Option ModOption::getOption() const {
     return m_impl->m_option;

@@ -12,7 +12,7 @@ namespace horrible {
          *
          * @returns An array of every registered option, main and external
          */
-        std::vector<Option> getAll();
+        std::vector<Option> const& getAll();
 
         /**
          * Returns the toggle state of an option
@@ -47,7 +47,7 @@ namespace horrible {
          *
          * @returns An array of every registered option category, main and external
          */
-        std::vector<std::string> getAllCategories();
+        std::vector<std::string> const& getAllCategories();
 
         /**
          * Returns if a category exists or not

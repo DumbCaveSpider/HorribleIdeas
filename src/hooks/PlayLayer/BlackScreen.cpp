@@ -18,7 +18,6 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         int rnd = randng::get(5);
         log::info("playlayer init called {}", rnd);
 
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
         if (m_fields->enabled) {
             log::debug("black screen enabled, init scheduling black screen");
 
@@ -36,7 +35,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             log::debug("Showing black screen after delay");
 
-            auto winSize = CCDirector::sharedDirector()->getWinSize();
+            const auto winSize = CCDirector::sharedDirector()->getWinSize();
 
             Ref<CCScale9Sprite> blackScreen = CCScale9Sprite::create("square02_001.png");
             blackScreen->setContentSize({ winSize.width + 10.f, winSize.height + 10.f });

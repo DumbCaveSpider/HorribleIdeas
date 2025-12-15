@@ -24,7 +24,7 @@ void placeboEffect() {
         if (rnd <= 1) { // 1% chance :trol:
             log::info("Placebo effect activated! Disabling all horrible mod options...");
 
-            for (const auto& option : options::getAll()) {
+            for (auto const& option : options::getAll()) {
                 auto toggle = options::get(option.id);
                 log::debug("Placebo {} option {}", toggle ? "disabled" : "enabled", option.id);
                 options::set(option.id, !toggle);

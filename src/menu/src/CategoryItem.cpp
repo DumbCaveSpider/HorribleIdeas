@@ -39,8 +39,7 @@ bool CategoryItem::init(CCSize const& size, std::string const& category) {
 
     if (!CCMenu::init()) return false;
 
-    auto id = str::join(str::split(str::toLower(category), " "), "-");
-    setID(id);
+    setID(str::join(str::split(str::toLower(category), " "), "-"));
     setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 

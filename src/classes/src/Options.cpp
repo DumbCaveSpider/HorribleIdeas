@@ -4,9 +4,11 @@
 
 using namespace horrible;
 
-std::vector<Option> options::getAll() {
+std::vector<Option> const& options::getAll() {
     if (auto om = OptionManager::get()) return om->getOptions();
-    return {};
+
+    static const std::vector<Option> ret;
+    return ret;
 };
 
 bool options::get(std::string_view id) {
@@ -15,8 +17,7 @@ bool options::get(std::string_view id) {
 };
 
 int options::getChance(std::string_view id) {
-    auto fullId = fmt::format("{}-chance", id);
-    return static_cast<int>(horribleMod->getSettingValue<int64_t>(fullId));
+    return static_cast<int>(horribleMod->getSettingValue<int64_t>(fmt::format("{}-chance", id)));
 };
 
 bool options::set(std::string const& id, bool enable) {
@@ -24,13 +25,15 @@ bool options::set(std::string const& id, bool enable) {
     return false;
 };
 
-std::vector<std::string> options::getAllCategories() {
+std::vector<std::string> const& options::getAllCategories() {
     if (auto om = OptionManager::get()) return om->getCategories();
-    return {};
+
+    static const std::vector<std::string> ret;
+    return ret;
 };
 
 bool options::doesCategoryExist(std::string const& category) {
-    for (const auto& cat : getAllCategories()) {
+    for (auto const& cat : getAllCategories()) {
         if (cat == category) return true;
     };
 

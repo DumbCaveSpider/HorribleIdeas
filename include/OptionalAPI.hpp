@@ -20,8 +20,8 @@ namespace horrible {
         bool m_toggled;
 
     public:
-        HorribleOptionEventV2(std::string id, bool toggled)
-            : m_id(std::move(id)), m_toggled(toggled) {};
+        HorribleOptionEventV2(std::string const& id, bool toggled)
+            : m_id(id), m_toggled(toggled) {};
 
         std::string getId() const { return m_id; };
         bool getToggled() const { return m_toggled; };

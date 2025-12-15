@@ -66,7 +66,7 @@ namespace horrible {
          *
          * @returns An array of every registered option, main and external
          */
-        std::vector<Option> getOptions() const;
+        std::vector<Option> const& getOptions() const;
 
         /**
          * Returns the toggle state of an option
@@ -92,6 +92,6 @@ namespace horrible {
          *
          * @returns An array of every category name
          */
-        std::vector<std::string> getCategories() const;
+        std::vector<std::string> const& getCategories() const;
     };
 };

@@ -9,7 +9,7 @@ using namespace horrible;
 
 HorribleOptionEvent::HorribleOptionEvent(std::string const& id, bool toggled) : m_id(id), m_toggled(toggled) {};
 
-std::string HorribleOptionEvent::getId() const {
+std::string const& HorribleOptionEvent::getId() const {
     return m_id;
 };
 
@@ -43,7 +43,7 @@ void OptionManager::registerCategory(std::string const& category) {
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {
-    for (const auto& option : getOptions()) {
+    for (auto const& option : getOptions()) {
         if (option.id == id) return true;
     };
 
@@ -61,11 +61,11 @@ void OptionManager::registerOption(Option const& option) {
     };
 };
 
-std::vector<Option> OptionManager::getOptions() const {
+std::vector<Option> const& OptionManager::getOptions() const {
     return m_impl->m_options;
 };
 
-std::vector<std::string> OptionManager::getCategories() const {
+std::vector<std::string> const& OptionManager::getCategories() const {
     return m_impl->m_categories;
 };
 

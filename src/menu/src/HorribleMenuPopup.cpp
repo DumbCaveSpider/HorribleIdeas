@@ -70,7 +70,7 @@ bool HorribleMenuPopup::setup() {
     m_impl->m_categoryList->setPosition(categoryListBg->getPosition());
     m_impl->m_categoryList->m_contentLayer->setLayout(layoutCategories);
 
-    for (const auto& category : options::getAllCategories()) {
+    for (auto const& category : options::getAllCategories()) {
         if (auto categoryItem = CategoryItem::create({ m_impl->m_categoryList->getScaledContentWidth(), 20.f }, category)) m_impl->m_categoryList->m_contentLayer->addChild(categoryItem);
     };
 
@@ -142,14 +142,14 @@ bool HorribleMenuPopup::setup() {
     filterMenu->setAnchorPoint({ 0.5, 1 });
     filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 65.f });
 
-    const std::vector<FilterBtnInfo> filterBtns = {
+    std::vector<FilterBtnInfo> const filterBtns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
         {SillyTier::Medium, "Medium", {255, 255, 100}},
         {SillyTier::High, "High", {255, 100, 100}}
     };
 
     float fBtnY = 0.f;
-    for (const auto& filterBtn : filterBtns) {
+    for (auto const& filterBtn : filterBtns) {
         if (auto btnSprite = ButtonSprite::create(filterBtn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0.f, 0.8f)) {
             btnSprite->m_label->setColor(filterBtn.color);
             btnSprite->setScale(0.8f);
@@ -268,7 +268,7 @@ void HorribleMenuPopup::filterOptions(std::vector<Option> const& allOptions, Sil
 
         auto useCategory = options::doesCategoryExist(category);
 
-        for (const auto& opt : allOptions) {
+        for (auto const& opt : allOptions) {
             // tier filter
             auto tierMatches = tier == SillyTier::None || opt.silly == tier;
             // category filter
@@ -329,7 +329,7 @@ void HorribleMenuPopup::filterTierCallback(CCObject* sender) {
 void HorribleMenuPopup::resetFilters(CCObject*) {
     createQuickPopup(
         "Reset Filters",
-        "Would you like to <cr>reset all filters</c>?",
+        "Would you like to <cr>reset all search filters</c>?",
         "Cancel", "OK",
         [this](bool, bool btn2) {
             if (btn2) {

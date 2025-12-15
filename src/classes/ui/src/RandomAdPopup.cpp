@@ -37,26 +37,23 @@ bool RandomAdPopup::setup() {
         };
                                });
 
-    std::string url = "https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail";
-    if (Loader::get()->isModLoaded("prevter.imageplus")) url += "?webp";
-
-    projThumb->loadFromUrl(url, CCImage::kFmtUnKnown, true);
+    projThumb->loadFromUrl("https://api.cubicstudios.xyz/avalanche/v1/fetch/random-thumbnail", CCImage::kFmtUnKnown, true);
     if (projThumb) m_mainLayer->addChild(projThumb);
 
-    // ButtonSprite* playBtnSprite = ButtonSprite::create("Play!");
+    auto playBtnSprite = ButtonSprite::create("Play!");
 
-    // // takes u to congreg lol
-    // auto playBtn = CCMenuItemSpriteExtra::create(
-    //     playBtnSprite,
-    //     this,
-    //     menu_selector(RandomAdPopup::onPlayBtn)
-    // );
-    // playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
-    // playBtn->ignoreAnchorPointForPosition(false);
-    // playBtn->setVisible(true);
-    // playBtn->setZOrder(3);
+    // takes u to congreg lol
+    auto playBtn = CCMenuItemSpriteExtra::create(
+        playBtnSprite,
+        this,
+        menu_selector(RandomAdPopup::onPlayBtn)
+    );
+    playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
+    playBtn->ignoreAnchorPointForPosition(false);
+    playBtn->setVisible(true);
+    playBtn->setZOrder(3);
 
-    // m_buttonMenu->addChild(playBtn);
+    m_buttonMenu->addChild(playBtn);
 
     return true;
 };

@@ -62,7 +62,7 @@ bool MathQuiz::init() {
         break;
     };
 
-    auto winSize = CCDirector::get()->getWinSize();
+    const auto winSize = CCDirector::get()->getWinSize();
     // geometry dash
     if (m_impl->m_operation == MathOperation::Geometry) {
         int sides = randng::get(10);
@@ -84,8 +84,10 @@ bool MathQuiz::init() {
 
         for (int i = 0; i < sides; ++i) {
             float angle = theta * i - PI / 2.f;  // start at top
+
             float x = radius * cosf(angle);
             float y = radius * sinf(angle);
+
             polyPoints.push_back(ccp(x, y));
         };
 
@@ -267,7 +269,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
 
         // feedback label
         // Notification::create(correct ? "Correct!" : "Incorrect!", correct ? NotificationIcon::Success : NotificationIcon::Error, 1.5f)->show();
-        auto winSize = CCDirector::get()->getWinSize();
+        const auto winSize = CCDirector::get()->getWinSize();
         auto feedbackLabel = CCLabelBMFont::create(correct ? "Correct!" : "Incorrect!", "goldFont.fnt");
         feedbackLabel->setID("feedback-label");
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
@@ -350,7 +352,7 @@ void MathQuiz::update(float dt) {
 
         // Notification::create("Time's Up!", NotificationIcon::Error, 1.5f)->show();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        const auto winSize = CCDirector::get()->getWinSize();
 
         if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
 
@@ -360,6 +362,7 @@ void MathQuiz::update(float dt) {
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
         feedbackLabel->setScale(0.1f);
         feedbackLabel->setColor({ 255, 100, 100 });
+
         addChild(feedbackLabel, 1000);
 
         auto seq = CCSequence::create(
