@@ -174,27 +174,27 @@ bool HorribleMenuPopup::setup() {
 
     m_mainLayer->addChild(filterMenu);
 
-    auto modSettingsMenu = CCMenu::create();
-    modSettingsMenu->setPosition({ 0.f, 0.f });
+    auto settingsMenu = CCMenu::create();
+    settingsMenu->setPosition({ 0.f, 0.f });
 
-    m_mainLayer->addChild(modSettingsMenu);
+    m_mainLayer->addChild(settingsMenu);
 
     // add a mod settings at the bottom left
-    auto modSettingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
+    auto settingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName(
         // @geode-ignore(unknown-resource)
         "geode.loader/settings.png",
         1.f
     );
-    modSettingsBtnSprite->setScale(0.625f);
+    settingsBtnSprite->setScale(0.625f);
 
-    auto modSettingsBtn = CCMenuItemSpriteExtra::create(
-        modSettingsBtnSprite,
+    auto settingsBtn = CCMenuItemSpriteExtra::create(
+        settingsBtnSprite,
         this,
         menu_selector(HorribleMenuPopup::openModSettings)
     );
-    modSettingsBtn->setID("mod-settings-btn");
+    settingsBtn->setID("settings-btn");
 
-    modSettingsMenu->addChild(modSettingsBtn);
+    settingsMenu->addChild(settingsBtn);
 
     auto resetFiltersBtnSprite = CCSprite::createWithSpriteFrameName("GJ_replayBtn_001.png");
     resetFiltersBtnSprite->setScale(0.375f);
@@ -207,7 +207,7 @@ bool HorribleMenuPopup::setup() {
     resetFiltersBtn->setID("reset-filters-btn");
     resetFiltersBtn->setPositionX(m_mainLayer->getScaledContentWidth());
 
-    modSettingsMenu->addChild(resetFiltersBtn);
+    settingsMenu->addChild(resetFiltersBtn);
 
     auto seriesBtnSprite = CCSprite::createWithSpriteFrameName("gj_ytIcon_001.png");
     seriesBtnSprite->setScale(0.75f);
@@ -220,7 +220,7 @@ bool HorribleMenuPopup::setup() {
     seriesBtn->setID("horrible-mods-series-btn");
     seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
 
-    modSettingsMenu->addChild(seriesBtn);
+    settingsMenu->addChild(seriesBtn);
 
     // @geode-ignore(unknown-resource)
     auto supporterBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/gift.png");
@@ -234,7 +234,7 @@ bool HorribleMenuPopup::setup() {
     supporterBtn->setID("support-btn");
     supporterBtn->setPosition({ mainLayerSize.width - 45.f, mainLayerSize.height - 20.f });
 
-    modSettingsMenu->addChild(supporterBtn);
+    settingsMenu->addChild(supporterBtn);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode OFF", "bigFont.fnt");
     safeModeLabel->setID("safe-mode-label");
@@ -346,7 +346,7 @@ void HorribleMenuPopup::openModSettings(CCObject*) {
 void HorribleMenuPopup::openSeriesPage(CCObject*) {
     createQuickPopup(
         "Horrible Mods",
-        "Watch the series '<cr>Horrible Mods</c>' on YouTube?",
+        "Watch the series '<cr>Horrible Mods</c>' on <cl>Avalanche</c>'s YouTube channel?",
         "Cancel", "OK",
         [this](bool, bool btn2) {
             if (btn2) web::openLinkInBrowser("https://www.youtube.com/watch?v=Ssl49pNmW_0&list=PL0dsSu2pR5cERnq7gojZTKVRvUwWo2Ohu");

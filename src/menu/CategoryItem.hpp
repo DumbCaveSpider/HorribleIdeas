@@ -27,10 +27,11 @@ public:
 };
 
 class CategoryItem : public CCMenu {
-protected:
+private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 
+protected:
     EventListener<CategoryEventFilter> m_listener = {
         [this](CategoryEvent* event) {
             return OnCategory(event->getId(), event->isEnabled());

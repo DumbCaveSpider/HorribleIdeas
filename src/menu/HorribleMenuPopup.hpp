@@ -16,10 +16,11 @@ struct FilterBtnInfo {
 };
 
 class HorribleMenuPopup : public Popup<> {
-protected:
+private:
     class Impl;
     std::unique_ptr<Impl> m_impl;
 
+protected:
     static HorribleMenuPopup* s_inst;
 
     EventListener<CategoryEventFilter> m_listener = {

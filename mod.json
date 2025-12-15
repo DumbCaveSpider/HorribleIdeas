@@ -62,6 +62,10 @@
             "description": "Prevent saving any progression made in levels. <cr>Keeping this enabled while using Horrible Ideas is highly recommended!</cr>",
             "default": true
         },
+        "button": {
+            "type": "custom:menu",
+            "name": ""
+        },
         "ui": {
             "type": "title",
             "name": "Interface",

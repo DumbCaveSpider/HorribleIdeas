@@ -11,7 +11,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("friends");
 
-        std::vector<std::string> friends = {
+        std::vector<std::string> const friends = {
             "diffIcon_00_btn_001.png",
             "diffIcon_01_btn_001.png",
             "diffIcon_02_btn_001.png",

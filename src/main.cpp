@@ -1,6 +1,7 @@
 #include <Utils.hpp>
 
 #include <menu/FloatingButton.hpp>
+#include <menu/SettingV3.hpp>
 
 #include <Geode/Geode.hpp>
 
@@ -44,6 +45,8 @@ $execute{
     listenForSettingChanges("floating-button-opacity", [](int64_t value) {
         if (auto fb = FloatingButton::get()) fb->setOpacity(value);
                             });
+
+    (void)horribleMod->registerCustomSettingType("menu", &HorribleSettingV3::parse);
 };
 
 class $modify(HIMenuLayer, MenuLayer) {
