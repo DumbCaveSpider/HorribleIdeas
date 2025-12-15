@@ -26,22 +26,23 @@ namespace horrible {
         bool restart = false; // If the option requires a restart to take effect
         std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
 
-        Option() = default;
+        Option() = default; // Default constructor
 
         // Constructor
         Option(
-            std::string id,
-            std::string name,
-            std::string description,
-            std::string category,
+            std::string const& id,
+            std::string const& name,
+            std::string const& description,
+            std::string const& category,
             SillyTier silly,
             bool restart = false,
-            std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }) : id(std::move(id)),
-            name(std::move(name)),
-            description(std::move(description)),
-            category(std::move(category)),
+            std::vector<PlatformID> const& platforms = { PlatformID::Desktop, PlatformID::Mobile }
+        ) : id(id),
+            name(name),
+            description(description),
+            category(category),
             silly(silly),
             restart(restart),
-            platforms(std::move(platforms)) {};
+            platforms(platforms) {};
     };
 };

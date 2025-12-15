@@ -32,9 +32,9 @@ protected:
     HorribleMenuPopup();
     virtual ~HorribleMenuPopup();
 
-    ListenerResult OnCategory(const std::string& category, bool enabled = true);
+    ListenerResult OnCategory(std::string const& category, bool enabled = true);
 
-    void filterOptions(const std::vector<Option>& allOptions, SillyTier tier = SillyTier::None, const std::string& category = "");
+    void filterOptions(std::vector<Option> const& allOptions, SillyTier tier = SillyTier::None, std::string const& category = "");
     void filterTierCallback(CCObject*);
 
     void resetFilters(CCObject*);

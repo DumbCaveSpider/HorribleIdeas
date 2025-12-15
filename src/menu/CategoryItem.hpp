@@ -41,12 +41,12 @@ protected:
     CategoryItem();
     virtual ~CategoryItem();
 
-    ListenerResult OnCategory(const std::string& category, bool enabled = false);
+    ListenerResult OnCategory(std::string const& category, bool enabled = false);
 
     void onToggle(CCObject* sender);
 
-    bool init(CCSize const& size, const std::string& category);
+    bool init(CCSize const& size, std::string const& category);
 
 public:
-    static CategoryItem* create(CCSize const& size, const std::string& category);
+    static CategoryItem* create(CCSize const& size, std::string const& category);
 };

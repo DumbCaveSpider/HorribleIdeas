@@ -69,7 +69,7 @@ namespace horrible {
     };
 
     // Default horrible options
-    static inline std::vector<Option> allOptions = {
+    static inline const std::vector<Option> allOptions = {
         {"oxygen",
          "Oxygen Level",
          "Limited oxygen level. You gain oxygen as a flying gamemode. If your oxygen runs out, your player dies.\n<cy>Credit: ArcticWoof</c>",
@@ -115,7 +115,7 @@ namespace horrible {
          SillyTier::Low},
         {"crash_death",
          "Crash Chance on Death",
-         "When you die in the level, there's a chance your game will die too. <cg>Don't worry, your progress will when crashing!</c> :)\n<cy>Credit: DragonixGD</c>",
+         "When you die in the level, there's a chance your game will die too.\n<cg>Don't worry, your progress will save when crashing!</c> :)\n<cy>Credit: DragonixGD</c>",
          Category::chances,
          SillyTier::High},
         {"no_jump",
@@ -170,7 +170,7 @@ namespace horrible {
          SillyTier::Low},
         {"ice_level",
          "Ice Level",
-         "Make every surface icy. Slip and slide!\n<cy>Credit: TimeRed</c>",
+         "Make every surface icy. Slip n' slide!\n<cy>Credit: TimeRed</c>",
          Category::misc,
          SillyTier::Medium},
         {"random_mirror",
@@ -205,7 +205,7 @@ namespace horrible {
          SillyTier::Medium},
         {"fake_crash",
          "Random Fake Crash",
-         "While playing a level, there's a chance your game will fake crash.\n<cy>Credit: Timered</c>",
+         "While playing a level, there's a chance your game will save fake crash.\n<cy>Credit: Timered</c>",
          Category::randoms,
          SillyTier::Medium},
         {"gambler",

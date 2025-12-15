@@ -19,7 +19,7 @@ int options::getChance(std::string_view id) {
     return static_cast<int>(horribleMod->getSettingValue<int64_t>(fullId));
 };
 
-bool options::set(const std::string& id, bool enable) {
+bool options::set(std::string const& id, bool enable) {
     if (auto om = OptionManager::get()) return om->setOption(id, enable);
     return false;
 };
@@ -29,7 +29,7 @@ std::vector<std::string> options::getAllCategories() {
     return {};
 };
 
-bool options::doesCategoryExist(const std::string& category) {
+bool options::doesCategoryExist(std::string const& category) {
     for (const auto& cat : getAllCategories()) {
         if (cat == category) return true;
     };

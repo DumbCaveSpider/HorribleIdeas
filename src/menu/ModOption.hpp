@@ -22,10 +22,10 @@ protected:
     void onDescription(CCObject*);
     void onExit() override;
 
-    bool init(CCSize const& size, Option option);
+    bool init(CCSize const& size, Option const& option);
 
 public:
-    static ModOption* create(CCSize const& size, Option option);
+    static ModOption* create(CCSize const& size, Option const& option);
 
     Option getOption() const;
     bool isCompatible() const;

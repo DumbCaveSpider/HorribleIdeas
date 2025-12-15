@@ -37,7 +37,7 @@ namespace horrible {
          *
          * @param category Name of the category
          */
-        void registerCategory(const std::string& category);
+        void registerCategory(std::string const& category);
 
         /**
          * Check if an option already exists
@@ -59,7 +59,7 @@ namespace horrible {
          *
          * @param option Constructed option object
          */
-        void registerOption(const Option& option);
+        void registerOption(Option const& option);
 
         /**
          * Returns the array of all registered options
@@ -85,7 +85,7 @@ namespace horrible {
          *
          * @returns Boolean of the old value
          */
-        bool setOption(const std::string& id, bool enable) const;
+        bool setOption(std::string const& id, bool enable) const;
 
         /**
          * Returns the array of all registered categories

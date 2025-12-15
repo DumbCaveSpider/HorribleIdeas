@@ -40,7 +40,7 @@ namespace horrible {
          *
          * @returns Boolean of the old value
          */
-        bool set(const std::string& id, bool enable);
+        bool set(std::string const& id, bool enable);
 
         /**
          * Returns the array of all registered option categories
@@ -54,6 +54,6 @@ namespace horrible {
          *
          * @param category The exact name of the category to check
          */
-        bool doesCategoryExist(const std::string& category);
+        bool doesCategoryExist(std::string const& category);
     };
 };

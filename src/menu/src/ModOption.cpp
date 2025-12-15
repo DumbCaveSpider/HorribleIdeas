@@ -28,7 +28,7 @@ ModOption::ModOption() {
 
 ModOption::~ModOption() {};
 
-bool ModOption::init(CCSize const& size, Option option) {
+bool ModOption::init(CCSize const& size, Option const& option) {
     m_impl->m_option = option;
 
     // check for compatibility
@@ -231,7 +231,7 @@ bool ModOption::isCompatible() const {
     return m_impl->s_compatible;
 };
 
-ModOption* ModOption::create(CCSize const& size, Option option) {
+ModOption* ModOption::create(CCSize const& size, Option const& option) {
     auto ret = new ModOption();
     if (ret->init(size, option)) {
         ret->autorelease();

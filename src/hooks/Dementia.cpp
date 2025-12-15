@@ -3,7 +3,6 @@
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/PlayerObject.hpp>
-#include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/EnhancedGameObject.hpp>
 
 using namespace geode::prelude;

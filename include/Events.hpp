@@ -15,7 +15,7 @@ namespace horrible {
         bool m_toggled; // Toggle boolean of the option
 
     public:
-        HorribleOptionEvent(std::string id, bool toggled); // Constructor
+        HorribleOptionEvent(std::string const& id, bool toggled); // Constructor
 
         AWCW_HORRIBLE_API_DLL std::string getId() const; // Get the unique ID of the option
         AWCW_HORRIBLE_API_DLL bool getToggled() const; // Get the toggle boolean of the option
@@ -38,7 +38,7 @@ namespace horrible {
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event);
 
         HorribleOptionEventFilter() = default; // Constructor
-        HorribleOptionEventFilter(const std::string& id); // Constructor (listens to one option's toggle)
-        HorribleOptionEventFilter(std::vector<std::string> ids); // Constructor (listens to any specified options' toggles)
+        HorribleOptionEventFilter(std::string const& id); // Constructor (listens to one option's toggle)
+        HorribleOptionEventFilter(std::vector<std::string> const& ids); // Constructor (listens to any specified options' toggles)
     };
 };

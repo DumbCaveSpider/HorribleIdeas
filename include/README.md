@@ -25,8 +25,8 @@ Here are some important classes we highly suggest you keep in mind while working
 #### class `horrible::OptionManager`
 The manager class for Horrible Ideas mod options.
 - `static OptionManager*` **`get()`**: Get option manager singleton
-- `void` **`registerOption(const Option& option)`**: Register a new option
-  - `const Option&` **`option`**: Constructed option object
+- `void` **`registerOption(Option const& option)`**: Register a new option
+  - `Option const&` **`option`**: Constructed option object
 - `std::vector<Option>` **`getOptions()`** `const`: Returns the array of all registered options
 - `bool` **`getOption(std::string_view id)`** `const`: Returns the toggle state of an option
 - `bool` **`setOption(std::string_view id, bool enable)`** `const`: Set the toggle state of an option

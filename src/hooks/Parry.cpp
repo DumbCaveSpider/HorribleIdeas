@@ -2,9 +2,6 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/binding/GameObject.hpp>
-#include <Geode/binding/PlayLayer.hpp>
-
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PlayerObject.hpp>
 

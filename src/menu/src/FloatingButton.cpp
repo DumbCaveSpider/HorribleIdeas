@@ -122,7 +122,7 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
             m_impl->m_sprite->runAction(CCSequence::create(
                 CCSpawn::createWithTwoActions(
                     CCEaseElasticOut::create(CCScaleTo::create(0.875f, m_impl->m_scale * 0.875f)),
-                    CCFadeTo::create(0.5f, 255)
+                    CCFadeTo::create(0.25f, 255)
                 ),
                 CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
                 nullptr));
@@ -162,7 +162,10 @@ void FloatingButton::ccTouchEnded(CCTouch* touch, CCEvent* ev) {
         // reset scale
         m_impl->m_sprite->stopAllActions();
         m_impl->m_sprite->runAction(CCSequence::create(
-            CCEaseElasticOut::create(CCScaleTo::create(0.875f, m_impl->m_scale)),
+            CCSpawn::createWithTwoActions(
+                CCFadeTo::create(0.125f, 255),
+                CCEaseElasticOut::create(CCScaleTo::create(0.875f, m_impl->m_scale))
+            ),
             CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)),
             CCDelayTime::create(1.f),
             CCFadeTo::create(0.5f, m_impl->m_opacity),

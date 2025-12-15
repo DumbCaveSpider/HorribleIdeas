@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-HorribleOptionEvent::HorribleOptionEvent(std::string id, bool toggled) : m_id(id), m_toggled(toggled) {};
+HorribleOptionEvent::HorribleOptionEvent(std::string const& id, bool toggled) : m_id(id), m_toggled(toggled) {};
 
 std::string HorribleOptionEvent::getId() const {
     return m_id;
@@ -17,8 +17,8 @@ bool HorribleOptionEvent::getToggled() const {
     return m_toggled;
 };
 
-HorribleOptionEventFilter::HorribleOptionEventFilter(const std::string& id) : m_ids({ id }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> ids) : m_ids(ids) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::string const& id) : m_ids({ id }) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> const& ids) : m_ids(ids) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
     if (std::find(m_ids.begin(), m_ids.end(), event->getId()) == m_ids.end()) return fn(event);
@@ -38,7 +38,7 @@ OptionManager::OptionManager() {
 
 OptionManager::~OptionManager() {};
 
-void OptionManager::registerCategory(const std::string& category) {
+void OptionManager::registerCategory(std::string const& category) {
     if (!utils::string::containsAny(category, getCategories())) m_impl->m_categories.push_back(std::string(category));
 };
 
@@ -50,7 +50,7 @@ bool OptionManager::doesOptionExist(std::string_view id) const {
     return false;
 };
 
-void OptionManager::registerOption(const Option& option) {
+void OptionManager::registerOption(Option const& option) {
     if (doesOptionExist(option.id)) {
         log::error("Could not register option '{}' ({}) because it already exists!", option.name, option.id);
     } else {
@@ -73,7 +73,7 @@ bool OptionManager::getOption(std::string_view id) const {
     return Mod::get()->getSavedValue<bool>(std::string(id), false);
 };
 
-bool OptionManager::setOption(const std::string& id, bool enable) const {
+bool OptionManager::setOption(std::string const& id, bool enable) const {
     auto event = new HorribleOptionEvent(id, enable);
     event->postFromMod(Mod::get());
 
@@ -88,7 +88,7 @@ OptionManager* OptionManager::get() {
     return inst;
 };
 
-Result<> OptionManagerV2::registerOption(const Option& option) {
+Result<> OptionManagerV2::registerOption(Option const& option) {
     if (auto om = OptionManager::get()) om->registerOption(option);
     return Ok();
 };
@@ -98,7 +98,7 @@ Result<bool> OptionManagerV2::getOption(std::string_view id) {
     return Err("Failed to get OptionManager");
 };
 
-Result<bool> OptionManagerV2::setOption(const std::string& id, bool enable) {
+Result<bool> OptionManagerV2::setOption(std::string const& id, bool enable) {
     if (auto om = OptionManager::get()) return Ok(om->setOption(id, enable));
     return Err("Failed to get OptionManager");
 };

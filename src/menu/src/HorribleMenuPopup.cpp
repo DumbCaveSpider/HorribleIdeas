@@ -142,7 +142,7 @@ bool HorribleMenuPopup::setup() {
     filterMenu->setAnchorPoint({ 0.5, 1 });
     filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 65.f });
 
-    std::vector<FilterBtnInfo> filterBtns = {
+    const std::vector<FilterBtnInfo> filterBtns = {
         {SillyTier::Low, "Low", {100, 255, 100}},
         {SillyTier::Medium, "Medium", {255, 255, 100}},
         {SillyTier::High, "High", {255, 100, 100}}
@@ -256,13 +256,13 @@ bool HorribleMenuPopup::setup() {
     return true;
 };
 
-ListenerResult HorribleMenuPopup::OnCategory(const std::string& category, bool enabled) {
+ListenerResult HorribleMenuPopup::OnCategory(std::string const& category, bool enabled) {
     m_impl->s_selectedCategory = enabled ? category : "";
     filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);
     return ListenerResult::Propagate;
 };
 
-void HorribleMenuPopup::filterOptions(const std::vector<Option>& allOptions, SillyTier tier, const std::string& category) {
+void HorribleMenuPopup::filterOptions(std::vector<Option> const& allOptions, SillyTier tier, std::string const& category) {
     if (m_impl->m_optionList) {
         m_impl->m_optionList->m_contentLayer->removeAllChildren();
 

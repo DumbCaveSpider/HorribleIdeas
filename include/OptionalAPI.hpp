@@ -43,19 +43,19 @@ namespace horrible {
         };
 
         HorribleOptionEventFilterV2() = default;
-        HorribleOptionEventFilterV2(const std::string& id) : m_ids{ id } {}
-        HorribleOptionEventFilterV2(std::vector<std::string> ids) : m_ids(std::move(ids)) {}
+        HorribleOptionEventFilterV2(std::string const& id) : m_ids{ id } {}
+        HorribleOptionEventFilterV2(std::vector<std::string> const& ids) : m_ids(ids) {}
     };
 
     class OptionManagerV2 {
     public:
-        static Result<> registerOption(const Option& option)
+        static Result<> registerOption(Option const& option)
             GEODE_EVENT_EXPORT(&OptionManagerV2::registerOption, (option));
 
         static Result<bool> getOption(std::string_view id)
             GEODE_EVENT_EXPORT(&OptionManagerV2::getOption, (id));
 
-        static Result<bool> setOption(const std::string& id, bool enable)
+        static Result<bool> setOption(std::string const& id, bool enable)
             GEODE_EVENT_EXPORT(&OptionManagerV2::setOption, (id, enable));
     };
 };
