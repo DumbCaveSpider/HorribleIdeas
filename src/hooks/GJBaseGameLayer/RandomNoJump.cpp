@@ -16,10 +16,10 @@ class $modify(NoJumpGJBaseGameLayer, GJBaseGameLayer) {
     void handleButton(bool down, int button, bool isPlayer1) {
         if (m_fields->enabled) {
             if (button == 1) {
-                auto rng = randng::fast();
+                int rnd = randng::fast();
                 // log::debug("button chance {}", rng);
 
-                if (rng <= m_fields->chance) {
+                if (rnd <= m_fields->chance) {
                     log::error("skipped dat jump");
                     GJBaseGameLayer::handleButton(false, button, isPlayer1);
 

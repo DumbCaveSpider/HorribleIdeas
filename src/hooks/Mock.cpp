@@ -25,26 +25,26 @@ class $modify(MockMenuLayer, MenuLayer) {
             log::debug("mock feature enabled in MainMenu layer");
 
             if (rnd <= m_fields->chance) {
-                auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
-                auto mockConfig = file::readJson(fs::path(mockConfigPath));
+                auto const mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+                auto const mockConfig = file::readJson(fs::path(mockConfigPath));
 
                 log::debug("Reading path {}...", mockConfigPath);
 
                 if (mockConfig.isOk()) {
                     log::debug("Read mocking config file");
 
-                    auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
+                    auto const mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
 
                     auto lvlUnwr = mockConfigUnwr.begin();
                     std::advance(lvlUnwr, rnd % mockConfigUnwr.size());
 
-                    auto id = lvlUnwr->getKey().value_or("");
-                    auto percent = lvlUnwr->asInt().unwrapOr(99);
+                    auto const id = lvlUnwr->getKey().value_or("");
+                    auto const percent = lvlUnwr->asInt().unwrapOr(99);
 
                     if (!id.empty()) {
                         log::debug("ID {} with percentage {} is valid", id, percent);
 
-                        std::string pngPath = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
+                        auto const pngPath = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
 
                         log::info("Displaying {}", pngPath);
 
@@ -59,7 +59,7 @@ class $modify(MockMenuLayer, MenuLayer) {
                             if (res.isOk()) {
                                 log::info("Sprite loaded successfully from save dir PNG");
 
-                                auto percLabelText = fmt::format("{}%", percent);
+                                auto const percLabelText = fmt::format("{}%", percent);
 
                                 auto percLabel = CCLabelBMFont::create(percLabelText.c_str(), "bigFont.fnt");
                                 percLabel->setID("percentage");

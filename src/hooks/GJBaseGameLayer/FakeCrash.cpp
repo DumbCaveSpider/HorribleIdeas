@@ -23,7 +23,9 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
             if (m_fields->m_enabled && !m_fields->m_inFakeCrash && randng::fast() % m_fields->m_chance == 0) {
                 log::debug("Faking crash");
                 m_fields->m_lastTimeWarp = LevelTools::getLastTimewarp();
+
                 GJBaseGameLayer::updateTimeWarp(0.f);
+
                 m_fields->m_inFakeCrash = true;
                 m_fields->m_fakeCrashStartTime = playLayer->m_gameState.m_currentProgress;
             };
@@ -32,6 +34,7 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
                 float elapsedTime = playLayer->m_gameState.m_currentProgress - m_fields->m_fakeCrashStartTime;
                 if (elapsedTime >= 5.f) {
                     log::debug("Reverting timewarp to: {}", m_fields->m_lastTimeWarp);
+
                     GJBaseGameLayer::updateTimeWarp(m_fields->m_lastTimeWarp);
                     m_fields->m_inFakeCrash = false;
                 };

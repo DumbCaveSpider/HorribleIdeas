@@ -28,6 +28,7 @@ class $modify(GravityPlayerObject, PlayerObject) {
                 log::debug("set gravity to x{} (flat ground)", newGrav);
             };
         };
+
         PlayerObject::updateJump(p0);
     };
 };

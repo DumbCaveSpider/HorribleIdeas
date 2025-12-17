@@ -40,7 +40,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
 
             m_fields->m_healthBar->updateProgress(m_fields->m_health);
 
-            auto hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+            auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
                 m_fields->m_healthLabel->setColor({ 255, 0, 0 });
@@ -61,7 +61,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
         m_fields->m_health = 100.f;
 
         if (m_fields->m_healthLabel) {
-            auto hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+            auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             m_fields->m_healthLabel->setString(hp.c_str());
         };
 
@@ -93,7 +93,7 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
                 GJBaseGameLayer::shakeCamera(1.f, 5.f, 1.f);
 
                 if (m_fields->m_healthLabel) {
-                    std::string hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
+                    auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
                     m_fields->m_healthLabel->setString(hp.c_str());
 
                     m_fields->m_healthBar->updateProgress(m_fields->m_health);

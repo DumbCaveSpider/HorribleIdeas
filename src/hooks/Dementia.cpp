@@ -44,6 +44,7 @@ class $modify(DementiaPlayerObject, PlayerObject) {
                 } else if (onGround) { // save the position only if on ground
                     m_fields->lastX = getPositionX();
                     m_fields->lastY = getPositionY();
+
                     m_fields->lastMusicTime = fmod->getMusicTimeMS(1);
 
                     log::debug("position recorded to ({}, {}) and music time {}", m_fields->lastX, m_fields->lastY, m_fields->lastMusicTime);
@@ -61,18 +62,10 @@ class $modify(DementiaEnhancedGameObject, EnhancedGameObject) {
     };
 
     bool hasBeenActivated() {
-        if (m_fields->enabled) {
-            return true;
-        } else {
-            return EnhancedGameObject::hasBeenActivated();
-        };
+        return m_fields->enabled || EnhancedGameObject::hasBeenActivated();
     };
 
     bool hasBeenActivatedByPlayer(PlayerObject * p0) {
-        if (m_fields->enabled) {
-            return true;
-        } else {
-            return EnhancedGameObject::hasBeenActivatedByPlayer(p0);
-        };
+        return m_fields->enabled || EnhancedGameObject::hasBeenActivatedByPlayer(p0);
     };
 };

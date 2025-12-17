@@ -45,7 +45,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
 
             if (m_fields->healthEnabled) m_fields->m_oxygenBar->setPositionX(m_fields->m_oxygenBar->getPositionX() + 25.f);
 
-            std::string o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+            auto const o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             if (!m_fields->m_oxygenLabel) {
                 m_fields->m_oxygenLabel = CCLabelBMFont::create(o2.c_str(), "bigFont.fnt");
                 m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
@@ -82,7 +82,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         if (m_fields->m_oxygenLevel > 100.f) m_fields->m_oxygenLevel = 100.f;
         if (m_fields->m_oxygenLevel < 0.f) m_fields->m_oxygenLevel = 0.f;
 
-        auto o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+        auto const o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
         m_fields->m_oxygenLabel->setString(o2.c_str());
 
         m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
@@ -95,7 +95,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
         m_fields->m_oxygenLevel = 100.f;
 
         if (m_fields->m_oxygenLabel) {
-            auto o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
+            auto const o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             m_fields->m_oxygenLabel->setString(o2.c_str());
         };
     };

@@ -17,10 +17,10 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
         if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
 
         if (m_fields->enabled) {
-            float rng = randng::fast(); // random float between 0 and 100
-            log::debug("scene rng {} chance {}", rng, m_fields->chance);
+            int rnd = randng::fast(); // random float between 0 and 100
+            log::debug("scene rng {} chance {}", rnd, m_fields->chance);
 
-            if (rng <= m_fields->chance) {
+            if (rnd <= m_fields->chance) {
                 log::debug("setting scene upside down");
                 setRotation(-180.f);
             };

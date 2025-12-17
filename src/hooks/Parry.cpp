@@ -133,20 +133,20 @@ class $modify(ParryPlayLayer, PlayLayer) {
             m_fields->m_parryBar->updateProgress(pct);
             m_fields->m_parryBar->setVisible(true);
 
-            auto worldPos = player->convertToWorldSpaceAR({ 0.f, 0.f });
-            auto localPos = convertToNodeSpaceAR(worldPos);
+            auto const worldPos = player->convertToWorldSpaceAR({ 0.f, 0.f });
+            auto const localPos = convertToNodeSpaceAR(worldPos);
 
             m_fields->m_parryBar->setPosition({ localPos.x, localPos.y + 30.f });
         };
 
         if (m_fields->m_parryLabel) {
-            std::string label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, (player == m_player1 ? s_parryTimer1 : s_parryTimer2)));
+            auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, (player == m_player1 ? s_parryTimer1 : s_parryTimer2)));
 
             m_fields->m_parryLabel->setString(label.c_str());
             m_fields->m_parryLabel->setVisible(true);
 
-            auto worldPos = player->convertToWorldSpaceAR({ 0.f, 0.f });
-            auto localPos = convertToNodeSpaceAR(worldPos);
+            auto const worldPos = player->convertToWorldSpaceAR({ 0.f, 0.f });
+            auto const localPos = convertToNodeSpaceAR(worldPos);
 
             m_fields->m_parryLabel->setPosition({ localPos.x, localPos.y + 38.f });
         };
@@ -276,8 +276,8 @@ class $modify(ParryPlayLayer, PlayLayer) {
             if (s_parryTimer1 < 0.f) s_parryTimer1 = 0.f;
 
             if (m_player1) {
-                auto worldPos = m_player1->convertToWorldSpaceAR({ 0.f, 0.f });
-                auto localPos = convertToNodeSpaceAR(worldPos);
+                auto const worldPos = m_player1->convertToWorldSpaceAR({ 0.f, 0.f });
+                auto const localPos = convertToNodeSpaceAR(worldPos);
 
                 if (m_fields->m_parryBar) m_fields->m_parryBar->setPosition({ localPos.x, localPos.y + 30.f });
                 if (m_fields->m_parryLabel) m_fields->m_parryLabel->setPosition({ localPos.x, localPos.y + 38.f });
@@ -286,11 +286,12 @@ class $modify(ParryPlayLayer, PlayLayer) {
             if (m_fields->m_parryBar) {
                 float pct = (s_parryTimer1 / kParryWindow) * 100.f;
                 if (pct < 0.f) pct = 0.f;
+
                 m_fields->m_parryBar->updateProgress(pct);
             };
 
             if (m_fields->m_parryLabel) {
-                std::string label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer1));
+                auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer1));
                 m_fields->m_parryLabel->setString(label.c_str());
             };
         };
@@ -300,8 +301,8 @@ class $modify(ParryPlayLayer, PlayLayer) {
             if (s_parryTimer2 < 0.f) s_parryTimer2 = 0.f;
 
             if (m_player2) {
-                auto worldPos = m_player2->convertToWorldSpaceAR({ 0.f, 0.f });
-                auto localPos = convertToNodeSpaceAR(worldPos);
+                auto const worldPos = m_player2->convertToWorldSpaceAR({ 0.f, 0.f });
+                auto const localPos = convertToNodeSpaceAR(worldPos);
 
                 if (m_fields->m_parryBar) m_fields->m_parryBar->setPosition({ localPos.x, localPos.y + 30.f });
                 if (m_fields->m_parryLabel) m_fields->m_parryLabel->setPosition({ localPos.x, localPos.y + 38.f });
@@ -315,7 +316,7 @@ class $modify(ParryPlayLayer, PlayLayer) {
             };
 
             if (m_fields->m_parryLabel) {
-                std::string label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer2));
+                auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer2));
                 m_fields->m_parryLabel->setString(label.c_str());
             };
         };

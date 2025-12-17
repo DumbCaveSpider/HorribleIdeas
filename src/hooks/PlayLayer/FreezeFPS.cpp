@@ -43,8 +43,7 @@ class $modify(FreezePlayLayer, PlayLayer) {
 
         // Use seconds per frame, not raw FPS
         float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
-        if (interval <= 0.f || interval > 1.f)
-            interval = 1.f / 60.f; // fallback to 60 FPS if invalid
+        if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
         CCDirector::sharedDirector()->setAnimationInterval(interval);
         log::debug("reset fps to {} (interval {})", oldFPS, interval);
