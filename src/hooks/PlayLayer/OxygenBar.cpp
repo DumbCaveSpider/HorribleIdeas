@@ -11,7 +11,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("oxygen");
 
-        bool healthEnabled = options::get("health");
+        bool withHealth = options::get("health");
 
         float m_oxygenLevel = 100.f;
         bool m_oxygenActive = false;
@@ -43,7 +43,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
 
             m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);
 
-            if (m_fields->healthEnabled) m_fields->m_oxygenBar->setPositionX(m_fields->m_oxygenBar->getPositionX() + 25.f);
+            if (m_fields->withHealth) m_fields->m_oxygenBar->setPositionX(m_fields->m_oxygenBar->getPositionX() + 25.f);
 
             auto const o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             if (!m_fields->m_oxygenLabel) {

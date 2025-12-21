@@ -37,16 +37,18 @@ namespace horrible {
 
         void setOnCloseCallback(std::function<void()> cb);
         void setWasCorrectFlag(bool v);
+
         void closePopup();
 
         bool wasCorrect() const;
     };
 
     class Richard : public CCNode {
-    protected:
+    private:
         class Impl;
         std::unique_ptr<Impl> m_impl;
 
+    protected:
         Richard();
         virtual ~Richard();
 

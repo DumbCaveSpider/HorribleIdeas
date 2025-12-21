@@ -22,29 +22,29 @@ class $modify(FreezePlayerObject, PlayerObject) {
                 if (currentPercentage >= 90) {
                     auto gm = GameManager::get();
 
-                    float oldFPS = horribleMod->getSavedValue<float>("fps");
+                    auto oldFPS = horribleMod->getSavedValue<float>("fps");
 
                     gm->setGameVariable("0116", true);
 
                     // Randomize FPS between 1 and 45
-                    int randomFPS = 1 + (rand() % 46); // 1 to 45 inclusive
+                    int rndFps = 1 + (rand() % 46); // 1 to 45 inclusive
 
-                    float interval = 1.f / static_cast<float>(randomFPS);
+                    auto interval = 1.f / static_cast<float>(rndFps);
                     if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
                     CCDirector::sharedDirector()->setAnimationInterval(interval);
 
-                    // log::debug("cap fps to {} (interval {})", randomFPS, interval);
+                    // log::debug("cap fps to {} (interval {})", rndFps, interval);
                 } else {
                     // default to user old fps
                     auto gm = GameManager::get();
 
-                    float oldFPS = horribleMod->getSavedValue<float>("fps");
+                    auto oldFPS = horribleMod->getSavedValue<float>("fps");
 
                     gm->setGameVariable("0116", true);
 
                     // Use seconds per frame, not raw FPS
-                    float interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
+                    auto interval = (oldFPS > 10.f) ? (1.f / oldFPS) : (1.f / 60.f); // minimum 10 FPS
                     if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid
 
                     CCDirector::sharedDirector()->setAnimationInterval(interval);

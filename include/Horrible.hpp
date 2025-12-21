@@ -25,10 +25,11 @@ using namespace geode::prelude;
 namespace horrible {
     // Mod option manager for Horrible Ideas
     class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
-    protected:
+    private:
         class Impl; // PImpl class
         std::unique_ptr<Impl> m_impl; // PImpl pointer
 
+    protected:
         OptionManager(); // Constructor
         virtual ~OptionManager(); // Destructor
 

@@ -15,9 +15,6 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
 
         Ref<ProgressBar> m_healthBar = nullptr;
         CCLabelBMFont* m_healthLabel = nullptr;
-
-        bool m_dontCreateObjects = false;
-        GameObject* m_destroyingObject = nullptr;
     };
 
     bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
@@ -79,7 +76,6 @@ class $modify(HealthBarPlayLayer, PlayLayer) {
         } else if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
             if (game == m_anticheatSpike && player && !player->m_isDead) return;
-            if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
             int rnd = randng::fast();
             if (m_fields->m_health > 0) {

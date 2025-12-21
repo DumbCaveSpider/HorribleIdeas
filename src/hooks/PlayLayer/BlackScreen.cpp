@@ -35,7 +35,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             log::debug("Showing black screen after delay");
 
-            const auto winSize = CCDirector::sharedDirector()->getWinSize();
+            auto const winSize = CCDirector::sharedDirector()->getWinSize();
 
             Ref<CCScale9Sprite> blackScreen = CCScale9Sprite::create("square02_001.png");
             blackScreen->setContentSize({ winSize.width + 10.f, winSize.height + 10.f });

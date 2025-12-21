@@ -125,7 +125,7 @@ class $modify(MockPlayLayer, PlayLayer) {
             CCScene* scene = CCScene::get();
 
             // Get the window size in points and scale to pixels
-            const auto winSize = director->getWinSize();
+            auto const winSize = director->getWinSize();
 
             int width = static_cast<int>(winSize.width);
             int height = static_cast<int>(winSize.height);
@@ -137,11 +137,11 @@ class $modify(MockPlayLayer, PlayLayer) {
             renderTexture->end();
 
             if (auto image = renderTexture->newCCImage()) {
-                std::string path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
+                auto const path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
 
                 if (image->saveToFile(path.c_str(), false)) {
-                    auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
-                    auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved fails to mock the player with :)
+                    auto const mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+                    auto const mockConfig = file::readJson(fs::path(mockConfigPath)); // get the saved fails to mock the player with :)
 
                     auto toWrite = matjson::Value(); // what we're gonna write in the mock.json file
 
@@ -150,15 +150,15 @@ class $modify(MockPlayLayer, PlayLayer) {
                         auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
 
                         // overwrite this field (or add it) with the percent
-                        mockConfigUnwr[std::to_string(id)] = percentage;
+                        mockConfigUnwr[utils::numToString(id)] = percentage;
 
                         toWrite = mockConfigUnwr;
                     } else {
-                        toWrite = matjson::makeObject({ {std::to_string(id), percentage} });
+                        toWrite = matjson::makeObject({ {utils::numToString(id), percentage} });
                     };
 
                     if (!toWrite.isNull()) {
-                        auto mockJson = file::writeToJson(mockConfigPath, toWrite);
+                        auto const mockJson = file::writeToJson(mockConfigPath, toWrite);
 
                         if (mockJson.isOk()) {
                             log::info("Saved highly mockable percentage of {} to data", percentage);
@@ -179,10 +179,6 @@ class $modify(MockPlayLayer, PlayLayer) {
         };
 #endif
 
-#if defined(GEODE_IS_MACOS) && defined(GEODE_IS_IOS)
-        Notification::create("Mock is not avaliable on this platform", NotificationIcon::Info, 1.f);
-#endif
-
         PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
     };
 
@@ -191,16 +187,15 @@ class $modify(MockPlayLayer, PlayLayer) {
             int id = m_level->m_levelID;
             int percentage = m_level->m_normalPercent;
 
-            auto mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
-            auto mockConfig = file::readJson(std::filesystem::path(mockConfigPath)); // get the saved levels to mock the player :)
+            auto const mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
+            auto const mockConfig = file::readJson(fs::path(mockConfigPath)); // get the saved levels to mock the player :)
 
             if (mockConfig.isOk()) {
                 log::debug("Clearing mock record for {}", id);
                 auto mockConfigUnwr = mockConfig.unwrapOr(matjson::Value());
+                mockConfigUnwr[utils::numToString(id)].clear();
 
-                mockConfigUnwr[std::to_string(id)].clear();
-
-                auto mockJson = file::writeToJson(mockConfigPath, mockConfigUnwr);
+                auto const mockJson = file::writeToJson(mockConfigPath, mockConfigUnwr);
 
                 if (mockJson.isOk()) {
                     log::info("Saved highly mockable percentage of {} to data", percentage);

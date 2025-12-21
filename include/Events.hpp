@@ -10,7 +10,7 @@ using namespace geode::prelude;
 namespace horrible {
     // Event for option toggles
     class HorribleOptionEvent : public Event {
-    protected:
+    private:
         std::string m_id; // Unique ID of the option
         bool m_toggled; // Toggle boolean of the option
 
@@ -23,7 +23,7 @@ namespace horrible {
 
     // Filter for option toggle event
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
-    protected:
+    private:
         std::vector<std::string> m_ids = {}; // Unique ID of the options to listen to
 
     public:

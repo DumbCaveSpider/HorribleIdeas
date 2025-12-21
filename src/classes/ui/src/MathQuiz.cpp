@@ -62,7 +62,7 @@ bool MathQuiz::init() {
         break;
     };
 
-    const auto winSize = CCDirector::get()->getWinSize();
+    auto const winSize = CCDirector::get()->getWinSize();
     // geometry dash
     if (m_impl->m_operation == MathOperation::Geometry) {
         int sides = randng::get(10);
@@ -72,9 +72,9 @@ bool MathQuiz::init() {
         m_impl->m_drawNode = CCDrawNode::create();
         m_impl->m_drawNode->setID("math-quiz-drawnode");
 
-        float radius = std::min(winSize.width, winSize.height) / 8.f;
-        float centerX = winSize.width / 2.f - 160.f;
-        float centerY = winSize.height / 2.f;
+        auto radius = std::min(winSize.width, winSize.height) / 8.f;
+        auto centerX = winSize.width / 2.f - 160.f;
+        auto centerY = winSize.height / 2.f;
 
         std::vector<CCPoint> polyPoints;
         polyPoints.reserve(sides);
@@ -83,10 +83,10 @@ bool MathQuiz::init() {
         float theta = (2.f * PI) / sides;
 
         for (int i = 0; i < sides; ++i) {
-            float angle = theta * i - PI / 2.f;  // start at top
+            auto angle = theta * i - PI / 2.f;  // start at top
 
-            float x = radius * cosf(angle);
-            float y = radius * sinf(angle);
+            auto x = radius * cosf(angle);
+            auto y = radius * sinf(angle);
 
             polyPoints.push_back(ccp(x, y));
         };
@@ -94,8 +94,8 @@ bool MathQuiz::init() {
         // draw the polygon in local coords with drawNode placed at center
         m_impl->m_drawNode->setPosition({ centerX, centerY });
 
-        cocos2d::ccColor4F fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
-        cocos2d::ccColor4F borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
+        ccColor4F fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
+        ccColor4F borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
 
         m_impl->m_drawNode->clear();
         m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.f, borderColor);
@@ -122,7 +122,7 @@ bool MathQuiz::init() {
     addChild(problemLabel);
 
     if (m_impl->m_operation != MathOperation::Geometry) {
-        auto equalsLabel = CCLabelBMFont::create("= ?", "bigFont.fnt");
+        auto equalsLabel = CCLabelBMFont::create("= ?", "goldFont.fnt");
         equalsLabel->setID("equals-label");
         equalsLabel->setPosition({ winSize.width / 2.f, winSize.height - 100.f });
 
@@ -179,12 +179,8 @@ bool MathQuiz::init() {
 
         addChild(m_impl->m_richard);
 
-        // floating animation
-        float floatDistance = 8.f;
-        float floatTime = 1.f;
-
-        auto moveUp = CCMoveBy::create(floatTime, ccp(0, floatDistance));
-        auto moveDown = CCMoveBy::create(floatTime, ccp(0, -floatDistance));
+        auto moveUp = CCMoveBy::create(1.f, ccp(0, 8.f));
+        auto moveDown = CCMoveBy::create(1.f, ccp(0, -8.f));
 
         auto seq = CCSequence::create(moveUp, moveDown, nullptr);
         auto repeat = CCRepeatForever::create(seq);
@@ -196,10 +192,11 @@ bool MathQuiz::init() {
     m_impl->m_answerMenu->setID("answer-menu");
     m_impl->m_answerMenu->setPosition({ winSize.width / 2.f, winSize.height / 2.f - 20.f });
 
-    float buttonWidth = 80.f;
-    float buttonHeight = 35.f;
-    float spacingX = 100.f;
-    float spacingY = 50.f;
+    auto buttonWidth = 80.f;
+    auto buttonHeight = 35.f;
+
+    auto spacingX = 100.f;
+    auto spacingY = 50.f;
 
     for (int i = 0; i < 4; i++) {
         auto btnSprite = ButtonSprite::create(
@@ -212,8 +209,8 @@ bool MathQuiz::init() {
             0.8f);
 
         //  2x2 grid
-        float x = (i % 2 == 0) ? -spacingX / 2.f : spacingX / 2.f;
-        float y = (i < 2) ? spacingY / 2.f : -spacingY / 2.f;
+        auto x = (i % 2 == 0) ? -spacingX / 2.f : spacingX / 2.f;
+        auto y = (i < 2) ? spacingY / 2.f : -spacingY / 2.f;
 
         auto answerBtn = CCMenuItemSpriteExtra::create(
             btnSprite,
@@ -260,7 +257,8 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
                 CCMoveBy::create(0.03f, ccp(-6, 0)),
                 CCMoveBy::create(0.06f, ccp(12, 0)),
                 CCMoveBy::create(0.03f, ccp(-6, 0)),
-                nullptr);
+                nullptr
+            );
             btn->runAction(shake);
         };
 
@@ -269,7 +267,8 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
 
         // feedback label
         // Notification::create(correct ? "Correct!" : "Incorrect!", correct ? NotificationIcon::Success : NotificationIcon::Error, 1.5f)->show();
-        const auto winSize = CCDirector::get()->getWinSize();
+        auto const winSize = CCDirector::get()->getWinSize();
+
         auto feedbackLabel = CCLabelBMFont::create(correct ? "Correct!" : "Incorrect!", "goldFont.fnt");
         feedbackLabel->setID("feedback-label");
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
@@ -290,7 +289,8 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
             CCScaleTo::create(0.08f, 1.f),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
-            nullptr);
+            nullptr
+        );
         feedbackLabel->runAction(seq);
 
         setKeypadEnabled(false);
@@ -352,7 +352,7 @@ void MathQuiz::update(float dt) {
 
         // Notification::create("Time's Up!", NotificationIcon::Error, 1.5f)->show();
 
-        const auto winSize = CCDirector::get()->getWinSize();
+        auto const winSize = CCDirector::get()->getWinSize();
 
         if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
 
@@ -370,7 +370,8 @@ void MathQuiz::update(float dt) {
             CCScaleTo::create(0.08f, 1.f),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
-            nullptr);
+            nullptr
+        );
 
         feedbackLabel->runAction(seq);
     };

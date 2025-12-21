@@ -23,7 +23,7 @@ namespace horrible {
         HorribleOptionEventV2(std::string const& id, bool toggled)
             : m_id(id), m_toggled(toggled) {};
 
-        std::string getId() const { return m_id; };
+        std::string const& getId() const { return m_id; };
         bool getToggled() const { return m_toggled; };
     };
 
@@ -35,16 +35,16 @@ namespace horrible {
         using Callback = ListenerResult(HorribleOptionEventV2*);
 
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEventV2* event) {
-            if (std::find(m_ids.begin(), m_ids.end(), event->getId()) != m_ids.end()) {
-                return fn(event);
+            for (auto const& id : m_ids) {
+                if (event->getId() == id) return fn(event);
             };
 
             return ListenerResult::Propagate;
         };
 
         HorribleOptionEventFilterV2() = default;
-        HorribleOptionEventFilterV2(std::string const& id) : m_ids{ id } {}
-        HorribleOptionEventFilterV2(std::vector<std::string> const& ids) : m_ids(ids) {}
+        HorribleOptionEventFilterV2(std::string const& id) : m_ids{ id } {};
+        HorribleOptionEventFilterV2(std::vector<std::string> const& ids) : m_ids(ids) {};
     };
 
     class OptionManagerV2 {
