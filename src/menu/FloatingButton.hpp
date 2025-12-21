@@ -28,7 +28,7 @@ public:
     void onEnter() override;
 
     void setScale(float scale) override;
-    void setPosition(const CCPoint& position) override;
+    void setPosition(CCPoint const& position) override;
 
     // CCLayer targeted touch listener methods
     virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;

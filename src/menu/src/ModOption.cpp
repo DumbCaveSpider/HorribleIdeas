@@ -8,7 +8,7 @@ using namespace geode::prelude;
 using namespace horrible;
 
 class ModOption::Impl final {
-    public:
+public:
     bool s_compatible = false; // If this option is compatible with the current platform
 
     // The option
@@ -34,7 +34,10 @@ bool ModOption::init(CCSize const& size, Option const& option) {
 
     // check for compatibility
     for (auto const& p : m_impl->m_option.platforms) {
-        if (p & GEODE_PLATFORM_TARGET) { m_impl->s_compatible = true; break; };
+        if (p & GEODE_PLATFORM_TARGET) {
+            m_impl->s_compatible = true;
+            break;
+        };
     };
 
     if (!CCMenu::init()) return false;

@@ -7,9 +7,9 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-CategoryEvent::CategoryEvent(std::string id, bool enabled) : m_id(id), m_enabled(enabled) {};
+CategoryEvent::CategoryEvent(std::string const& id, bool enabled) : m_id(id), m_enabled(enabled) {};
 
-std::string CategoryEvent::getId() const {
+std::string const& CategoryEvent::getId() const {
     return m_id;
 };
 

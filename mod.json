@@ -43,7 +43,12 @@
         },
         "geode.custom-keybinds": {
             "importance": "required",
-            "version": ">=1.10.0"
+            "version": ">=1.10.0",
+            "platforms": [
+                "win",
+                "mac",
+                "android"
+            ]
         }
     },
     "api": {

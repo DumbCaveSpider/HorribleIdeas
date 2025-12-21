@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(RandomPausePlayerObject, PlayerObject) {
+class $modify(PausePlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = options::get("pauses");
         int chance = options::getChance("pauses");

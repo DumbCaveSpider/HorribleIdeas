@@ -7,6 +7,8 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+namespace str = utils::string; // Shortcut for geode::utils::string
+
 HorribleOptionEvent::HorribleOptionEvent(std::string const& id, bool toggled) : m_id(id), m_toggled(toggled) {};
 
 std::string const& HorribleOptionEvent::getId() const {
@@ -21,7 +23,7 @@ HorribleOptionEventFilter::HorribleOptionEventFilter(std::string const& id) : m_
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> const& ids) : m_ids(ids) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
-    if (std::find(m_ids.begin(), m_ids.end(), event->getId()) == m_ids.end()) return fn(event);
+    if (str::containsAny(event->getId(), m_ids)) return fn(event);
     return ListenerResult::Propagate;
 };
 
@@ -39,7 +41,7 @@ OptionManager::OptionManager() {
 OptionManager::~OptionManager() {};
 
 void OptionManager::registerCategory(std::string const& category) {
-    if (!utils::string::containsAny(category, getCategories())) m_impl->m_categories.push_back(std::string(category));
+    if (!str::containsAny(category, getCategories())) m_impl->m_categories.push_back(std::string(category));
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {

@@ -3,6 +3,7 @@
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/PlayerObject.hpp>
+
 #include <Geode/binding/GameManager.hpp>
 
 using namespace geode::prelude;

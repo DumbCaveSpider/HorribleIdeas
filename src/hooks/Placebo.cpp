@@ -8,16 +8,10 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-struct Fields {
-    bool enabled = options::get("placebo");
-};
-
-Fields m_fields;
-
 void placeboEffect() {
     log::info("Checking for placebo effect...");
 
-    if (m_fields.enabled) {
+    if (options::get("placebo")) {
         int rnd = randng::fast();
         log::info("placebo effect roll: {}", rnd);
 

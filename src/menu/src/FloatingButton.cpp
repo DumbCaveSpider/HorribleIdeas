@@ -17,7 +17,7 @@ public:
     bool m_isDragging = false;
     bool m_isMoving = false;
 
-    CCSize m_screenSize = CCDirector::sharedDirector()->getWinSize();
+    CCSize const m_screenSize = CCDirector::sharedDirector()->getWinSize();
     CCPoint m_dragStartPos = { 0, 0 };
 
     Ref<CircleButtonSprite> m_sprite = nullptr;
@@ -86,7 +86,7 @@ void FloatingButton::setScale(float scale) {
     };
 };
 
-void FloatingButton::setPosition(const CCPoint& position) {
+void FloatingButton::setPosition(CCPoint const& position) {
     if (m_impl->m_sprite) {
         auto halfX = m_impl->m_sprite->getScaledContentWidth() / 2.f;
         auto halfY = m_impl->m_sprite->getScaledContentHeight() / 2.f;

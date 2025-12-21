@@ -24,8 +24,11 @@ class $modify(BlinkingIconPlayerObject, PlayerObject) {
                 if (rnd <= m_fields->chance) {
                     m_fields->m_delay += dt;
 
-                    auto r = static_cast<float>(rnd);
-                    if (m_fields->m_delay >= (isVisible() ? 0.875f * rnd : 0.125f * rnd)) setVisible(!isVisible());
+                    auto r = static_cast<float>(rnd) / 100.f;
+                    if (m_fields->m_delay >= (isVisible() ? 0.875f * r : 0.125f * r)) {
+                        setVisible(!isVisible());
+                        m_fields->m_delay = 0.f;
+                    };
                 };
             };
         };

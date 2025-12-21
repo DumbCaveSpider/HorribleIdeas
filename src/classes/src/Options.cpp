@@ -33,9 +33,5 @@ std::vector<std::string> const& options::getAllCategories() {
 };
 
 bool options::doesCategoryExist(std::string const& category) {
-    for (auto const& cat : getAllCategories()) {
-        if (cat == category) return true;
-    };
-
-    return false;
+    return str::containsAny(category, getAllCategories());
 };

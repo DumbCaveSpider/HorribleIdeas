@@ -37,10 +37,10 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         m_playerSpeed = m_fields->savedDefaultSpeed; // snap back to original speed
 
         // 5 seconds buffer before fully awake
-        auto buffer = CCSequence::create(
+        auto buffer = CCSequence::createWithTwoActions(
             CCDelayTime::create(5.f),
-            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp)),
-            nullptr);
+            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp))
+        );
 
         runAction(buffer);
     };

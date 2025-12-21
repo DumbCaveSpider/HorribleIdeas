@@ -27,7 +27,7 @@ class $modify(FreezePlayerObject, PlayerObject) {
                     gm->setGameVariable("0116", true);
 
                     // Randomize FPS between 1 and 45
-                    int rndFps = 1 + (rand() % 46); // 1 to 45 inclusive
+                    int rndFps = randng::get(45, 1); // 1 to 45 inclusive
 
                     auto interval = 1.f / static_cast<float>(rndFps);
                     if (interval <= 0.f || interval > 1.f) interval = 1.f / 60.f; // fallback to 60 FPS if invalid

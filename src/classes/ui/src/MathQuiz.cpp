@@ -15,7 +15,7 @@ public:
     MathOperation m_operation = MathOperation::Addition;
 
     int m_correctAnswer = 0;
-    std::vector<int> m_answers; // 4 answer options
+    std::vector<int> m_answers = {}; // 4 answer options
 
     Ref<ProgressBar> m_timerBar = nullptr;
     Ref<CCMenu> m_answerMenu = nullptr;

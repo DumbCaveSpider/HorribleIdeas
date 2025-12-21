@@ -258,13 +258,13 @@ ListenerResult HorribleMenuPopup::OnCategory(std::string const& category, bool e
     return ListenerResult::Propagate;
 };
 
-void HorribleMenuPopup::filterOptions(std::vector<Option> const& allOptions, SillyTier tier, std::string const& category) {
+void HorribleMenuPopup::filterOptions(std::vector<Option> const& optList, SillyTier tier, std::string const& category) {
     if (m_impl->m_optionList) {
         m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
         auto useCategory = options::doesCategoryExist(category);
 
-        for (auto const& opt : allOptions) {
+        for (auto const& opt : optList) {
             // tier filter
             auto tierMatches = tier == SillyTier::None || opt.silly == tier;
             // category filter

@@ -3,12 +3,13 @@
 #include <Geode/Geode.hpp>
 
 #include <Geode/modify/PlayerObject.hpp>
+
 #include <Geode/binding/GameManager.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(ClickRandomIconPlayerObject, PlayerObject) {
+class $modify(RandomIconPlayerObject, PlayerObject) {
     struct Fields {
         bool enabled = options::get("random_icon");
     };
@@ -31,13 +32,13 @@ class $modify(ClickRandomIconPlayerObject, PlayerObject) {
 
                 while (tries < 20 && gm && !gm->isIconUnlocked(newIcon, IconType::Cube)) {
                     newIcon = rnd % maxIcons + 1;
-                    ++tries;
+                    tries++;
                 };
 
                 // randomize the colors of the icon
-                int r = rand() % 256;
-                int g = rand() % 256;
-                int b = rand() % 256;
+                int r = randng::get(256);
+                int g = randng::get(256);
+                int b = randng::get(256);
                 setColor(cocos2d::ccc3(r, g, b));
                 updatePlayerGlow();
 
