@@ -1,0 +1,123 @@
+#include <Utils.hpp>
+
+#include <Geode/Geode.hpp>
+
+#include <Geode/modify/PlayLayer.hpp>
+
+using namespace geode::prelude;
+using namespace horrible;
+
+class $modify(MotivationPlayLayer, PlayLayer) {
+    struct Fields {
+        bool enabled = options::get("motivation");
+
+        std::vector<std::string> const msgs = {
+            "Surprised you haven't quit already.",
+            "OW! I hit my knee on my desk.",
+            "mrrp meow :3",
+            "No, it wasn't lag, dummy.",
+            "OwO what's this?",
+            "If you press Alt and F4 together, you can quit faster.",
+            "Did you know? The first level was created in 2013!",
+            "Keep going! Your mom said so.",
+            "ViPRiN wants to know your location.",
+            "I love GD Cologne",
+            "Did you know? The game was originally called Geometry Jump.",
+            "Pro tip: Don't die.",
+            "among us",
+            "Enable Placebo",
+            "You don't HAVE to beat this level today, or tomorrow.",
+            "remember to touch grass",
+            "Be Smart. Quit.",
+            "This is just a game, don't take it too seriously.",
+            "hi, i'm dad",
+            "hi my name is firee",
+            "gay.",
+            "ob it",
+            "if you can't beat this level you're noob",
+            "yrou'e*",
+            "The cake is a lie.",
+            "Are you a real gamer?",
+            "Record your rage, at least. It's funny.",
+            "Stop bothering me.",
+            "I think you could use an easier level.",
+            "Did you know? The creator of Geometry Dash is Robert.",
+            "you are **** map",
+            "2.1 coming soon",
+            "pancakes or waffles?",
+            "Watch out for crashes.",
+            "Take a deep breath. Shut down your device.",
+            "You should try Soggy Mod.",
+            "like and subscribe",
+            "Is this Clubstep?",
+            "Dude, just don't die.",
+            "Jump! Jump! Jump!",
+            "Don't forget to blink.",
+            "it's time to drink water",
+            "Remember to stretch your fingers.",
+            "activa cam",
+            "Don't die there.",
+            "Who dies like that?",
+            "1984",
+            "Crazy? I was crazy once. They locked me in a room.",
+            "Why would you jump there?!",
+            "This is why we can't have nice things.",
+            "Have you tried turning it off and on again?",
+            "Maybe if you used Practice Mode...",
+            "Did you know? You can change the color of your ship.",
+            "Mega Hack v7 is out!",
+            "Zoink who?",
+            "Look at you! You're still playing! Geez...",
+            "Remember to study.",
+            "The weather is nice."
+        };
+    };
+
+    void setupHasCompleted() {
+        if (m_fields->enabled) {
+            float delay = static_cast<float>(randng::get(15, 5));
+            log::debug("Motivational message will show after {} seconds", delay);
+
+            scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
+        };
+
+        PlayLayer::setupHasCompleted();
+    };
+
+    void showMessage(float) {
+        if (m_fields->enabled) {
+            auto label = CCLabelBMFont::create(m_fields->msgs[randng::get(m_fields->msgs.size())].c_str(), "bigFont.fnt");
+            label->setID("msg"_spr);
+            label->setAnchorPoint({ 0.5, 0 });
+            label->setAlignment(kCCTextAlignmentCenter);
+            label->setWidth(getScaledContentWidth() - 12.5f);
+            label->setPosition({ getScaledContentWidth() / 2.f, -label->getScaledContentHeight() });
+            label->setZOrder(9);
+
+            auto action = CCSequence::create(
+                CCMoveTo::create(0.5f, { label->getPositionX(), 12.5f }),
+                CCDelayTime::create(5.f),
+                CCMoveTo::create(0.5f, { label->getPositionX(), -label->getScaledContentHeight() }),
+                CCCallFuncN::create(this, callfuncN_selector(MotivationPlayLayer::scheduleNextMessage)),
+                nullptr
+            );
+
+            addChild(label);
+
+            // @geode-ignore(unknown-resource)
+            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");
+            label->runAction(action);
+        };
+    };
+
+    void scheduleNextMessage(CCNode * sender) {
+        if (sender) sender->removeMeAndCleanup();
+
+        if (m_fields->enabled) {
+            float delay = static_cast<float>(randng::get(30, 5));
+            log::debug("Motivational message will show again after {} seconds", delay);
+
+            scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
+        };
+    };
+};

@@ -29,10 +29,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            int rnd = randng::get(10);
-            log::info("playlayer setup completed {}", rnd);
-
-            float delay = static_cast<float>(rnd);
+            float delay = static_cast<float>(randng::get(10));
             log::debug("Friend will visit after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
