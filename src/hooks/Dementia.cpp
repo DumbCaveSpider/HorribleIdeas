@@ -34,7 +34,7 @@ class $modify(DementiaPlayerObject, PlayerObject) {
                 auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
                 // dementia
                 if (rnd <= m_fields->chance) {
-                    setPosition(cocos2d::CCPoint(m_fields->lastX, m_fields->lastY));
+                    setPosition({ m_fields->lastX, m_fields->lastY });
                     log::debug("player has dementia to ({}, {}), play time {}", m_fields->lastX, m_fields->lastY, m_fields->lastMusicTime);
 
                     // set the music time back to the last recorded time

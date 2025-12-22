@@ -23,7 +23,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             "diffIcon_08_btn_001.png",
             "diffIcon_09_btn_001.png",
             "diffIcon_10_btn_001.png",
-            "diffIcon_auto_btn_001.png"
+            "diffIcon_auto_btn_001.png",
         };
     };
 

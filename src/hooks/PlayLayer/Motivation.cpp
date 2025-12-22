@@ -66,16 +66,20 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             "Maybe if you used Practice Mode...",
             "Did you know? You can change the color of your ship.",
             "Mega Hack v7 is out!",
-            "Zoink who?",
-            "Look at you! You're still playing! Geez...",
+            "Zoink who? ...nevermind",
+            "Look at you! You're still playing! Oof...",
             "Remember to study.",
-            "The weather is nice."
+            "The weather is nice.",
+            "No, please don't sing.",
+            "i don't like this level",
+            "bruh",
+            "Still going, huh?",
         };
     };
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(15, 5));
+            float delay = static_cast<float>(randng::get(10, 3));
             log::debug("Motivational message will show after {} seconds", delay);
 
             scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
@@ -95,9 +99,9 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             label->setZOrder(9);
 
             auto action = CCSequence::create(
-                CCMoveTo::create(0.5f, { label->getPositionX(), 12.5f }),
+                CCEaseSineOut::create(CCMoveTo::create(0.375f, { label->getPositionX(), 12.5f })),
                 CCDelayTime::create(5.f),
-                CCMoveTo::create(0.5f, { label->getPositionX(), -label->getScaledContentHeight() }),
+                CCEaseSineIn::create(CCMoveTo::create(0.5f, { label->getPositionX(), -label->getScaledContentHeight() })),
                 CCCallFuncN::create(this, callfuncN_selector(MotivationPlayLayer::scheduleNextMessage)),
                 nullptr
             );
@@ -114,7 +118,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
         if (sender) sender->removeMeAndCleanup();
 
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(30, 5));
+            float delay = static_cast<float>(randng::get(15, 5));
             log::debug("Motivational message will show again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
