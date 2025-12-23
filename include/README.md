@@ -1,7 +1,7 @@
 # [<img src="../logo.png" width="30" alt="The mod's logo." />](https://www.geode-sdk.org/mods/arcticwoof.horrible_ideas) Horrible Ideas
 A plethora of ways to ruin your gaming experience...
 
-## Development
+## API
 Let's start off by adding this mod as a dependency in your `mod.json`!
 ```jsonc
 "dependencies": {
@@ -32,7 +32,7 @@ The manager class for Horrible Ideas mod options.
 - `bool` **`setOption(std::string_view id, bool enable)`** `const`: Set the toggle state of an option
   - `std::string_view` **`id`**: The ID of the option to toggle
   - `bool` **`enable`**: Boolean to toggle to
-- `std::vector<std::string_view>` **`getCategories()`** `const`: Returns the array of all registered categories
+- `std::vector<std::string>` **`getCategories()`** `const`: Returns the array of all registered categories
 
 #### enum class `horrible::SillyTier`
 An enum class that defines how chaotic or funny an option is.
@@ -98,7 +98,7 @@ $execute{
         "Something Interesting",
         "This is something that is very interesting.",
         "Stuff!",
-        SillyTier::Medium
+        SillyTier::Medium,
     });
 };
 ```
@@ -122,7 +122,7 @@ $execute{
         {
             PlatformID::Android32,
             PlatformID::X64 // Support specific platforms
-        }
+        },
     });
 };
 ```
@@ -194,7 +194,83 @@ class $modify(SomethingInterestingMenuLayer, MenuLayer) {
 };
 ```
 
-### Watch Out!
+## Optional API
+Let's start off by adding this mod as an optional dependency in your `mod.json`!
+```jsonc
+"dependencies": {
+    "arcticwoof.horrible_ideas": {
+        "importance": "suggested",
+        "version": ">=1.0.0"
+    }
+}
+```
+
+You can directly access the Horrible Ideas mod menu optional API by including the [`OptionalAPI.hpp`](OptionalAPI.hpp) file in your code. Make sure to include the **`horrible`** namespace to directly access all needed classes and methods.
+```cpp
+#include <arcticwoof.horrible_ideas/include/OptionalAPI.hpp>
+
+using namespace horrible;
+```
+
+### Classes
+These classes mirror the main API but return `geode::Result` values so callers can safely handle functions even if Horrible Ideas is not loaded.
+
+#### class `horrible::HorribleOptionEventV2`
+- `std::string` **`getId()`** `const`
+- `bool` **`getToggled()`** `const`
+
+#### class `horrible::HorribleOptionEventFilterV2`
+- `ListenerResult` **`handle(std::function<Callback> fn, HorribleOptionEventV2* event)`**
+
+#### class `horrible::OptionManagerV2`
+- `static Result<>` **`registerOption(Option const& option)`**
+- `static Result<bool>` **`getOption(std::string_view id)`**
+- `static Result<bool>` **`setOption(std::string const& id, bool enable)`**
+
+#### Summary
+| Type    | Name                          | Description                          |
+| ------- | ----------------------------- | ------------------------------------ |
+| `class` | `OptionManagerV2`             | Manager for Horrible Ideas options   |
+| `class` | `HorribleOptionEventV2`       | Fired when an option is toggled      |
+| `class` | `HorribleOptionEventFilterV2` | Filters through option toggle events |
+
+### Option
+You can register and check any and as many options as you desire through this API. Most of the examples given and implied context here will be derived from earlier examples.
+
+#### Registering
+Here's how you can register your own options through the optional API.
+
+```cpp
+$execute{
+    auto res = OptionManagerV2::registerOption({
+        "optional-something"_spr,
+        "Optional Something",
+        "An option registered through the optional API.",
+        "Optional",
+        SillyTier::Low,
+    });
+        
+    if (res.isErr()) log::error("Failed to register option: {}", res.unwrapErr());
+};
+```
+
+### Events
+Listening for state changes to a specific option.
+
+```cpp
+EventListener<HorribleOptionEventFilterV2> listener = {
+    [](HorribleOptionEventV2* ev) {
+        if (ev->getToggled()) {
+            // re-implement here
+        };
+
+        return ListenerResult::Propagate;
+    },
+    HorribleOptionEventFilterV2("optional-something"_spr)
+};
+```
+
+## Watch Out!
 Some common pitfalls may include the following.
 - Forgetting to use `_spr` when defining unique option ID
 - Not returning `ListenerResult::Propagate` in event callbacks
@@ -202,4 +278,4 @@ Some common pitfalls may include the following.
 
 Always double-check your code to make sure it follows safe practices.
 
-*Happy modding!*
+*Happy modding!* 

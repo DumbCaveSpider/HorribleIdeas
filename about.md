@@ -30,6 +30,9 @@ Trolls that usually happen on some sort of player interaction.
 #### Obstructive
 Disturb the player's accessibility to the gameplay.
 
+#### Misc
+Probably the worst of it all...
+
 ---
 
 ### Developers
@@ -46,6 +49,23 @@ $execute{
         "Cool Options",
         SillyTier::Medium
     });
+};
+```
+```cpp
+using namespace horrible;
+
+class $modify(MyPlayLayer, PlayLayer) {
+    struct Fields {
+        bool enabled = OptionManager::get()->getOption("my-option"_spr);
+    };
+
+    void setupHasCompleted() {
+        if (m_fields->enabled) {
+            // do insane stuff with my option!
+        };
+
+        PlayLayer::setupHasCompleted();
+    };
 };
 ```
 
