@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-CategoryEvent::CategoryEvent(std::string const& id, bool enabled) : m_id(id), m_enabled(enabled) {};
+CategoryEvent::CategoryEvent(std::string_view id, bool enabled) : m_id(id), m_enabled(enabled) {};
 
 std::string const& CategoryEvent::getId() const {
     return m_id;
@@ -34,7 +34,7 @@ CategoryItem::CategoryItem() {
 
 CategoryItem::~CategoryItem() {};
 
-bool CategoryItem::init(CCSize const& size, std::string_view category) {
+bool CategoryItem::init(CCSize const& size, std::string const& category) {
     m_impl->m_category = category;
 
     if (!CCMenu::init()) return false;
@@ -101,7 +101,7 @@ void CategoryItem::onToggle(CCObject* sender) {
     if (m_impl->m_toggler) CategoryEvent(m_impl->m_category, !m_impl->m_toggler->isOn()).post();
 };
 
-CategoryItem* CategoryItem::create(CCSize const& size, std::string_view category) {
+CategoryItem* CategoryItem::create(CCSize const& size, std::string const& category) {
     auto ret = new CategoryItem();
     if (ret->init(size, category)) {
         ret->autorelease();

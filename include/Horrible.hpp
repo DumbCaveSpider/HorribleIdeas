@@ -38,16 +38,7 @@ namespace horrible {
          *
          * @param category Name of the category
          */
-        void registerCategory(std::string_view category);
-
-        /**
-         * Check if a category already exists
-         *
-         * @param id The exact name of the category to check
-         *
-         * @returns Whether this category already exists or not
-         */
-        bool doesCategoryExist(std::string_view category) const;
+        void registerCategory(std::string const& category);
 
         /**
          * Check if an option already exists
@@ -102,6 +93,6 @@ namespace horrible {
          *
          * @returns An array of every category name
          */
-        std::vector<std::string_view> const& getCategories() const;
+        std::vector<std::string> const& getCategories() const;
     };
 };

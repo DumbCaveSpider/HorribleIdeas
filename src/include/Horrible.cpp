@@ -9,7 +9,7 @@ using namespace horrible;
 
 namespace str = utils::string; // Shortcut for geode::utils::string
 
-HorribleOptionEvent::HorribleOptionEvent(std::string const& id, bool toggled) : m_id(id), m_toggled(toggled) {};
+HorribleOptionEvent::HorribleOptionEvent(std::string_view id, bool toggled) : m_id(id), m_toggled(toggled) {};
 
 std::string const& HorribleOptionEvent::getId() const {
     return m_id;
@@ -20,7 +20,7 @@ bool HorribleOptionEvent::getToggled() const {
 };
 
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::string const& id) : m_ids({ id }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string_view> const& ids) : m_ids(ids) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> const& ids) : m_ids(ids) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
     for (auto const& id : m_ids) {
@@ -33,7 +33,7 @@ ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, Hor
 class OptionManager::Impl final {
 public:
     std::vector<Option> m_options = {}; // Array of registered options
-    std::vector<std::string_view> m_categories = {}; // Array of auto-registered categories
+    std::vector<std::string> m_categories = {}; // Array of auto-registered categories
 };
 
 OptionManager::OptionManager() {
@@ -43,16 +43,8 @@ OptionManager::OptionManager() {
 
 OptionManager::~OptionManager() {};
 
-bool OptionManager::doesCategoryExist(std::string_view category) const {
-    for (auto const& cat : getCategories()) {
-        if (cat == category) return true;
-    };
-
-    return false;
-};
-
-void OptionManager::registerCategory(std::string_view category) {
-    if (!doesCategoryExist(category)) m_impl->m_categories.push_back(category);
+void OptionManager::registerCategory(std::string const& category) {
+    if (!str::containsAny(category, getCategories())) m_impl->m_categories.push_back(category);
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {
@@ -68,9 +60,9 @@ void OptionManager::registerOption(Option const& option) {
         log::error("Could not register option '{}' ({}) because it already exists!", option.name, option.id);
     } else {
         m_impl->m_options.push_back(option);
-        registerCategory(option.category);
+        registerCategory(option.category.data());
 
-        log::debug("Registered option {}", option.id);
+        log::debug("Registered option {} of category {}", option.id, option.category);
     };
 };
 
@@ -78,7 +70,7 @@ std::vector<Option> const& OptionManager::getOptions() const {
     return m_impl->m_options;
 };
 
-std::vector<std::string_view> const& OptionManager::getCategories() const {
+std::vector<std::string> const& OptionManager::getCategories() const {
     return m_impl->m_categories;
 };
 

@@ -30,9 +30,9 @@ namespace horrible {
 
         // Constructor
         Option(
-            std::string const& id,
-            std::string const& name,
-            std::string const& description,
+            std::string_view id,
+            std::string_view name,
+            std::string_view description,
             std::string_view category,
             SillyTier silly = SillyTier::Low,
             bool restart = false,

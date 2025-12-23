@@ -11,7 +11,7 @@ protected:
     bool m_enabled;
 
 public:
-    CategoryEvent(std::string const& id, bool enabled = false);
+    CategoryEvent(std::string_view id, bool enabled = false);
 
     std::string const& getId() const;
     bool isEnabled() const;
@@ -44,8 +44,8 @@ protected:
 
     void onToggle(CCObject* sender);
 
-    bool init(CCSize const& size, std::string_view category);
+    bool init(CCSize const& size, std::string const& category);
 
 public:
-    static CategoryItem* create(CCSize const& size, std::string_view category);
+    static CategoryItem* create(CCSize const& size, std::string const& category);
 };

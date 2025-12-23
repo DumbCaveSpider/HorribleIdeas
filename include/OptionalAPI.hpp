@@ -20,7 +20,7 @@ namespace horrible {
         bool m_toggled;
 
     public:
-        HorribleOptionEventV2(std::string const& id, bool toggled)
+        HorribleOptionEventV2(std::string_view id, bool toggled)
             : m_id(id), m_toggled(toggled) {};
 
         std::string const& getId() const { return m_id; };
@@ -29,7 +29,7 @@ namespace horrible {
 
     class HorribleOptionEventFilterV2 : public EventFilter<HorribleOptionEventV2> {
     private:
-        std::vector<std::string_view> m_ids;
+        std::vector<std::string> m_ids;
 
     public:
         using Callback = ListenerResult(HorribleOptionEventV2*);
@@ -44,7 +44,7 @@ namespace horrible {
 
         HorribleOptionEventFilterV2() = default;
         HorribleOptionEventFilterV2(std::string const& id) : m_ids{ id } {};
-        HorribleOptionEventFilterV2(std::vector<std::string_view> const& ids) : m_ids(ids) {};
+        HorribleOptionEventFilterV2(std::vector<std::string> const& ids) : m_ids(ids) {};
     };
 
     class OptionManagerV2 {
