@@ -8,7 +8,7 @@ A plethora of ways to ruin your gaming experience...
 ---
 
 ## About
-This silly lil' mod adds a mod menu filled to the brim with crazy joke mods! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game. There's plenty to pick from, and you absolutely will NOT be disappointed at all!
+This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy troll options**! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game.
 
 ---
 

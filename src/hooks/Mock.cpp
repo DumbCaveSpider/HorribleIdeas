@@ -61,7 +61,7 @@ class $modify(MockMenuLayer, MenuLayer) {
 
                                 auto const percLabelText = fmt::format("{}%", percent);
 
-                                auto percLabel = CCLabelBMFont::create(percLabelText.c_str(), "bigFont.fnt");
+                                auto percLabel = CCLabelBMFont::create(percLabelText.data(), "bigFont.fnt");
                                 percLabel->setID("percentage");
                                 percLabel->setPosition({ ss->getScaledContentWidth() / 2.f, ss->getScaledContentHeight() / 2.f });
                                 percLabel->setAlignment(CCTextAlignment::kCCTextAlignmentLeft);
@@ -139,7 +139,7 @@ class $modify(MockPlayLayer, PlayLayer) {
             if (auto image = renderTexture->newCCImage()) {
                 auto const path = fmt::format("{}\\{}.png", horribleMod->getSaveDir(), id);
 
-                if (image->saveToFile(path.c_str(), false)) {
+                if (image->saveToFile(path.data(), false)) {
                     auto const mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
                     auto const mockConfig = file::readJson(fs::path(mockConfigPath)); // get the saved fails to mock the player with :)
 

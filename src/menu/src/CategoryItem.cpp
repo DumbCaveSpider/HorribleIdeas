@@ -34,12 +34,12 @@ CategoryItem::CategoryItem() {
 
 CategoryItem::~CategoryItem() {};
 
-bool CategoryItem::init(CCSize const& size, std::string const& category) {
+bool CategoryItem::init(CCSize const& size, std::string_view category) {
     m_impl->m_category = category;
 
     if (!CCMenu::init()) return false;
 
-    setID(str::join(str::split(str::toLower(category), " "), "-"));
+    setID(str::join(str::split(str::toLower(category.data()), " "), "-"));
     setScaledContentSize(size);
     setAnchorPoint({ 0.5, 1 });
 
@@ -73,7 +73,7 @@ bool CategoryItem::init(CCSize const& size, std::string const& category) {
 
     // name of the joke
     auto nameLabel = CCLabelBMFont::create(
-        m_impl->m_category.c_str(),
+        m_impl->m_category.data(),
         "goldFont.fnt",
         getScaledContentWidth() - 35.f,
         kCCTextAlignmentLeft
@@ -89,7 +89,7 @@ bool CategoryItem::init(CCSize const& size, std::string const& category) {
     return true;
 };
 
-ListenerResult CategoryItem::OnCategory(std::string const& category, bool enabled) {
+ListenerResult CategoryItem::OnCategory(std::string_view category, bool enabled) {
     if (m_impl->m_toggler) {
         if (category != m_impl->m_category) m_impl->m_toggler->toggle(false);
     };
@@ -101,7 +101,7 @@ void CategoryItem::onToggle(CCObject* sender) {
     if (m_impl->m_toggler) CategoryEvent(m_impl->m_category, !m_impl->m_toggler->isOn()).post();
 };
 
-CategoryItem* CategoryItem::create(CCSize const& size, std::string const& category) {
+CategoryItem* CategoryItem::create(CCSize const& size, std::string_view category) {
     auto ret = new CategoryItem();
     if (ret->init(size, category)) {
         ret->autorelease();

@@ -25,13 +25,17 @@ bool options::set(std::string const& id, bool enable) {
     return false;
 };
 
-std::vector<std::string> const& options::getAllCategories() {
+std::vector<std::string_view> const& options::getAllCategories() {
     if (auto om = OptionManager::get()) return om->getCategories();
 
-    static const std::vector<std::string> ret;
+    static const std::vector<std::string_view> ret;
     return ret;
 };
 
-bool options::doesCategoryExist(std::string const& category) {
-    return str::containsAny(category, getAllCategories());
+bool options::doesCategoryExist(std::string_view category) {
+    for (auto const& cat : getAllCategories()) {
+        if (cat == category) return true;
+    };
+
+    return false;
 };

@@ -47,13 +47,13 @@ namespace horrible {
          *
          * @returns An array of every registered option category, main and external
          */
-        std::vector<std::string> const& getAllCategories();
+        std::vector<std::string_view> const& getAllCategories();
 
         /**
          * Returns if a category exists or not
          *
          * @param category The exact name of the category to check
          */
-        bool doesCategoryExist(std::string const& category);
+        bool doesCategoryExist(std::string_view category);
     };
 };

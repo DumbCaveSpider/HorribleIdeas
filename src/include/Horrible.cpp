@@ -30,7 +30,7 @@ ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, Hor
 class OptionManager::Impl final {
 public:
     std::vector<Option> m_options = {}; // Array of registered options
-    std::vector<std::string> m_categories = {}; // Array of auto-registered categories
+    std::vector<std::string_view> m_categories = {}; // Array of auto-registered categories
 };
 
 OptionManager::OptionManager() {
@@ -40,8 +40,16 @@ OptionManager::OptionManager() {
 
 OptionManager::~OptionManager() {};
 
-void OptionManager::registerCategory(std::string const& category) {
-    if (!str::containsAny(category, getCategories())) m_impl->m_categories.push_back(std::string(category));
+bool OptionManager::doesCategoryExist(std::string_view category) const {
+    for (auto const& cat : getCategories()) {
+        if (cat == category) return true;
+    };
+
+    return false;
+};
+
+void OptionManager::registerCategory(std::string_view category) {
+    if (!doesCategoryExist(category)) m_impl->m_categories.push_back(category);
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {
@@ -67,12 +75,12 @@ std::vector<Option> const& OptionManager::getOptions() const {
     return m_impl->m_options;
 };
 
-std::vector<std::string> const& OptionManager::getCategories() const {
+std::vector<std::string_view> const& OptionManager::getCategories() const {
     return m_impl->m_categories;
 };
 
 bool OptionManager::getOption(std::string_view id) const {
-    return Mod::get()->getSavedValue<bool>(std::string(id), false);
+    return Mod::get()->getSavedValue<bool>(id.data(), false);
 };
 
 bool OptionManager::setOption(std::string const& id, bool enable) const {
@@ -82,7 +90,7 @@ bool OptionManager::setOption(std::string const& id, bool enable) const {
     auto eventV2 = new HorribleOptionEventV2(id, enable);
     eventV2->postFromMod(Mod::get());
 
-    return Mod::get()->setSavedValue(std::string(id), enable);
+    return Mod::get()->setSavedValue(id.data(), enable);
 };
 
 OptionManager* OptionManager::get() {

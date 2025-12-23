@@ -114,7 +114,7 @@ bool MathQuiz::init() {
     };
 
     // reuse winSize declared above
-    auto problemLabel = CCLabelBMFont::create(problemText.c_str(), "bigFont.fnt");
+    auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt");
     problemLabel->setID("problem-label");
     problemLabel->setPosition({ winSize.width / 2.f, winSize.height - 60.f });
     problemLabel->setScale(0.9f);
@@ -200,7 +200,7 @@ bool MathQuiz::init() {
 
     for (int i = 0; i < 4; i++) {
         auto btnSprite = ButtonSprite::create(
-            fmt::format("{}", m_impl->m_answers[i]).c_str(),
+            fmt::format("{}", m_impl->m_answers[i]).data(),
             buttonWidth,
             true,
             "bigFont.fnt",

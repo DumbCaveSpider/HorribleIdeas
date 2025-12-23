@@ -142,7 +142,7 @@ class $modify(ParryPlayLayer, PlayLayer) {
         if (m_fields->m_parryLabel) {
             auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, (player == m_player1 ? s_parryTimer1 : s_parryTimer2)));
 
-            m_fields->m_parryLabel->setString(label.c_str());
+            m_fields->m_parryLabel->setString(label.data());
             m_fields->m_parryLabel->setVisible(true);
 
             auto const worldPos = player->convertToWorldSpaceAR({ 0.f, 0.f });
@@ -292,7 +292,7 @@ class $modify(ParryPlayLayer, PlayLayer) {
 
             if (m_fields->m_parryLabel) {
                 auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer1));
-                m_fields->m_parryLabel->setString(label.c_str());
+                m_fields->m_parryLabel->setString(label.data());
             };
         };
 
@@ -317,7 +317,7 @@ class $modify(ParryPlayLayer, PlayLayer) {
 
             if (m_fields->m_parryLabel) {
                 auto const label = fmt::format("PARRY\n{:.2f}s", std::max(0.f, s_parryTimer2));
-                m_fields->m_parryLabel->setString(label.c_str());
+                m_fields->m_parryLabel->setString(label.data());
             };
         };
     };

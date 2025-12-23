@@ -11,7 +11,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("motivation");
 
-        std::vector<std::string> const msgs = {
+        static inline std::vector<std::string_view> const msgs = {
             "Surprised you haven't quit already.",
             "OW! I hit my knee on my desk.",
             "mrrp meow :3",
@@ -74,11 +74,30 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             "i don't like this level",
             "bruh",
             "Still going, huh?",
+            "Better luck next time.",
+            "Don't give up now! Maybe you'll get 1% further.",
+            "Delete Geometry Dash",
+            "check steam",
+            "What's your year with ChatGPT?",
+            "What do you want?",
+            "Can you do it? You tell me.",
+            "Believe in yourself. I don't, but you should.",
+            "You got this. Probably. I'm not sure.",
+            "That wasn't a smart decision right there.",
+            "How about a career in finance?",
+            "Even I couldn't have died there.",
+            "You know what to do.",
+            "lord help me",
+            "This is fine.",
+            "Still at it, huh?",
+            "Nothing beats a Jet2 holiday!",
         };
     };
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
+            log::debug("Preparing {} motivational messages", m_fields->msgs.size());
+
             float delay = static_cast<float>(randng::get(10, 3));
             log::debug("Motivational message will show after {} seconds", delay);
 
@@ -89,8 +108,8 @@ class $modify(MotivationPlayLayer, PlayLayer) {
     };
 
     void showMessage(float) {
-        if (m_fields->enabled) {
-            auto label = CCLabelBMFont::create(m_fields->msgs[randng::get(m_fields->msgs.size())].c_str(), "bigFont.fnt");
+        if (m_fields->enabled && !m_hasCompletedLevel) {
+            auto label = CCLabelBMFont::create(m_fields->msgs[randng::get(m_fields->msgs.size())].data(), "bigFont.fnt");
             label->setID("msg"_spr);
             label->setAnchorPoint({ 0.5, 0 });
             label->setAlignment(kCCTextAlignmentCenter);

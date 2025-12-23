@@ -11,7 +11,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("friends");
 
-        std::vector<std::string> const friends = {
+        static inline std::vector<std::string_view> const friends = {
             "diffIcon_00_btn_001.png",
             "diffIcon_01_btn_001.png",
             "diffIcon_02_btn_001.png",
@@ -53,8 +53,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yA = getScaledContentHeight() * rA; // starting height pos
             float yB = getScaledContentHeight() * rB; // ending height pos
 
-            auto idx = randng::get(m_fields->friends.size() - 1);
-            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(m_fields->friends[idx].c_str());
+            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(m_fields->friends[randng::get(m_fields->friends.size() - 1)].data());
             friendSpr->setID("friend"_spr);
             friendSpr->setPosition({ xA, yA });
             friendSpr->setScale(1.25 * (rB + rA));

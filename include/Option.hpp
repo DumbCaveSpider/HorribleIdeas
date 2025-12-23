@@ -22,7 +22,7 @@ namespace horrible {
         std::string name; // Name of the option
         std::string description; // Description of the option
         std::string category; // Name of the category this option should be under
-        SillyTier silly; // How silly the option is
+        SillyTier silly = SillyTier::Low; // How silly the option is
         bool restart = false; // If the option requires a restart to take effect
         std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
 
@@ -33,8 +33,8 @@ namespace horrible {
             std::string const& id,
             std::string const& name,
             std::string const& description,
-            std::string const& category,
-            SillyTier silly,
+            std::string_view category,
+            SillyTier silly = SillyTier::Low,
             bool restart = false,
             std::vector<PlatformID> const& platforms = { PlatformID::Desktop, PlatformID::Mobile }
         ) : id(id),

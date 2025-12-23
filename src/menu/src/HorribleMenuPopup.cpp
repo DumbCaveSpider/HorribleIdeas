@@ -252,13 +252,13 @@ bool HorribleMenuPopup::setup() {
     return true;
 };
 
-ListenerResult HorribleMenuPopup::OnCategory(std::string const& category, bool enabled) {
+ListenerResult HorribleMenuPopup::OnCategory(std::string_view category, bool enabled) {
     m_impl->s_selectedCategory = enabled ? category : "";
     filterOptions(options::getAll(), m_impl->s_selectedTier, m_impl->s_selectedCategory);
     return ListenerResult::Propagate;
 };
 
-void HorribleMenuPopup::filterOptions(std::vector<Option> const& optList, SillyTier tier, std::string const& category) {
+void HorribleMenuPopup::filterOptions(std::vector<Option> const& optList, SillyTier tier, std::string_view category) {
     if (m_impl->m_optionList) {
         m_impl->m_optionList->m_contentLayer->removeAllChildren();
 
