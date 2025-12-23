@@ -23,5 +23,8 @@ namespace horrible {
 
         // Get any number between 0 and 100
         int fast();
+
+        // Get any percent decimal between 0 and 1
+        float pc();
     };
 };

@@ -71,8 +71,8 @@ class $modify(MockMenuLayer, MenuLayer) {
 
                                 ss->addChild(percLabel);
 
-                                auto rA = static_cast<float>(randng::fast()) / 100.f;
-                                auto rB = static_cast<float>(randng::fast()) / 100.f;
+                                auto rA = randng::pc();
+                                auto rB = randng::pc();
 
                                 float yA = getScaledContentHeight() * rB; // starting height pos
                                 float yB = getScaledContentHeight() * rA; // ending height pos

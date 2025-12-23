@@ -38,7 +38,7 @@ namespace horrible {
         ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event);
 
         HorribleOptionEventFilter() = default; // Constructor
-        HorribleOptionEventFilter(std::string const& id); // Constructor (listens to one option's toggle)
-        HorribleOptionEventFilter(std::vector<std::string> const& ids); // Constructor (listens to any specified options' toggles)
+        HorribleOptionEventFilter(std::string_view id); // Constructor (listens to one option's toggle)
+        HorribleOptionEventFilter(std::vector<std::string_view> const& ids); // Constructor (listens to any specified options' toggles)
     };
 };

@@ -86,7 +86,7 @@ namespace horrible {
          *
          * @returns Boolean of the old value
          */
-        bool setOption(std::string const& id, bool enable) const;
+        bool setOption(std::string_view id, bool enable) const;
 
         /**
          * Returns the array of all registered categories

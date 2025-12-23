@@ -19,8 +19,8 @@ bool HorribleOptionEvent::getToggled() const {
     return m_toggled;
 };
 
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::string const& id) : m_ids({ id }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> const& ids) : m_ids(ids) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::string_view id) : m_ids({ std::string(id) }) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string_view> const& ids) : m_ids(ids.begin(), ids.end()) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
     for (auto const& id : m_ids) {
@@ -78,7 +78,7 @@ bool OptionManager::getOption(std::string_view id) const {
     return Mod::get()->getSavedValue<bool>(id.data(), false);
 };
 
-bool OptionManager::setOption(std::string const& id, bool enable) const {
+bool OptionManager::setOption(std::string_view id, bool enable) const {
     auto event = new HorribleOptionEvent(id, enable);
     event->postFromMod(Mod::get());
 
@@ -103,7 +103,7 @@ Result<bool> OptionManagerV2::getOption(std::string_view id) {
     return Err("Failed to get OptionManager");
 };
 
-Result<bool> OptionManagerV2::setOption(std::string const& id, bool enable) {
+Result<bool> OptionManagerV2::setOption(std::string_view id, bool enable) {
     if (auto om = OptionManager::get()) return Ok(om->setOption(id, enable));
     return Err("Failed to get OptionManager");
 };

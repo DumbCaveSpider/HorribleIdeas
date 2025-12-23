@@ -20,3 +20,7 @@ int randng::tiny() {
 int randng::fast() {
     return get(100, 0);
 };
+
+float randng::pc() {
+    return static_cast<float>(fast()) / 100.f;
+};

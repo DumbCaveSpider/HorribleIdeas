@@ -47,8 +47,8 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
             if ((rnd / 2) <= 50.0) { xA = xB; xB = -125.f; }; // swap sides
 
-            auto rA = static_cast<float>(randng::fast()) / 100.f;
-            auto rB = static_cast<float>(randng::fast()) / 100.f;
+            auto rA = randng::pc();
+            auto rB = randng::pc();
 
             float yA = getScaledContentHeight() * rA; // starting height pos
             float yB = getScaledContentHeight() * rB; // ending height pos
