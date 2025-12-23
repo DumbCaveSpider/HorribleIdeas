@@ -20,10 +20,13 @@ bool HorribleOptionEvent::getToggled() const {
 };
 
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::string const& id) : m_ids({ id }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> const& ids) : m_ids(ids) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string_view> const& ids) : m_ids(ids) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
-    if (str::containsAny(event->getId(), m_ids)) return fn(event);
+    for (auto const& id : m_ids) {
+        if (event->getId() == id) return fn(event);
+    };
+
     return ListenerResult::Propagate;
 };
 
