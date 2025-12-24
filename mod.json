@@ -169,7 +169,7 @@
             "type": "int",
             "name": "Math Quiz Chance",
             "description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
-            "default": 1,
+            "default": 25,
             "min": 0,
             "max": 100,
             "control": {
@@ -271,7 +271,7 @@
             "type": "int",
             "name": "No Jump Chance",
             "description": "<cj>Randomly Don't Jump</c> - Chance of your jump input not registering.",
-            "default": 11,
+            "default": 25,
             "min": 0,
             "max": 100,
             "control": {

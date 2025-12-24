@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include <functional>
 
 using namespace geode::prelude;
 
@@ -27,6 +26,8 @@ namespace horrible {
         void closeAfterFeedback(CCNode* node);
         void onAnswerClicked(CCObject* sender);
 
+        bool hasAnswer(int answer) const;
+
         void keyBackClicked() override;
         void update(float dt) override;
 
@@ -35,12 +36,10 @@ namespace horrible {
     public:
         static MathQuiz* create();
 
-        void setOnCloseCallback(std::function<void()> cb);
+        void setCallback(std::function<void(bool)> cb);
         void setWasCorrectFlag(bool v);
 
         void closePopup();
-
-        bool wasCorrect() const;
     };
 
     class Richard : public CCNode {

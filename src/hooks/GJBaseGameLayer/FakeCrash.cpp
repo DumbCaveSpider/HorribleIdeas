@@ -17,7 +17,15 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
         float m_fakeCrashStartTime = 0.f;
     };
 
-    void update(float p0) {
+    bool init() {
+        if (!GJBaseGameLayer::init()) return false;
+
+        schedule(schedule_selector(FakeCrashGJBaseGameLayer::scheduler), 0.125f);
+
+        return true;
+    };
+
+    void scheduler(float) {
         if (auto playLayer = PlayLayer::get()) {
             // log::debug("FakeCrash update tick");
             if (m_fields->m_enabled && !m_fields->m_inFakeCrash && randng::fast() % m_fields->m_chance == 0) {
@@ -40,7 +48,5 @@ class $modify(FakeCrashGJBaseGameLayer, GJBaseGameLayer) {
                 };
             };
         };
-
-        GJBaseGameLayer::update(p0);
     };
 };

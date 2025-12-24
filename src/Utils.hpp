@@ -13,6 +13,7 @@
 
 #include <classes/ui/MathQuiz.hpp>
 #include <classes/ui/RandomAdPopup.hpp>
+#include <classes/ui/SpamJumps.hpp>
 
 using namespace geode::prelude;
 
@@ -20,6 +21,18 @@ using namespace geode::prelude;
 namespace horrible {
     // Pointer reference to this Geode mod
     inline Mod* horribleMod = Mod::get();
+
+    /**
+     * Convert a chance setting number to a cooldown percentage decimal
+     *
+     * @param chance The chance setting number
+     */
+    inline float chanceToDelayPct(int chance) {
+        if (chance <= 0) chance = 1;
+        if (chance > 100) chance = 100;
+
+        return ((100.f - static_cast<float>(chance)) + 1.f) / 100.f;
+    };
 
     namespace fs = std::filesystem; // Shortcut for std::filesystem
 
@@ -76,6 +89,11 @@ namespace horrible {
          "Your visual framerate starts randomly dropping during 90-99% in a level.\n<cy>Credit: Hexfire</c>",
          category::randoms,
          SillyTier::Medium},
+        {"spam",
+         "Spam Jumps!",
+         "Forces you to spam an input sometimes while playing a level.\n<cy>Credit: Cheeseworks</c>",
+         category::obstructive,
+         SillyTier::High},
         {"achieve",
          "Random Achievements",
          "Randomly play the achievement sound when clicking buttons.\n<cy>Credit: Cheeseworks</c>",
@@ -86,6 +104,11 @@ namespace horrible {
          "When you die in a level, there's a chance your game will die too.\n<cg>Don't worry, your progress will save when crashing!</c> :)\n<cy>Credit: DragonixGD</c>",
          category::chances,
          SillyTier::High},
+        {"confetti",
+         "Confetti Explosion",
+         "While playing a level, the screen will sometimes cause an explosion of random textures.\n<cy>Credit: Cheeseworks</c>",
+         category::obstructive,
+         SillyTier::Medium},
         {"no_jump",
          "Randomly Don't Jump",
          "When making an input in a level, there's a chance the player does not respond to it.\n<cy>Credit: GilanyKing12</c>",

@@ -31,7 +31,7 @@ public:
     void setPosition(CCPoint const& position) override;
 
     // CCLayer targeted touch listener methods
-    virtual bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
+    bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
     virtual void ccTouchMoved(CCTouch* touch, CCEvent* event) override;
     virtual void ccTouchEnded(CCTouch* touch, CCEvent* event) override;
 

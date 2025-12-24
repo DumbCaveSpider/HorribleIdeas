@@ -17,7 +17,7 @@ public:
     int m_correctAnswer = 0;
     std::vector<int> m_answers = {}; // 4 answer options
 
-    Ref<ProgressBar> m_timerBar = nullptr;
+    Ref<ProgressBar> m_timer = nullptr;
     Ref<CCMenu> m_answerMenu = nullptr;
     Ref<Richard> m_richard = nullptr;
     Ref<CCDrawNode> m_drawNode = nullptr;
@@ -26,8 +26,8 @@ public:
     float m_totalTime = 10.f;
     float m_timeDt = 0.f;
 
-    std::function<void()> m_onCloseCallback = nullptr;
-    bool m_wasCorrect = false;
+    std::function<void(bool)> m_callback = nullptr;
+    bool m_correct = false;
 };
 
 MathQuiz::MathQuiz() {
@@ -70,7 +70,7 @@ bool MathQuiz::init() {
 
         // draw node and polygon points
         m_impl->m_drawNode = CCDrawNode::create();
-        m_impl->m_drawNode->setID("math-quiz-drawnode");
+        m_impl->m_drawNode->setID("polygon");
 
         auto radius = std::min(winSize.width, winSize.height) / 8.f;
         auto centerX = winSize.width / 2.f - 160.f;
@@ -133,18 +133,18 @@ bool MathQuiz::init() {
     if (m_impl->m_operation == MathOperation::Geometry) problemLabel->setScale(0.5f);
 
     // i hope i did this right cheese, u added this progress bar thing
-    m_impl->m_timerBar = ProgressBar::create();
-    m_impl->m_timerBar->setID("math-quiz-timer");
-    m_impl->m_timerBar->setStyle(ProgressBarStyle::Solid);
-    m_impl->m_timerBar->setFillColor({ 255, 210, 0 });
-    m_impl->m_timerBar->setAnchorPoint({ 0.5, 0.5 });
-    m_impl->m_timerBar->setPosition({ winSize.width / 2.f, winSize.height - 20.f });
-    m_impl->m_timerBar->setZOrder(200);
+    m_impl->m_timer = ProgressBar::create();
+    m_impl->m_timer->setID("math-quiz-timer");
+    m_impl->m_timer->setStyle(ProgressBarStyle::Solid);
+    m_impl->m_timer->setFillColor({ 255, 210, 0 });
+    m_impl->m_timer->setAnchorPoint({ 0.5, 0.5 });
+    m_impl->m_timer->setPosition({ winSize.width / 2.f, winSize.height - 20.f });
+    m_impl->m_timer->setZOrder(9);
 
-    addChild(m_impl->m_timerBar);
+    addChild(m_impl->m_timer);
 
     m_impl->m_timeRemaining = m_impl->m_totalTime = 10.f;
-    m_impl->m_timerBar->updateProgress(100.f);
+    m_impl->m_timer->updateProgress(100.f);
 
     scheduleUpdate();
 
@@ -156,12 +156,12 @@ bool MathQuiz::init() {
     if (m_impl->m_operation == MathOperation::Geometry) {
         while (m_impl->m_answers.size() < 4) {
             int wrongAnswer = randng::get(10);
-            if (wrongAnswer != m_impl->m_correctAnswer && std::find(m_impl->m_answers.begin(), m_impl->m_answers.end(), wrongAnswer) == m_impl->m_answers.end()) m_impl->m_answers.push_back(wrongAnswer);
+            if (wrongAnswer != m_impl->m_correctAnswer && !hasAnswer(wrongAnswer)) m_impl->m_answers.push_back(wrongAnswer);
         };
     } else {
         while (m_impl->m_answers.size() < 4) {
             int wrongAnswer = m_impl->m_correctAnswer + randng::get(10);
-            if (wrongAnswer != m_impl->m_correctAnswer && std::find(m_impl->m_answers.begin(), m_impl->m_answers.end(), wrongAnswer) == m_impl->m_answers.end()) m_impl->m_answers.push_back(wrongAnswer);
+            if (wrongAnswer != m_impl->m_correctAnswer && !hasAnswer(wrongAnswer)) m_impl->m_answers.push_back(wrongAnswer);
         };
     };
 
@@ -232,31 +232,29 @@ bool MathQuiz::init() {
     return true;
 };
 
-void MathQuiz::setOnCloseCallback(std::function<void()> cb) {
-    m_impl->m_onCloseCallback = cb;
+void MathQuiz::setCallback(std::function<void(bool)> cb) {
+    m_impl->m_callback = cb;
 };
 
 void MathQuiz::setWasCorrectFlag(bool v) {
-    m_impl->m_wasCorrect = v;
+    m_impl->m_correct = v;
     // @geode-ignore(unknown-resource)
     if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");
-};
-
-bool MathQuiz::wasCorrect() const {
-    return m_impl->m_wasCorrect;
 };
 
 void MathQuiz::onAnswerClicked(CCObject* sender) {
     if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
         int selectedAnswer = btn->getTag();
-        bool correct = (selectedAnswer == m_impl->m_correctAnswer);
+        auto correct = (selectedAnswer == m_impl->m_correctAnswer);
 
         // Button shake for incorrect fancy
         if (!correct) {
             auto shake = CCSequence::create(
-                CCMoveBy::create(0.03f, ccp(-6, 0)),
-                CCMoveBy::create(0.06f, ccp(12, 0)),
-                CCMoveBy::create(0.03f, ccp(-6, 0)),
+                CCMoveBy::create(0.025f, ccp(-6, 0)),
+                CCMoveBy::create(0.05f, ccp(12, 0)),
+                CCMoveBy::create(0.025f, ccp(-6, 0)),
+                CCMoveBy::create(0.05f, ccp(12, 0)),
+                CCMoveBy::create(0.025f, ccp(-6, 0)),
                 nullptr
             );
             btn->runAction(shake);
@@ -271,15 +269,10 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
 
         auto feedbackLabel = CCLabelBMFont::create(correct ? "Correct!" : "Incorrect!", "goldFont.fnt");
         feedbackLabel->setID("feedback-label");
+        feedbackLabel->setScale(0.125f);
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
-        feedbackLabel->setScale(0.1f);
-
-        if (!correct) {
-            feedbackLabel->setColor({ 255, 100, 100 });
-        } else {
-            feedbackLabel->setColor({ 100, 255, 100 });
-        };
+        feedbackLabel->setColor(correct ? ccColor3B({ 100, 255, 100 }) : ccColor3B({ 255, 100, 100 }));
 
         addChild(feedbackLabel, 1000);
 
@@ -299,11 +292,19 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
     };
 };
 
+bool MathQuiz::hasAnswer(int answer) const {
+    for (auto const& a : m_impl->m_answers) {
+        if (a == answer) return true;
+    };
+
+    return false;
+};
+
 void MathQuiz::keyBackClicked() {
     if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
     if (m_impl->m_drawNode) m_impl->m_drawNode->removeFromParentAndCleanup(true);
 
-    Notification::create("Nope! you cant escape the math quiz!", NotificationIcon::Error, 1.5f)->show();
+    Notification::create("Nope! You cant escape the math quiz!", NotificationIcon::Error, 1.25f)->show();
 
     setWasCorrectFlag(false);
     closePopup();
@@ -315,7 +316,7 @@ void MathQuiz::closeAfterFeedback(CCNode* node) {
     if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
     if (m_impl->m_drawNode) m_impl->m_drawNode->removeFromParentAndCleanup(true);
 
-    if (m_impl->m_onCloseCallback) m_impl->m_onCloseCallback();
+    if (m_impl->m_callback) m_impl->m_callback(m_impl->m_correct);
 
     unscheduleUpdate();
     removeFromParentAndCleanup(true);
@@ -323,7 +324,7 @@ void MathQuiz::closeAfterFeedback(CCNode* node) {
 
 void MathQuiz::closePopup() {
     if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
-    if (m_impl->m_onCloseCallback) m_impl->m_onCloseCallback();
+    if (m_impl->m_callback) m_impl->m_callback(m_impl->m_correct);
 
     unscheduleUpdate();
     removeFromParentAndCleanup(true);
@@ -343,7 +344,7 @@ void MathQuiz::update(float dt) {
     if (m_impl->m_timeRemaining < 0.f) m_impl->m_timeRemaining = 0.f;
     float pct = (m_impl->m_timeRemaining / m_impl->m_totalTime) * 100.f;
 
-    if (m_impl->m_timerBar) m_impl->m_timerBar->updateProgress(pct);
+    if (m_impl->m_timer) m_impl->m_timer->updateProgress(pct);
 
     if (m_impl->m_timeRemaining <= 0.f) {
         // automatic incorrect
