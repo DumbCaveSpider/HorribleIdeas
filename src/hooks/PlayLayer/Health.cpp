@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(HealthBarPlayLayer, PlayLayer) {
+class $modify(HealthPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("health");
 

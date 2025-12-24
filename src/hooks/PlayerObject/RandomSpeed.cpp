@@ -13,20 +13,19 @@ class $modify(RandomSpeedPlayerObject, PlayerObject) {
         int chance = options::getChance("random_speed");
     };
 
-    void update(float p0) {
-        if (auto playLayer = PlayLayer::get()) {
-            if (m_fields->enabled) {
-                int rnd = randng::tiny();
+    bool pushButton(PlayerButton button) {
+        if (!PlayerObject::pushButton(button)) return false;
 
-                // if the rng is lower than the chance, change the speed
-                if (rnd <= m_fields->chance) {
-                    // randomly choose a new speed between 10% and 200%
-                    m_playerSpeed = static_cast<float>(randng::get(200, 10)) / 100.f;
-                    log::debug("Changed player speed to {}", m_playerSpeed);
-                };
+        if (m_fields->enabled) {
+            int rnd = randng::tiny();
+
+            if (rnd <= m_fields->chance) {
+                // randomly choose a new speed between 10% and 200%
+                m_playerSpeed = randng::get(200.f, 10.f) / 100.f;
+                log::debug("Changed player speed to {}", m_playerSpeed);
             };
         };
 
-        PlayerObject::update(p0);
+        return true;
     };
 };

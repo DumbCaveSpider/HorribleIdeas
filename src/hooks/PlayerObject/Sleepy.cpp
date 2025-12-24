@@ -18,17 +18,19 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         float savedDefaultSpeed = 0.f; // original speed captured at sleep start
     };
 
-    void startSleepTimer() {
-        // begin waking stage
-        auto seq = CCSequence::create(
-            CCDelayTime::create(5.f),
-            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::wakeUp)),
-            nullptr);
+    bool init(int player, int ship, GJBaseGameLayer * gameLayer, CCLayer * layer, bool playLayer) {
+        if (!PlayerObject::init(player, ship, gameLayer, layer, playLayer)) return false;
 
-        runAction(seq);
+        if (m_fields->enabled) scheduleOnce(schedule_selector(SleepyPlayerObject::asleep), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
+
+        return true;
     };
 
-    void wakeUp() {
+    void startSleepTimer() {
+        if (m_fields->enabled) scheduleOnce(schedule_selector(SleepyPlayerObject::wakeUpSchedule), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
+    };
+
+    void wakeUpSchedule(float) {
         log::debug("Waking the player up");
 
         m_fields->sleepy = false;
@@ -36,29 +38,23 @@ class $modify(SleepyPlayerObject, PlayerObject) {
 
         m_playerSpeed = m_fields->savedDefaultSpeed; // snap back to original speed
 
-        // 5 seconds buffer before fully awake
-        auto buffer = CCSequence::createWithTwoActions(
-            CCDelayTime::create(5.f),
-            CCCallFunc::create(this, callfunc_selector(SleepyPlayerObject::fullyWakeUp))
-        );
-
-        runAction(buffer);
+        scheduleOnce(schedule_selector(SleepyPlayerObject::fullyWakeUpSchedule), 5.f);
     };
 
-    void fullyWakeUp() {
+    // schedule wrapper for fullyWakeUp
+    void fullyWakeUpSchedule(float) {
         m_fields->waking = false;
     };
 
     bool pushButton(PlayerButton p0) {
         // no jumping while sleepy
         if (m_fields->sleepy) return false;
-
-        PlayerObject::pushButton(p0);
-        return true;
+        return PlayerObject::pushButton(p0);
     };
 
-    void update(float p0) {
-        if (auto playLayer = PlayLayer::get()) {
+    void asleep(float) {
+        if (auto pl = PlayLayer::get()) {
+
             if (m_fields->enabled) {
                 // player sleepy if not already in any stage
                 auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
@@ -78,15 +74,25 @@ class $modify(SleepyPlayerObject, PlayerObject) {
 
                 // go to sleep, go to sleep, sweet little baby go to sleep
                 if (m_fields->sleepy) {
-                    m_playerSpeed *= 0.99f;
-                    if (m_playerSpeed < 0.1f) m_playerSpeed = 0.f;
+                    schedule(schedule_selector(SleepyPlayerObject::fallAsleep), 0.125f);
                 };
             } else {
                 // wake up
-                if (m_fields->sleepy || m_fields->waking) fullyWakeUp();
+                if (m_fields->sleepy || m_fields->waking) m_fields->waking = false;
             };
+        };
+    };
 
-            PlayerObject::update(p0);
+    void fallAsleep(float dt) {
+        // decelerate to 0 speed
+        if (m_fields->sleepy) {
+            auto decelRate = m_fields->savedDefaultSpeed / 5.f; // decel to 0 in 5s
+            m_playerSpeed -= decelRate * dt;
+
+            if (m_playerSpeed <= 0.f) {
+                m_playerSpeed = 0.f;
+                unschedule(schedule_selector(SleepyPlayerObject::fallAsleep));
+            };
         };
     };
 };

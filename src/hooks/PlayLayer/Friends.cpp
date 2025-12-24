@@ -29,7 +29,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(10));
+            auto delay = randng::get(10.f);
             log::debug("Friend will visit after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
@@ -81,7 +81,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
 
     void scheduleNextFriend() {
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(5));
+            auto delay = randng::get(5.f);
             log::debug("Friend will visit again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);

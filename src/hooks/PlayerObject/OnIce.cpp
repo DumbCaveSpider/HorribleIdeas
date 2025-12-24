@@ -15,7 +15,6 @@ class $modify(OnIcePlayerObject, PlayerObject) {
     void update(float p0) {
         // make the player always on ice. yea this is it xD
         m_isOnIce = m_fields->enabled;
-
         PlayerObject::update(p0);
     };
 };

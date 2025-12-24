@@ -36,6 +36,9 @@ Disturb the player's accessibility to the gameplay.
 #### Misc
 Probably the worst of it all...
 
+> [!WARNING]
+> *Please keep in mind that certain hacks from mod menus may interfere with this mod's functionality.*
+
 ---
 
 ### Developers

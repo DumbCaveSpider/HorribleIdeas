@@ -15,7 +15,7 @@ class $modify(SizeChangerPlayerObject, PlayerObject) {
     };
 
     bool pushButton(PlayerButton button) {
-        if (auto playLayer = PlayLayer::get()) {
+        if (auto pl = PlayLayer::get()) {
             if (m_fields->enabled) {
                 // log::debug("size changer jump detected");
                 int rnd = randng::fast();

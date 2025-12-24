@@ -17,11 +17,11 @@
     "links": {
         "source": "https://github.com/DumbCaveSpider/HorribleIdeas",
         "homepage": "https://avalanche.cubicstudios.xyz/",
-        "community": "https://discord.gg/gXcppxTNxC"
+        "community": "https://www.dsc.gg/cubic"
     },
     "issues": {
         "info": "If something isn't turning out to be as funny as we thought, please report it to the repository!",
-        "url": "https://github.com/DumbCaveSpider/HorribleIdeas/issues"
+        "url": "https://www.github.com/DumbCaveSpider/HorribleIdeas/issues/"
     },
     "tags": [
         "joke",
@@ -356,7 +356,7 @@
             "type": "int",
             "name": "Blinking Icon Chance",
             "description": "<cj>Blinking Icon</c> - Chance of your icon blinking.",
-            "default": 10,
+            "default": 15,
             "min": 0,
             "max": 100,
             "control": {

@@ -2,30 +2,30 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/modify/PlayerObject.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(PausePlayerObject, PlayerObject) {
+class $modify(PausePlayerObject, PlayLayer) {
     struct Fields {
         bool enabled = options::get("pauses");
         int chance = options::getChance("pauses");
     };
 
-    void update(float p0) {
-        if (auto playLayer = PlayLayer::get()) {
-            if (m_fields->enabled) {
-                int rnd = randng::tiny();
+    void setupHasCompleted() {
+        if (m_fields->enabled) nextPause();
+        PlayLayer::setupHasCompleted();
+    };
 
-                // if the rng is lower than the chance, pause the game
-                if (rnd <= m_fields->chance) {
-                    log::debug("Pausing the game randomly ({}/5000 < {})", rnd, m_fields->chance);
-                    playLayer->pauseGame(true); // pause the game randomly
-                };
-            };
+    void nextPause() {
+        if (m_fields->enabled) scheduleOnce(schedule_selector(PausePlayerObject::pause), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
+    };
+
+    void pause(float) {
+        if (m_fields->enabled) {
+            nextPause();
+            pauseGame(true);
         };
-
-        PlayerObject::update(p0);
     };
 };

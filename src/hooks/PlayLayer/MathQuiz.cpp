@@ -21,7 +21,7 @@ class $modify(MathQuizPlayLayer, PlayLayer) {
     };
 
     void nextQuiz() {
-        if (m_fields->enabled && !m_hasCompletedLevel) scheduleOnce(schedule_selector(MathQuizPlayLayer::doQuiz), static_cast<float>(randng::get(30, 5)) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled && !m_hasCompletedLevel) scheduleOnce(schedule_selector(MathQuizPlayLayer::doQuiz), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
     };
 
     void doQuiz(float) {

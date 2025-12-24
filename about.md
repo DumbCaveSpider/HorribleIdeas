@@ -33,6 +33,8 @@ Disturb the player's accessibility to the gameplay.
 #### Misc
 Probably the worst of it all...
 
+> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain hacks from mod menus may interfere with this mod's functionality.*</c>
+
 ---
 
 ### Developers

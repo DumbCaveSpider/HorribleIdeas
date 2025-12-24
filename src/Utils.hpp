@@ -37,7 +37,6 @@ namespace horrible {
     namespace fs = std::filesystem; // Shortcut for std::filesystem
 
     namespace str = utils::string; // Shortcut for geode::utils::string
-    namespace rng = utils::random; // Shortcut for geode::utils::random
 
     // Default horrible categories
     namespace category {

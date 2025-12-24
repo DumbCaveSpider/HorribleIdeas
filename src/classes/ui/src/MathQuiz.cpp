@@ -166,7 +166,7 @@ bool MathQuiz::init() {
     };
 
     // Shuffle the answers
-    rng::shuffle<std::vector<int>>(m_impl->m_answers);
+    utils::random::shuffle<std::vector<int>>(m_impl->m_answers);
 
     // richard floating lol
     if (auto richard = Richard::create()) {

@@ -16,7 +16,7 @@ class $modify(RandomMirrorPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), static_cast<float>(randng::get(15, 3)) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
         PlayLayer::setupHasCompleted();
     };
 
@@ -28,7 +28,7 @@ class $modify(RandomMirrorPlayLayer, PlayLayer) {
     };
 
     void nextFlipPortal() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), static_cast<float>(randng::get(10, 1)) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), randng::get(10.f, 1.f) * chanceToDelayPct(m_fields->chance));
     };
 
     void flipPortal(float) {

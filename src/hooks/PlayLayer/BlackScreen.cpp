@@ -58,7 +58,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         if (sender) sender->removeMeAndCleanup();
 
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(3)); // random delay between 0 and 3 seconds
+            float delay = randng::get(3.f); // random delay between 0 and 3 seconds
             log::debug("Black screen will appear again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(BlackScreenPlayLayer::showBlackScreen), delay);

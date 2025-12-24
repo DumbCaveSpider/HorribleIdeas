@@ -98,7 +98,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             log::debug("Preparing {} motivational messages", m_fields->msgs.size());
 
-            float delay = static_cast<float>(randng::get(10, 3));
+            auto delay = randng::get(10.f, 3.f);
             log::debug("Motivational message will show after {} seconds", delay);
 
             scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
@@ -137,7 +137,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
         if (sender) sender->removeMeAndCleanup();
 
         if (m_fields->enabled) {
-            float delay = static_cast<float>(randng::get(15, 5));
+            auto delay = randng::get(15.f, 5.f);
             log::debug("Motivational message will show again after {} seconds", delay);
 
             scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);

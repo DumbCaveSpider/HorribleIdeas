@@ -19,7 +19,7 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
         // Show explosion visual effect but do not kill the player
         if (m_fields->enabled) {
             // ignore the anti-cheat spike lmao
-            if (game == m_anticheatSpike && player && !player->m_isDead) return;
+            if (game == m_anticheatSpike && player && !player->m_isDead) return PlayLayer::destroyPlayer(player, game);
             if (!m_fields->m_destroyingObject) m_fields->m_destroyingObject = game;
 
             // @geode-ignore(unknown-resource)
@@ -32,7 +32,6 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
                 m_player1->resetPlayerIcon();
 
                 m_player1->m_isDead = false;
-                return;
             };
 
             if (m_player2) {
@@ -41,8 +40,9 @@ class $modify(FakeDeathPlayLayer, PlayLayer) {
                 m_player2->resetPlayerIcon();
 
                 m_player2->m_isDead = false;
-                return;
             };
+
+            return;
         };
 
         PlayLayer::destroyPlayer(player, game);

@@ -20,7 +20,7 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
     };
 
     void nextAd() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(AdvertsPlayLayer::showAd), static_cast<float>(randng::get(15, 5)));
+        if (m_fields->enabled) scheduleOnce(schedule_selector(AdvertsPlayLayer::showAd), randng::get(15.f, 5.f));
     };
 
     void showAd(float) {

@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(OxygenBarPlayLayer, PlayLayer) {
+class $modify(OxygenPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("oxygen");
 
@@ -27,7 +27,7 @@ class $modify(OxygenBarPlayLayer, PlayLayer) {
             m_fields->m_oxygenActive = true;
             m_fields->m_oxygenLevel = 100.f;
 
-            schedule(schedule_selector(OxygenBarPlayLayer::decreaseOxygen), 0.1f);
+            schedule(schedule_selector(OxygenPlayLayer::decreaseOxygen), 0.1f);
 
             if (!m_fields->m_oxygenBar) {
                 m_fields->m_oxygenBar = ProgressBar::create();
