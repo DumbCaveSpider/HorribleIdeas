@@ -15,17 +15,19 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        nextAd();
         PlayLayer::setupHasCompleted();
+        nextAd();
     };
 
     void nextAd() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(AdvertsPlayLayer::showAd), randng::get(15.f, 5.f));
+        auto delay = randng::get(15.f, 5.f);
+        log::debug("scheduling ad in {}s", delay);
+
+        if (m_fields->enabled) scheduleOnce(schedule_selector(AdvertsPlayLayer::showAd), delay);
     };
 
     void showAd(float) {
         if (m_fields->enabled) {
-            nextAd(); // reschedule
 
             if (m_fields->m_ad) {
                 m_fields->m_ad->removeMeAndCleanup();
@@ -41,5 +43,7 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
                 m_fields->m_ad->show();
             };
         };
+
+        nextAd();
     };
 };

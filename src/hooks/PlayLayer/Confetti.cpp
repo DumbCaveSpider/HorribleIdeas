@@ -31,21 +31,27 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) nextConfetti();
         PlayLayer::setupHasCompleted();
+        if (m_fields->enabled) nextConfetti();
     };
 
     void nextConfetti() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(ConfettiPlayLayer::confetti), randng::get(30.f, 10.f));
+        auto delay = randng::get(10.f, 1.f);
+        log::debug("scheduling confetti in {}s", delay);
+
+        if (m_fields->enabled) scheduleOnce(schedule_selector(ConfettiPlayLayer::confetti), delay);
     };
 
     void confetti(float) {
         if (m_fields->enabled) {
-            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("jumpscareAudio.mp3");
-            for (int i = 0; i < randng::get(50, 25); i++) createConfetti();
+            log::info("unleashing confetti!");
 
-            nextConfetti();
+            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("jumpscareAudio.mp3");
+            shakeCamera(5.f, 2.5f, 0.025f);
+            for (int i = 0; i < randng::get(125, 75); i++) createConfetti();
         };
+
+        nextConfetti();
     };
 
     void createConfetti() {
@@ -56,12 +62,12 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
 
             auto useY = randng::get(1) > 0;
             auto const endPos = ccp(
-                useY ? getScaledContentWidth() : getScaledContentWidth() * randng::pc(),
-                useY ? getScaledContentHeight() * randng::pc() : getScaledContentHeight()
+                useY ? getScaledContentWidth() + conf->getScaledContentWidth() : getScaledContentWidth() * randng::pc(),
+                useY ? getScaledContentHeight() * randng::pc() : getScaledContentHeight() + conf->getScaledContentHeight()
             );
 
-            auto move = CCEaseSineOut::create(CCMoveTo::create(1.25f + randng::pc() * 2.f, endPos));
-            auto rotate = CCEaseSineOut::create(CCRotateBy::create(1.25f + randng::pc() * 2.f, 360.f * (randng::get(1) > 0 ? 1.f : -1.f)));
+            auto move = CCEaseSineOut::create(CCMoveTo::create(0.875f + randng::pc() * 2.5f, endPos));
+            auto rotate = CCEaseSineOut::create(CCRotateBy::create(0.875f + randng::pc() * 2.5f, 360.f * (randng::get(1) > 0 ? 1.f : -1.f)));
 
             auto seq = CCSequence::createWithTwoActions(
                 CCSpawn::createWithTwoActions(move, rotate),

@@ -16,11 +16,12 @@ class $modify(MathQuizPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) nextQuiz();
         PlayLayer::setupHasCompleted();
+        if (m_fields->enabled) nextQuiz();
     };
 
     void nextQuiz() {
+        log::debug("scheduling math quiz");
         if (m_fields->enabled && !m_hasCompletedLevel) scheduleOnce(schedule_selector(MathQuizPlayLayer::doQuiz), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
     };
 

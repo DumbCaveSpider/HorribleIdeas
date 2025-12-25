@@ -95,6 +95,8 @@ class $modify(MotivationPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
+        PlayLayer::setupHasCompleted();
+
         if (m_fields->enabled) {
             log::debug("Preparing {} motivational messages", Fields::msgs.size());
 
@@ -103,8 +105,6 @@ class $modify(MotivationPlayLayer, PlayLayer) {
 
             scheduleOnce(schedule_selector(MotivationPlayLayer::showMessage), delay);
         };
-
-        PlayLayer::setupHasCompleted();
     };
 
     void showMessage(float) {

@@ -60,7 +60,7 @@
         "safe-mode": {
             "type": "bool",
             "name": "Safe Mode",
-            "description": "Prevent saving any progression made in levels. <cr>Keeping this enabled while using Horrible Ideas is highly recommended!</cr>",
+            "description": "Prevent saving any progression made in levels. <cr>Keeping this enabled while using Horrible Ideas's options is highly recommended!</cr>",
             "default": true
         },
         "button": {
@@ -75,7 +75,7 @@
         "floating-button": {
             "type": "bool",
             "name": "Floating Menu Button",
-            "description": "Show a floating button on the main menu to quickly access the <cy>Horrible Options</c> menu. <co>Intended for mobile users.</c>",
+            "description": "Show a floating button on the main menu to quickly access the <cg>Horrible Options</c> menu.",
             "default": {
                 "win": false,
                 "mac": false,
@@ -93,7 +93,7 @@
         "floating-button-scale": {
             "type": "float",
             "name": "Floating Button Scale",
-            "description": "Change the size of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
+            "description": "Change the size of the floating button.",
             "default": 1.0,
             "min": 0.5,
             "max": 3.0,
@@ -111,7 +111,7 @@
         "floating-button-opacity": {
             "type": "int",
             "name": "Floating Button Opacity",
-            "description": "Change the opacity of the floating button. <co>Only applies if <cy>Floating Menu Button</c> is enabled.</c>",
+            "description": "Change the opacity of the floating button.",
             "default": 100,
             "min": 10,
             "max": 255,
@@ -168,7 +168,7 @@
         "math_quiz-chance": {
             "type": "int",
             "name": "Math Quiz Chance",
-            "description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing.",
+            "description": "<cj>Richard's Math Quiz!</c> - Chance of Richard's math quiz appearing in a level.",
             "default": 25,
             "min": 0,
             "max": 100,
@@ -253,7 +253,7 @@
         "crash_death-chance": {
             "type": "int",
             "name": "Crash Chance",
-            "description": "<cj>Crash Chance on Death</c> - Chance of your crashing when dying in a level.",
+            "description": "<cj>Crash Chance on Death</c> - Chance of your game crashing when dying in a level.",
             "default": 1,
             "min": 0,
             "max": 100,
@@ -287,7 +287,7 @@
         "upside_down-chance": {
             "type": "int",
             "name": "Upside-Down Scene Chance",
-            "description": "<cj>Upside-Down Chance</c> - Chance of your game's UI turning upside_down.",
+            "description": "<cj>Upside-Down Chance</c> - Chance of your game's UI turning upside down.",
             "default": 50,
             "min": 0,
             "max": 100,
@@ -304,7 +304,7 @@
         "pauses-chance": {
             "type": "int",
             "name": "Pause Chance",
-            "description": "<cj>Random Pauses</c> - Chance of the game randomly pausing while playing.",
+            "description": "<cj>Random Pauses</c> - Chance of the game pausing while playing.",
             "default": 5,
             "min": 0,
             "max": 100,
@@ -321,7 +321,7 @@
         "random_mirror-chance": {
             "type": "int",
             "name": "Random Mirror Portal Chance",
-            "description": "<cj>Random Mirror Portal</c> - Chance of a mirror portal activating randomly while playing.",
+            "description": "<cj>Random Mirror Portal</c> - Chance of the mirror portal activating while playing.",
             "default": 5,
             "min": 0,
             "max": 100,
@@ -338,7 +338,7 @@
         "random_speed-chance": {
             "type": "int",
             "name": "Random Speed Chance",
-            "description": "<cj>Random Speed</c> - Chance of your player speed changing during the level.",
+            "description": "<cj>Random Speed</c> - Chance of your speed changing in the level.",
             "default": 5,
             "min": 0,
             "max": 100,
@@ -355,7 +355,7 @@
         "dementia-chance": {
             "type": "int",
             "name": "Dementia Chance",
-            "description": "<cj>Dementia</c> - Chance of your player randomly teleports back.",
+            "description": "<cj>Dementia</c> - Chance of your player teleporting back.",
             "default": 10,
             "min": 0,
             "max": 100,
@@ -411,13 +411,13 @@
         "show-incompatible": {
             "type": "bool",
             "name": "Show Incompatible Options",
-            "description": "Include options incompatible with your current platform when loading the <cy>Horrible Options</c> menu.",
+            "description": "Include options incompatible with your current platform when loading the <cg>Horrible Options</c> menu.",
             "default": false
         },
         "dev-mode": {
             "type": "bool",
             "name": "Developer Mode",
-            "description": "Shows debug information in the mod menu interface.",
+            "description": "Shows debug information in the interface.",
             "default": false
         }
     },

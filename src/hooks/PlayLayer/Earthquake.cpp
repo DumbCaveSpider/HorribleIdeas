@@ -2,17 +2,29 @@
 
 #include <Geode/Geode.hpp>
 
-#include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(EarthquakeGJBaseGameLayer, GJBaseGameLayer) {
+class $modify(EarthquakePlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("earthquake");
     };
 
-    void update(float p0) {
+    void setupHasCompleted() {
+        if (m_fields->enabled) nextQuake();
+        PlayLayer::setupHasCompleted();
+    };
+
+    void nextQuake() {
+        auto delay = randng::get(3.f, 1.f);
+        log::debug("scheduling quake in {}s", delay);
+
+        if (m_fields->enabled) scheduleOnce(schedule_selector(EarthquakePlayLayer::quake), delay);
+    };
+
+    void quake(float) {
         if (m_fields->enabled) {
             // shake the camera randomly based on intensity
             int rnd = randng::fast();
@@ -20,9 +32,9 @@ class $modify(EarthquakeGJBaseGameLayer, GJBaseGameLayer) {
             auto shakeX = (static_cast<float>(rnd % 25)) * 1.25f;
             auto shakeY = (static_cast<float>(rnd % 25)) * 1.25f;
 
-            GJBaseGameLayer::shakeCamera(shakeX, shakeY, 0.1f);
+            shakeCamera(shakeX, shakeY, 0.1f);
         };
 
-        GJBaseGameLayer::update(p0);
+        nextQuake();
     };
 };

@@ -73,25 +73,21 @@ class $modify(HIPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         PlayLayer::setupHasCompleted();
-
         toggleButton();
     };
 
     void resume() {
         PlayLayer::resume();
-
         toggleButton();
     };
 
     void resumeAndRestart(bool fromStart) {
         PlayLayer::resumeAndRestart(fromStart);
-
         toggleButton();
     };
 
     void showEndLayer() {
         PlayLayer::showEndLayer();
-
         toggleButton(true);
     };
 
@@ -117,7 +113,6 @@ class $modify(HIPlayLayer, PlayLayer) {
 class $modify(HIPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
-
         if (auto fb = FloatingButton::get()) fb->setVisible(horribleMod->getSettingValue<bool>("floating-button"));
     };
 };
@@ -142,7 +137,7 @@ class $modify(HILevelEditorLayer, LevelEditorLayer) {
     void onPlaytest() {
         FLAlertLayer::create(
             "Warning",
-            "<cy>Horrible Ideas</c> has somehow <cr>completely broke</c> the Playtest function in the level editor which now prevents the player from playtesting the level... Sorry about that!\n\n<cg>We recommend disabling the mod while working on levels in the meantime.</c>",
+            "<cg>Horrible Ideas</c> has somehow <cr>completely broke the Playtest function</c> in the level editor, now preventing the player from playtesting levels... Sorry about that!\n\n<cy>We recommend disabling the mod while working on levels in the meantime.</c>",
             "OK")
             ->show();
 

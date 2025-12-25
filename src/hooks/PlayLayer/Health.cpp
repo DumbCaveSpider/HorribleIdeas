@@ -85,7 +85,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
                 m_player1->playSpawnEffect();
                 m_player2->playSpawnEffect();
 
-                GJBaseGameLayer::shakeCamera(1.f, 5.f, 1.f);
+                shakeCamera(1.25f, 5.f, 0.125f);
 
                 if (m_fields->m_healthLabel) {
                     auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));

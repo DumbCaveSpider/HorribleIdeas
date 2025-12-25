@@ -13,12 +13,15 @@ class $modify(BlinkingIconPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) nextBlink();
         PlayLayer::setupHasCompleted();
+        if (m_fields->enabled) nextBlink();
     };
 
     void nextBlink() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(BlinkingIconPlayLayer::blink), randng::get(3.f, 1.f));
+        auto delay = randng::get(2.f, 1.f);
+        log::debug("scheduling blink in {}s", delay);
+
+        if (m_fields->enabled) scheduleOnce(schedule_selector(BlinkingIconPlayLayer::blink), delay);
     };
 
     void blink(float) {
@@ -27,8 +30,8 @@ class $modify(BlinkingIconPlayLayer, PlayLayer) {
 
             if (m_player1) m_player1->playSpawnEffect();
             if (m_player2) m_player2->playSpawnEffect();
-
-            nextBlink();
         };
+
+        nextBlink();
     };
 };

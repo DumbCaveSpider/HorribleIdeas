@@ -14,11 +14,12 @@ class $modify(PausePlayerObject, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) nextPause();
         PlayLayer::setupHasCompleted();
+        if (m_fields->enabled) nextPause();
     };
 
     void nextPause() {
+        log::debug("scheduling pause");
         if (m_fields->enabled) scheduleOnce(schedule_selector(PausePlayerObject::pause), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
     };
 

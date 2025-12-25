@@ -28,14 +28,14 @@ class $modify(FriendsPlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
+        PlayLayer::setupHasCompleted();
+
         if (m_fields->enabled) {
-            auto delay = randng::get(10.f);
+            auto delay = randng::get(3.f);
             log::debug("Friend will visit after {} seconds", delay);
 
             scheduleOnce(schedule_selector(FriendsPlayLayer::showAFriend), delay);
         };
-
-        PlayLayer::setupHasCompleted();
     };
 
     void showAFriend(float) {
