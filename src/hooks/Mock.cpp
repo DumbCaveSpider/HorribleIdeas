@@ -17,12 +17,10 @@ class $modify(MockMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
-        int rnd = randng::fast();
-        log::debug("mock chance {}", rnd);
-
-        // Show a LazySprite for the first PNG found in the save directory
+        // show a lazysprite for the first png found in the save dir
         if (m_fields->enabled) {
-            log::debug("mock feature enabled in MainMenu layer");
+            int rnd = randng::fast();
+            log::debug("mock chance {}", rnd);
 
             if (rnd <= m_fields->chance) {
                 auto const mockConfigPath = fmt::format("{}\\mock.json", horribleMod->getSaveDir());
@@ -39,7 +37,7 @@ class $modify(MockMenuLayer, MenuLayer) {
                     std::advance(lvlUnwr, rnd % mockConfigUnwr.size());
 
                     auto const id = lvlUnwr->getKey().value_or("");
-                    auto const percent = lvlUnwr->asInt().unwrapOr(99);
+                    auto percent = lvlUnwr->asInt().unwrapOr(99);
 
                     if (!id.empty()) {
                         log::debug("ID {} with percentage {} is valid", id, percent);

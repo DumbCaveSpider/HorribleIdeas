@@ -30,7 +30,8 @@ void placeboEffect() {
 class $modify(PlaceboLevelPage, LevelPage) {
     void onPlay(CCObject * sender) {
         placeboEffect();
-        log::debug("Placebo onPlay triggered");
+        log::debug("Placebo triggered in level page");
+
         LevelPage::onPlay(sender);
     };
 };
@@ -38,7 +39,8 @@ class $modify(PlaceboLevelPage, LevelPage) {
 class $modify(PlaceboLevelInfoLayer, LevelInfoLayer) {
     void onPlay(CCObject * sender) {
         placeboEffect();
-        log::debug("Placebo onPlay triggered");
+        log::debug("Placebo triggered in level info layer");
+
         LevelInfoLayer::onPlay(sender);
     };
 };
