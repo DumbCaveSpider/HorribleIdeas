@@ -19,7 +19,7 @@ namespace horrible {
     public:
         static SpamJumps* create();
 
-        bool ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
+        bool ccTouchBegan(CCTouch* touch, CCEvent* event) override;
 
         void setCallback(std::function<void(bool)> cb);
     };

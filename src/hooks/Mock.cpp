@@ -53,7 +53,6 @@ class $modify(MockMenuLayer, MenuLayer) {
                         ss->setScale(0.25);
                         ss->setAnchorPoint({ 0.5, 0.5 });
                         ss->setPosition({ -192.f, getScaledContentHeight() / 2.f });
-                        ss->setZOrder(1000);
 
                         ss->setLoadCallback([this, ss, percent, rnd](Result<> res) {
                             if (res.isOk()) {
@@ -93,7 +92,7 @@ class $modify(MockMenuLayer, MenuLayer) {
                             }; });
 
                             ss->loadFromFile(fs::path(pngPath));
-                            addChild(ss);
+                            addChild(ss, 999);
                     } else {
                         log::error("ID is invalid");
                     };

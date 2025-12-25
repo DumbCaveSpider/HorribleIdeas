@@ -44,7 +44,7 @@ bool FloatingButton::init() {
     setTouchMode(kCCTouchesOneByOne);
     setTouchEnabled(true);
     setTouchPriority(-512);  // ewww touch priority
-    setZOrder(10000);
+    setZOrder(9999);
 
     m_impl->m_sprite = CircleButtonSprite::createWithSprite(
         "icon.png"_spr,

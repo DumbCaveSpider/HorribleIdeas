@@ -24,7 +24,7 @@ namespace horrible {
     // Filter for option toggle event
     class AWCW_HORRIBLE_API_DLL HorribleOptionEventFilter : public EventFilter<HorribleOptionEvent> {
     private:
-        std::vector<std::string> m_ids = {}; // Unique ID of the options to listen to
+        std::vector<std::string> m_ids; // Unique ID of the options to listen to
 
     public:
         using Callback = ListenerResult(HorribleOptionEvent*);

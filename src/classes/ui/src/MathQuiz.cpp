@@ -15,7 +15,7 @@ public:
     MathOperation m_operation = MathOperation::Addition;
 
     int m_correctAnswer = 0;
-    std::vector<int> m_answers = {}; // 4 answer options
+    std::vector<int> m_answers; // 4 answer options
 
     Ref<ProgressBar> m_timer = nullptr;
     Ref<CCMenu> m_answerMenu = nullptr;
@@ -139,9 +139,8 @@ bool MathQuiz::init() {
     m_impl->m_timer->setFillColor({ 255, 210, 0 });
     m_impl->m_timer->setAnchorPoint({ 0.5, 0.5 });
     m_impl->m_timer->setPosition({ winSize.width / 2.f, winSize.height - 20.f });
-    m_impl->m_timer->setZOrder(9);
 
-    addChild(m_impl->m_timer);
+    addChild(m_impl->m_timer, 9);
 
     m_impl->m_timeRemaining = m_impl->m_totalTime = 10.f;
     m_impl->m_timer->updateProgress(100.f);
@@ -175,9 +174,7 @@ bool MathQuiz::init() {
         m_impl->m_richard->setAnchorPoint({ 1, 0.5 });
         m_impl->m_richard->setScale(0.6f);
         m_impl->m_richard->setPosition({ winSize.width - 36.f, winSize.height / 2.f });
-        m_impl->m_richard->setZOrder(500);
-
-        addChild(m_impl->m_richard);
+        addChild(m_impl->m_richard, 99);
 
         auto moveUp = CCMoveBy::create(1.f, ccp(0, 8.f));
         auto moveDown = CCMoveBy::create(1.f, ccp(0, -8.f));

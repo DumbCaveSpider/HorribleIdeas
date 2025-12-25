@@ -21,7 +21,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
     bool init(int player, int ship, GJBaseGameLayer * gameLayer, CCLayer * layer, bool playLayer) {
         if (!PlayerObject::init(player, ship, gameLayer, layer, playLayer)) return false;
 
-        if (m_fields->enabled) scheduleOnce(schedule_selector(SleepyPlayerObject::asleep), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled && playLayer) scheduleOnce(schedule_selector(SleepyPlayerObject::asleep), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
 
         return true;
     };
@@ -53,33 +53,23 @@ class $modify(SleepyPlayerObject, PlayerObject) {
     };
 
     void asleep(float) {
-        if (auto pl = PlayLayer::get()) {
+        if (m_fields->enabled) {
+            // player sleepy if not already in any stage
+            auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
+            if (!m_fields->sleepy && !m_fields->waking && onGround) {
+                log::debug("Making the player sleepy");
 
-            if (m_fields->enabled) {
-                // player sleepy if not already in any stage
-                auto onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
-                if (!m_fields->sleepy && !m_fields->waking && onGround) {
-                    int rnd = randng::tiny();
+                m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed
+                m_fields->sleepy = true;
 
-                    // if the rng is lower than the chance, make the player sleepy
-                    if (rnd <= m_fields->chance) {
-                        log::debug("Making the player sleepy");
-
-                        m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed
-                        m_fields->sleepy = true;
-
-                        startSleepTimer();
-                    };
-                };
+                startSleepTimer();
 
                 // go to sleep, go to sleep, sweet little baby go to sleep
-                if (m_fields->sleepy) {
-                    schedule(schedule_selector(SleepyPlayerObject::fallAsleep), 0.125f);
-                };
-            } else {
-                // wake up
-                if (m_fields->sleepy || m_fields->waking) m_fields->waking = false;
+                schedule(schedule_selector(SleepyPlayerObject::fallAsleep), 0.125f);
             };
+        } else {
+            // wake up
+            if (m_fields->sleepy || m_fields->waking) m_fields->waking = false;
         };
     };
 

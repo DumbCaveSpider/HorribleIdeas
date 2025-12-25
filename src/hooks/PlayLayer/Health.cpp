@@ -30,9 +30,8 @@ class $modify(HealthPlayLayer, PlayLayer) {
                 m_fields->m_healthBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_healthBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_healthBar->setRotation(-90.f);
-                m_fields->m_healthBar->setZOrder(101);
 
-                addChild(m_fields->m_healthBar);
+                addChild(m_fields->m_healthBar, 99);
             };
 
             m_fields->m_healthBar->updateProgress(m_fields->m_health);

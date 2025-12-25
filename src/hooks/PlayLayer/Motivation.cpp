@@ -96,7 +96,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         if (m_fields->enabled) {
-            log::debug("Preparing {} motivational messages", m_fields->msgs.size());
+            log::debug("Preparing {} motivational messages", Fields::msgs.size());
 
             auto delay = randng::get(10.f, 3.f);
             log::debug("Motivational message will show after {} seconds", delay);
@@ -109,13 +109,11 @@ class $modify(MotivationPlayLayer, PlayLayer) {
 
     void showMessage(float) {
         if (m_fields->enabled && !m_hasCompletedLevel) {
-            auto label = CCLabelBMFont::create(m_fields->msgs[randng::get(m_fields->msgs.size())].data(), "bigFont.fnt");
-            label->setID("msg"_spr);
+            auto label = CCLabelBMFont::create(Fields::msgs[randng::get(Fields::msgs.size())].data(), "bigFont.fnt");
             label->setAnchorPoint({ 0.5, 0 });
             label->setAlignment(kCCTextAlignmentCenter);
             label->setWidth(getScaledContentWidth() - 12.5f);
             label->setPosition({ getScaledContentWidth() / 2.f, -label->getScaledContentHeight() });
-            label->setZOrder(9);
 
             auto action = CCSequence::create(
                 CCEaseSineOut::create(CCMoveTo::create(0.375f, { label->getPositionX(), 12.5f })),
@@ -125,7 +123,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
                 nullptr
             );
 
-            addChild(label);
+            addChild(label, 9);
 
             // @geode-ignore(unknown-resource)
             if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");

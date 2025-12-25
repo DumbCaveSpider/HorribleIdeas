@@ -36,7 +36,7 @@ void SpamJumps::setCallback(std::function<void(bool)> cb) {
     m_impl->m_callback = cb;
 };
 
-bool SpamJumps::ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) {
+bool SpamJumps::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     m_impl->m_inputCount++;
     if (m_impl->m_inputCount >= m_impl->m_inputTarget) if (m_impl->m_callback) m_impl->m_callback(true);
 

@@ -10,7 +10,6 @@ using namespace horrible;
 class $modify(BlinkingIconPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("blinking_icon");
-        int chance = options::getChance("blinking_icon");
     };
 
     void setupHasCompleted() {
@@ -19,7 +18,7 @@ class $modify(BlinkingIconPlayLayer, PlayLayer) {
     };
 
     void nextBlink() {
-        if (m_fields->enabled) scheduleOnce(schedule_selector(BlinkingIconPlayLayer::blink), randng::get(3.f, 1.f) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled) scheduleOnce(schedule_selector(BlinkingIconPlayLayer::blink), randng::get(3.f, 1.f));
     };
 
     void blink(float) {

@@ -53,12 +53,10 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yA = getScaledContentHeight() * rA; // starting height pos
             float yB = getScaledContentHeight() * rB; // ending height pos
 
-            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(m_fields->friends[randng::get(m_fields->friends.size() - 1)].data());
-            friendSpr->setID("friend"_spr);
+            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(Fields::friends[randng::get(Fields::friends.size() - 1)].data());
             friendSpr->setPosition({ xA, yA });
             friendSpr->setScale(1.25 * (rB + rA));
             friendSpr->setRotation(180.f * (yA * yB)); // random rotation
-            friendSpr->setZOrder(9);
 
             auto dur = 12.5f * rA;
             auto move = CCMoveTo::create(dur, { xB, yB });
@@ -70,7 +68,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             auto friendAction = CCSequence::createWithTwoActions(action, finish);
             auto scheduleAction = CCCallFunc::create(this, callfunc_selector(FriendsPlayLayer::scheduleNextFriend));
 
-            addChild(friendSpr);
+            addChild(friendSpr, 9);
             friendSpr->runAction(CCSpawn::createWithTwoActions(friendAction, scheduleAction));
         };
     };

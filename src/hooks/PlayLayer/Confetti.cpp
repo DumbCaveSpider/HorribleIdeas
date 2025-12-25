@@ -6,3 +6,74 @@
 
 using namespace geode::prelude;
 using namespace horrible;
+
+class $modify(ConfettiPlayLayer, PlayLayer) {
+    struct Fields {
+        bool enabled = options::get("confetti");
+
+        static inline std::vector<std::string_view> const confettis = {
+            "diffIcon_02_btn_001.png",
+            "explosionIcon_20_001.png",
+            "GJ_duplicateObjectBtn2_001.png",
+            "diffIcon_10_btn_001.png",
+            "modBadge_01_001.png",
+            "miniSkull_001.png",
+            "secretCoinUI_001.png",
+            "secretCoinUI2_001.png",
+            "GJ_rewardBtn_001.png",
+            "GJ_achImage_001.png",
+            "GJ_likesIcon_001.png",
+            "btn_chatHistory_001.png",
+            "GJ_starsIcon_001.png",
+            "GJ_sMagicIcon_001.png",
+            "GJ_pointsIcon_001.png",
+        };
+    };
+
+    void setupHasCompleted() {
+        if (m_fields->enabled) nextConfetti();
+        PlayLayer::setupHasCompleted();
+    };
+
+    void nextConfetti() {
+        if (m_fields->enabled) scheduleOnce(schedule_selector(ConfettiPlayLayer::confetti), randng::get(30.f, 10.f));
+    };
+
+    void confetti(float) {
+        if (m_fields->enabled) {
+            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("jumpscareAudio.mp3");
+            for (int i = 0; i < randng::get(50, 25); i++) createConfetti();
+
+            nextConfetti();
+        };
+    };
+
+    void createConfetti() {
+        if (m_fields->enabled) {
+            auto conf = CCSprite::createWithSpriteFrameName(Fields::confettis[randng::get(Fields::confettis.size() - 1)].data());
+            conf->setPosition({ 0.f, 0.f });
+            conf->setScale(0.875f * randng::pc());
+
+            auto useY = randng::get(1) > 0;
+            auto const endPos = ccp(
+                useY ? getScaledContentWidth() : getScaledContentWidth() * randng::pc(),
+                useY ? getScaledContentHeight() * randng::pc() : getScaledContentHeight()
+            );
+
+            auto move = CCEaseSineOut::create(CCMoveTo::create(1.25f + randng::pc() * 2.f, endPos));
+            auto rotate = CCEaseSineOut::create(CCRotateBy::create(1.25f + randng::pc() * 2.f, 360.f * (randng::get(1) > 0 ? 1.f : -1.f)));
+
+            auto seq = CCSequence::createWithTwoActions(
+                CCSpawn::createWithTwoActions(move, rotate),
+                CCCallFuncN::create(this, callfuncN_selector(ConfettiPlayLayer::cleanConfetti))
+            );
+
+            addChild(conf, 9);
+            conf->runAction(seq);
+        };
+    };
+
+    void cleanConfetti(CCNode * sender) {
+        if (sender) sender->removeMeAndCleanup();
+    };
+};

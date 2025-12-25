@@ -99,10 +99,9 @@ class $modify(ParryPlayLayer, PlayLayer) {
             m_fields->m_parryBar->setID("parry"_spr);
             m_fields->m_parryBar->setFillColor({ 255, 200, 0 });
             m_fields->m_parryBar->setAnchorPoint({ 0.5f, 0.5f });
-            m_fields->m_parryBar->setZOrder(10000);
             m_fields->m_parryBar->setVisible(false);
 
-            addChild(m_fields->m_parryBar, 10000);
+            addChild(m_fields->m_parryBar, 9999);
         };
 
         if (!m_fields->m_parryLabel) {
@@ -110,11 +109,10 @@ class $modify(ParryPlayLayer, PlayLayer) {
             m_fields->m_parryLabel->setColor({ 255, 200, 0 });
             m_fields->m_parryLabel->setScale(0.35f);
             m_fields->m_parryLabel->setAnchorPoint({ 0.5f, 0.5f });
-            m_fields->m_parryLabel->setZOrder(10001);
             m_fields->m_parryLabel->setVisible(false);
             m_fields->m_parryLabel->setID("parry_label"_spr);
 
-            addChild(m_fields->m_parryLabel, 10001);
+            addChild(m_fields->m_parryLabel, 10000);
         };
 
         scheduleUpdate();

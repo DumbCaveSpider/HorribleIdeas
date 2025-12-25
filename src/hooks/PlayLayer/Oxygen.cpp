@@ -36,9 +36,8 @@ class $modify(OxygenPlayLayer, PlayLayer) {
                 m_fields->m_oxygenBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_oxygenBar->setRotation(-90.f);
-                m_fields->m_oxygenBar->setZOrder(101);
 
-                addChild(m_fields->m_oxygenBar);
+                addChild(m_fields->m_oxygenBar, 99);
             };
 
             m_fields->m_oxygenBar->updateProgress(m_fields->m_oxygenLevel);

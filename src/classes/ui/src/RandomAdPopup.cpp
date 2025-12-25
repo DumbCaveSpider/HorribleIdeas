@@ -51,9 +51,8 @@ bool RandomAdPopup::setup() {
     playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
     playBtn->ignoreAnchorPointForPosition(false);
     playBtn->setVisible(true);
-    playBtn->setZOrder(3);
 
-    m_buttonMenu->addChild(playBtn);
+    m_buttonMenu->addChild(playBtn, 3);
 
     return true;
 };

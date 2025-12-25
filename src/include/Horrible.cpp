@@ -32,8 +32,8 @@ ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, Hor
 
 class OptionManager::Impl final {
 public:
-    std::vector<Option> m_options = {}; // Array of registered options
-    std::vector<std::string> m_categories = {}; // Array of auto-registered categories
+    std::vector<Option> m_options; // Array of registered options
+    std::vector<std::string> m_categories; // Array of auto-registered categories
 };
 
 OptionManager::OptionManager() {
