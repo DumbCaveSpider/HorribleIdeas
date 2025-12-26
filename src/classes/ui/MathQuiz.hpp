@@ -5,7 +5,7 @@
 using namespace geode::prelude;
 
 namespace horrible {
-    enum class MathOperation {
+    enum class MathOperation : unsigned int {
         Addition = 0,
         Subtraction = 1,
         Multiplication = 2,

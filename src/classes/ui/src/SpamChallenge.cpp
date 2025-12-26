@@ -15,13 +15,12 @@ public:
     Ref<CCLabelBMFont> m_counter = nullptr;
     Ref<ProgressBar> m_timer = nullptr;
 
-    std::function<void(bool)> m_callback;
-
-    bool m_success = false;
-
     float m_timeRemaining = 10.f;
     float m_totalTime = 10.f;
     float m_timeDt = 0.f;
+
+    bool m_success = false;
+    std::function<void(bool)> m_callback;
 };
 
 SpamChallenge::SpamChallenge() {

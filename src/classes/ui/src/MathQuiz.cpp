@@ -26,8 +26,8 @@ public:
     float m_totalTime = 10.f;
     float m_timeDt = 0.f;
 
-    std::function<void(bool)> m_callback = nullptr;
     bool m_correct = false;
+    std::function<void(bool)> m_callback = nullptr;
 };
 
 MathQuiz::MathQuiz() {
@@ -58,7 +58,7 @@ bool MathQuiz::init() {
         m_impl->m_correctAnswer = m_impl->m_numFirst * m_impl->m_numSecond;
         break;
 
-    case MathOperation::Geometry:
+    default:
         break;
     };
 
@@ -104,9 +104,7 @@ bool MathQuiz::init() {
         ccColor4F const fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
         ccColor4F const borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
 
-        m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.f, borderColor);
-
-        addChild(m_impl->m_drawNode, 250);
+        if (m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.f, borderColor)) addChild(m_impl->m_drawNode, 99);
     } else {
         std::string operation;
         switch (m_impl->m_operation) {
@@ -204,7 +202,7 @@ bool MathQuiz::init() {
 
     m_impl->m_answerMenu = CCMenu::create();
     m_impl->m_answerMenu->setID("answer-menu");
-    m_impl->m_answerMenu->setContentSize({ 175.f, 75.f });
+    m_impl->m_answerMenu->setContentSize({ 220.f, 75.f });
     m_impl->m_answerMenu->setPosition({ winSize.width / 2.f, winSize.height / 2.f - 20.f });
     m_impl->m_answerMenu->setLayout(answerMenuLayout);
 
@@ -216,7 +214,7 @@ bool MathQuiz::init() {
             "bigFont.fnt",
             "GJ_button_01.png",
             0,
-            0.8f
+            0.825f
         );
 
         auto answerBtn = CCMenuItemSpriteExtra::create(
