@@ -17,7 +17,7 @@ namespace horrible {
             typename T = int,
             typename = std::enable_if_t<std::is_arithmetic_v<T>>
         >
-        inline T get(T max = static_cast<T>(200), T min = static_cast<T>(0)) {
+        inline T get(T max, T min = static_cast<T>(0)) {
             return utils::random::generate<T>(min, max + static_cast<T>(1));
         };
 
@@ -48,7 +48,6 @@ namespace horrible {
             typename = std::enable_if_t<std::is_floating_point_v<F>>
         >
         inline F pc() {
-            // fast<int>() is integral; cast its result to the floating return type
             return static_cast<F>(fast<int>()) / static_cast<F>(100);
         };
     };

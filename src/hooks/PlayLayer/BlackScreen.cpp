@@ -19,8 +19,6 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
         log::info("playlayer init called {}", rnd);
 
         if (m_fields->enabled) {
-            log::debug("black screen enabled, init scheduling black screen");
-
             // random delay between 0 and 5 seconds
             float delay = static_cast<float>(rnd);
             log::debug("Black screen will appear after {} seconds", delay);
@@ -45,11 +43,11 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
             addChild(blackScreen, 99);
 
             // Schedule removal after 0.5 seconds, then schedule to show again after a random delay
-            blackScreen->runAction(
-                CCSequence::create(
-                    CCDelayTime::create(0.25f),
-                    CCCallFuncN::create(this, callfuncN_selector(BlackScreenPlayLayer::removeBlackScreen)),
-                    nullptr));
+            blackScreen->runAction(CCSequence::create(
+                CCDelayTime::create(0.25f),
+                CCCallFuncN::create(this, callfuncN_selector(BlackScreenPlayLayer::removeBlackScreen)),
+                nullptr
+            ));
         };
     };
 

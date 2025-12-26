@@ -13,7 +13,7 @@ This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy trol
 ### Options
 When <cf>pressing `\` on your keyboard</c> or by <cl>pressing the floating *Horrible Options* button on your screen</c>, a <cg>menu</c> will pop up with <cg>a list of horrible mod options</c> you can <cy>toggle anytime</c> on your game to do some interesting things to your gaming experience. From random mirror portals to game-breaking glitches! You can view more information within the contents of the menu itself.
 
-> ![icon](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*You can customize any keybinds in this mod via the *[Custom Keybinds](mod:geode.custom-keybinds)* mod.*</c>
+> ![ℹ️](frame:GJ_infoIcon_001.png?scale=0.5) <cj>*You can customize any keybinds in this mod via the *[Custom Keybinds](mod:geode.custom-keybinds)* mod.*</c>
 
 #### Player Life
 Give the player a limited health-like meter that must always stay above 0 to prevent the player from dying.
@@ -33,7 +33,7 @@ Disturb the player's accessibility to the gameplay.
 #### Misc
 Probably the worst of it all...
 
-> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain hacks from mod menus may interfere with this mod's functionality.*</c>
+> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain game settings and hacks from mod menus may interfere with parts of this mod's functionality.*</c>
 
 ---
 

@@ -13,11 +13,11 @@ class $modify(EarthquakePlayLayer, PlayLayer) {
     };
 
     void setupHasCompleted() {
-        if (m_fields->enabled) nextQuake();
+        if (m_fields->enabled) scheduleOnce(schedule_selector(EarthquakePlayLayer::nextQuake), 0.125f);
         PlayLayer::setupHasCompleted();
     };
 
-    void nextQuake() {
+    void nextQuake(float) {
         auto delay = randng::get(3.f, 1.f);
         log::debug("scheduling quake in {}s", delay);
 
@@ -29,12 +29,9 @@ class $modify(EarthquakePlayLayer, PlayLayer) {
             // shake the camera randomly based on intensity
             int rnd = randng::fast();
 
-            auto shakeX = (static_cast<float>(rnd % 25)) * 1.25f;
-            auto shakeY = (static_cast<float>(rnd % 25)) * 1.25f;
-
-            shakeCamera(shakeX, shakeY, 0.1f);
+            shakeCamera(randng::get(5.f, 1.f), randng::get(10.f, 1.f), 0.0125f);
         };
 
-        nextQuake();
+        scheduleOnce(schedule_selector(EarthquakePlayLayer::nextQuake), 0.125f);
     };
 };

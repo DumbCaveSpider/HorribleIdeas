@@ -96,7 +96,7 @@
             "description": "Change the size of the floating button.",
             "default": 1.0,
             "min": 0.5,
-            "max": 3.0,
+            "max": 2.5,
             "control": {
                 "input": true,
                 "slider": true,

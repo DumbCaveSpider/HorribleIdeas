@@ -91,6 +91,12 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             "This is fine.",
             "Still at it, huh?",
             "Nothing beats a Jet2 holiday!",
+            "Beats me...",
+            "Have you ever made an omelette?",
+            "GO!",
+            "Have you made it past 67% yet?",
+            "I think you could use some ASMR.",
+            "You gotta chill...",
         };
     };
 

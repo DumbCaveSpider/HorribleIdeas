@@ -26,7 +26,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
         return true;
     };
 
-    void startSleepTimer() {
+    void startSleepTimer(float) {
         if (m_fields->enabled) scheduleOnce(schedule_selector(SleepyPlayerObject::wakeUpSchedule), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
     };
 
@@ -62,7 +62,7 @@ class $modify(SleepyPlayerObject, PlayerObject) {
                 m_fields->savedDefaultSpeed = m_playerSpeed; // capture original speed
                 m_fields->sleepy = true;
 
-                startSleepTimer();
+                scheduleOnce(schedule_selector(SleepyPlayerObject::startSleepTimer), 0.25f);
 
                 // go to sleep, go to sleep, sweet little baby go to sleep
                 schedule(schedule_selector(SleepyPlayerObject::fallAsleep), 0.125f);

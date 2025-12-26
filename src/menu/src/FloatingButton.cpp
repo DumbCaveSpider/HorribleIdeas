@@ -109,7 +109,7 @@ void FloatingButton::setPosition(CCPoint const& position) {
 
 bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
     if (m_impl->m_sprite && isVisible()) {
-        CCPoint touchLocation = convertToNodeSpace(touch->getLocation());
+        CCPoint const touchLocation = convertToNodeSpace(touch->getLocation());
 
         auto box = m_impl->m_sprite->boundingBox();
         if (box.containsPoint(touchLocation)) {
@@ -121,7 +121,7 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
             m_impl->m_isAnimating = true;
             m_impl->m_sprite->runAction(CCSequence::createWithTwoActions(
                 CCSpawn::createWithTwoActions(
-                    CCEaseExponentialOut::create(CCScaleTo::create(0.875f, m_impl->m_scale * 0.875f)),
+                    CCEaseExponentialOut::create(CCScaleTo::create(0.375f, m_impl->m_scale * 0.875f)),
                     CCFadeTo::create(0.25f, 255)
                 ),
                 CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)
@@ -136,8 +136,8 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
 
 void FloatingButton::ccTouchMoved(CCTouch* touch, CCEvent* ev) {
     if (m_impl->m_isDragging) {
-        CCPoint touchLocation = touch->getLocation();
-        CCPoint newLocation = ccpAdd(touchLocation, m_impl->m_dragStartPos);
+        CCPoint const touchLocation = touch->getLocation();
+        CCPoint const newLocation = ccpAdd(touchLocation, m_impl->m_dragStartPos);
 
         setPosition(newLocation);
 

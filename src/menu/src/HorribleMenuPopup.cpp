@@ -241,7 +241,7 @@ bool HorribleMenuPopup::setup() {
 
     // Set safemode label if active
     if (horribleMod->getSettingValue<bool>("safe-mode")) {
-        safeModeLabel->setCString("Safe Mode ON");
+        safeModeLabel->setString("Safe Mode ON");
         safeModeLabel->setColor({ 0, 255, 0 });
     } else {
         log::warn("Safe mode is inactive");

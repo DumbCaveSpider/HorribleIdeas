@@ -32,10 +32,10 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         PlayLayer::setupHasCompleted();
-        if (m_fields->enabled) nextConfetti();
+        if (m_fields->enabled) scheduleOnce(schedule_selector(ConfettiPlayLayer::nextConfetti), randng::get(0.125f));
     };
 
-    void nextConfetti() {
+    void nextConfetti(float) {
         auto delay = randng::get(10.f, 1.f);
         log::debug("scheduling confetti in {}s", delay);
 
@@ -51,7 +51,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
             for (int i = 0; i < randng::get(125, 75); i++) createConfetti();
         };
 
-        nextConfetti();
+        scheduleOnce(schedule_selector(ConfettiPlayLayer::nextConfetti), randng::get(0.125f));;
     };
 
     void createConfetti() {

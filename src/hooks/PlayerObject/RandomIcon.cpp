@@ -39,6 +39,7 @@ class $modify(RandomIconPlayerObject, PlayerObject) {
                 int r = randng::get(256);
                 int g = randng::get(256);
                 int b = randng::get(256);
+
                 setColor(ccc3(r, g, b));
                 updatePlayerGlow();
 

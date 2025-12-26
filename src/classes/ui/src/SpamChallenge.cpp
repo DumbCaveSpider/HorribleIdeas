@@ -34,7 +34,8 @@ bool SpamChallenge::init() {
 
     setID("spam-jumps"_spr);
 
-    m_impl->m_inputTarget = randng::get(75, 25);
+    // increase spam target for mobile players
+    m_impl->m_inputTarget = randng::get(50, 15) * GEODE_PLATFORM_TARGET & PlatformID::Mobile ? 2 : 1;
 
     auto const winSize = CCDirector::get()->getWinSize();
 
@@ -50,7 +51,8 @@ bool SpamChallenge::init() {
     auto descLabel = CCLabelBMFont::create("Use your mouse button or tap the screen to increase the count.", "chatFont.fnt");
     descLabel->setID("description-label");
     descLabel->setWidth(getScaledContentWidth() - 1.25f);
-    descLabel->setPosition({ winSize.width / 2.f, label->getPositionX() - label->getScaledContentHeight() - 8.75f });
+    descLabel->setPosition({ winSize.width / 2.f, 25.f });
+    descLabel->setAnchorPoint({ 0.5, 0 });
     descLabel->setColor({ 250, 250, 25 });
 
     addChild(descLabel, 1);
@@ -60,8 +62,8 @@ bool SpamChallenge::init() {
     m_impl->m_counter->setScale(2.5f);
     m_impl->m_counter->setPosition({ winSize.width / 2.f, (winSize.height / 2.f) - 6.25f });
 
-    auto moveUp = CCEaseSineInOut::create(CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, 12.5f))));
-    auto moveDown = CCEaseSineInOut::create(CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, -12.5f))));
+    auto moveUp = CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, 12.5f)));
+    auto moveDown = CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, -12.5f)));
 
     auto seq = CCSequence::createWithTwoActions(moveUp, moveDown);
 
@@ -94,7 +96,7 @@ void SpamChallenge::setCallback(std::function<void(bool)> const& cb) {
 bool SpamChallenge::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     if (m_impl->m_timeRemaining > 0.f && m_impl->m_inputTarget > m_impl->m_inputCount) {
         m_impl->m_inputCount++;
-        if (m_impl->m_counter) m_impl->m_counter->setCString(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data());
+        if (m_impl->m_counter) m_impl->m_counter->setString(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data());
 
         if (m_impl->m_inputCount >= m_impl->m_inputTarget) {
             unscheduleUpdate();

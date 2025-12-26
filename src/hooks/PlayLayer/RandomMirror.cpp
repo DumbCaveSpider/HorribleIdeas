@@ -17,7 +17,7 @@ class $modify(RandomMirrorPlayLayer, PlayLayer) {
 
     void setupHasCompleted() {
         PlayLayer::setupHasCompleted();
-        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), randng::get(15.f, 3.f) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::nextFlipPortal), 0.125f);
     };
 
     void toggleFlipped(bool p0, bool p1) {
@@ -27,7 +27,7 @@ class $modify(RandomMirrorPlayLayer, PlayLayer) {
         PlayLayer::toggleFlipped(p0, p1);
     };
 
-    void nextFlipPortal() {
+    void nextFlipPortal(float) {
         log::debug("scheduling flip");
         if (m_fields->enabled) scheduleOnce(schedule_selector(RandomMirrorPlayLayer::flipPortal), randng::get(10.f, 1.f) * chanceToDelayPct(m_fields->chance));
     };
@@ -35,11 +35,7 @@ class $modify(RandomMirrorPlayLayer, PlayLayer) {
     void flipPortal(float) {
         if (m_fields->enabled) {
             toggleFlipped(!m_fields->isFlipped, false);
-
-            runAction(CCSequence::createWithTwoActions(
-                CCDelayTime::create(2.5f),
-                CCCallFunc::create(this, callfunc_selector(RandomMirrorPlayLayer::nextFlipPortal))
-            ));
+            scheduleOnce(schedule_selector(RandomMirrorPlayLayer::nextFlipPortal), 2.5f);
         };
     };
 };
