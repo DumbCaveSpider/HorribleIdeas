@@ -1,0 +1,174 @@
+#include "../SpamChallenge.hpp"
+
+#include <Utils.hpp>
+
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
+using namespace horrible;
+
+class SpamChallenge::Impl final {
+public:
+    int m_inputCount = 0;
+    int m_inputTarget = 50;
+
+    Ref<CCLabelBMFont> m_counter = nullptr;
+    Ref<ProgressBar> m_timer = nullptr;
+
+    std::function<void(bool)> m_callback;
+
+    bool m_success = false;
+
+    float m_timeRemaining = 10.f;
+    float m_totalTime = 10.f;
+    float m_timeDt = 0.f;
+};
+
+SpamChallenge::SpamChallenge() {
+    m_impl = std::make_unique<Impl>();
+};
+
+SpamChallenge::~SpamChallenge() {};
+
+bool SpamChallenge::init() {
+    if (!CCBlockLayer::init()) return false;
+
+    setID("spam-jumps"_spr);
+
+    m_impl->m_inputTarget = randng::get(75, 25);
+
+    auto const winSize = CCDirector::get()->getWinSize();
+
+    // reuse winSize declared above
+    auto label = CCLabelBMFont::create("Quick! Spam or get sent back!", "bigFont.fnt");
+    label->setID("label");
+    label->setWidth(getScaledContentWidth() - 1.25f);
+    label->setPosition({ winSize.width / 2.f, winSize.height - 50.f });
+    label->setScale(0.875f);
+
+    addChild(label, 1);
+
+    auto descLabel = CCLabelBMFont::create("Use your mouse button or tap the screen to increase the count.", "chatFont.fnt");
+    descLabel->setID("description-label");
+    descLabel->setWidth(getScaledContentWidth() - 1.25f);
+    descLabel->setPosition({ winSize.width / 2.f, label->getPositionX() - label->getScaledContentHeight() - 8.75f });
+    descLabel->setColor({ 250, 250, 25 });
+
+    addChild(descLabel, 1);
+
+    m_impl->m_counter = CCLabelBMFont::create(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data(), "goldFont.fnt");
+    m_impl->m_counter->setID("counter");
+    m_impl->m_counter->setScale(2.5f);
+    m_impl->m_counter->setPosition({ winSize.width / 2.f, (winSize.height / 2.f) - 6.25f });
+
+    auto moveUp = CCEaseSineInOut::create(CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, 12.5f))));
+    auto moveDown = CCEaseSineInOut::create(CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, -12.5f))));
+
+    auto seq = CCSequence::createWithTwoActions(moveUp, moveDown);
+
+    addChild(m_impl->m_counter, 9);
+    m_impl->m_counter->runAction(CCRepeatForever::create(seq));
+
+    m_impl->m_timer = ProgressBar::create();
+    m_impl->m_timer->setID("timer");
+    m_impl->m_timer->setFillColor({ 255, 200, 0 });
+    m_impl->m_timer->setStyle(ProgressBarStyle::Solid);
+    m_impl->m_timer->setAnchorPoint({ 0.5, 0.5 });
+    m_impl->m_timer->setPosition({ winSize.width / 2.f, winSize.height - 20.f });
+
+    m_impl->m_timer->updateProgress(100.f);
+
+    addChild(m_impl->m_timer, 9);
+
+    // @geode-ignore(unknown-resource)
+    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chest07.ogg");
+
+    scheduleUpdate();
+
+    return true;
+};
+
+void SpamChallenge::setCallback(std::function<void(bool)> const& cb) {
+    m_impl->m_callback = cb;
+};
+
+bool SpamChallenge::ccTouchBegan(CCTouch* touch, CCEvent* event) {
+    if (m_impl->m_timeRemaining > 0.f && m_impl->m_inputTarget > m_impl->m_inputCount) {
+        m_impl->m_inputCount++;
+        if (m_impl->m_counter) m_impl->m_counter->setCString(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data());
+
+        if (m_impl->m_inputCount >= m_impl->m_inputTarget) {
+            unscheduleUpdate();
+            setSuccess(true);
+        };
+    };
+
+    return false;
+};
+
+void SpamChallenge::closeAfterFeedback(float) {
+    if (m_impl->m_callback) m_impl->m_callback(m_impl->m_success);
+    removeFromParentAndCleanup(true);
+};
+
+void SpamChallenge::setSuccess(bool v) {
+    m_impl->m_success = v;
+
+    if (m_impl->m_counter) m_impl->m_counter->setVisible(false);
+
+    auto symbol = CCSprite::createWithSpriteFrameName(v ? "GJ_completesIcon_001.png" : "GJ_deleteIcon_001.png");
+    symbol->setID("success-icon");
+    symbol->setScale(0.f);
+    symbol->setPosition({ getScaledContentWidth() / 2.f, getScaledContentHeight() / 2.f });
+
+    addChild(symbol, 9);
+    symbol->runAction(CCSequence::createWithTwoActions(
+        CCEaseSineOut::create(CCScaleTo::create(0.0875f, 2.75f)),
+        CCEaseSineOut::create(CCScaleTo::create(0.125f, 2.5f))
+    ));
+
+    // @geode-ignore(unknown-resource)
+    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
+    scheduleOnce(schedule_selector(SpamChallenge::closeAfterFeedback), 1.25f);
+};
+
+void SpamChallenge::update(float dt) {
+    if (m_impl->m_timeRemaining <= 0.f) return;
+    m_impl->m_timeRemaining -= dt;
+
+    m_impl->m_timeDt += dt;
+    if (m_impl->m_timeDt >= 0.5f) {
+        // @geode-ignore(unknown-resource)
+        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("counter003.ogg");
+        m_impl->m_timeDt = 0.f;
+    };
+
+    if (m_impl->m_timeRemaining < 0.f) m_impl->m_timeRemaining = 0.f;
+    float pct = (m_impl->m_timeRemaining / m_impl->m_totalTime) * 100.f;
+
+    if (m_impl->m_timer) m_impl->m_timer->updateProgress(pct);
+
+    if (m_impl->m_timeRemaining <= 0.f) {
+        unscheduleUpdate();
+        setSuccess(false);
+    };
+};
+
+void SpamChallenge::keyBackClicked() {
+    Notification::create("You can't escape the spam challenge...", NotificationIcon::Error, 1.25f)->show();
+
+    unscheduleUpdate();
+    if (m_impl->m_callback) m_impl->m_callback(false);
+    removeFromParentAndCleanup(true);
+};
+
+SpamChallenge* SpamChallenge::create() {
+    auto ret = new SpamChallenge();
+    if (ret->init()) {
+        ret->autorelease();
+        return ret;
+    };
+
+    CC_SAFE_DELETE(ret);
+    return nullptr;
+};

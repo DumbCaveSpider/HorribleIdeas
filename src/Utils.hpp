@@ -12,8 +12,8 @@
 #include <classes/Randng.hpp>
 
 #include <classes/ui/MathQuiz.hpp>
-#include <classes/ui/RandomAdPopup.hpp>
-#include <classes/ui/SpamJumps.hpp>
+#include <classes/ui/RandomAd.hpp>
+#include <classes/ui/SpamChallenge.hpp>
 
 using namespace geode::prelude;
 
@@ -72,7 +72,7 @@ namespace horrible {
          SillyTier::High},
         {"math_quiz",
          "Richard's Math Quiz!",
-         "When playing a level in practice mode, there's a chance Richard will pop out and give you a quick math quiz. Answer correctly to continue, or restart the level from the beginning.\n<cy>Credit: CyanBoi</c>",
+         "When playing a level in Practice mode, there's a chance Richard will pop out and give you a quick math quiz. Answer correctly to continue, or restart the level from the beginning.\n<cy>Credit: CyanBoi</c>",
          category::obstructive,
          SillyTier::High},
         {"mock",
@@ -89,8 +89,8 @@ namespace horrible {
          category::randoms,
          SillyTier::Medium},
         {"spam",
-         "Spam Jumps!",
-         "Forces you to spam an input sometimes while playing a level.\n<cy>Credit: Cheeseworks</c>",
+         "Spam Challenge!",
+         "Sometimes forces a challenge on you to mercilessly spam an input sometimes while playing a level in Normal mode.\n<cy>Credit: Cheeseworks</c>",
          category::obstructive,
          SillyTier::High},
         {"achieve",

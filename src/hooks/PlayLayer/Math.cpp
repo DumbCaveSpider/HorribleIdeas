@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-class $modify(MathQuizPlayLayer, PlayLayer) {
+class $modify(MathPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("math_quiz");
         int chance = options::getChance("math_quiz");
@@ -22,7 +22,7 @@ class $modify(MathQuizPlayLayer, PlayLayer) {
 
     void nextQuiz() {
         log::debug("scheduling math quiz");
-        if (m_fields->enabled && !m_hasCompletedLevel) scheduleOnce(schedule_selector(MathQuizPlayLayer::doQuiz), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
+        if (m_fields->enabled && !m_hasCompletedLevel) scheduleOnce(schedule_selector(MathPlayLayer::doQuiz), randng::get(30.f, 5.f) * chanceToDelayPct(m_fields->chance));
     };
 
     void doQuiz(float) {
@@ -44,7 +44,7 @@ class $modify(MathQuizPlayLayer, PlayLayer) {
 #ifdef GEODE_IS_WINDOWS
                 CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif
-                addChild(m_fields->m_currentQuiz, 999);
+                addChild(m_fields->m_currentQuiz, 99);
             };
         } else if (m_fields->enabled) {
             nextQuiz();

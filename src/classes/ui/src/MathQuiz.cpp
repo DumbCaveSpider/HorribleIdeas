@@ -63,8 +63,14 @@ bool MathQuiz::init() {
     };
 
     auto const winSize = CCDirector::get()->getWinSize();
+
+    // Create problem label
+    std::string problemText;
+
     // geometry dash
     if (m_impl->m_operation == MathOperation::Geometry) {
+        problemText = "How many sides does this shape have?";
+
         int sides = randng::get(10);
         m_impl->m_correctAnswer = sides;
 
@@ -93,59 +99,66 @@ bool MathQuiz::init() {
 
         // draw the polygon in local coords with drawNode placed at center
         m_impl->m_drawNode->setPosition({ centerX, centerY });
-
-        ccColor4F fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
-        ccColor4F borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
-
         m_impl->m_drawNode->clear();
+
+        ccColor4F const fillColor = { 0.85f, 0.65f, 0.15f, 1.f };
+        ccColor4F const borderColor = { 0.05f, 0.05f, 0.05f, 1.f };
+
         m_impl->m_drawNode->drawPolygon(polyPoints.data(), static_cast<unsigned int>(polyPoints.size()), fillColor, 2.f, borderColor);
 
         addChild(m_impl->m_drawNode, 250);
-    };
-
-    // Create problem label
-    std::string problemText;
-    if (m_impl->m_operation == MathOperation::Geometry) {
-        problemText = "How many sides does this shape have?";
     } else {
-        std::string operationSymbol = (m_impl->m_operation == MathOperation::Addition) ? "+" : (m_impl->m_operation == MathOperation::Subtraction) ? "-"
-            : "*";
-        problemText = fmt::format("{} {} {}", m_impl->m_numFirst, operationSymbol, m_impl->m_numSecond);
-    };
+        std::string operation;
+        switch (m_impl->m_operation) {
+        case MathOperation::Addition:
+            operation = "+";
+            break;
 
-    // reuse winSize declared above
-    auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt");
-    problemLabel->setID("problem-label");
-    problemLabel->setPosition({ winSize.width / 2.f, winSize.height - 60.f });
-    problemLabel->setScale(0.9f);
+        case MathOperation::Subtraction:
+            operation = "-";
+            break;
 
-    addChild(problemLabel);
+        case MathOperation::Multiplication:
+            operation = "x";
+            break;
 
-    if (m_impl->m_operation != MathOperation::Geometry) {
+        default:
+            operation = "?";
+        };
+
+        problemText = fmt::format("{} {} {}", m_impl->m_numFirst, operation, m_impl->m_numSecond);
+
         auto equalsLabel = CCLabelBMFont::create("= ?", "goldFont.fnt");
         equalsLabel->setID("equals-label");
+        equalsLabel->setWidth(getScaledContentWidth() - 1.25f);
         equalsLabel->setPosition({ winSize.width / 2.f, winSize.height - 100.f });
 
         addChild(equalsLabel);
     };
 
-    // make the text smaller for geometry
-    if (m_impl->m_operation == MathOperation::Geometry) problemLabel->setScale(0.5f);
+    // reuse winSize declared above
+    auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt");
+    problemLabel->setID("problem-label");
+    problemLabel->setWidth(getScaledContentWidth() - 1.25f);
+    problemLabel->setPosition({ winSize.width / 2.f, winSize.height - 60.f });
+    problemLabel->setScale(m_impl->m_operation == MathOperation::Geometry ? 0.5f : 0.925f);
+
+    addChild(problemLabel, 1);
 
     // i hope i did this right cheese, u added this progress bar thing
     m_impl->m_timer = ProgressBar::create();
-    m_impl->m_timer->setID("math-quiz-timer");
+    m_impl->m_timer->setID("timer");
+    m_impl->m_timer->setFillColor({ 255, 200, 0 });
     m_impl->m_timer->setStyle(ProgressBarStyle::Solid);
-    m_impl->m_timer->setFillColor({ 255, 210, 0 });
     m_impl->m_timer->setAnchorPoint({ 0.5, 0.5 });
     m_impl->m_timer->setPosition({ winSize.width / 2.f, winSize.height - 20.f });
+
+    m_impl->m_timer->updateProgress(100.f);
 
     addChild(m_impl->m_timer, 9);
 
     m_impl->m_timeRemaining = m_impl->m_totalTime = 10.f;
     m_impl->m_timer->updateProgress(100.f);
-
-    scheduleUpdate();
 
     // Generate 4 answer options with the correct answer randomized
     m_impl->m_answers.clear();
@@ -172,42 +185,39 @@ bool MathQuiz::init() {
         m_impl->m_richard = richard;
         m_impl->m_richard->setID("richard");
         m_impl->m_richard->setAnchorPoint({ 1, 0.5 });
-        m_impl->m_richard->setScale(0.6f);
+        m_impl->m_richard->setScale(0.625f);
         m_impl->m_richard->setPosition({ winSize.width - 36.f, winSize.height / 2.f });
+
         addChild(m_impl->m_richard, 99);
 
         auto moveUp = CCMoveBy::create(1.f, ccp(0, 8.f));
         auto moveDown = CCMoveBy::create(1.f, ccp(0, -8.f));
 
-        auto seq = CCSequence::create(moveUp, moveDown, nullptr);
-        auto repeat = CCRepeatForever::create(seq);
+        auto seq = CCSequence::createWithTwoActions(moveUp, moveDown);
 
-        m_impl->m_richard->runAction(repeat);
+        m_impl->m_richard->runAction(CCRepeatForever::create(seq));
     };
+
+    auto answerMenuLayout = RowLayout::create()
+        ->setGap(2.5f)
+        ->setGrowCrossAxis(true);
 
     m_impl->m_answerMenu = CCMenu::create();
     m_impl->m_answerMenu->setID("answer-menu");
+    m_impl->m_answerMenu->setContentSize({ 175.f, 75.f });
     m_impl->m_answerMenu->setPosition({ winSize.width / 2.f, winSize.height / 2.f - 20.f });
-
-    auto buttonWidth = 80.f;
-    auto buttonHeight = 35.f;
-
-    auto spacingX = 100.f;
-    auto spacingY = 50.f;
+    m_impl->m_answerMenu->setLayout(answerMenuLayout);
 
     for (int i = 0; i < 4; i++) {
         auto btnSprite = ButtonSprite::create(
             fmt::format("{}", m_impl->m_answers[i]).data(),
-            buttonWidth,
+            80.f,
             true,
             "bigFont.fnt",
             "GJ_button_01.png",
             0,
-            0.8f);
-
-        //  2x2 grid
-        auto x = (i % 2 == 0) ? -spacingX / 2.f : spacingX / 2.f;
-        auto y = (i < 2) ? spacingY / 2.f : -spacingY / 2.f;
+            0.8f
+        );
 
         auto answerBtn = CCMenuItemSpriteExtra::create(
             btnSprite,
@@ -215,13 +225,15 @@ bool MathQuiz::init() {
             menu_selector(MathQuiz::onAnswerClicked)
         );
         answerBtn->setID("submit-answer-btn");
-        answerBtn->setPosition({ x, y });
         answerBtn->setTag(m_impl->m_answers[i]);
 
         m_impl->m_answerMenu->addChild(answerBtn);
     };
 
     addChild(m_impl->m_answerMenu);
+    m_impl->m_answerMenu->updateLayout(true);
+
+    scheduleUpdate();
 
     // @geode-ignore(unknown-resource)
     if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chest07.ogg");
@@ -229,14 +241,14 @@ bool MathQuiz::init() {
     return true;
 };
 
-void MathQuiz::setCallback(std::function<void(bool)> cb) {
+void MathQuiz::setCallback(std::function<void(bool)> const& cb) {
     m_impl->m_callback = cb;
 };
 
-void MathQuiz::setWasCorrectFlag(bool v) {
+void MathQuiz::setCorrect(bool v) {
     m_impl->m_correct = v;
     // @geode-ignore(unknown-resource)
-    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");
+    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
 };
 
 void MathQuiz::onAnswerClicked(CCObject* sender) {
@@ -271,20 +283,19 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
         feedbackLabel->setColor(correct ? ccColor3B({ 100, 255, 100 }) : ccColor3B({ 255, 100, 100 }));
 
-        addChild(feedbackLabel, 1000);
+        addChild(feedbackLabel, 9);
 
         // Small scale animation, delay, then call close
-        auto seq = CCSequence::create(
-            CCScaleTo::create(0.12f, 1.2f),
-            CCScaleTo::create(0.08f, 1.f),
+        feedbackLabel->runAction(CCSequence::create(
+            CCEaseSineOut::create(CCScaleTo::create(0.125f, 1.25f)),
+            CCEaseSineOut::create(CCScaleTo::create(0.0875f, 1.f)),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
             nullptr
-        );
-        feedbackLabel->runAction(seq);
+        ));
 
         setKeypadEnabled(false);
-        setWasCorrectFlag(correct);
+        setCorrect(correct);
         unscheduleUpdate();
     };
 };
@@ -301,9 +312,9 @@ void MathQuiz::keyBackClicked() {
     if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
     if (m_impl->m_drawNode) m_impl->m_drawNode->removeFromParentAndCleanup(true);
 
-    Notification::create("Nope! You cant escape the math quiz!", NotificationIcon::Error, 1.25f)->show();
+    Notification::create("Nope! You can't escape the math quiz!", NotificationIcon::Error, 1.25f)->show();
 
-    setWasCorrectFlag(false);
+    setCorrect(false);
     closePopup();
 };
 
@@ -315,7 +326,6 @@ void MathQuiz::closeAfterFeedback(CCNode* node) {
 
     if (m_impl->m_callback) m_impl->m_callback(m_impl->m_correct);
 
-    unscheduleUpdate();
     removeFromParentAndCleanup(true);
 };
 
@@ -323,7 +333,6 @@ void MathQuiz::closePopup() {
     if (m_impl->m_answerMenu) m_impl->m_answerMenu->removeFromParentAndCleanup(true);
     if (m_impl->m_callback) m_impl->m_callback(m_impl->m_correct);
 
-    unscheduleUpdate();
     removeFromParentAndCleanup(true);
 };
 
@@ -346,7 +355,7 @@ void MathQuiz::update(float dt) {
     if (m_impl->m_timeRemaining <= 0.f) {
         // automatic incorrect
         unscheduleUpdate();
-        setWasCorrectFlag(false);
+        setCorrect(false);
 
         // Notification::create("Time's Up!", NotificationIcon::Error, 1.5f)->show();
 
@@ -364,8 +373,8 @@ void MathQuiz::update(float dt) {
         addChild(feedbackLabel, 1000);
 
         auto seq = CCSequence::create(
-            CCScaleTo::create(0.12f, 1.2f),
-            CCScaleTo::create(0.08f, 1.f),
+            CCScaleTo::create(0.0875f, 1.25f),
+            CCScaleTo::create(0.125f, 1.f),
             CCDelayTime::create(0.75f),
             CCCallFuncN::create(this, callfuncN_selector(MathQuiz::closeAfterFeedback)),
             nullptr

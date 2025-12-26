@@ -11,7 +11,7 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("ads");
 
-        Ref<RandomAdPopup> m_ad = nullptr;
+        Ref<RandomAd> m_ad = nullptr;
     };
 
     void setupHasCompleted() {
@@ -38,7 +38,7 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
             // Show cursor when ad appears
             CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif
-            if (auto popup = RandomAdPopup::create()) {
+            if (auto popup = RandomAd::create()) {
                 m_fields->m_ad = popup;
                 m_fields->m_ad->show();
             };

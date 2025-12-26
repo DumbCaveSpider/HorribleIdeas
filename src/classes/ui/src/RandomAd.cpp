@@ -1,4 +1,4 @@
-#include "../RandomAdPopup.hpp"
+#include "../RandomAd.hpp"
 
 #include <Utils.hpp>
 
@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-bool RandomAdPopup::setup() {
+bool RandomAd::setup() {
     setID("ad"_spr);
     setTitle("Sponsored");
 
@@ -46,7 +46,7 @@ bool RandomAdPopup::setup() {
     auto playBtn = CCMenuItemSpriteExtra::create(
         playBtnSprite,
         this,
-        menu_selector(RandomAdPopup::onPlayBtn)
+        menu_selector(RandomAd::onPlayBtn)
     );
     playBtn->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, 2.5f });
     playBtn->ignoreAnchorPointForPosition(false);
@@ -57,7 +57,7 @@ bool RandomAdPopup::setup() {
     return true;
 };
 
-void RandomAdPopup::onPlayBtn(CCObject*) {// congregation jumpscare
+void RandomAd::onPlayBtn(CCObject*) {// congregation jumpscare
     jumpscares::downloadCongregation();
 
     if (auto playLayer = PlayLayer::get()) {
@@ -79,8 +79,8 @@ void RandomAdPopup::onPlayBtn(CCObject*) {// congregation jumpscare
     };
 };
 
-RandomAdPopup* RandomAdPopup::create() {
-    auto ret = new RandomAdPopup();
+RandomAd* RandomAd::create() {
+    auto ret = new RandomAd();
     if (ret->initAnchored(375.f, 250.f)) {
         ret->autorelease();
         return ret;
