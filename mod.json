@@ -305,7 +305,7 @@
             "type": "int",
             "name": "Sticky Chance",
             "description": "<cj>Sticky Grounds</c> - Chance of your player sticking to a surface.",
-            "default": 20,
+            "default": 25,
             "min": 0,
             "max": 100,
             "control": {

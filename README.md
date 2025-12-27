@@ -13,7 +13,7 @@ This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy trol
 ---
 
 ### Options
-When pressing `\` or by pressing the floating *Horrible Options* button on your screen, a menu will pop up with a list of joke mod options you can toggle anytime on your game to do some interesting things to your gaming experience. From random mirror portals to game-breaking glitches! You can view more information within the contents of the menu itself.
+When pressing `\` or by pressing the floating *Horrible Options* button on your screen, a menu will pop up with a list of joke mod options you can toggle anytime on your game to do some interesting things to your gaming experience. You can view more information within the menu itself.
 
 > [!NOTE]
 > *You can customize any keybinds in this mod via the *[Custom Keybinds](https://www.geode-sdk.org/mods/geode.custom-keybinds)* mod.*
@@ -38,6 +38,9 @@ Probably the worst of it all...
 
 > [!WARNING]
 > *Please keep in mind that certain game settings and hacks from mod menus may interfere with certain parts of this mod's functionality.*
+
+### Safe Mode
+By default, this mod implements its own safe mode to prevent accidental progression in levels. Remember, **using this mod counts as cheating**! You can also disable this in the mod's settings while you're not actively using any horrible options.
 
 ---
 
@@ -76,7 +79,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 ```
 
 > [!NOTE]
-> *If you plan on publishing a mod that acts as an add-on, all we ask is to please be sure to follow the safe code practices in the [documentation](./include) as best as you can!*
+> *If you plan on publishing a mod that acts as an add-on, all we ask is to please be sure to follow the safe code practices as instructed in the [documentation](./include) to the best of your ability!*
 
 ---
 

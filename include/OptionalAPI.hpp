@@ -43,7 +43,7 @@ namespace horrible {
         };
 
         HorribleOptionEventFilterV2() = default;
-        HorribleOptionEventFilterV2(std::string_view id) : m_ids({ std::string(id) }) {};
+        HorribleOptionEventFilterV2(std::string_view id) : m_ids({ id.data() }) {};
         HorribleOptionEventFilterV2(std::vector<std::string_view> const& ids) : m_ids(ids.begin(), ids.end()) {};
     };
 

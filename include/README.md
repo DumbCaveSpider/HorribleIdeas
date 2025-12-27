@@ -27,12 +27,10 @@ The manager class for Horrible Ideas mod options.
 - `static OptionManager*` **`get()`**: Get option manager singleton
 - `void` **`registerOption(Option const& option)`**: Register a new option
   - `Option const&` **`option`**: Constructed option object
-- `std::vector<Option>` **`getOptions()`** `const`: Returns the array of all registered options
 - `bool` **`getOption(std::string_view id)`** `const`: Returns the toggle state of an option
 - `bool` **`setOption(std::string_view id, bool enable)`** `const`: Set the toggle state of an option
   - `std::string_view` **`id`**: The ID of the option to toggle
   - `bool` **`enable`**: Boolean to toggle to
-- `std::vector<std::string>` **`getCategories()`** `const`: Returns the array of all registered categories
 
 #### enum class `horrible::SillyTier`
 An enum class that defines how chaotic or funny an option is.

@@ -9,8 +9,8 @@ using namespace horrible;
 
 class $modify(SleepyPlayerObject, PlayerObject) {
     struct Fields {
-        bool enabled = options::get("m_sleepy");
-        int chance = options::getChance("m_sleepy");
+        bool enabled = options::get("sleepy");
+        int chance = options::getChance("sleepy");
 
         bool m_sleepy = false; // decelerating-to-zero stage
         bool m_waking = false; // 5s buffer stage (cannot be re-slept)

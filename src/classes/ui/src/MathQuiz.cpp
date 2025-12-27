@@ -22,8 +22,8 @@ public:
     Ref<Richard> m_richard = nullptr;
     Ref<CCDrawNode> m_drawNode = nullptr;
 
-    float m_timeRemaining = 10.f;
     float m_totalTime = 10.f;
+    float m_timeRemaining = m_totalTime;
     float m_timeDt = 0.f;
 
     bool m_correct = false;

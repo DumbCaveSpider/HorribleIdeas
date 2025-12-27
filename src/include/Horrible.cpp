@@ -19,7 +19,7 @@ bool HorribleOptionEvent::getToggled() const {
     return m_toggled;
 };
 
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::string_view id) : m_ids({ std::string(id) }) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::string_view id) : m_ids({ id.data() }) {};
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string_view> const& ids) : m_ids(ids.begin(), ids.end()) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {

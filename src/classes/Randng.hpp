@@ -18,7 +18,7 @@ namespace horrible {
         };
 
         /**
-         * Get any number between 0 and 5000
+         * Get any number between 0 and 3000
          * @note Recommended to balance chances when calling every frame
          */
         template <
@@ -26,7 +26,7 @@ namespace horrible {
             typename = std::enable_if_t<std::is_integral_v<T>>
         >
         inline T tiny() {
-            return get<T>(static_cast<T>(5000), static_cast<T>(0));
+            return get<T>(static_cast<T>(3000), static_cast<T>(0));
         };
 
         // Get any number between 0 and 100

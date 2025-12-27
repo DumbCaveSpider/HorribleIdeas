@@ -15,8 +15,8 @@ public:
     Ref<CCLabelBMFont> m_counter = nullptr;
     Ref<ProgressBar> m_timer = nullptr;
 
-    float m_timeRemaining = 10.f;
-    float m_totalTime = 10.f;
+    float m_totalTime = 7.5f;
+    float m_timeRemaining = m_totalTime;
     float m_timeDt = 0.f;
 
     bool m_success = false;
@@ -35,7 +35,7 @@ bool SpamChallenge::init() {
     setID("spam-jumps"_spr);
 
     // increase spam target for mobile players
-    m_impl->m_inputTarget = randng::get(50, 15) * GEODE_PLATFORM_TARGET & PlatformID::Mobile ? 2 : 1;
+    m_impl->m_inputTarget = randng::get(50, 20) * ((GEODE_PLATFORM_TARGET & PlatformID::Mobile) ? 2 : 1);
 
     auto const winSize = CCDirector::get()->getWinSize();
 

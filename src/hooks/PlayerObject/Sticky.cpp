@@ -45,7 +45,7 @@ class $modify(StickyPlayerObject, PlayerObject) {
                 m_fields->m_clickLabel->runAction(CCRepeatForever::create(seq));
             };
 
-            m_fields->m_onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
+            m_fields->m_onGround = onGround();
         };
 
         return true;
@@ -59,20 +59,26 @@ class $modify(StickyPlayerObject, PlayerObject) {
         if (m_fields->m_clickLabel) m_fields->m_clickLabel->setColor(colors::white);
     };
 
+    bool onGround() {
+        // log::debug("1: {} 2: {} 3: {} 4: {}", m_isOnGround ? "y" : "n", m_isOnGround2 ? "y" : "n", m_isOnGround3 ? "y" : "n", m_isOnGround4 ? "y" : "n");
+        return m_isOnGround && m_isOnGround2 && m_isOnGround3 & m_isOnGround4;
+    };
+
     void hitGround(GameObject * object, bool notFlipped) {
+        auto wasOnGround = m_fields->m_onGround;
         PlayerObject::hitGround(object, notFlipped);
+        auto nowOnGround = onGround();
 
         if (m_fields->enabled && m_hasEverJumped) {
-            if (!m_fields->m_onGround) m_fields->m_onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
-
-            if (m_playerSpeed > 0.f) {
-                m_fields->m_defSpeed = m_playerSpeed;
-
-                if (m_fields->chance >= randng::fast() && m_fields->m_onGround) {
+            if (!wasOnGround && nowOnGround) {
+                if (randng::fast() < m_fields->chance) {
+                    m_fields->m_defSpeed = m_playerSpeed;
                     m_playerSpeed = 0.f;
                     if (m_fields->m_clickLabel) m_fields->m_clickLabel->setVisible(true);
                 };
             };
+
+            m_fields->m_onGround = nowOnGround;
         };
     };
 
@@ -80,12 +86,12 @@ class $modify(StickyPlayerObject, PlayerObject) {
         if (!PlayerObject::pushButton(button)) return false;
 
         if (m_fields->enabled) {
-            if (m_fields->m_onGround) {
+            if (m_playerSpeed <= 0.f && m_fields->m_onGround) {
                 m_playerSpeed = m_fields->m_defSpeed;
                 if (m_fields->m_clickLabel) m_fields->m_clickLabel->setVisible(false);
             };
 
-            m_fields->m_onGround = m_isOnGround || m_isOnGround2 || m_isOnGround3 || m_isOnGround4;
+            m_fields->m_onGround = onGround();
         };
 
         return true;
