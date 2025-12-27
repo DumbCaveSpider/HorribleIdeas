@@ -143,9 +143,9 @@ bool HorribleMenuPopup::setup() {
     filterMenu->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 65.f });
 
     std::vector<FilterBtnInfo> const filterBtns = {
-        {SillyTier::Low, "Low", {100, 255, 100}},
-        {SillyTier::Medium, "Medium", {255, 255, 100}},
-        {SillyTier::High, "High", {255, 100, 100}}
+        {SillyTier::Low, "Low", colors::green},
+        {SillyTier::Medium, "Medium", colors::yellow},
+        {SillyTier::High, "High", colors::red}
     };
 
     float fBtnY = 0.f;

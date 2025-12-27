@@ -144,7 +144,7 @@ bool MathQuiz::init() {
     // i hope i did this right cheese, u added this progress bar thing
     m_impl->m_timer = ProgressBar::create();
     m_impl->m_timer->setID("timer");
-    m_impl->m_timer->setFillColor({ 255, 200, 0 });
+    m_impl->m_timer->setFillColor(colors::yellow);
     m_impl->m_timer->setStyle(ProgressBarStyle::Solid);
     m_impl->m_timer->setAnchorPoint({ 0.5, 0.5 });
     m_impl->m_timer->setPosition({ winSize.width / 2.f, winSize.height - 20.f });

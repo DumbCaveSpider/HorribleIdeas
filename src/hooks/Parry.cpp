@@ -97,7 +97,7 @@ class $modify(ParryPlayLayer, PlayLayer) {
         if (!m_fields->m_parryBar) {
             m_fields->m_parryBar = ProgressBar::create();
             m_fields->m_parryBar->setID("parry"_spr);
-            m_fields->m_parryBar->setFillColor({ 255, 200, 0 });
+            m_fields->m_parryBar->setFillColor(colors::yellow);
             m_fields->m_parryBar->setAnchorPoint({ 0.5f, 0.5f });
             m_fields->m_parryBar->setVisible(false);
 
