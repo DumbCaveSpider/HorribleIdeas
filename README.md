@@ -8,7 +8,7 @@ A plethora of ways to ruin your gaming experience...
 ---
 
 ## About
-This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy troll options**! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game.
+This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy troll options** to mes around with! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game.
 
 ---
 
@@ -37,7 +37,7 @@ Disturb the player's accessibility to the gameplay.
 Probably the worst of it all...
 
 > [!WARNING]
-> *Please keep in mind that certain game settings and hacks from mod menus may interfere with parts of this mod's functionality.*
+> *Please keep in mind that certain game settings and hacks from mod menus may interfere with certain parts of this mod's functionality.*
 
 ---
 

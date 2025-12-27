@@ -6,7 +6,7 @@
 ---
 
 ## About
-This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy troll options**! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game.
+This silly lil' mod adds a mod menu filled to the brim with **over 30 crazy troll options** to mess around with! Spice up your gameplay by adding some truly terrible features to absolutely wreck your entire game.
 
 ---
 
@@ -33,7 +33,7 @@ Disturb the player's accessibility to the gameplay.
 #### Misc
 Probably the worst of it all...
 
-> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain game settings and hacks from mod menus may interfere with parts of this mod's functionality.*</c>
+> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain game settings and hacks from mod menus may interfere with certain parts of this mod's functionality.*</c>
 
 ---
 
