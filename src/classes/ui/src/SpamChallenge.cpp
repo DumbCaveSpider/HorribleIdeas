@@ -40,17 +40,15 @@ bool SpamChallenge::init() {
     auto const winSize = CCDirector::get()->getWinSize();
 
     // reuse winSize declared above
-    auto label = CCLabelBMFont::create("Quick! Spam or get sent back!", "bigFont.fnt");
+    auto label = CCLabelBMFont::create("Quick! Spam or get sent back!", "bigFont.fnt", getScaledContentWidth() - 1.25f);
     label->setID("label");
-    label->setWidth(getScaledContentWidth() - 1.25f);
     label->setPosition({ winSize.width / 2.f, winSize.height - 50.f });
     label->setScale(0.875f);
 
     addChild(label, 1);
 
-    auto descLabel = CCLabelBMFont::create("Use your mouse button or tap the screen to increase the count.", "chatFont.fnt");
+    auto descLabel = CCLabelBMFont::create("Use your mouse button or tap the screen to increase the count.", "chatFont.fnt", getScaledContentWidth() - 1.25f);
     descLabel->setID("description-label");
-    descLabel->setWidth(getScaledContentWidth() - 1.25f);
     descLabel->setPosition({ winSize.width / 2.f, 25.f });
     descLabel->setAnchorPoint({ 0.5, 0 });
     descLabel->setColor({ 250, 250, 25 });

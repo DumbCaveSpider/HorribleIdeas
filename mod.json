@@ -216,23 +216,6 @@
                 "big-arrow-step": 20
             }
         },
-        "sleepy-chance": {
-            "type": "int",
-            "name": "Sleep Chance",
-            "description": "<cj>Sleepy Player</c> - Chance of your player falling asleep.",
-            "default": 75,
-            "min": 0,
-            "max": 100,
-            "control": {
-                "input": true,
-                "slider": true,
-                "slider-step": 1,
-                "arrows": true,
-                "arrow-step": 10,
-                "big-arrows": true,
-                "big-arrow-step": 20
-            }
-        },
         "spam-chance": {
             "type": "int",
             "name": "Spam Challenge Chance",
@@ -289,6 +272,40 @@
             "name": "No Jump Chance",
             "description": "<cj>Randomly Don't Jump</c> - Chance of your jump input not registering.",
             "default": 25,
+            "min": 0,
+            "max": 100,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 1,
+                "arrows": true,
+                "arrow-step": 10,
+                "big-arrows": true,
+                "big-arrow-step": 20
+            }
+        },
+        "sleepy-chance": {
+            "type": "int",
+            "name": "Sleep Chance",
+            "description": "<cj>Sleepy Player</c> - Chance of your player falling asleep.",
+            "default": 75,
+            "min": 0,
+            "max": 100,
+            "control": {
+                "input": true,
+                "slider": true,
+                "slider-step": 1,
+                "arrows": true,
+                "arrow-step": 10,
+                "big-arrows": true,
+                "big-arrow-step": 20
+            }
+        },
+        "sticky-chance": {
+            "type": "int",
+            "name": "Sticky Chance",
+            "description": "<cj>Sticky Grounds</c> - Chance of your player sticking to a surface.",
+            "default": 20,
             "min": 0,
             "max": 100,
             "control": {

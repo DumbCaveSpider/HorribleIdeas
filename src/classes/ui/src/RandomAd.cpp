@@ -15,7 +15,6 @@ bool RandomAd::setup() {
     textLabel->setID("message");
     textLabel->ignoreAnchorPointForPosition(false);
     textLabel->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, m_mainLayer->getScaledContentHeight() - 37.5f });
-    textLabel->setAlignment(CCTextAlignment::kCCTextAlignmentCenter);
     textLabel->setAnchorPoint({ 0.5, 0.5 });
 
     m_mainLayer->addChild(textLabel);

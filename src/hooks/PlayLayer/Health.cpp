@@ -85,7 +85,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
                 m_player1->playSpawnEffect();
                 m_player2->playSpawnEffect();
 
-                shakeCamera(1.25f, 2.5f, 0.0125f);
+                shakeCamera(1.25f, 2.5f, 0.00875F);
 
                 if (m_fields->m_healthLabel) {
                     auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));

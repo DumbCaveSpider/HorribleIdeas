@@ -126,18 +126,16 @@ bool MathQuiz::init() {
 
         problemText = fmt::format("{} {} {}", m_impl->m_numFirst, operation, m_impl->m_numSecond);
 
-        auto equalsLabel = CCLabelBMFont::create("= ?", "goldFont.fnt");
+        auto equalsLabel = CCLabelBMFont::create("= ?", "goldFont.fnt", getScaledContentWidth() - 1.25f);
         equalsLabel->setID("equals-label");
-        equalsLabel->setWidth(getScaledContentWidth() - 1.25f);
         equalsLabel->setPosition({ winSize.width / 2.f, winSize.height - 100.f });
 
         addChild(equalsLabel);
     };
 
     // reuse winSize declared above
-    auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt");
+    auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt", getScaledContentWidth() - 1.25f);
     problemLabel->setID("problem-label");
-    problemLabel->setWidth(getScaledContentWidth() - 1.25f);
     problemLabel->setPosition({ winSize.width / 2.f, winSize.height - 60.f });
     problemLabel->setScale(m_impl->m_operation == MathOperation::Geometry ? 0.5f : 0.925f);
 

@@ -121,7 +121,7 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
             m_impl->m_isAnimating = true;
             m_impl->m_sprite->runAction(CCSequence::createWithTwoActions(
                 CCSpawn::createWithTwoActions(
-                    CCEaseExponentialOut::create(CCScaleTo::create(0.375f, m_impl->m_scale * 0.875f)),
+                    CCEaseExponentialOut::create(CCScaleTo::create(0.125f, m_impl->m_scale * 0.875f)),
                     CCFadeTo::create(0.25f, 255)
                 ),
                 CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)
