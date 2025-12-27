@@ -36,7 +36,7 @@ class $modify(StickyPlayerObject, PlayerObject) {
                 auto seq = CCSequence::create(
                     CCCallFunc::create(this, callfunc_selector(StickyPlayerObject::stickyCol1)),
                     CCDelayTime::create(0.125f),
-                    CCCallFunc::create(this, callfunc_selector(StickyPlayerObject::stickyCol1)),
+                    CCCallFunc::create(this, callfunc_selector(StickyPlayerObject::stickyCol2)),
                     CCDelayTime::create(0.125f),
                     nullptr
                 );
@@ -52,11 +52,11 @@ class $modify(StickyPlayerObject, PlayerObject) {
     };
 
     void stickyCol1() {
-        if (m_fields->m_clickLabel) m_fields->m_clickLabel->setColor({ 250, 250, 25 });
+        if (m_fields->m_clickLabel) m_fields->m_clickLabel->setColor(colors::yellow);
     };
 
     void stickyCol2() {
-        if (m_fields->m_clickLabel) m_fields->m_clickLabel->setColor({ 255, 255, 255 });
+        if (m_fields->m_clickLabel) m_fields->m_clickLabel->setColor(colors::white);
     };
 
     void hitGround(GameObject * object, bool notFlipped) {

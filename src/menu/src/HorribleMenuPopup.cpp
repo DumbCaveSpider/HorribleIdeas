@@ -234,7 +234,7 @@ bool HorribleMenuPopup::setup() {
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode OFF", "bigFont.fnt");
     safeModeLabel->setID("safe-mode-label");
-    safeModeLabel->setColor({ 255, 0, 0 });
+    safeModeLabel->setColor(colors::red);
     safeModeLabel->setAnchorPoint({ 0.5, 0 });
     safeModeLabel->setPosition({ filterMenuBg->getPositionX(), 15.f });
     safeModeLabel->setScale(0.325f);
@@ -242,7 +242,7 @@ bool HorribleMenuPopup::setup() {
     // Set safemode label if active
     if (horribleMod->getSettingValue<bool>("safe-mode")) {
         safeModeLabel->setString("Safe Mode ON");
-        safeModeLabel->setColor({ 0, 255, 0 });
+        safeModeLabel->setColor(colors::green);
     } else {
         log::warn("Safe mode is inactive");
     };

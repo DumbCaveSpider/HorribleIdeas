@@ -26,7 +26,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
             if (!m_fields->m_healthBar) {
                 m_fields->m_healthBar = ProgressBar::create();
                 m_fields->m_healthBar->setID("health"_spr);
-                m_fields->m_healthBar->setFillColor({ 255, 0, 0 });
+                m_fields->m_healthBar->setFillColor(colors::red);
                 m_fields->m_healthBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_healthBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_healthBar->setRotation(-90.f);
@@ -39,7 +39,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
             auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             if (!m_fields->m_healthLabel) {
                 m_fields->m_healthLabel = CCLabelBMFont::create(hp.data(), "bigFont.fnt");
-                m_fields->m_healthLabel->setColor({ 255, 0, 0 });
+                m_fields->m_healthLabel->setColor(colors::red);
                 m_fields->m_healthLabel->setAnchorPoint({ 0.f, 1.f });
                 m_fields->m_healthLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f });
                 m_fields->m_healthLabel->setScale(0.25f);

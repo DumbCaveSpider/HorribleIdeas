@@ -1,9 +1,5 @@
 #pragma once
 
-#include <Geode/Geode.hpp>
-
-using namespace geode::prelude;
-
 namespace horrible {
     // Random number generator utilities
     namespace randng {

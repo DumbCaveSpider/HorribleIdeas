@@ -32,7 +32,7 @@ class $modify(OxygenPlayLayer, PlayLayer) {
             if (!m_fields->m_oxygenBar) {
                 m_fields->m_oxygenBar = ProgressBar::create();
                 m_fields->m_oxygenBar->setID("oxygen"_spr);
-                m_fields->m_oxygenBar->setFillColor({ 0, 175, 255 });
+                m_fields->m_oxygenBar->setFillColor(colors::cyan);
                 m_fields->m_oxygenBar->setAnchorPoint({ 0.5f, 0.5f });
                 m_fields->m_oxygenBar->setPosition({ 10.f, getScaledContentHeight() / 2.f });
                 m_fields->m_oxygenBar->setRotation(-90.f);
@@ -47,7 +47,7 @@ class $modify(OxygenPlayLayer, PlayLayer) {
             auto const o2 = fmt::format("o2\n{}%", static_cast<int>(m_fields->m_oxygenLevel));
             if (!m_fields->m_oxygenLabel) {
                 m_fields->m_oxygenLabel = CCLabelBMFont::create(o2.data(), "bigFont.fnt");
-                m_fields->m_oxygenLabel->setColor({ 0, 175, 255 });
+                m_fields->m_oxygenLabel->setColor(colors::cyan);
                 m_fields->m_oxygenLabel->setAnchorPoint({ 0.f, 1.f });
                 m_fields->m_oxygenLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_oxygenBar->getScaledContentWidth() / 2.f) - 1.25f });
                 m_fields->m_oxygenLabel->setScale(0.25f);

@@ -51,7 +51,7 @@ bool SpamChallenge::init() {
     descLabel->setID("description-label");
     descLabel->setPosition({ winSize.width / 2.f, 25.f });
     descLabel->setAnchorPoint({ 0.5, 0 });
-    descLabel->setColor({ 250, 250, 25 });
+    descLabel->setColor(colors::yellow);
 
     addChild(descLabel, 1);
 

@@ -277,7 +277,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
         feedbackLabel->setScale(0.125f);
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
-        feedbackLabel->setColor(correct ? ccColor3B({ 100, 255, 100 }) : ccColor3B({ 255, 100, 100 }));
+        feedbackLabel->setColor(correct ? colors::green : colors::red);
 
         addChild(feedbackLabel, 9);
 
@@ -364,7 +364,7 @@ void MathQuiz::update(float dt) {
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
         feedbackLabel->setScale(0.1f);
-        feedbackLabel->setColor({ 255, 100, 100 });
+        feedbackLabel->setColor(colors::red);
 
         addChild(feedbackLabel, 1000);
 

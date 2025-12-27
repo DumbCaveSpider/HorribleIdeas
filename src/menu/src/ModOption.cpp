@@ -114,19 +114,19 @@ bool ModOption::init(CCSize const& size, Option const& option) {
     // Set color based on m_impl->m_option.Tier
     switch (m_impl->m_option.silly) {
     case SillyTier::Low: // green
-        nameLabel->setColor({ 100, 255, 100 });
+        nameLabel->setColor(colors::green);
         break;
 
     case SillyTier::Medium: // yellow
-        nameLabel->setColor({ 255, 255, 100 });
+        nameLabel->setColor(colors::yellow);
         break;
 
     case SillyTier::High: // red
-        nameLabel->setColor({ 255, 100, 100 });
+        nameLabel->setColor(colors::red);
         break;
 
     default: // white
-        nameLabel->setColor({ 255, 255, 255 });
+        nameLabel->setColor(colors::white);
         break;
     };
 
@@ -144,7 +144,7 @@ bool ModOption::init(CCSize const& size, Option const& option) {
         idLabel->setLineBreakWithoutSpace(true);
         idLabel->setPosition({ x, yCenter - 10.f });
         idLabel->setAnchorPoint({ 0.f, 0.5f });
-        idLabel->setColor({ 0, 0, 0 });
+        idLabel->setColor(colors::black);
         idLabel->setOpacity(125);
         idLabel->setScale(0.5f);
 
@@ -173,13 +173,13 @@ bool ModOption::init(CCSize const& size, Option const& option) {
 
         togglerOn->setDisplayFrame(togglerOff->displayFrame());
 
-        togglerOff->setColor({ 150, 150, 150 });
-        togglerOn->setColor({ 150, 150, 150 });
+        togglerOff->setColor(colors::gray);
+        togglerOn->setColor(colors::gray);
 
-        bg->setColor({ 150, 150, 150 });
+        bg->setColor(colors::gray);
 
-        nameLabel->setColor({ 150, 150, 150 });
-        categoryLabel->setColor({ 150, 150, 150 });
+        nameLabel->setColor(colors::gray);
+        categoryLabel->setColor(colors::gray);
 
         auto newHelpBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/info-alert.png");
         newHelpBtnSprite->setScale(0.75f);
