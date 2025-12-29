@@ -8,7 +8,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("friends");
 
-        static inline std::vector<std::string_view> const friends = {
+        static constexpr auto friends = std::to_array<std::string_view>({
             "diffIcon_00_btn_001.png",
             "diffIcon_01_btn_001.png",
             "diffIcon_02_btn_001.png",
@@ -21,7 +21,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             "diffIcon_09_btn_001.png",
             "diffIcon_10_btn_001.png",
             "diffIcon_auto_btn_001.png",
-        };
+                                                                        });
     };
 
     void setupHasCompleted() {

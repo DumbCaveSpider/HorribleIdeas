@@ -3,26 +3,26 @@
 #include <menu/FloatingButton.hpp>
 #include <menu/SettingV3.hpp>
 
-#include <Geode/Geode.hpp>
-
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PauseLayer.hpp>
 #include <Geode/modify/GJGameLevel.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
 
-using namespace geode::prelude;
 using namespace horrible;
 
 $execute{
     if (auto om = OptionManager::get()) {
         log::debug("Registering default options...");
 
-        for (auto const& option : allOptions) {
+        for (auto const& option : defOpts) {
             om->registerOption(option);
         };
 
-        log::info("Done registering {} options", allOptions.size());
+        log::info("Done registering {} options", defOpts.size());
+
+        defOpts.clear();
+        log::debug("Cleaned up default option copies! Now at size {}", defOpts.size());
     } else {
         log::error("Failed to get OptionManager");
     };

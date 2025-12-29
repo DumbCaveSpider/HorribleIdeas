@@ -35,7 +35,7 @@ protected:
 
     ListenerResult OnCategory(std::string_view category, bool enabled = true);
 
-    void filterOptions(std::vector<Option> const& allOptions, SillyTier tier = SillyTier::None, std::string_view category = "");
+    void filterOptions(std::vector<Option> const& optList, SillyTier tier = SillyTier::None, std::string_view category = "");
     void filterTierCallback(CCObject*);
 
     void resetFilters(CCObject*);

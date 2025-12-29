@@ -59,7 +59,7 @@ namespace horrible {
     };
 
     // Default horrible options
-    inline std::vector<Option> const allOptions = {
+    inline std::vector<Option> defOpts = {
         {"oxygen",
          "Oxygen Level",
          "Limited oxygen level. You gain oxygen as a flying gamemode. If your oxygen runs out, the player dies.\n<cy>Credit: ArcticWoof</c>",

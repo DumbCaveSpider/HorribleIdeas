@@ -8,7 +8,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("confetti");
 
-        static inline std::vector<std::string_view> const confettis = {
+        static constexpr auto confettis = std::to_array<std::string_view>({
             "diffIcon_02_btn_001.png",
             "explosionIcon_20_001.png",
             "GJ_duplicateObjectBtn2_001.png",
@@ -24,7 +24,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
             "GJ_starsIcon_001.png",
             "GJ_sMagicIcon_001.png",
             "GJ_pointsIcon_001.png",
-        };
+                                                                          });
     };
 
     void setupHasCompleted() {

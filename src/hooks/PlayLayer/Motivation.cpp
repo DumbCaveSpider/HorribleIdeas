@@ -8,7 +8,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("motivation");
 
-        static inline std::vector<std::string_view> const msgs = {
+        static constexpr auto msgs = std::to_array<std::string_view>({
             "Surprised you haven't quit already.",
             "OW! I hit my knee on my desk.",
             "mrrp meow :3",
@@ -94,7 +94,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             "Have you made it past 67% yet?",
             "I think you could use some ASMR.",
             "You gotta chill...",
-        };
+                                                                     });
     };
 
     void setupHasCompleted() {
