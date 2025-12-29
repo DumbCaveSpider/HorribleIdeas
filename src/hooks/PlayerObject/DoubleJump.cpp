@@ -1,10 +1,7 @@
 #include <Utils.hpp>
 
-#include <Geode/Geode.hpp>
-
 #include <Geode/modify/PlayerObject.hpp>
 
-using namespace geode::prelude;
 using namespace horrible;
 
 class $modify(DoubleJumpPlayerObject, PlayerObject) {

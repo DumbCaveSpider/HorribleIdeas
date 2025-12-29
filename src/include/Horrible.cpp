@@ -7,8 +7,6 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-namespace str = utils::string; // Shortcut for geode::utils::string
-
 HorribleOptionEvent::HorribleOptionEvent(std::string_view id, bool toggled) : m_id(id), m_toggled(toggled) {};
 
 std::string const& HorribleOptionEvent::getId() const {
@@ -44,7 +42,7 @@ OptionManager::OptionManager() {
 OptionManager::~OptionManager() {};
 
 void OptionManager::registerCategory(std::string_view category) {
-    if (!str::containsAny(category.data(), getCategories())) m_impl->m_categories.push_back(category.data());
+    if (!utils::string::containsAny(category.data(), getCategories())) m_impl->m_categories.push_back(category.data());
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {

@@ -12,9 +12,6 @@
 
 #include <Geode/utils/terminate.hpp>
 
-#include <Geode/binding/ButtonSprite.hpp>
-#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
-
 using namespace geode::prelude;
 using namespace horrible;
 

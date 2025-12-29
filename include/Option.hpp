@@ -4,8 +4,6 @@
 
 #include <Geode/Geode.hpp>
 
-using namespace geode::prelude;
-
 // Container for Horrible Ideas API
 namespace horrible {
     // How silly a mod option is
@@ -24,7 +22,7 @@ namespace horrible {
         std::string category; // Name of the category this option should be under
         SillyTier silly; // How silly the option is
         bool restart; // If the option requires a restart to take effect
-        std::vector<PlatformID> platforms; // Platforms that the option supports
+        std::vector<geode::PlatformID> platforms; // Platforms that the option supports
 
         Option() = default; // Default constructor
 
@@ -36,7 +34,7 @@ namespace horrible {
             std::string_view category,
             SillyTier silly = SillyTier::Low,
             bool restart = false,
-            std::vector<PlatformID> const& platforms = { PlatformID::Desktop, PlatformID::Mobile }
+            std::vector<geode::PlatformID> const& platforms = { geode::PlatformID::Desktop, geode::PlatformID::Mobile }
         ) : id(id),
             name(name),
             description(description),

@@ -1,11 +1,8 @@
 #include <Utils.hpp>
 
-#include <Geode/Geode.hpp>
-
 #include <Geode/modify/LevelPage.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 
-using namespace geode::prelude;
 using namespace horrible;
 
 void placeboEffect() {

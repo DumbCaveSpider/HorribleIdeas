@@ -17,14 +17,12 @@
 #include "Events.hpp"
 #include "Option.hpp"
 
-#include <Geode/Geode.hpp>
-
-using namespace geode::prelude;
+#include <cocos2d.h>
 
 // Container for Horrible Ideas API functions
 namespace horrible {
     // Mod option manager for Horrible Ideas
-    class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
+    class AWCW_HORRIBLE_API_DLL OptionManager : public cocos2d::CCObject {
     private:
         class Impl; // PImpl class
         std::unique_ptr<Impl> m_impl; // PImpl pointer

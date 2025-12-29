@@ -11,8 +11,6 @@
 #include <Geode/modify/GJGameLevel.hpp>
 #include <Geode/modify/LevelEditorLayer.hpp>
 
-#include <Geode/loader/SettingV3.hpp>
-
 using namespace geode::prelude;
 using namespace horrible;
 

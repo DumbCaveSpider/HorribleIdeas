@@ -6,6 +6,8 @@
 
 #include <Geode/Geode.hpp>
 
+#include <Geode/loader/SettingV3.hpp>
+
 #include <classes/Colors.hpp>
 #include <classes/Jumpscares.hpp>
 #include <classes/Menu.hpp>

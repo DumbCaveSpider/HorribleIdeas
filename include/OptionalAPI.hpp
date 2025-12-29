@@ -2,8 +2,7 @@
 
 #include "Horrible.hpp"
 
-#include <Geode/Geode.hpp>
-
+#include <Geode/loader/Event.hpp>
 #include <Geode/loader/Dispatch.hpp>
 
 #ifdef MY_MOD_ID
@@ -11,10 +10,8 @@
 #endif
 #define MY_MOD_ID "arcticwoof.horrible_ideas"
 
-using namespace geode::prelude;
-
 namespace horrible {
-    class HorribleOptionEventV2 : public Event {
+    class HorribleOptionEventV2 : public geode::Event {
     private:
         const std::string m_id;
         const bool m_toggled;
@@ -27,19 +24,19 @@ namespace horrible {
         bool getToggled() const { return m_toggled; };
     };
 
-    class HorribleOptionEventFilterV2 : public EventFilter<HorribleOptionEventV2> {
+    class HorribleOptionEventFilterV2 : public geode::EventFilter<HorribleOptionEventV2> {
     private:
         const std::vector<std::string> m_ids;
 
     public:
-        using Callback = ListenerResult(HorribleOptionEventV2*);
+        using Callback = geode::ListenerResult(HorribleOptionEventV2*);
 
-        ListenerResult handle(std::function<Callback> fn, HorribleOptionEventV2* event) {
+        geode::ListenerResult handle(std::function<Callback> fn, HorribleOptionEventV2* event) {
             for (auto const& id : m_ids) {
                 if (event->getId() == id) return fn(event);
             };
 
-            return ListenerResult::Propagate;
+            return geode::ListenerResult::Propagate;
         };
 
         HorribleOptionEventFilterV2() = default;
@@ -49,13 +46,13 @@ namespace horrible {
 
     class OptionManagerV2 {
     public:
-        static Result<> registerOption(Option const& option)
+        static geode::Result<> registerOption(Option const& option)
             GEODE_EVENT_EXPORT(&OptionManagerV2::registerOption, (option));
 
-        static Result<bool> getOption(std::string_view id)
+        static geode::Result<bool> getOption(std::string_view id)
             GEODE_EVENT_EXPORT(&OptionManagerV2::getOption, (id));
 
-        static Result<bool> setOption(std::string_view id, bool enable)
+        static geode::Result<bool> setOption(std::string_view id, bool enable)
             GEODE_EVENT_EXPORT(&OptionManagerV2::setOption, (id, enable));
     };
 };

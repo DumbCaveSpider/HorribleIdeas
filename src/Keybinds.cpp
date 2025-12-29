@@ -1,11 +1,8 @@
 #if !defined(GEODE_IS_IOS)
 #include <Utils.hpp>
 
-#include <Geode/Geode.hpp>
-
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 
-using namespace geode::prelude;
 using namespace horrible;
 using namespace keybinds;
 

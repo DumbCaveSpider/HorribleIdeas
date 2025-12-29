@@ -1,14 +1,11 @@
 #include <Utils.hpp>
 
-#include <Geode/Geode.hpp>
-
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/modify/PlayerObject.hpp>
 
 // 8 hours and still not working properly :(
 // imma take a nap
 
-using namespace geode::prelude;
 using namespace horrible;
 
 static GameObject* s_pendingKiller1 = nullptr;
