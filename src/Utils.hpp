@@ -35,6 +35,15 @@ namespace horrible {
         return ((100.f - static_cast<float>(chance)) + 1.f) / 100.f;
     };
 
+    /**
+     * Play a sound effect using FMOD
+     *
+     * @param name Name of the audio file
+     */
+    inline void playSfx(std::string_view name) {
+        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(name.data());
+    };
+
     namespace fs = std::filesystem; // Shortcut for std::filesystem
 
     namespace str = utils::string; // Shortcut for geode::utils::string

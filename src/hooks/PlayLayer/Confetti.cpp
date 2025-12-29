@@ -46,7 +46,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
         if (m_fields->enabled) {
             log::info("unleashing confetti!");
 
-            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("jumpscareAudio.mp3");
+            playSfx("jumpscareAudio.mp3");
             shakeCamera(1.25f, 2.5f, 0.00875F);
             for (int i = 0; i < randng::get(125, 75); i++) createConfetti();
         };

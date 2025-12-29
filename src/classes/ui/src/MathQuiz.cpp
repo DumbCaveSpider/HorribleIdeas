@@ -232,7 +232,7 @@ bool MathQuiz::init() {
     scheduleUpdate();
 
     // @geode-ignore(unknown-resource)
-    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chest07.ogg");
+    playSfx("chest07.ogg");
 
     return true;
 };
@@ -244,7 +244,7 @@ void MathQuiz::setCallback(std::function<void(bool)> const& cb) {
 void MathQuiz::setCorrect(bool v) {
     m_impl->m_correct = v;
     // @geode-ignore(unknown-resource)
-    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
+    playSfx(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
 };
 
 void MathQuiz::onAnswerClicked(CCObject* sender) {
@@ -339,7 +339,7 @@ void MathQuiz::update(float dt) {
     m_impl->m_timeDt += dt;
     if (m_impl->m_timeDt >= 0.5f) {
         // @geode-ignore(unknown-resource)
-        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("counter003.ogg");
+        playSfx("counter003.ogg");
         m_impl->m_timeDt = 0.f;
     };
 

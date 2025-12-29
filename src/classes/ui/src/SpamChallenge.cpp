@@ -80,7 +80,7 @@ bool SpamChallenge::init() {
     addChild(m_impl->m_timer, 9);
 
     // @geode-ignore(unknown-resource)
-    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chest07.ogg");
+    playSfx("chest07.ogg");
 
     scheduleUpdate();
 
@@ -127,7 +127,7 @@ void SpamChallenge::setSuccess(bool v) {
     ));
 
     // @geode-ignore(unknown-resource)
-    if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
+    playSfx(v ? "crystal01.ogg" : "jumpscareAudio.mp3");
     scheduleOnce(schedule_selector(SpamChallenge::closeAfterFeedback), 1.25f);
 };
 
@@ -138,7 +138,7 @@ void SpamChallenge::update(float dt) {
     m_impl->m_timeDt += dt;
     if (m_impl->m_timeDt >= 0.5f) {
         // @geode-ignore(unknown-resource)
-        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("counter003.ogg");
+        playSfx("counter003.ogg");
         m_impl->m_timeDt = 0.f;
     };
 

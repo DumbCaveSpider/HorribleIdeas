@@ -130,7 +130,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
             addChild(label, 9);
 
             // @geode-ignore(unknown-resource)
-            if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("crystal01.ogg");
+            playSfx("crystal01.ogg");
             label->runAction(action);
         };
     };

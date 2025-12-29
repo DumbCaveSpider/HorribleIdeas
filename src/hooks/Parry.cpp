@@ -56,7 +56,7 @@ class $modify(ParryPlayerObject, PlayerObject) {
 
                 // play effects
                 playSpawnEffect();
-                if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chestClick.ogg");
+                playSfx("chestClick.ogg");
 
                 // Player 2 cancel
             } else if (this == pl->m_player2 && s_parryActive2) {
@@ -73,7 +73,7 @@ class $modify(ParryPlayerObject, PlayerObject) {
                 s_activeParryPlayer = nullptr;
 
                 playSpawnEffect();
-                if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync("chestClick.ogg");
+                playSfx("chestClick.ogg");
             };
         };
 
