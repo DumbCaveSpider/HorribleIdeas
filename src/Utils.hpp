@@ -44,8 +44,6 @@ namespace horrible {
         if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(name.data());
     };
 
-    namespace fs = std::filesystem; // Shortcut for std::filesystem
-
     namespace str = utils::string; // Shortcut for geode::utils::string
 
     // Default horrible categories

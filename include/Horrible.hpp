@@ -24,7 +24,7 @@ using namespace geode::prelude;
 // Container for Horrible Ideas API functions
 namespace horrible {
     // Mod option manager for Horrible Ideas
-    class OptionManager : public CCObject {
+    class AWCW_HORRIBLE_API_DLL OptionManager : public CCObject {
     private:
         class Impl; // PImpl class
         std::unique_ptr<Impl> m_impl; // PImpl pointer
@@ -38,7 +38,7 @@ namespace horrible {
          *
          * @param category Name of the category
          */
-        void registerCategory(std::string const& category);
+        void registerCategory(std::string_view category);
 
         /**
          * Check if an option already exists
@@ -53,14 +53,14 @@ namespace horrible {
 
     public:
         // Get option manager singleton
-        AWCW_HORRIBLE_API_DLL static OptionManager* get();
+        static OptionManager* get();
 
         /**
          * Register a new option
          *
          * @param option Constructed option object
          */
-        AWCW_HORRIBLE_API_DLL void registerOption(Option const& option);
+        void registerOption(Option const& option);
 
         /**
          * Returns the array of all registered options
@@ -76,7 +76,7 @@ namespace horrible {
          *
          * @returns Boolean of the current value
          */
-        AWCW_HORRIBLE_API_DLL bool getOption(std::string_view id) const;
+        bool getOption(std::string_view id) const;
 
         /**
          * Set the toggle state of an option
@@ -86,7 +86,7 @@ namespace horrible {
          *
          * @returns Boolean of the old value
          */
-        AWCW_HORRIBLE_API_DLL bool setOption(std::string_view id, bool enable) const;
+        bool setOption(std::string_view id, bool enable) const;
 
         /**
          * Returns the array of all registered categories

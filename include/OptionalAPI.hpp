@@ -16,8 +16,8 @@ using namespace geode::prelude;
 namespace horrible {
     class HorribleOptionEventV2 : public Event {
     private:
-        std::string m_id;
-        bool m_toggled;
+        const std::string m_id;
+        const bool m_toggled;
 
     public:
         HorribleOptionEventV2(std::string_view id, bool toggled)
@@ -29,7 +29,7 @@ namespace horrible {
 
     class HorribleOptionEventFilterV2 : public EventFilter<HorribleOptionEventV2> {
     private:
-        std::vector<std::string> m_ids;
+        const std::vector<std::string> m_ids;
 
     public:
         using Callback = ListenerResult(HorribleOptionEventV2*);

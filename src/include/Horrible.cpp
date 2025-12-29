@@ -43,8 +43,8 @@ OptionManager::OptionManager() {
 
 OptionManager::~OptionManager() {};
 
-void OptionManager::registerCategory(std::string const& category) {
-    if (!str::containsAny(category, getCategories())) m_impl->m_categories.push_back(category);
+void OptionManager::registerCategory(std::string_view category) {
+    if (!str::containsAny(category.data(), getCategories())) m_impl->m_categories.push_back(category.data());
 };
 
 bool OptionManager::doesOptionExist(std::string_view id) const {

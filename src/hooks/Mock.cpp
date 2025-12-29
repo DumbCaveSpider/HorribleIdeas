@@ -8,6 +8,8 @@
 using namespace geode::prelude;
 using namespace horrible;
 
+namespace fs = std::filesystem; // Shortcut for std::filesystem
+
 class $modify(MockMenuLayer, MenuLayer) {
     struct Fields {
         bool enabled = options::get("mock");

@@ -22,9 +22,9 @@ namespace horrible {
         std::string name; // Name of the option
         std::string description; // Description of the option
         std::string category; // Name of the category this option should be under
-        SillyTier silly = SillyTier::Low; // How silly the option is
-        bool restart = false; // If the option requires a restart to take effect
-        std::vector<PlatformID> platforms = { PlatformID::Desktop, PlatformID::Mobile }; // Platforms that the option supports
+        SillyTier silly; // How silly the option is
+        bool restart; // If the option requires a restart to take effect
+        std::vector<PlatformID> platforms; // Platforms that the option supports
 
         Option() = default; // Default constructor
 

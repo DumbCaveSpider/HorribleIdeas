@@ -37,7 +37,7 @@ Disturb the player's accessibility to the gameplay.
 Probably the worst of it all...
 
 > [!WARNING]
-> *Please keep in mind that certain game settings and hacks from mod menus may interfere with certain parts of this mod's functionality.*
+> *Please keep in mind that certain game settings and hacks from mod menus may interfere with some parts of this mod's functionality.*
 
 ### Safe Mode
 By default, this mod implements its own safe mode to prevent accidental progression in levels. Remember, **using this mod counts as cheating**! You can also disable this in the mod's settings while you're not actively using any horrible options.

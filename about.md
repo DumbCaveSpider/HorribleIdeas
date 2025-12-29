@@ -33,7 +33,7 @@ Disturb the player's accessibility to the gameplay.
 #### Misc
 Probably the worst of it all...
 
-> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain game settings and hacks from mod menus may interfere with certain parts of this mod's functionality.*</c>
+> ![⚠️](frame:geode.loader/info-warning.png?scale=0.375) <cy>*Please keep in mind that certain game settings and hacks from mod menus may interfere with some parts of this mod's functionality.*</c>
 
 ### Safe Mode
 By default, this mod implements its own safe mode to prevent accidental progression in levels. Remember, <cr>**using this mod counts as cheating**</c>! You can also disable this in the mod's settings while you're not actively using any horrible options.

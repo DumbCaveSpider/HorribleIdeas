@@ -16,8 +16,7 @@ public:
         "unk"_spr,
         "Unknown Option",
         "No description provided.",
-        "General",
-        SillyTier::None
+        "General"
     };
 
     Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
