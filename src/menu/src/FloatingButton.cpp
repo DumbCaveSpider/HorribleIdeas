@@ -124,8 +124,8 @@ bool FloatingButton::ccTouchBegan(CCTouch* touch, CCEvent* ev) {
                     CCEaseExponentialOut::create(CCScaleTo::create(0.25f, m_impl->m_scale * 0.875f)),
                     CCFadeTo::create(0.25f, 255)
                 ),
-                CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd)
-                )));
+                CCCallFunc::create(this, callfunc_selector(FloatingButton::onScaleEnd))
+            ));
 
             return true; // swallow touch
         };

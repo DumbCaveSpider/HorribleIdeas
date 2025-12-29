@@ -8,7 +8,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("confetti");
 
-        static constexpr auto confettis = std::to_array<std::string_view>({
+        static constexpr auto confettis = std::to_array<const char*>({
             "diffIcon_02_btn_001.png",
             "explosionIcon_20_001.png",
             "GJ_duplicateObjectBtn2_001.png",
@@ -53,7 +53,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
 
     void createConfetti() {
         if (m_fields->enabled) {
-            auto conf = CCSprite::createWithSpriteFrameName(Fields::confettis[randng::get(Fields::confettis.size() - 1)].data());
+            auto conf = CCSprite::createWithSpriteFrameName(Fields::confettis[randng::get(Fields::confettis.size() - 1)]);
             conf->setPosition({ 0.f, 0.f });
             conf->setScale(0.875f * randng::pc());
 

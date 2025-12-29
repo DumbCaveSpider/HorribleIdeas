@@ -8,7 +8,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("friends");
 
-        static constexpr auto friends = std::to_array<std::string_view>({
+        static constexpr auto friends = std::to_array<const char*>({
             "diffIcon_00_btn_001.png",
             "diffIcon_01_btn_001.png",
             "diffIcon_02_btn_001.png",
@@ -21,7 +21,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             "diffIcon_09_btn_001.png",
             "diffIcon_10_btn_001.png",
             "diffIcon_auto_btn_001.png",
-                                                                        });
+                                                                   });
     };
 
     void setupHasCompleted() {
@@ -50,7 +50,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yA = getScaledContentHeight() * rA; // starting height pos
             float yB = getScaledContentHeight() * rB; // ending height pos
 
-            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(Fields::friends[randng::get(Fields::friends.size() - 1)].data());
+            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(Fields::friends[randng::get(Fields::friends.size() - 1)]);
             friendSpr->setPosition({ xA, yA });
             friendSpr->setScale(1.25 * (rB + rA));
             friendSpr->setRotation(180.f * (yA * yB)); // random rotation

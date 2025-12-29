@@ -50,12 +50,12 @@ namespace horrible {
 
     // Default horrible categories
     namespace category {
-        constexpr std::string_view playerlife = "Player Life";
-        constexpr std::string_view jumpscares = "Jumpscares";
-        constexpr std::string_view randoms = "Randoms";
-        constexpr std::string_view chances = "Chances";
-        constexpr std::string_view obstructive = "Obstructive";
-        constexpr std::string_view misc = "Misc";
+        inline constexpr const char* playerlife = "Player Life";
+        inline constexpr const char* jumpscares = "Jumpscares";
+        inline constexpr const char* randoms = "Randoms";
+        inline constexpr const char* chances = "Chances";
+        inline constexpr const char* obstructive = "Obstructive";
+        inline constexpr const char* misc = "Misc";
     };
 
     // Default horrible options
