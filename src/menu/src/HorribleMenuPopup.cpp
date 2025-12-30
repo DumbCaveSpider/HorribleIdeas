@@ -106,7 +106,7 @@ bool HorribleMenuPopup::setup() {
     m_impl->m_searchInput->setID("search-input");
     m_impl->m_searchInput->setPosition({ optionListBg->getPositionX(), mainLayerSize.height - 52.5f });
 
-    m_impl->m_searchInput->setCallback([this](std::string const& str) {
+    m_impl->m_searchInput->setCallback([this](std::string_view str) {
         m_impl->m_searchText = str;
         filterOptions(
             options::getAll(),

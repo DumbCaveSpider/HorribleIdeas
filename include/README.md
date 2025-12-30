@@ -223,7 +223,7 @@ These classes mirror the main API but return `geode::Result` values so callers c
 #### class `horrible::OptionManagerV2`
 - `static Result<>` **`registerOption(Option const& option)`**
 - `static Result<bool>` **`getOption(std::string_view id)`**
-- `static Result<bool>` **`setOption(std::string const& id, bool enable)`**
+- `static Result<bool>` **`setOption(std::string_view id, bool enable)`**
 
 #### Summary
 | Type    | Name                          | Description                          |

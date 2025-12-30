@@ -44,8 +44,8 @@ protected:
 
     void onToggle(CCObject* sender);
 
-    bool init(CCSize const& size, std::string const& category);
+    bool init(CCSize const& size, std::string_view category);
 
 public:
-    static CategoryItem* create(CCSize const& size, std::string const& category);
+    static CategoryItem* create(CCSize const& size, std::string_view category);
 };

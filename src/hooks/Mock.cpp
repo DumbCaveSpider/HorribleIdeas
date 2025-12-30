@@ -1,3 +1,4 @@
+#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
 #include <Utils.hpp>
 
 #include <Geode/modify/MenuLayer.hpp>
@@ -115,7 +116,6 @@ class $modify(MockPlayLayer, PlayLayer) {
         log::info("Showing new best for level ID: {}", id);
         log::info("Level percentage: {}", percentage);
 
-#if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
         if (m_fields->enabled && percentage >= 90) {
             CCDirector* director = CCDirector::sharedDirector();
             CCScene* scene = CCScene::get();
@@ -173,7 +173,6 @@ class $modify(MockPlayLayer, PlayLayer) {
                 log::error("Failed to create image from render texture");
             };
         };
-#endif
 
         PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
     };
@@ -204,3 +203,4 @@ class $modify(MockPlayLayer, PlayLayer) {
         PlayLayer::levelComplete();
     };
 };
+#endif

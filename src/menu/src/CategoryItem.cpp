@@ -34,7 +34,7 @@ CategoryItem::CategoryItem() {
 
 CategoryItem::~CategoryItem() {};
 
-bool CategoryItem::init(CCSize const& size, std::string const& category) {
+bool CategoryItem::init(CCSize const& size, std::string_view category) {
     m_impl->m_category = category;
 
     if (!CCMenu::init()) return false;
@@ -101,7 +101,7 @@ void CategoryItem::onToggle(CCObject* sender) {
     if (m_impl->m_toggler) CategoryEvent(m_impl->m_category, !m_impl->m_toggler->isOn()).post();
 };
 
-CategoryItem* CategoryItem::create(CCSize const& size, std::string const& category) {
+CategoryItem* CategoryItem::create(CCSize const& size, std::string_view category) {
     auto ret = new CategoryItem();
     if (ret->init(size, category)) {
         ret->autorelease();

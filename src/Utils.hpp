@@ -42,8 +42,8 @@ namespace horrible {
      *
      * @param name Name of the audio file
      */
-    inline void playSfx(std::string_view name) {
-        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(name.data());
+    inline void playSfx(const char* file) {
+        if (auto fmod = FMODAudioEngine::sharedEngine()) fmod->playEffectAsync(file);
     };
 
     namespace str = utils::string; // Shortcut for geode::utils::string
