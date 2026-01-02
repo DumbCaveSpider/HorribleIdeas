@@ -11,13 +11,13 @@ bool RandomAd::setup() {
     setID("ad"_spr);
     setTitle("Sponsored");
 
-    auto textLabel = CCLabelBMFont::create("Check out this cool level we found!", "chatFont.fnt");
-    textLabel->setID("message");
-    textLabel->ignoreAnchorPointForPosition(false);
-    textLabel->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, m_mainLayer->getScaledContentHeight() - 37.5f });
-    textLabel->setAnchorPoint({ 0.5, 0.5 });
+    auto label = CCLabelBMFont::create("Check out this cool level we found!", "chatFont.fnt");
+    label->setID("message");
+    label->setAlignment(kCCTextAlignmentCenter);
+    label->setPosition({ m_mainLayer->getScaledContentWidth() / 2.f, m_mainLayer->getScaledContentHeight() - 37.5f });
+    label->setAnchorPoint({ 0.5, 0.5 });
 
-    m_mainLayer->addChild(textLabel);
+    m_mainLayer->addChild(label);
 
     // featured project thumbnail
     auto projThumb = LazySprite::create({ 192.f, 108.f }, true);
@@ -56,7 +56,7 @@ bool RandomAd::setup() {
     return true;
 };
 
-void RandomAd::onPlayBtn(CCObject*) {// congregation jumpscare
+void RandomAd::onPlayBtn(CCObject*) { // congregation jumpscare
     jumpscares::downloadCongregation();
 
     if (auto playLayer = PlayLayer::get()) {

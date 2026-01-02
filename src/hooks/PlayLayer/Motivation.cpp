@@ -114,6 +114,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
         if (m_fields->enabled && !m_hasCompletedLevel) {
             auto label = CCLabelBMFont::create(Fields::msgs[randng::get(Fields::msgs.size())], "bigFont.fnt", getScaledContentWidth() - 12.5f);
             label->setAnchorPoint({ 0.5, 0 });
+            label->setAlignment(kCCTextAlignmentCenter);
             label->setPosition({ getScaledContentWidth() / 2.f, -label->getScaledContentHeight() });
 
             auto action = CCSequence::create(
@@ -124,7 +125,7 @@ class $modify(MotivationPlayLayer, PlayLayer) {
                 nullptr
             );
 
-            addChild(label, 9);
+            m_uiLayer->addChild(label, 9);
 
             // @geode-ignore(unknown-resource)
             playSfx("crystal01.ogg");

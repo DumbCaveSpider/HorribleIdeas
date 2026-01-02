@@ -128,6 +128,7 @@ bool HorribleMenuPopup::setup() {
 
     auto filtersLabel = CCLabelBMFont::create("Filters", "goldFont.fnt");
     filtersLabel->setAnchorPoint({ 0.5, 0 });
+    filtersLabel->setAlignment(kCCTextAlignmentCenter);
     filtersLabel->setPosition({ filterMenuBg->getPositionX(), mainLayerSize.height - 47.5f });
     filtersLabel->setScale(0.325f);
 
@@ -145,7 +146,7 @@ bool HorribleMenuPopup::setup() {
         {SillyTier::High, "High", colors::red}
     };
 
-    float fBtnY = 0.f;
+    auto fBtnY = 0.f;
     for (auto const& filterBtn : filterBtns) {
         if (auto btnSprite = ButtonSprite::create(filterBtn.label, 125, true, "bigFont.fnt", "GJ_button_01.png", 0.f, 0.8f)) {
             btnSprite->m_label->setColor(filterBtn.color);
@@ -171,11 +172,6 @@ bool HorribleMenuPopup::setup() {
 
     m_mainLayer->addChild(filterMenu);
 
-    auto settingsMenu = CCMenu::create();
-    settingsMenu->setPosition({ 0.f, 0.f });
-
-    m_mainLayer->addChild(settingsMenu);
-
     // add a mod settings at the bottom left
     auto settingsBtnSprite = CircleButtonSprite::createWithSpriteFrameName("geode.loader/settings.png");
     settingsBtnSprite->setScale(0.625f);
@@ -187,7 +183,7 @@ bool HorribleMenuPopup::setup() {
     );
     settingsBtn->setID("settings-btn");
 
-    settingsMenu->addChild(settingsBtn);
+    m_buttonMenu->addChild(settingsBtn);
 
     auto resetFiltersBtnSprite = CCSprite::createWithSpriteFrameName("GJ_replayBtn_001.png");
     resetFiltersBtnSprite->setScale(0.375f);
@@ -200,7 +196,7 @@ bool HorribleMenuPopup::setup() {
     resetFiltersBtn->setID("reset-filters-btn");
     resetFiltersBtn->setPositionX(m_mainLayer->getScaledContentWidth());
 
-    settingsMenu->addChild(resetFiltersBtn);
+    m_buttonMenu->addChild(resetFiltersBtn);
 
     auto seriesBtnSprite = CCSprite::createWithSpriteFrameName("gj_ytIcon_001.png");
     seriesBtnSprite->setScale(0.75f);
@@ -213,7 +209,7 @@ bool HorribleMenuPopup::setup() {
     seriesBtn->setID("horrible-mods-series-btn");
     seriesBtn->setPosition({ mainLayerSize.width - 20.f, mainLayerSize.height - 20.f });
 
-    settingsMenu->addChild(seriesBtn);
+    m_buttonMenu->addChild(seriesBtn);
 
     // @geode-ignore(unknown-resource)
     auto supporterBtnSprite = CCSprite::createWithSpriteFrameName("geode.loader/gift.png");
@@ -227,11 +223,12 @@ bool HorribleMenuPopup::setup() {
     supporterBtn->setID("support-btn");
     supporterBtn->setPosition({ mainLayerSize.width - 45.f, mainLayerSize.height - 20.f });
 
-    settingsMenu->addChild(supporterBtn);
+    m_buttonMenu->addChild(supporterBtn);
 
     auto safeModeLabel = CCLabelBMFont::create("Safe Mode OFF", "bigFont.fnt");
     safeModeLabel->setID("safe-mode-label");
     safeModeLabel->setColor(colors::red);
+    safeModeLabel->setAlignment(kCCTextAlignmentCenter);
     safeModeLabel->setAnchorPoint({ 0.5, 0 });
     safeModeLabel->setPosition({ filterMenuBg->getPositionX(), 15.f });
     safeModeLabel->setScale(0.325f);

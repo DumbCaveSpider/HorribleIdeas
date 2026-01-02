@@ -42,6 +42,7 @@ bool SpamChallenge::init() {
     // reuse winSize declared above
     auto label = CCLabelBMFont::create("Quick! Spam or get sent back!", "bigFont.fnt", getScaledContentWidth() - 1.25f);
     label->setID("label");
+    label->setAlignment(kCCTextAlignmentCenter);
     label->setPosition({ winSize.width / 2.f, winSize.height - 50.f });
     label->setScale(0.875f);
 
@@ -49,6 +50,7 @@ bool SpamChallenge::init() {
 
     auto descLabel = CCLabelBMFont::create("Use your mouse button or tap the screen to increase the count.", "chatFont.fnt", getScaledContentWidth() - 1.25f);
     descLabel->setID("description-label");
+    descLabel->setAlignment(kCCTextAlignmentCenter);
     descLabel->setPosition({ winSize.width / 2.f, 25.f });
     descLabel->setAnchorPoint({ 0.5, 0 });
     descLabel->setColor(colors::yellow);
@@ -58,6 +60,7 @@ bool SpamChallenge::init() {
     m_impl->m_counter = CCLabelBMFont::create(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data(), "goldFont.fnt");
     m_impl->m_counter->setID("counter");
     m_impl->m_counter->setScale(2.5f);
+    m_impl->m_counter->setAlignment(kCCTextAlignmentCenter);
     m_impl->m_counter->setPosition({ winSize.width / 2.f, (winSize.height / 2.f) - 6.25f });
 
     auto moveUp = CCEaseSineInOut::create(CCMoveBy::create(1.25f, ccp(0, 12.5f)));

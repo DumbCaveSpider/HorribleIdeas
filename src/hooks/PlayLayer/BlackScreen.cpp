@@ -37,7 +37,7 @@ class $modify(BlackScreenPlayLayer, PlayLayer) {
             blackScreen->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
             blackScreen->setID("black_screen"_spr);
 
-            addChild(blackScreen, 99);
+            m_uiLayer->addChild(blackScreen, 99);
 
             // Schedule removal after 0.5 seconds, then schedule to show again after a random delay
             blackScreen->runAction(CCSequence::create(

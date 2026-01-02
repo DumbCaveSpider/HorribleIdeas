@@ -128,6 +128,7 @@ bool MathQuiz::init() {
 
         auto equalsLabel = CCLabelBMFont::create("= ?", "goldFont.fnt", getScaledContentWidth() - 1.25f);
         equalsLabel->setID("equals-label");
+        equalsLabel->setAlignment(kCCTextAlignmentCenter);
         equalsLabel->setPosition({ winSize.width / 2.f, winSize.height - 100.f });
 
         addChild(equalsLabel);
@@ -136,6 +137,7 @@ bool MathQuiz::init() {
     // reuse winSize declared above
     auto problemLabel = CCLabelBMFont::create(problemText.data(), "bigFont.fnt", getScaledContentWidth() - 1.25f);
     problemLabel->setID("problem-label");
+    problemLabel->setAlignment(kCCTextAlignmentCenter);
     problemLabel->setPosition({ winSize.width / 2.f, winSize.height - 60.f });
     problemLabel->setScale(m_impl->m_operation == MathOperation::Geometry ? 0.5f : 0.925f);
 
@@ -276,6 +278,7 @@ void MathQuiz::onAnswerClicked(CCObject* sender) {
         feedbackLabel->setID("feedback-label");
         feedbackLabel->setScale(0.125f);
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
+        feedbackLabel->setAlignment(kCCTextAlignmentCenter);
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
         feedbackLabel->setColor(correct ? colors::green : colors::red);
 
@@ -362,6 +365,7 @@ void MathQuiz::update(float dt) {
         auto feedbackLabel = CCLabelBMFont::create("Time's Up!", "goldFont.fnt");
         feedbackLabel->setID("feedback-label");
         feedbackLabel->setAnchorPoint({ 0.5, 0.5 });
+        feedbackLabel->setAlignment(kCCTextAlignmentCenter);
         feedbackLabel->setPosition({ winSize.width / 2.f, winSize.height / 2.f });
         feedbackLabel->setScale(0.1f);
         feedbackLabel->setColor(colors::red);

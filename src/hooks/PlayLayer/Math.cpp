@@ -41,7 +41,7 @@ class $modify(MathPlayLayer, PlayLayer) {
 #ifdef GEODE_IS_WINDOWS
                 CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif
-                addChild(m_fields->m_currentQuiz, 99);
+                m_uiLayer->addChild(m_fields->m_currentQuiz, 99);
             };
         } else if (m_fields->enabled) {
             nextQuiz();

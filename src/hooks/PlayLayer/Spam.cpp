@@ -41,7 +41,7 @@ class $modify(SpamPlayLayer, PlayLayer) {
 #ifdef GEODE_IS_WINDOWS
                 CCEGLView::sharedOpenGLView()->showCursor(true);
 #endif
-                addChild(m_fields->m_currentSpam, 99);
+                m_uiLayer->addChild(m_fields->m_currentSpam, 99);
             };
         } else if (m_fields->enabled) {
             nextSpam();

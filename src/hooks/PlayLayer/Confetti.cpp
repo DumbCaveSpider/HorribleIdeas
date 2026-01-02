@@ -24,7 +24,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
             "GJ_starsIcon_001.png",
             "GJ_sMagicIcon_001.png",
             "GJ_pointsIcon_001.png",
-                                                                          });
+                                                                     });
     };
 
     void setupHasCompleted() {
@@ -71,7 +71,7 @@ class $modify(ConfettiPlayLayer, PlayLayer) {
                 CCCallFuncN::create(this, callfuncN_selector(ConfettiPlayLayer::cleanConfetti))
             );
 
-            addChild(conf, 9);
+            m_uiLayer->addChild(conf, 9);
             conf->runAction(seq);
         };
     };

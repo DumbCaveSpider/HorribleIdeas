@@ -26,6 +26,7 @@ class $modify(StickyPlayerObject, PlayerObject) {
                 m_fields->m_clickLabel = CCLabelBMFont::create("Press again to un-stick!", "bigFont.fnt", pl->getScaledContentWidth() - 12.5f);
                 m_fields->m_clickLabel->setID("sticky-alert"_spr);
                 m_fields->m_clickLabel->setScale(0.625f);
+                m_fields->m_clickLabel->setAlignment(kCCTextAlignmentCenter);
                 m_fields->m_clickLabel->setAnchorPoint({ 0.5, 0 });
                 m_fields->m_clickLabel->setPosition({ pl->getScaledContentWidth() / 2.f, 25.f });
                 m_fields->m_clickLabel->setVisible(false);

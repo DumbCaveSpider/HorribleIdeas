@@ -65,7 +65,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             auto friendAction = CCSequence::createWithTwoActions(action, finish);
             auto scheduleAction = CCCallFunc::create(this, callfunc_selector(FriendsPlayLayer::scheduleNextFriend));
 
-            addChild(friendSpr, 9);
+            m_uiLayer->addChild(friendSpr, 9);
             friendSpr->runAction(CCSpawn::createWithTwoActions(friendAction, scheduleAction));
         };
     };
