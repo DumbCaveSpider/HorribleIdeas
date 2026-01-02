@@ -28,17 +28,17 @@ namespace horrible {
 
         // Constructor
         Option(
-            std::string_view id,
-            std::string_view name,
-            std::string_view description,
-            std::string_view category,
+            std::string id,
+            std::string name,
+            std::string description,
+            std::string category,
             SillyTier silly = SillyTier::Low,
             bool restart = false,
             std::vector<geode::PlatformID> const& platforms = { geode::PlatformID::Desktop, geode::PlatformID::Mobile }
-        ) : id(id),
-            name(name),
-            description(description),
-            category(category),
+        ) : id(std::move(id)),
+            name(std::move(name)),
+            description(std::move(description)),
+            category(std::move(category)),
             silly(silly),
             restart(restart),
             platforms(platforms) {};

@@ -35,7 +35,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
 
             auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
             if (!m_fields->m_healthLabel) {
-                m_fields->m_healthLabel = CCLabelBMFont::create(hp.data(), "bigFont.fnt");
+                m_fields->m_healthLabel = CCLabelBMFont::create(hp.c_str(), "bigFont.fnt");
                 m_fields->m_healthLabel->setColor(colors::red);
                 m_fields->m_healthLabel->setAnchorPoint({ 0.f, 1.f });
                 m_fields->m_healthLabel->setPosition({ 2.f, (getScaledContentHeight() / 2.f) - (m_fields->m_healthBar->getScaledContentWidth() / 2.f) - 1.25f });
@@ -43,7 +43,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
 
                 m_uiLayer->addChild(m_fields->m_healthLabel, 100);
             } else {
-                m_fields->m_healthLabel->setString(hp.data());
+                m_fields->m_healthLabel->setString(hp.c_str());
             };
         };
 
@@ -55,7 +55,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
 
         if (m_fields->m_healthLabel) {
             auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
-            m_fields->m_healthLabel->setString(hp.data());
+            m_fields->m_healthLabel->setString(hp.c_str());
         };
 
         if (m_fields->m_healthBar) m_fields->m_healthBar->updateProgress(m_fields->m_health);
@@ -86,7 +86,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
 
                 if (m_fields->m_healthLabel) {
                     auto const hp = fmt::format("HP\n{}%", static_cast<int>(m_fields->m_health));
-                    m_fields->m_healthLabel->setString(hp.data());
+                    m_fields->m_healthLabel->setString(hp.c_str());
 
                     m_fields->m_healthBar->updateProgress(m_fields->m_health);
                 };

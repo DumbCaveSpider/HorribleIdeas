@@ -57,7 +57,7 @@ bool SpamChallenge::init() {
 
     addChild(descLabel, 1);
 
-    m_impl->m_counter = CCLabelBMFont::create(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data(), "goldFont.fnt");
+    m_impl->m_counter = CCLabelBMFont::create(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).c_str(), "goldFont.fnt");
     m_impl->m_counter->setID("counter");
     m_impl->m_counter->setScale(2.5f);
     m_impl->m_counter->setAlignment(kCCTextAlignmentCenter);
@@ -97,7 +97,7 @@ void SpamChallenge::setCallback(std::function<void(bool)> const& cb) {
 bool SpamChallenge::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     if (m_impl->m_timeRemaining > 0.f && m_impl->m_inputTarget > m_impl->m_inputCount) {
         m_impl->m_inputCount++;
-        if (m_impl->m_counter) m_impl->m_counter->setString(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).data());
+        if (m_impl->m_counter) m_impl->m_counter->setString(fmt::format("{} / {}", m_impl->m_inputCount, m_impl->m_inputTarget).c_str());
 
         if (m_impl->m_inputCount >= m_impl->m_inputTarget) {
             unscheduleUpdate();

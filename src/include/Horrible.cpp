@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 using namespace horrible;
 
-HorribleOptionEvent::HorribleOptionEvent(std::string_view id, bool toggled) : m_id(id), m_toggled(toggled) {};
+HorribleOptionEvent::HorribleOptionEvent(std::string id, bool toggled) : m_id(std::move(id)), m_toggled(toggled) {};
 
 std::string const& HorribleOptionEvent::getId() const {
     return m_id;
@@ -17,8 +17,8 @@ bool HorribleOptionEvent::getToggled() const {
     return m_toggled;
 };
 
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::string_view id) : m_ids({ id.data() }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string_view> const& ids) : m_ids(ids.begin(), ids.end()) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::string id) : m_ids({ std::move(id) }) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<const char*> const& ids) : m_ids(ids.begin(), ids.end()) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
     for (auto const& id : m_ids) {
@@ -58,7 +58,7 @@ void OptionManager::registerOption(Option const& option) {
         log::error("Could not register option '{}' ({}) because it already exists!", option.name, option.id);
     } else {
         m_impl->m_options.push_back(option);
-        registerCategory(option.category.data());
+        registerCategory(option.category.c_str());
 
         log::debug("Registered option {} of category {}", option.id, option.category);
     };
@@ -77,10 +77,10 @@ bool OptionManager::getOption(std::string_view id) const {
 };
 
 bool OptionManager::setOption(std::string_view id, bool enable) const {
-    auto event = new HorribleOptionEvent(id, enable);
+    auto event = new HorribleOptionEvent(id.data(), enable);
     event->postFromMod(Mod::get());
 
-    auto eventV2 = new HorribleOptionEventV2(id, enable);
+    auto eventV2 = new HorribleOptionEventV2(id.data(), enable);
     eventV2->postFromMod(Mod::get());
 
     return Mod::get()->setSavedValue(id.data(), enable);

@@ -13,7 +13,7 @@ namespace horrible {
         const bool m_toggled; // Toggle boolean of the option
 
     public:
-        HorribleOptionEvent(std::string_view id, bool toggled); // Constructor
+        HorribleOptionEvent(std::string id, bool toggled); // Constructor
 
         AWCW_HORRIBLE_API_DLL std::string const& getId() const; // Get the unique ID of the option
         AWCW_HORRIBLE_API_DLL bool getToggled() const; // Get the toggle boolean of the option
@@ -36,7 +36,7 @@ namespace horrible {
         geode::ListenerResult handle(std::function<Callback> fn, HorribleOptionEvent* event);
 
         HorribleOptionEventFilter() = default; // Constructor
-        HorribleOptionEventFilter(std::string_view id); // Constructor (listens to one option's toggle)
-        HorribleOptionEventFilter(std::vector<std::string_view> const& ids); // Constructor (listens to any specified options' toggles)
+        HorribleOptionEventFilter(std::string id); // Constructor (listens to one option's toggle)
+        HorribleOptionEventFilter(std::vector<const char*> const& ids); // Constructor (listens to any specified options' toggles)
     };
 };

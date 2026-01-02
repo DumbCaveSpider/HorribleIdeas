@@ -73,7 +73,7 @@ bool CategoryItem::init(CCSize const& size, std::string_view category) {
 
     // name of the joke
     auto nameLabel = CCLabelBMFont::create(
-        m_impl->m_category.data(),
+        m_impl->m_category.c_str(),
         "goldFont.fnt",
         getScaledContentWidth() - 35.f,
         kCCTextAlignmentLeft

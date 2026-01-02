@@ -13,13 +13,13 @@ using namespace horrible;
 
 $execute{
     if (auto om = OptionManager::get()) {
-        log::debug("Registering default options...");
+        log::debug("Registering {} default options...", defOpts.size());
 
         for (auto const& option : defOpts) {
             om->registerOption(option);
         };
 
-        log::info("Done registering {} options", defOpts.size());
+        log::info("Done registering {} default options", defOpts.size());
 
         defOpts.clear();
         log::debug("Cleaned up default option array!");

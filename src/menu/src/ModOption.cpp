@@ -86,7 +86,7 @@ bool ModOption::init(CCSize const& size, Option const& option) {
 
     // name of the joke
     auto nameLabel = CCLabelBMFont::create(
-        m_impl->m_option.name.data(),
+        m_impl->m_option.name.c_str(),
         "bigFont.fnt",
         getScaledContentWidth() - 40.f,
         kCCTextAlignmentLeft
@@ -98,7 +98,7 @@ bool ModOption::init(CCSize const& size, Option const& option) {
     nameLabel->setScale(0.4f);
 
     auto categoryLabel = CCLabelBMFont::create(
-        m_impl->m_option.category.data(),
+        m_impl->m_option.category.c_str(),
         "goldFont.fnt",
         getScaledContentWidth() - 60.f,
         kCCTextAlignmentLeft
@@ -134,7 +134,7 @@ bool ModOption::init(CCSize const& size, Option const& option) {
 
     if (horribleMod->getSettingValue<bool>("dev-mode")) {
         auto idLabel = CCLabelBMFont::create(
-            m_impl->m_option.id.data(),
+            m_impl->m_option.id.c_str(),
             "chatFont.fnt",
             getScaledContentWidth() - 20.f,
             kCCTextAlignmentLeft
@@ -214,8 +214,8 @@ void ModOption::onToggle(CCObject*) {
 
 void ModOption::onDescription(CCObject*) {
     if (auto popup = FLAlertLayer::create(
-        m_impl->m_option.name.data(),
-        m_impl->m_option.description.data(),
+        m_impl->m_option.name.c_str(),
+        m_impl->m_option.description.c_str(),
         "OK"
     )) popup->show();
 };
