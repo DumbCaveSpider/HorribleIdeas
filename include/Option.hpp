@@ -34,13 +34,13 @@ namespace horrible {
             std::string category,
             SillyTier silly = SillyTier::Low,
             bool restart = false,
-            std::vector<geode::PlatformID> const& platforms = { geode::PlatformID::Desktop, geode::PlatformID::Mobile }
+            std::vector<geode::PlatformID> platforms = { geode::PlatformID::Desktop, geode::PlatformID::Mobile }
         ) : id(std::move(id)),
             name(std::move(name)),
             description(std::move(description)),
             category(std::move(category)),
             silly(silly),
             restart(restart),
-            platforms(platforms) {};
+            platforms(std::move(platforms)) {};
     };
 };

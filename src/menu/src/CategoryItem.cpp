@@ -25,7 +25,7 @@ class CategoryItem::Impl final {
 public:
     std::string m_category = ""; // The category name
 
-    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
+    CCMenuItemToggler* m_toggler = nullptr; // The toggler for the option
 };
 
 CategoryItem::CategoryItem() {

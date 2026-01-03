@@ -23,7 +23,15 @@ private:
 protected:
     static HorribleMenuPopup* s_inst;
 
-    EventListener<CategoryEventFilter> m_listener = {
+    EventListener<HorribleOptionEventFilter> m_listener = {
+        [](HorribleOptionEvent* event) {
+            log::debug("{} option of ID '{}'", event->getToggled() ? "Enabled" : "Disabled", event->getId());
+            return ListenerResult::Propagate;
+        },
+        HorribleOptionEventFilter()
+    };
+
+    EventListener<CategoryEventFilter> m_catListener = {
         [this](CategoryEvent* event) {
             return OnCategory(event->getId(), event->isEnabled());
         },

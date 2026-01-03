@@ -18,11 +18,15 @@ bool HorribleOptionEvent::getToggled() const {
 };
 
 HorribleOptionEventFilter::HorribleOptionEventFilter(std::string id) : m_ids({ std::move(id) }) {};
-HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<const char*> const& ids) : m_ids(ids.begin(), ids.end()) {};
+HorribleOptionEventFilter::HorribleOptionEventFilter(std::vector<std::string> ids) : m_ids(std::move(ids)) {};
 
 ListenerResult HorribleOptionEventFilter::handle(std::function<Callback> fn, HorribleOptionEvent* event) {
-    for (auto const& id : m_ids) {
-        if (event->getId() == id) return fn(event);
+    if (m_ids.empty()) {
+        return fn(event);
+    } else {
+        for (auto const& id : m_ids) {
+            if (event->getId() == id) return fn(event);
+        };
     };
 
     return ListenerResult::Propagate;

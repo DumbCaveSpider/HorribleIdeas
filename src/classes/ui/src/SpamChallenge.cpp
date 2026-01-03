@@ -12,8 +12,8 @@ public:
     int m_inputCount = 0;
     int m_inputTarget = 50;
 
-    Ref<CCLabelBMFont> m_counter = nullptr;
-    Ref<ProgressBar> m_timer = nullptr;
+    CCLabelBMFont* m_counter = nullptr;
+    ProgressBar* m_timer = nullptr;
 
     float m_totalTime = 7.5f;
     float m_timeRemaining = m_totalTime;

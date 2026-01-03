@@ -82,7 +82,7 @@
 //     struct Fields {
 //         bool enabled = options::get("parry");
 
-//         Ref<ProgressBar> m_parryBar = nullptr;
+//         ProgressBar* m_parryBar = nullptr;
 //         CCLabelBMFont* m_parryLabel = nullptr;
 //     };
 

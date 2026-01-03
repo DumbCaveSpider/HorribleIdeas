@@ -13,7 +13,7 @@ class $modify(OxygenPlayLayer, PlayLayer) {
         float m_oxygenLevel = 100.f;
         bool m_oxygenActive = false;
 
-        Ref<ProgressBar> m_oxygenBar = nullptr;
+        ProgressBar* m_oxygenBar = nullptr;
         CCLabelBMFont* m_oxygenLabel = nullptr;
     };
 

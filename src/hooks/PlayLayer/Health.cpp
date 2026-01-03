@@ -10,7 +10,7 @@ class $modify(HealthPlayLayer, PlayLayer) {
 
         float m_health = 100.f;
 
-        Ref<ProgressBar> m_healthBar = nullptr;
+        ProgressBar* m_healthBar = nullptr;
         CCLabelBMFont* m_healthLabel = nullptr;
     };
 

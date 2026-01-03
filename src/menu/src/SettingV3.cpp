@@ -40,8 +40,8 @@ SettingNodeV3* HorribleSettingV3::createNode(float width) {
 
 class HorribleSettingNodeV3::Impl final {
 public:
-    ButtonSprite* buttonSprite = nullptr;
-    Ref<CCMenuItemSpriteExtra> button = nullptr;
+    Ref<ButtonSprite> buttonSprite = nullptr;
+    CCMenuItemSpriteExtra* button = nullptr;
 };
 
 HorribleSettingNodeV3::HorribleSettingNodeV3() {

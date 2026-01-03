@@ -1,7 +1,7 @@
 #include "../HorribleMenuPopup.hpp"
 
-#include "../ModOption.hpp"
-#include "../CategoryItem.hpp"
+#include <menu/ModOption.hpp>
+#include <menu/CategoryItem.hpp>
 
 #include <Utils.hpp>
 
@@ -26,10 +26,9 @@ public:
 
     bool m_showIncompatible = horribleMod->getSettingValue<bool>("show-incompatible");
 
-    Ref<ScrollLayer> m_optionList = nullptr;
-    Ref<ScrollLayer> m_categoryList = nullptr;
-
-    Ref<TextInput> m_searchInput = nullptr;
+    ScrollLayer* m_optionList = nullptr;
+    ScrollLayer* m_categoryList = nullptr;
+    TextInput* m_searchInput = nullptr;
 };
 
 HorribleMenuPopup::HorribleMenuPopup() {

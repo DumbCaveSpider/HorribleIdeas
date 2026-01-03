@@ -17,10 +17,10 @@ public:
     int m_correctAnswer = 0;
     std::vector<int> m_answers; // 4 answer options
 
-    Ref<ProgressBar> m_timer = nullptr;
-    Ref<CCMenu> m_answerMenu = nullptr;
-    Ref<Richard> m_richard = nullptr;
-    Ref<CCDrawNode> m_drawNode = nullptr;
+    ProgressBar* m_timer = nullptr;
+    CCMenu* m_answerMenu = nullptr;
+    Richard* m_richard = nullptr;
+    CCDrawNode* m_drawNode = nullptr;
 
     float m_totalTime = 10.f;
     float m_timeRemaining = m_totalTime;
@@ -397,7 +397,7 @@ MathQuiz* MathQuiz::create() {
 
 class Richard::Impl final {
 public:
-    Ref<CCSprite> m_sprite = nullptr;
+    CCSprite* m_sprite = nullptr;
 };
 
 Richard::Richard() {

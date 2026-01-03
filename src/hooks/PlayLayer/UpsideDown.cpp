@@ -10,8 +10,8 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
         int chance = options::getChance("upside_down"); // chance as percent
     };
 
-    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+    void setupHasCompleted() {
+        PlayLayer::setupHasCompleted();
 
         if (m_fields->enabled) {
             int rnd = randng::fast(); // random float between 0 and 100
@@ -22,7 +22,5 @@ class $modify(ForceLevelsPlayLayer, PlayLayer) {
                 setRotation(-180.f);
             };
         };
-
-        return true;
     };
 };

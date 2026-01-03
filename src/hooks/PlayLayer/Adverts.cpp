@@ -8,7 +8,7 @@ class $modify(AdvertsPlayLayer, PlayLayer) {
     struct Fields {
         bool enabled = options::get("ads");
 
-        Ref<RandomAd> m_ad = nullptr;
+        RandomAd* m_ad = nullptr;
     };
 
     void setupHasCompleted() {

@@ -9,7 +9,7 @@ class $modify(MathPlayLayer, PlayLayer) {
         bool enabled = options::get("math_quiz");
         int chance = options::getChance("math_quiz");
 
-        Ref<MathQuiz> m_currentQuiz = nullptr;
+        MathQuiz* m_currentQuiz = nullptr;
     };
 
     void setupHasCompleted() {

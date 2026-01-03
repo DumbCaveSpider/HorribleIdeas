@@ -9,7 +9,7 @@ class $modify(SpamPlayLayer, PlayLayer) {
         bool enabled = options::get("spam");
         int chance = options::getChance("spam");
 
-        Ref<SpamChallenge> m_currentSpam = nullptr;
+        SpamChallenge* m_currentSpam = nullptr;
     };
 
     void setupHasCompleted() {

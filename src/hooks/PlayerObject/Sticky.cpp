@@ -11,7 +11,7 @@ class $modify(StickyPlayerObject, PlayerObject) {
 
         float m_defSpeed = 0.f;
 
-        Ref<CCLabelBMFont> m_clickLabel = nullptr;
+        CCLabelBMFont* m_clickLabel = nullptr;
 
         bool m_onGround = true;
     };

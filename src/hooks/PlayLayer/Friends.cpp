@@ -50,7 +50,7 @@ class $modify(FriendsPlayLayer, PlayLayer) {
             float yA = getScaledContentHeight() * rA; // starting height pos
             float yB = getScaledContentHeight() * rB; // ending height pos
 
-            Ref<CCSprite> friendSpr = CCSprite::createWithSpriteFrameName(Fields::friends[randng::get(Fields::friends.size() - 1)]);
+            auto friendSpr = CCSprite::createWithSpriteFrameName(Fields::friends[randng::get(Fields::friends.size() - 1)]);
             friendSpr->setPosition({ xA, yA });
             friendSpr->setScale(1.25 * (rB + rA));
             friendSpr->setRotation(180.f * (yA * yB)); // random rotation

@@ -19,7 +19,7 @@ public:
         "General"
     };
 
-    Ref<CCMenuItemToggler> m_toggler = nullptr; // The toggler for the option
+    CCMenuItemToggler* m_toggler = nullptr; // The toggler for the option
 };
 
 ModOption::ModOption() {
