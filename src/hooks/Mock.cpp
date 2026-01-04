@@ -1,10 +1,13 @@
 #if !defined(GEODE_IS_MACOS) && !defined(GEODE_IS_IOS) // not available for these platforms
 #include <Utils.hpp>
 
+#include <Geode/Geode.hpp>
+
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 
-using namespace horrible;
+using namespace geode::prelude;
+using namespace horrible::prelude;
 
 namespace fs = std::filesystem; // Shortcut for std::filesystem
 

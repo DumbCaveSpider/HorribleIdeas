@@ -13,7 +13,7 @@
 #include <Geode/utils/terminate.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
+using namespace horrible::prelude;
 
 HorribleMenuPopup* HorribleMenuPopup::s_inst = nullptr;
 

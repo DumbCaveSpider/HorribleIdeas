@@ -5,7 +5,7 @@
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
+using namespace horrible::prelude;
 
 Result<std::shared_ptr<SettingV3>> HorribleSettingV3::parse(std::string const& key, std::string const& modID, matjson::Value const& json) {
     auto res = std::make_shared<HorribleSettingV3>();

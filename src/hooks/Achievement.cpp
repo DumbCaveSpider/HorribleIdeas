@@ -1,8 +1,11 @@
 #include <Utils.hpp>
 
+#include <Geode/Geode.hpp>
+
 #include <Geode/modify/CCMenuItem.hpp>
 
-using namespace horrible;
+using namespace geode::prelude;
+using namespace horrible::prelude;
 
 class $modify(AchievementCCMenuItem, CCMenuItem) {
     struct Fields {

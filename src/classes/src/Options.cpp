@@ -3,6 +3,7 @@
 #include <Utils.hpp>
 
 using namespace horrible;
+using namespace horrible::util;
 
 std::vector<Option> const& options::getAll() {
     if (auto om = OptionManager::get()) return om->getOptions();

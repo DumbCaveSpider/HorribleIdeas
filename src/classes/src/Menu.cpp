@@ -4,7 +4,7 @@
 
 #include <Utils.hpp>
 
-using namespace horrible;
+using namespace horrible::util;
 
 void menu::open() {
     if (auto old = HorribleMenuPopup::get()) {

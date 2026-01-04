@@ -1,9 +1,12 @@
-#if !defined(GEODE_IS_IOS)
+#ifndef GEODE_IS_IOS
 #include <Utils.hpp>
+
+#include <Geode/Geode.hpp>
 
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 
-using namespace horrible;
+using namespace geode::prelude;
+using namespace horrible::prelude;
 using namespace keybinds;
 
 $execute{
@@ -13,10 +16,10 @@ $execute{
             "Show Menu",
             "Open the Horrible Ideas option menu.",
             {
-                Keybind::create(KEY_Backslash, Modifier::None)
+                Keybind::create(KEY_Backslash, Modifier::None),
             },
-            "Horrible Ideas"
-                               });
+            "Horrible Ideas",
+                             });
 
             new EventListener([=](InvokeBindEvent* event) {
                 if (event->isDown()) menu::open();

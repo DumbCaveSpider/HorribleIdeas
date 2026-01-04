@@ -5,55 +5,57 @@
 using namespace geode::prelude;
 
 namespace horrible {
-    enum class MathOperation : unsigned int {
-        Addition = 0,
-        Subtraction = 1,
-        Multiplication = 2,
-        Geometry = 3
-    };
+    namespace ui {
+        enum class MathOperation : unsigned int {
+            Addition = 0,
+            Subtraction = 1,
+            Multiplication = 2,
+            Geometry = 3
+        };
 
-    class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
-    private:
-        class Impl;
-        std::unique_ptr<Impl> m_impl;
+        class MathQuiz : public CCBlockLayer, public FLAlertLayerProtocol {
+        private:
+            class Impl;
+            std::unique_ptr<Impl> m_impl;
 
-    protected:
-        MathQuiz();
-        virtual ~MathQuiz();
+        protected:
+            MathQuiz();
+            virtual ~MathQuiz();
 
-        void onTimeout();
+            void onTimeout();
 
-        void closeAfterFeedback(CCNode* node);
-        void onAnswerClicked(CCObject* sender);
+            void closeAfterFeedback(CCNode* node);
+            void onAnswerClicked(CCObject* sender);
 
-        bool hasAnswer(int answer) const;
+            bool hasAnswer(int answer) const;
 
-        void keyBackClicked() override;
-        void update(float dt) override;
+            void keyBackClicked() override;
+            void update(float dt) override;
 
-        bool init() override;
+            bool init() override;
 
-    public:
-        static MathQuiz* create();
+        public:
+            static MathQuiz* create();
 
-        void setCallback(std::function<void(bool)> const& cb);
-        void setCorrect(bool v);
+            void setCallback(std::function<void(bool)> const& cb);
+            void setCorrect(bool v);
 
-        void closePopup();
-    };
+            void closePopup();
+        };
 
-    class Richard : public CCNode {
-    private:
-        class Impl;
-        std::unique_ptr<Impl> m_impl;
+        class Richard : public CCNode {
+        private:
+            class Impl;
+            std::unique_ptr<Impl> m_impl;
 
-    protected:
-        Richard();
-        virtual ~Richard();
+        protected:
+            Richard();
+            virtual ~Richard();
 
-        bool init() override;
+            bool init() override;
 
-    public:
-        static Richard* create();
+        public:
+            static Richard* create();
+        };
     };
 };

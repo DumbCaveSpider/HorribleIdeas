@@ -5,7 +5,7 @@
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
+using namespace horrible::prelude;
 
 bool RandomAd::setup() {
     setID("ad"_spr);

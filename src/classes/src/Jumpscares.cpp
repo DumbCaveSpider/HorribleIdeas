@@ -2,7 +2,10 @@
 
 #include <Utils.hpp>
 
-using namespace horrible;
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
+using namespace horrible::util;
 
 void jumpscares::downloadGrief() {
     if (auto glm = GameLevelManager::get()) {

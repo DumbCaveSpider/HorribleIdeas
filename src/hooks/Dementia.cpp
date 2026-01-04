@@ -1,9 +1,12 @@
 #include <Utils.hpp>
 
+#include <Geode/Geode.hpp>
+
 #include <Geode/modify/PlayerObject.hpp>
 #include <Geode/modify/EnhancedGameObject.hpp>
 
-using namespace horrible;
+using namespace geode::prelude;
+using namespace horrible::prelude;
 
 class $modify(DementiaPlayerObject, PlayerObject) {
     struct Fields {

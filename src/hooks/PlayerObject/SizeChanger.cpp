@@ -1,8 +1,11 @@
 #include <Utils.hpp>
 
+#include <Geode/Geode.hpp>
+
 #include <Geode/modify/PlayerObject.hpp>
 
-
+using namespace geode::prelude;
+using namespace horrible::prelude;
 
 class $modify(SizeChangerPlayerObject, PlayerObject) {
     struct Fields {

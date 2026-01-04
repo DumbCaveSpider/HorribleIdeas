@@ -2,58 +2,58 @@
 
 #include <Utils.hpp>
 
-using namespace horrible;
-
 namespace horrible {
-    // Horrible options utilities
-    namespace options {
-        /**
-         * Returns the array of all registered options
-         *
-         * @returns An array of every registered option, main and external
-         */
-        std::vector<Option> const& getAll();
+    namespace util {
+        // Horrible options utilities
+        namespace options {
+            /**
+             * Returns the array of all registered options
+             *
+             * @returns An array of every registered option, main and external
+             */
+            std::vector<horrible::Option> const& getAll();
 
-        /**
-         * Returns the toggle state of an option
-         *
-         * @param id The ID of the option to check
-         *
-         * @returns Boolean of the current value
-         */
-        bool get(std::string_view id);
+            /**
+             * Returns the toggle state of an option
+             *
+             * @param id The ID of the option to check
+             *
+             * @returns Boolean of the current value
+             */
+            bool get(std::string_view id);
 
-        /**
-         * Returns the chance value for an option
-         *
-         * @param id The ID of the option to check
-         *
-         * @returns Integer of the chance value
-         */
-        int getChance(std::string_view id);
+            /**
+             * Returns the chance value for an option
+             *
+             * @param id The ID of the option to check
+             *
+             * @returns Integer of the chance value
+             */
+            int getChance(std::string_view id);
 
-        /**
-         * Set the toggle state of an option
-         *
-         * @param id The ID of the option to toggle
-         * @param enable Boolean to toggle to
-         *
-         * @returns Boolean of the old value
-         */
-        bool set(std::string_view id, bool enable);
+            /**
+             * Set the toggle state of an option
+             *
+             * @param id The ID of the option to toggle
+             * @param enable Boolean to toggle to
+             *
+             * @returns Boolean of the old value
+             */
+            bool set(std::string_view id, bool enable);
 
-        /**
-         * Returns the array of all registered option categories
-         *
-         * @returns An array of every registered option category, main and external
-         */
-        std::vector<std::string> const& getAllCategories();
+            /**
+             * Returns the array of all registered option categories
+             *
+             * @returns An array of every registered option category, main and external
+             */
+            std::vector<std::string> const& getAllCategories();
 
-        /**
-         * Returns if a category exists or not
-         *
-         * @param category The exact name of the category to check
-         */
-        bool doesCategoryExist(std::string_view category);
+            /**
+             * Returns if a category exists or not
+             *
+             * @param category The exact name of the category to check
+             */
+            bool doesCategoryExist(std::string_view category);
+        };
     };
 };

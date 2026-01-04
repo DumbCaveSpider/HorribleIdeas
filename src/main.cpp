@@ -289,10 +289,10 @@ $execute{
             om->registerOption(option);
         };
 
-        log::info("Done registering {} default options", defOpts.size());
+        log::info("Done registering {} default options!", defOpts.size());
 
         defOpts.clear();
-        log::debug("Cleaned up default option array!");
+        log::debug("Cleaned up default option array");
     } else {
         log::error("Failed to get OptionManager");
     };

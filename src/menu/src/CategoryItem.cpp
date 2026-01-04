@@ -5,7 +5,7 @@
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
-using namespace horrible;
+using namespace horrible::prelude;
 
 CategoryEvent::CategoryEvent(std::string_view id, bool enabled) : m_id(id), m_enabled(enabled) {};
 
